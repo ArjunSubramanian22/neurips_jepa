@@ -28,9 +28,9 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\DumpSeed` = `0`
 - `\EmaTau` = `0.996`
 - `\EpisodeLength` = `16`
-- `\FailureEpisode` = `1841`
-- `\FailureMseKten` = `0.9651`
-- `\GitHead` = `0b7b946`
+- `\FailureEpisode` = `1878`
+- `\FailureMseKten` = `1.2224`
+- `\GitHead` = `b065a6f`
 - `\ImgSize` = `64`
 - `\NEpisodes` = `2000`
 - `\NSeeds` = `2`
@@ -41,11 +41,11 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\NTrainPhysics` = `1800`
 - `\NValPhysics` = `200`
 - `\PatchSize` = `8`
-- `\ProbeContactValMean` = `0.574`
-- `\ProbeStiffTargetMean` = `0.331`
-- `\ProbeStiffTrainMean` = `0.350`
-- `\ProbeStiffValMean` = `0.339`
-- `\ProbeStiffValRTwo` = `-0.002`
+- `\ProbeContactValMean` = `0.424`
+- `\ProbeStiffTargetMean` = `0.293`
+- `\ProbeStiffTrainMean` = `0.410`
+- `\ProbeStiffValMean` = `0.283`
+- `\ProbeStiffValRTwo` = `-0.010`
 - `\SeedB` = `43`
 - `\ShowcaseEpA` = `1800`
 - `\ShowcaseEpB` = `1801`
@@ -65,7 +65,7 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\ZTDimsBelowGamma` = `128`
 - `\ZTHingeBinding` = `true`
 - `\ZTLatentDim` = `128`
-- `\ZTNormStd` = `1.1e-04`
+- `\ZTNormStd` = `4.5e-02`
 
 ## Undefined CamelCase control sequences
 

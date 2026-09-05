@@ -1,11 +1,14 @@
 \begin{table}[t]
   \centering
   \small
-  \caption{Workshop VICReg vs MSE on the MLS-MPM dump, two seeds (42, 43). Table pending \texttt{outputs/ablation\_twoseed.json}.}
+  \caption{Workshop-scale VICReg vs MSE-only on the MLS-MPM dump. Entries are mean\,$\pm$\,half-range over seeds 42 and 43 ($\frac{1}{2}|x_{42}-x_{43}|$). This is a \textbf{2-seed range, not a sample standard deviation}. Source: \texttt{outputs/ablation\_twoseed.json}.}
   \label{tab:twoseed}
-  \begin{tabular}{l}
+  \begin{tabular}{lccc}
     \toprule
-    Two-seed range not written yet. \\
+    Method & $k{=}1$ & $k{=}5$ & $k{=}10$ \\
+    \midrule
+    Full AC-JEPA (VICReg) & $0.057{\pm}0.023$ & $0.366{\pm}0.068$ & $0.864{\pm}0.030$ \\
+    MSE-only & $8.10e-04{\pm}2.35e-04$ & $0.039{\pm}0.003$ & $0.149{\pm}0.035$ \\
     \bottomrule
   \end{tabular}
 \end{table}

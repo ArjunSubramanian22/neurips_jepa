@@ -2,9 +2,9 @@
 \small
 Linear-probe findings copied from \texttt{outputs/probe\_diagnostics.json} (\texttt{models.vicreg\_physics\_mpm.findings}):
 \begin{itemize}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
-    \item stiffness class: after scaling to n\_val=200, mean val acc=0.339 is still consistent with chance=0.333 (z=0.16, SE$\approx$0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance.
-    \item contact quadrant: mean val acc=0.574 is above chance=0.250 (z=10.58, n\_val=200).
-    \item stiffness class (z\_target): after scaling to n\_val=200, mean val acc=0.331 is still consistent with chance=0.333 (z=-0.08, SE$\approx$0.033). This is a real limitation: a linear readout of stiffness class (z\_target) from the latents does not beat chance.
+    \item stiffness class: after scaling to n\_val=200, mean val acc=0.283 is still consistent with chance=0.333 (z=-1.51, SE$\approx$0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance.
+    \item contact quadrant: mean val acc=0.424 is above chance=0.250 (z=5.67, n\_val=200).
+    \item stiffness class (z\_target): after scaling to n\_val=200, mean val acc=0.293 is still consistent with chance=0.333 (z=-1.22, SE$\approx$0.033). This is a real limitation: a linear readout of stiffness class (z\_target) from the latents does not beat chance.
 \end{itemize}
-Checkpoint caveat (same file, \texttt{checkpoint\_note}): Copied from outputs/vicreg/best.pt during the in-progress 200-epoch workshop run (not the finished checkpoint).; Not evaluated: workshop MSE run has not started yet.
+Checkpoint caveat (same file, \texttt{checkpoint\_note}): source=outputs/vicreg/last.pt checkpoint\_epoch=200 metrics.jsonl\_train\_epoch=200 final=True; source=outputs/mse/last.pt checkpoint\_epoch=200 metrics.jsonl\_train\_epoch=200 final=True
 \end{quote}
