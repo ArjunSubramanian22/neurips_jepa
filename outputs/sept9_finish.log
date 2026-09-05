@@ -266,3 +266,22 @@ wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
  7 files changed, 74 insertions(+), 50 deletions(-)
 == committed: Sync paper macros after eval-artifacts  82b6f86
 updated MAPPING.md git HEAD -> 82b6f86b2989a2918f48d5fe5296778ef3780b2e
+[main 0253103] Record artifact-freeze git HEAD 82b6f86 in MAPPING.md
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+== committed: Record artifact-freeze git HEAD 82b6f86 in MAPPING.md  0253103
+== finish_sept9 done Sat Sep  5 13:52:09 CDT 2026  HEAD=0253103
+== freeze cited in MAPPING.md: 82b6f86
+== hw plan: {
+  "n_accelerators": 1,
+  "cuda_count": 0,
+  "mps": true,
+  "ram_gib": 8.0,
+  "parallel_seed42_mse_with_vicreg": false,
+  "parallel_seed43_vicreg_mse": false,
+  "seed42_mse_device": "mps",
+  "seed43_vic_device": "mps",
+  "seed43_mse_device": "mps",
+  "skip_seed43": false,
+  "skip_pixel_ae": false,
+  "reason": "One Metal/MPS device (no CUDA). Two workshop ViTs on the same GPU would oversubscribe; RAM=8.0 GiB unified. CPU sidecar refused: 200-epoch ViT on CPU is far slower than MPS and would contend for unified memory with the live MPS job."
+}
