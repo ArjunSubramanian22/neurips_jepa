@@ -30,7 +30,7 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\EpisodeLength` = `16`
 - `\FailureEpisode` = `1841`
 - `\FailureMseKten` = `0.9651`
-- `\GitHead` = `940713a`
+- `\GitHead` = `0b7b946`
 - `\ImgSize` = `64`
 - `\NEpisodes` = `2000`
 - `\NSeeds` = `2`

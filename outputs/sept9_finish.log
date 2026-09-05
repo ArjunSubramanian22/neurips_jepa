@@ -202,3 +202,27 @@ wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
 == wait job seed43_mse
 == job seed43_mse done
 == milestone seed43-ckpts Sat Sep  5 13:49:22 CDT 2026
+[main 0b7b946] Record seed-43 200-epoch VICReg and MSE workshop runs
+ 15 files changed, 15644 insertions(+)
+ create mode 100644 outputs/jobs/seed43_mse.done
+ create mode 100644 outputs/jobs/seed43_mse.log
+ create mode 100644 outputs/jobs/seed43_mse.pid
+ create mode 100644 outputs/jobs/seed43_vicreg.done
+ create mode 100644 outputs/jobs/seed43_vicreg.log
+ create mode 100644 outputs/jobs/seed43_vicreg.pid
+ create mode 100644 outputs/seed43/mse/best.pt
+ create mode 100644 outputs/seed43/mse/history.json
+ create mode 100644 outputs/seed43/mse/last.pt
+ create mode 100644 outputs/seed43/mse/metrics.jsonl
+ create mode 100644 outputs/seed43/vicreg/best.pt
+ create mode 100644 outputs/seed43/vicreg/history.json
+ create mode 100644 outputs/seed43/vicreg/last.pt
+ create mode 100644 outputs/seed43/vicreg/metrics.jsonl
+== committed: Record seed-43 200-epoch VICReg and MSE workshop runs  0b7b946
+== paper/sync_tables.py after seed43-ckpts
+wrote /Users/Arjun/cursor/neurips_jepa/paper/generated
+macros defined: 158
+artifact macros used in main.tex: 57
+undefined-looking macros: (none)
+bare numeric tokens remaining: (none)
+wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
