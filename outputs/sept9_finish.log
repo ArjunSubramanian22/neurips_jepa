@@ -192,3 +192,13 @@ artifact macros used in main.tex: 57
 undefined-looking macros: (none)
 bare numeric tokens remaining: (none)
 wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
+[main ede31b5] Sync paper macros after seed42-ckpts
+ 4 files changed, 18 insertions(+), 6 deletions(-)
+== committed: Sync paper macros after seed42-ckpts  ede31b5
+== launch job seed43_vicreg: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13 src/train.py --config configs/workshop_vicreg.yaml --mode train --loss-type vicreg --seed 43 --output-dir outputs/seed43 --device mps --dataset-path outputs/physics_mpm --skip-baseline --skip-pixel-ae
+== wait job seed43_vicreg
+== job seed43_vicreg done
+== launch job seed43_mse: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13 src/train.py --config configs/workshop_vicreg.yaml --mode train --loss-type mse --seed 43 --output-dir outputs/seed43 --device mps --dataset-path outputs/physics_mpm --skip-baseline --skip-pixel-ae
+== wait job seed43_mse
+== job seed43_mse done
+== milestone seed43-ckpts Sat Sep  5 13:49:22 CDT 2026
