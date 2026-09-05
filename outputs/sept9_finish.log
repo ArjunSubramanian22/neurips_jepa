@@ -226,3 +226,19 @@ artifact macros used in main.tex: 57
 undefined-looking macros: (none)
 bare numeric tokens remaining: (none)
 wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
+[main 27c86fb] Sync paper macros after seed43-ckpts
+ 3 files changed, 26 insertions(+), 2 deletions(-)
+== committed: Sync paper macros after seed43-ckpts  27c86fb
+== probes + effective rank on final seed-42 ckpts Sat Sep  5 13:49:28 CDT 2026
+== launch job probes: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13 scripts/diagnose_probes.py --output-dir outputs --dataset-path outputs/physics_mpm --physics-only --probe-epochs 80 --require-final
+== wait job probes
+== job probes done
+== two-seed range table Sat Sep  5 13:50:28 CDT 2026
+== launch job twoseed: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13 scripts/two_seed_range.py --output-dir outputs --dataset-path outputs/physics_mpm --device cpu
+== wait job twoseed
+== job twoseed done
+== regenerate rollout figures from final ckpts Sat Sep  5 13:51:48 CDT 2026
+== launch job figures: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13 scripts/render_rollout_comparison.py --output-dir outputs --dataset-path outputs/physics_mpm --vicreg-ckpt outputs/vicreg/best.pt --device cpu --n-episodes 4
+== wait job figures
+== job figures done
+== milestone eval-artifacts Sat Sep  5 13:52:08 CDT 2026

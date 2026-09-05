@@ -1,0 +1,197 @@
+13:50:32  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+13:50:44  INFO  ac_jepa.eval  Probe split  n_train=1800  n_val=200  k_max=10  n_stiff=3  n_contact=4
+13:50:44  INFO  ac_jepa.eval  z_target  ||z|| mean=9.1726 std=0.0445  per-dim std mean=0.4512 min=0.2347  frac_dims_below_gamma(1.00)=1.000  hinge=0.5488 binding=True
+13:50:44  INFO  ac_jepa.eval  effective_rank (val)  z_target PR=3.185  z_hat PR=5.886  D=128  N_val_vec=2000
+13:50:44  INFO  ac_jepa.eval  Stiffness class probe on predicted latents z_hat:
+13:50:45  INFO  ac_jepa.eval    probe k=1  train_acc=0.418  val_acc=0.270  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=2  train_acc=0.413  val_acc=0.280  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=3  train_acc=0.408  val_acc=0.310  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=4  train_acc=0.411  val_acc=0.300  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=5  train_acc=0.417  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=6  train_acc=0.409  val_acc=0.300  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=7  train_acc=0.409  val_acc=0.280  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=8  train_acc=0.422  val_acc=0.275  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=9  train_acc=0.409  val_acc=0.295  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=10  train_acc=0.412  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval  Contact-quadrant probe on predicted latents z_hat:
+13:50:45  INFO  ac_jepa.eval    probe k=1  train_acc=0.472  val_acc=0.425  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:45  INFO  ac_jepa.eval    probe k=2  train_acc=0.467  val_acc=0.380  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:45  INFO  ac_jepa.eval    probe k=3  train_acc=0.467  val_acc=0.395  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:45  INFO  ac_jepa.eval    probe k=4  train_acc=0.475  val_acc=0.390  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:45  INFO  ac_jepa.eval    probe k=5  train_acc=0.488  val_acc=0.385  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:45  INFO  ac_jepa.eval    probe k=6  train_acc=0.490  val_acc=0.405  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:45  INFO  ac_jepa.eval    probe k=7  train_acc=0.459  val_acc=0.445  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:45  INFO  ac_jepa.eval    probe k=8  train_acc=0.463  val_acc=0.450  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:45  INFO  ac_jepa.eval    probe k=9  train_acc=0.463  val_acc=0.460  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:45  INFO  ac_jepa.eval    probe k=10  train_acc=0.484  val_acc=0.435  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[85, 82, 19, 14]
+13:50:45  INFO  ac_jepa.eval  Stiffness class probe on target-encoder latents z_target (oracle):
+13:50:45  INFO  ac_jepa.eval    probe k=1  train_acc=0.401  val_acc=0.280  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=2  train_acc=0.409  val_acc=0.255  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=3  train_acc=0.408  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=4  train_acc=0.403  val_acc=0.250  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:45  INFO  ac_jepa.eval    probe k=5  train_acc=0.412  val_acc=0.285  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval    probe k=6  train_acc=0.403  val_acc=0.290  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval    probe k=7  train_acc=0.409  val_acc=0.290  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval    probe k=8  train_acc=0.411  val_acc=0.250  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval    probe k=9  train_acc=0.412  val_acc=0.300  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval    probe k=10  train_acc=0.406  val_acc=0.265  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:46  INFO  ac_jepa.eval  Continuous stiffness regression  unique_train=3 unique_val=3
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=1  train_r2=0.017  val_r2=-0.015  train_mse=7206  val_mse=7410
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=2  train_r2=0.017  val_r2=-0.008  train_mse=7206  val_mse=7363
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=3  train_r2=0.021  val_r2=-0.020  train_mse=7183  val_mse=7449
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=4  train_r2=0.021  val_r2=-0.007  train_mse=7181  val_mse=7352
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=5  train_r2=0.021  val_r2=-0.012  train_mse=7179  val_mse=7387
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=6  train_r2=0.022  val_r2=-0.016  train_mse=7176  val_mse=7418
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=7  train_r2=0.019  val_r2=0.001  train_mse=7198  val_mse=7295
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=8  train_r2=0.020  val_r2=-0.001  train_mse=7185  val_mse=7307
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=9  train_r2=0.025  val_r2=-0.004  train_mse=7150  val_mse=7331
+13:50:46  INFO  ac_jepa.eval    stiffness-reg k=10  train_r2=0.026  val_r2=-0.004  train_mse=7146  val_mse=7332
+13:50:46  INFO  ac_jepa.eval  Probe findings: stiffness class: after scaling to n_val=200, mean val acc=0.292 is still consistent with chance=0.333 (z=-1.24, SE≈0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance. | contact quadrant: mean val acc=0.417 is above chance=0.250 (z=5.45, n_val=200). | stiffness class (z_target): after scaling to n_val=200, mean val acc=0.277 is still consistent with chance=0.333 (z=-1.69, SE≈0.033). This is a real limitation: a linear readout of stiffness class (z_target) from the latents does not beat chance.
+13:50:48  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+13:50:59  INFO  ac_jepa.eval  Probe split  n_train=1800  n_val=200  k_max=10  n_stiff=3  n_contact=4
+13:50:59  INFO  ac_jepa.eval  z_target  ||z|| mean=10.0531 std=0.0204  per-dim std mean=0.3702 min=0.0827  frac_dims_below_gamma(1.00)=0.992  hinge=0.6303 binding=True
+13:50:59  INFO  ac_jepa.eval  effective_rank (val)  z_target PR=1.739  z_hat PR=2.610  D=128  N_val_vec=2000
+13:50:59  INFO  ac_jepa.eval  Stiffness class probe on predicted latents z_hat:
+13:50:59  INFO  ac_jepa.eval    probe k=1  train_acc=0.384  val_acc=0.335  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=2  train_acc=0.393  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=3  train_acc=0.378  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=4  train_acc=0.378  val_acc=0.330  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=5  train_acc=0.381  val_acc=0.365  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=6  train_acc=0.386  val_acc=0.340  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=7  train_acc=0.384  val_acc=0.315  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=8  train_acc=0.392  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=9  train_acc=0.377  val_acc=0.345  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=10  train_acc=0.382  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval  Contact-quadrant probe on predicted latents z_hat:
+13:50:59  INFO  ac_jepa.eval    probe k=1  train_acc=0.461  val_acc=0.410  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:59  INFO  ac_jepa.eval    probe k=2  train_acc=0.482  val_acc=0.435  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:59  INFO  ac_jepa.eval    probe k=3  train_acc=0.487  val_acc=0.455  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:50:59  INFO  ac_jepa.eval    probe k=4  train_acc=0.462  val_acc=0.455  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:59  INFO  ac_jepa.eval    probe k=5  train_acc=0.462  val_acc=0.460  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:59  INFO  ac_jepa.eval    probe k=6  train_acc=0.467  val_acc=0.450  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:50:59  INFO  ac_jepa.eval    probe k=7  train_acc=0.461  val_acc=0.430  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:59  INFO  ac_jepa.eval    probe k=8  train_acc=0.477  val_acc=0.450  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:59  INFO  ac_jepa.eval    probe k=9  train_acc=0.471  val_acc=0.450  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:50:59  INFO  ac_jepa.eval    probe k=10  train_acc=0.455  val_acc=0.430  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[85, 82, 19, 14]
+13:50:59  INFO  ac_jepa.eval  Stiffness class probe on target-encoder latents z_target (oracle):
+13:50:59  INFO  ac_jepa.eval    probe k=1  train_acc=0.386  val_acc=0.300  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=2  train_acc=0.388  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=3  train_acc=0.384  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=4  train_acc=0.389  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=5  train_acc=0.387  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=6  train_acc=0.383  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=7  train_acc=0.381  val_acc=0.315  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=8  train_acc=0.386  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=9  train_acc=0.391  val_acc=0.310  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval    probe k=10  train_acc=0.381  val_acc=0.335  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:50:59  INFO  ac_jepa.eval  Continuous stiffness regression  unique_train=3 unique_val=3
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=1  train_r2=0.006  val_r2=-0.012  train_mse=7287  val_mse=7391
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=2  train_r2=0.007  val_r2=-0.012  train_mse=7282  val_mse=7391
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=3  train_r2=0.006  val_r2=-0.007  train_mse=7289  val_mse=7353
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=4  train_r2=0.007  val_r2=-0.007  train_mse=7286  val_mse=7352
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=5  train_r2=0.006  val_r2=-0.003  train_mse=7288  val_mse=7321
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=6  train_r2=0.005  val_r2=-0.005  train_mse=7297  val_mse=7337
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=7  train_r2=0.005  val_r2=-0.003  train_mse=7296  val_mse=7327
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=8  train_r2=0.005  val_r2=-0.005  train_mse=7301  val_mse=7340
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=9  train_r2=0.005  val_r2=-0.007  train_mse=7297  val_mse=7353
+13:50:59  INFO  ac_jepa.eval    stiffness-reg k=10  train_r2=0.005  val_r2=-0.005  train_mse=7295  val_mse=7336
+13:50:59  INFO  ac_jepa.eval  Probe findings: stiffness class: after scaling to n_val=200, mean val acc=0.340 is still consistent with chance=0.333 (z=0.20, SE≈0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance. | contact quadrant: mean val acc=0.443 is above chance=0.250 (z=6.29, n_val=200). | stiffness class (z_target): after scaling to n_val=200, mean val acc=0.316 is still consistent with chance=0.333 (z=-0.52, SE≈0.033). This is a real limitation: a linear readout of stiffness class (z_target) from the latents does not beat chance.
+13:51:01  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+13:51:13  INFO  ac_jepa.eval  Probe split  n_train=1800  n_val=200  k_max=10  n_stiff=3  n_contact=4
+13:51:13  INFO  ac_jepa.eval  z_target  ||z|| mean=11.2305 std=0.0004  per-dim std mean=0.0401 min=0.0111  frac_dims_below_gamma(1.00)=1.000  hinge=0.9599 binding=True
+13:51:13  INFO  ac_jepa.eval  effective_rank (val)  z_target PR=1.091  z_hat PR=1.189  D=128  N_val_vec=2000
+13:51:13  INFO  ac_jepa.eval  Stiffness class probe on predicted latents z_hat:
+13:51:13  INFO  ac_jepa.eval    probe k=1  train_acc=0.335  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=2  train_acc=0.335  val_acc=0.360  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=3  train_acc=0.338  val_acc=0.345  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=4  train_acc=0.342  val_acc=0.345  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=5  train_acc=0.347  val_acc=0.330  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=6  train_acc=0.346  val_acc=0.340  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=7  train_acc=0.334  val_acc=0.330  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:13  INFO  ac_jepa.eval    probe k=8  train_acc=0.331  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=9  train_acc=0.333  val_acc=0.280  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=10  train_acc=0.337  val_acc=0.360  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval  Contact-quadrant probe on predicted latents z_hat:
+13:51:14  INFO  ac_jepa.eval    probe k=1  train_acc=0.483  val_acc=0.450  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:14  INFO  ac_jepa.eval    probe k=2  train_acc=0.479  val_acc=0.465  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:14  INFO  ac_jepa.eval    probe k=3  train_acc=0.554  val_acc=0.515  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:14  INFO  ac_jepa.eval    probe k=4  train_acc=0.502  val_acc=0.540  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:14  INFO  ac_jepa.eval    probe k=5  train_acc=0.549  val_acc=0.535  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:14  INFO  ac_jepa.eval    probe k=6  train_acc=0.567  val_acc=0.565  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:14  INFO  ac_jepa.eval    probe k=7  train_acc=0.426  val_acc=0.425  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:14  INFO  ac_jepa.eval    probe k=8  train_acc=0.441  val_acc=0.415  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:14  INFO  ac_jepa.eval    probe k=9  train_acc=0.537  val_acc=0.510  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:14  INFO  ac_jepa.eval    probe k=10  train_acc=0.441  val_acc=0.410  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[85, 82, 19, 14]
+13:51:14  INFO  ac_jepa.eval  Stiffness class probe on target-encoder latents z_target (oracle):
+13:51:14  INFO  ac_jepa.eval    probe k=1  train_acc=0.336  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=2  train_acc=0.342  val_acc=0.365  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=3  train_acc=0.341  val_acc=0.305  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=4  train_acc=0.346  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=5  train_acc=0.336  val_acc=0.335  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=6  train_acc=0.332  val_acc=0.330  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=7  train_acc=0.344  val_acc=0.360  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=8  train_acc=0.347  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=9  train_acc=0.329  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval    probe k=10  train_acc=0.343  val_acc=0.320  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:14  INFO  ac_jepa.eval  Continuous stiffness regression  unique_train=3 unique_val=3
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=1  train_r2=0.000  val_r2=-0.000  train_mse=7334  val_mse=7303
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=2  train_r2=0.000  val_r2=-0.001  train_mse=7333  val_mse=7308
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=3  train_r2=-0.000  val_r2=-0.000  train_mse=7337  val_mse=7302
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=4  train_r2=-0.000  val_r2=-0.000  train_mse=7335  val_mse=7303
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=5  train_r2=-0.000  val_r2=-0.000  train_mse=7335  val_mse=7305
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=6  train_r2=0.000  val_r2=0.000  train_mse=7334  val_mse=7301
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=7  train_r2=0.000  val_r2=-0.000  train_mse=7334  val_mse=7302
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=8  train_r2=-0.001  val_r2=-0.000  train_mse=7339  val_mse=7303
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=9  train_r2=-0.000  val_r2=-0.001  train_mse=7335  val_mse=7308
+13:51:14  INFO  ac_jepa.eval    stiffness-reg k=10  train_r2=-0.000  val_r2=-0.001  train_mse=7335  val_mse=7307
+13:51:14  INFO  ac_jepa.eval  Probe findings: stiffness class: after scaling to n_val=200, mean val acc=0.334 is still consistent with chance=0.333 (z=0.01, SE≈0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance. | contact quadrant: mean val acc=0.483 is above chance=0.250 (z=7.61, n_val=200). | stiffness class (z_target): after scaling to n_val=200, mean val acc=0.334 is still consistent with chance=0.333 (z=0.02, SE≈0.033). This is a real limitation: a linear readout of stiffness class (z_target) from the latents does not beat chance.
+13:51:18  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+13:51:30  INFO  ac_jepa.eval  Probe split  n_train=1800  n_val=200  k_max=10  n_stiff=3  n_contact=4
+13:51:30  INFO  ac_jepa.eval  z_target  ||z|| mean=11.2333 std=0.0007  per-dim std mean=0.0396 min=0.0104  frac_dims_below_gamma(1.00)=1.000  hinge=0.9604 binding=True
+13:51:30  INFO  ac_jepa.eval  effective_rank (val)  z_target PR=1.041  z_hat PR=1.130  D=128  N_val_vec=2000
+13:51:30  INFO  ac_jepa.eval  Stiffness class probe on predicted latents z_hat:
+13:51:30  INFO  ac_jepa.eval    probe k=1  train_acc=0.343  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=2  train_acc=0.330  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=3  train_acc=0.338  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=4  train_acc=0.340  val_acc=0.365  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=5  train_acc=0.330  val_acc=0.365  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=6  train_acc=0.343  val_acc=0.335  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=7  train_acc=0.352  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=8  train_acc=0.347  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:30  INFO  ac_jepa.eval    probe k=9  train_acc=0.352  val_acc=0.340  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=10  train_acc=0.351  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval  Contact-quadrant probe on predicted latents z_hat:
+13:51:31  INFO  ac_jepa.eval    probe k=1  train_acc=0.510  val_acc=0.480  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:31  INFO  ac_jepa.eval    probe k=2  train_acc=0.513  val_acc=0.465  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:31  INFO  ac_jepa.eval    probe k=3  train_acc=0.504  val_acc=0.470  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[92, 73, 15, 20]
+13:51:31  INFO  ac_jepa.eval    probe k=4  train_acc=0.563  val_acc=0.555  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:31  INFO  ac_jepa.eval    probe k=5  train_acc=0.554  val_acc=0.620  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:31  INFO  ac_jepa.eval    probe k=6  train_acc=0.557  val_acc=0.605  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 91, 11, 16]
+13:51:31  INFO  ac_jepa.eval    probe k=7  train_acc=0.458  val_acc=0.465  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:31  INFO  ac_jepa.eval    probe k=8  train_acc=0.531  val_acc=0.560  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:31  INFO  ac_jepa.eval    probe k=9  train_acc=0.561  val_acc=0.555  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[82, 85, 18, 15]
+13:51:31  INFO  ac_jepa.eval    probe k=10  train_acc=0.455  val_acc=0.400  train_distinct=4/4 n=1800  val_distinct=4/4 n=200  val_counts=[85, 82, 19, 14]
+13:51:31  INFO  ac_jepa.eval  Stiffness class probe on target-encoder latents z_target (oracle):
+13:51:31  INFO  ac_jepa.eval    probe k=1  train_acc=0.338  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=2  train_acc=0.335  val_acc=0.360  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=3  train_acc=0.336  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=4  train_acc=0.345  val_acc=0.335  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=5  train_acc=0.332  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=6  train_acc=0.342  val_acc=0.365  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=7  train_acc=0.340  val_acc=0.355  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=8  train_acc=0.338  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=9  train_acc=0.340  val_acc=0.350  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval    probe k=10  train_acc=0.330  val_acc=0.325  train_distinct=3/3 n=1800  val_distinct=3/3 n=200  val_counts=[67, 67, 66]
+13:51:31  INFO  ac_jepa.eval  Continuous stiffness regression  unique_train=3 unique_val=3
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=1  train_r2=0.000  val_r2=-0.001  train_mse=7334  val_mse=7312
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=2  train_r2=0.000  val_r2=0.001  train_mse=7334  val_mse=7297
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=3  train_r2=0.000  val_r2=-0.001  train_mse=7333  val_mse=7307
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=4  train_r2=-0.000  val_r2=-0.000  train_mse=7335  val_mse=7304
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=5  train_r2=0.001  val_r2=-0.001  train_mse=7329  val_mse=7312
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=6  train_r2=-0.000  val_r2=-0.001  train_mse=7335  val_mse=7307
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=7  train_r2=0.001  val_r2=-0.002  train_mse=7327  val_mse=7315
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=8  train_r2=-0.000  val_r2=-0.000  train_mse=7337  val_mse=7302
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=9  train_r2=0.001  val_r2=-0.001  train_mse=7328  val_mse=7310
+13:51:31  INFO  ac_jepa.eval    stiffness-reg k=10  train_r2=0.000  val_r2=-0.001  train_mse=7331  val_mse=7307
+13:51:31  INFO  ac_jepa.eval  Probe findings: stiffness class: after scaling to n_val=200, mean val acc=0.343 is still consistent with chance=0.333 (z=0.30, SE≈0.033). This is a real limitation: a linear readout of stiffness class from the latents does not beat chance. | contact quadrant: mean val acc=0.518 is above chance=0.250 (z=8.74, n_val=200). | stiffness class (z_target): after scaling to n_val=200, mean val acc=0.350 is still consistent with chance=0.333 (z=0.51, SE≈0.033). This is a real limitation: a linear readout of stiffness class (z_target) from the latents does not beat chance.
+13:51:31  INFO  ac_jepa.twoseed  Wrote outputs/ablation_twoseed.json

@@ -1,0 +1,62 @@
+{
+  "n_seeds": 2,
+  "seeds": [
+    42,
+    43
+  ],
+  "stat": "mean_plus_half_range",
+  "note": "Entries are mean \u00b1 (max-min)/2 over seeds 42 and 43. This is a 2-seed range, not a sample standard deviation.",
+  "dataset_path": "outputs/physics_mpm",
+  "variants": {
+    "full_vicreg": {
+      "by_horizon": {
+        "1": {
+          "rollout_mse_mean": 0.056983714923262596,
+          "rollout_mse_range": 0.02306872047483921,
+          "seed42": 0.0800524353981018,
+          "seed43": 0.033914994448423386
+        },
+        "5": {
+          "rollout_mse_mean": 0.366106852889061,
+          "rollout_mse_range": 0.06791375577449799,
+          "seed42": 0.43402060866355896,
+          "seed43": 0.298193097114563
+        },
+        "10": {
+          "rollout_mse_mean": 0.8635590076446533,
+          "rollout_mse_range": 0.02971482276916504,
+          "seed42": 0.8932738304138184,
+          "seed43": 0.8338441848754883
+        }
+      }
+    },
+    "mse": {
+      "by_horizon": {
+        "1": {
+          "rollout_mse_mean": 0.000810211175121367,
+          "rollout_mse_range": 0.00023499771486967802,
+          "seed42": 0.001045208889991045,
+          "seed43": 0.000575213460251689
+        },
+        "5": {
+          "rollout_mse_mean": 0.03916792944073677,
+          "rollout_mse_range": 0.002779509872198105,
+          "seed42": 0.036388419568538666,
+          "seed43": 0.041947439312934875
+        },
+        "10": {
+          "rollout_mse_mean": 0.14931949228048325,
+          "rollout_mse_range": 0.0351204052567482,
+          "seed42": 0.11419908702373505,
+          "seed43": 0.18443989753723145
+        }
+      }
+    }
+  },
+  "checkpoints": {
+    "seed42_vicreg": "outputs/vicreg/best.pt",
+    "seed42_mse": "outputs/mse/best.pt",
+    "seed43_vicreg": "outputs/seed43/vicreg/best.pt",
+    "seed43_mse": "outputs/seed43/mse/best.pt"
+  }
+}

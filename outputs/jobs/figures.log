@@ -1,0 +1,10 @@
+13:51:52  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+13:51:54  INFO  ac_jepa.rollout_figures  Rollout figures  ckpt=outputs/vicreg/best.pt  dataset=outputs/physics_mpm  train/val=(1800, 200)  device=cpu
+13:51:54  INFO  ac_jepa.rollout_figures  Loaded post-hoc decoder from outputs/figures/latent_decoder.pt
+13:51:57  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/rollout_comparison_1800.png
+13:51:57  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/rollout_comparison_1801.png
+13:51:58  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/rollout_comparison_1802.png
+13:51:58  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/rollout_comparison_1803.png
+13:51:58  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/failure_case.png
+13:51:58  INFO  ac_jepa.rollout_figures  Wrote outputs/figures/failure_case_caption.txt
+13:51:58  INFO  ac_jepa.rollout_figures  Rollout figures  episodes=[1800, 1801, 1802, 1803]  failure=1878
