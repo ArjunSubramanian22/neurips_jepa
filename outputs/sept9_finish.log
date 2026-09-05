@@ -262,3 +262,7 @@ artifact macros used in main.tex: 57
 undefined-looking macros: (none)
 bare numeric tokens remaining: (none)
 wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
+[main 82b6f86] Sync paper macros after eval-artifacts
+ 7 files changed, 74 insertions(+), 50 deletions(-)
+== committed: Sync paper macros after eval-artifacts  82b6f86
+updated MAPPING.md git HEAD -> 82b6f86b2989a2918f48d5fe5296778ef3780b2e

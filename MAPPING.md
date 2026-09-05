@@ -1,8 +1,8 @@
 # Artifact provenance map (reproducibility audit)
 
 **Audit date:** 2026-09-04  
-**Git HEAD:** see `git rev-parse HEAD` (paper macro `\GitHead`).  
-**Working tree:** live `outputs/vicreg/` is still a moving checkpoint (PID 92746, `train_and_eval`) until 200 epochs. After that job exits, `scripts/finish_sept9.sh` trains seed-43 VICReg+MSE, writes effective-rank probes, regenerates figures, syncs the paper, and commits each milestone. `outputs/physics_mpm/observations.npy` is gitignored (GitHub 100 MB limit); regenerate with `scripts/generate_trajectories.py`.  
+**Git HEAD:** `82b6f86b2989a2918f48d5fe5296778ef3780b2e` (`82b6f86`). Paper macros, probes, figures, and 200-epoch VICReg/MSE checkpoints are in this commit.
+**Working tree:** clean after finish_sept9 freeze (this file may be one commit later). `outputs/physics_mpm/observations.npy` remains gitignored (GitHub 100 MB limit); regenerate with `scripts/generate_trajectories.py`.
 **Python / torch:** 3.13.2 / torch 2.12.1 (macOS arm64).  
 **`TrainingConfig.device="auto"`:** CUDA if available, else Apple MPS, else CPU. Different machines therefore train different kernels even with the same seed.  
 **Sept 9 scope:** 2-seed (42, 43) full VICReg and MSE only. The 3-seed × 4-variant grid is skipped. Report mean ± half-range, labeled as a 2-seed range, not a std.
