@@ -278,5 +278,53 @@ class ACJEPAModelTests(unittest.TestCase):
         self.assertGreaterEqual(terms["covariance"].item(), 0.0)
 
 
+class NoActionPredictorTests(unittest.TestCase):
+    def test_unconditional_predictor_ignores_action(self) -> None:
+        cfg = _tiny_cfg(condition_on_action=False)
+        model = ACJEPA(cfg)
+        x_t, a_t, _ = _dummy_batch(4, cfg)
+        z_t = model.encode(x_t)
+        z_a = model.predictor(z_t, a_t)
+        z_b = model.predictor(z_t, torch.randn_like(a_t))
+        self.assertTrue(torch.allclose(z_a, z_b, atol=1e-5))
+        self.assertFalse(model.predictor.condition_on_action)
+
+
+class ParticleGNNTests(unittest.TestCase):
+    def test_reuses_edge_list_and_predicts_next_positions(self) -> None:
+        from src.dataset import _edge_list
+        from src.models.particle_gnn import ParticleGraphWorldModel
+
+        data = DataConfig(
+            n_grid=4,
+            spatial_dims=2,
+            n_episodes=2,
+            episode_length=4,
+            img_size=32,
+            action_dim=4,
+            in_channels=3,
+        )
+        model = ParticleGraphWorldModel(_tiny_cfg(), data, hidden_dim=32, message_steps=2)
+        edges = _edge_list(4, 2)
+        self.assertEqual(int(model.edge_src.numel()), int(edges.shape[0]) * 2)
+        batch, particles, dims = 3, data.n_particles, 2
+        pos = torch.rand(batch, particles, dims)
+        vel = torch.zeros(batch, particles, dims)
+        act = torch.rand(batch, 4)
+        pred_pos, pred_vel, latent = model.step(pos, vel, act)
+        self.assertEqual(tuple(pred_pos.shape), (batch, particles, dims))
+        self.assertEqual(tuple(pred_vel.shape), (batch, particles, dims))
+        self.assertEqual(tuple(latent.shape), (batch, model.latent_dim))
+        z_hat, z_tgt = model.rollout_from_particles(
+            pos.unsqueeze(1).expand(batch, 3, particles, dims).contiguous(),
+            vel.unsqueeze(1).expand(batch, 3, particles, dims).contiguous(),
+            act.unsqueeze(1).expand(batch, 2, 4).contiguous(),
+            k_max=2,
+            batch_size=2,
+        )
+        self.assertEqual(tuple(z_hat.shape), (batch, 2, 64))
+        self.assertEqual(tuple(z_tgt.shape), (batch, 2, 64))
+
+
 if __name__ == "__main__":
     unittest.main()

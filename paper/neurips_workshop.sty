@@ -1,0 +1,39 @@
+% 4-page NeurIPS workshop geometry (letter, 10pt, 5.5in text width).
+% Drop in the official neurips_2025.sty if submitting; this file is a
+% compile-able preprint stand-in with the same page geometry.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{neurips_workshop}[2026/09/04 NeurIPS workshop preprint geometry]
+
+\RequirePackage[letterpaper,left=1.5in,right=1.5in,top=1.0in,bottom=1.0in]{geometry}
+\RequirePackage{times}
+\RequirePackage{mathptmx}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{microtype}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage[numbers,sort&compress]{natbib}
+\RequirePackage{xcolor}
+\RequirePackage{titlesec}
+\RequirePackage{caption}
+
+\captionsetup{font=small,skip=4pt}
+\titlespacing*{\section}{0pt}{0.85em}{0.35em}
+\titlespacing*{\subsection}{0pt}{0.7em}{0.25em}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1em}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\renewcommand{\bibfont}{\small}
+\setlength{\bibsep}{2pt plus 0.3pt}
+
+\newcommand{\fix}[1]{\textcolor{red}{#1}}

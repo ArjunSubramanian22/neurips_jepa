@@ -1,0 +1,231 @@
+\documentclass[10pt]{article}
+\usepackage{neurips_workshop}
+
+\title{Action-Conditioned Latent World Models\\
+for Synthetic Deformable-Object Dynamics}
+
+\author{Anonymous Authors\\
+Workshop preprint --- not a real-video or PhysTwin comparison}
+
+\date{}
+
+\begin{document}
+\input{generated/macros}
+\maketitle
+
+\begin{abstract}
+We study action-conditioned joint-embedding predictive architectures (AC-JEPA) as
+latent world models of \emph{synthetic} deformable-object dynamics. Observations
+come from an in-repo MLS-MPM renderer (\NEpisodes{} episodes, $T{=}$\EpisodeLength{},
+$\ImgSize\times\ImgSize$), not from captured video, and we do not claim results
+on PhysWorld or PhysTwin. The contribution is a controlled comparison: VICReg
+versus covariance-ablated / MSE-only / pixel-space alternatives, plus an
+action-conditioning knockout, against a particle-GNN baseline in the
+\emph{same} mass-spring simulator. On a scaled physics dump
+($n_{\mathrm{val}}{=}$\NValPhysics{}), contact-quadrant linear probes beat chance
+(\ProbeContactValMean{} vs.\ \ChanceContact{}) while stiffness class remains at
+chance (\ProbeStiffValMean{} vs.\ \ChanceStiffness{}), including an oracle probe
+on the EMA target. We report that limitation rather than a new SOTA number.
+Workshop-scale mean\,$\pm$\,std ablations have not been generated.
+\end{abstract}
+
+\section{Introduction}
+Learned world models that forecast how a deformable object will respond to
+contact would be useful for manipulation, but the recent digital-twin literature
+is dominated by systems that start from \emph{real video} and an MPM-optimized
+twin~\citep{jiang2025phystwin,yang2025physworld}. This paper asks a narrower
+question on a fully synthetic stack: if we train an action-conditioned JEPA
+\citep{assran2023ijepa,bardes2024vjepa} with VICReg~\citep{bardes2022vicreg} on
+rendered MLS-MPM frames~\citep{hu2018mlsmpm}, which pieces of the objective and
+which form of action fusion actually matter, and what physical properties are
+linearly readable from the latent?
+
+We do \textbf{not} claim to outperform PhysWorld or PhysTwin. Those methods
+operate in a different domain (real captures, reconstructed geometry, privileged
+particle twins). Our numbers are within-simulator. The empirical payload is
+(i)~a six-way baseline on a shared mass-spring split
+(Table~\ref{tab:baselines}), (ii)~a dummy-scale loss ablation imported from the
+exporter so cells cannot drift from \texttt{outputs/} (Table~\ref{tab:ac-jepa-ablation}),
+and (iii)~probe diagnostics on the physics dump that put stiffness non-decodability
+on the record (Section~\ref{sec:limitations}).
+
+\section{Related work}
+\paragraph{JEPA and VICReg.}
+I-JEPA~\citep{assran2023ijepa} and V-JEPA~\citep{bardes2024vjepa} learn by
+predicting embeddings of a target view from a context view, with an EMA target
+encoder in the BYOL family~\citep{grill2020byol}. AC-JEPA instantiates that
+recipe on $(x_t,a_t)\mapsto z_{t+1}$. Collapse is regularized with
+VICReg~\citep{bardes2022vicreg}: invariance, a per-dimension variance hinge, and
+an off-diagonal covariance penalty, implemented in \texttt{src/losses.py}.
+
+\paragraph{Particle-graph world models.}
+DPI-Net~\citep{li2019dpinet} and GNS~\citep{sanchezgonzalez2020gns} propagate
+messages on particle graphs to predict the next state. Our particle-GNN baseline
+reuses the simulator's spring \texttt{\_edge\_list} and is scored in graph-readout
+space; it is a within-simulator relative of that family, not a reimplementation
+of those papers' datasets.
+
+\paragraph{Real-video digital twins (domain gap).}
+PhysTwin~\citep{jiang2025phystwin} reconstructs and resimulates deformables from
+sparse video with a physics-informed twin. PhysWorld~\citep{yang2025physworld}
+fits an MPM twin to real video, synthesizes demonstrations, and trains a GNN for
+real-time prediction. Both start from captured footage of a small number of
+objects. Our dump is synthetic RGB of disks/bars with three global Young's
+moduli, no camera, no residual physics mismatch. Table~\ref{tab:baselines} is
+therefore not a SOTA table against those systems.
+
+\section{Method}
+\paragraph{Architecture.}
+Following \texttt{src/models/ac\_jepa.py} and \texttt{ModelConfig}, AC-JEPA has
+three modules. An online encoder $f_\theta$ (ViT by default) maps a frame
+$x_t$ to $z_t$. An action-conditioned predictor $g_\phi$ maps $(z_t,a_t)$ to
+$\hat z_{t+1}$. A target encoder $f_{\bar\theta}$ is an EMA copy
+$\bar\theta \leftarrow \tau\bar\theta + (1-\tau)\theta$ with default
+$\tau{=}$\EmaTau{}; it produces the stop-gradient target $z_{t+1}=f_{\bar\theta}(x_{t+1})$.
+Only $f_\theta$ and $g_\phi$ receive gradients. Workshop YAML uses
+$\ImgSize\times\ImgSize$ frames, patch size \PatchSize{}, embedding width
+\ZTLatentDim{}, concat fusion, and $a_t\in\mathbb{R}^{\ActionDim{}}$
+(contact $xy$ + force $xy$). Setting \texttt{condition\_on\_action=False} drops
+$a_t$ so $g_\phi$ sees $z_t$ only (no-action ablation).
+
+\paragraph{Objectives.}
+\texttt{prediction\_objective} in \texttt{src/losses.py} implements four latent
+losses on $(\hat z_{t+1}, z_{t+1})$: (i)~full VICReg
+($\lambda{=}$\VicregSim{}, $\mu{=}$\VicregStd{}, $\nu{=}$\VicregCov{}, $\gamma{=}$\VicregGamma{});
+(ii)~Variant~A, \texttt{vicreg\_no\_cov}, invariance + variance only;
+(iii)~Variant~B, invariance MSE only;
+(iv)~optional smooth-$\ell_1$ / cosine stand-ins for the invariance term.
+Variant~C is a pixel-space autoencoder that decodes $g_\phi(z_t,a_t)$ to
+$\hat x_{t+1}$ rather than matching $z_{t+1}$. Open-loop evaluation applies the
+predictor for $k$ steps without replacing $\hat z$ by the true encoding.
+
+\section{Experiments}
+\paragraph{Data.}
+Prompt~1 writes \texttt{outputs/physics\_mpm/}: \NEpisodes{} episodes of length
+\EpisodeLength{}, $\ImgSize\times\ImgSize$ RGB, backend \texttt{\DumpBackend{}}
+MLS-MPM (not a Taichi install), dump seed \DumpSeed{}, geometries disk/bar,
+$E\in\{\StiffELow,\StiffEMid,\StiffEHigh\}$ with counts
+$\NStiffZero/\NStiffOne/\NStiffTwo$ (\texttt{outputs/dataset\_report.json}).
+The workshop split is $n_{\mathrm{train}}{=}$\NTrainPhysics{},
+$n_{\mathrm{val}}{=}$\NValPhysics{}. Prompt~4 baselines instead use an
+in-process mass-spring lattice
+($n_{\mathrm{train}}{=}$\BaselineNTrain{}, $n_{\mathrm{val}}{=}$\BaselineNVal{},
+\BaselineEpochs{} epochs, device \texttt{\BaselineDevice{}}).
+
+\paragraph{Within-simulator baselines.}
+Table~\ref{tab:baselines} is generated from
+\texttt{outputs/baseline\_comparison.csv} (no hand-copied cells). VICReg latent
+MSE at $k{=}1,5,10$ is $\BLVicregKOneMse$, $\BLVicregKFiveMse$,
+$\BLVicregKTenMse$. Dropping the action
+(\texttt{no\_action}) raises $k{=}5$ MSE from $\BLVicregKFiveMse$ to
+$\BLNoactKFiveMse$ on this split: the predictor uses $a_t$ when it is available.
+MSE-only records a much smaller latent MSE ($\BLMseKOneMse$ at $k{=}1$) --- as
+expected when the objective is pure invariance and is free to collapse
+directions VICReg would keep alive. The particle GNN's $k{=}1$ MSE
+($\BLGnnKOneMse$) is \emph{not} in the same space; we do not rank it against
+ViT latents. Stiffness probes on this split sit near chance for every method
+(e.g.\ VICReg $\BLVicregKOneStiff$\% vs.\ $\ChanceStiffnessPct$\%).
+
+\input{generated/baseline_table}
+
+\paragraph{Loss ablation (dummy scale, imported).}
+Table~\ref{tab:ac-jepa-ablation} is the tabular environment from
+\texttt{outputs/paper\_tables.tex} with an honest caption. It is a
+\AblationEpochs{}-epoch, $n_{\mathrm{val}}{=}$\AblationNVal{} lattice run on
+\texttt{\AblationDevice{}}. Workshop mean\,$\pm$\,std
+(\texttt{outputs/ablation\_multiseed.json}) does not exist; we include the
+placeholder Table~\ref{tab:ac-jepa-ablation-multiseed} rather than inventing
+error bars.
+
+\input{generated/ablation_table}
+\input{generated/multiseed_table}
+
+\paragraph{Qualitative rollouts.}
+Figure~\ref{fig:rollouts} shows held-out MLS-MPM episodes at
+$k\in\{1,5,10\}$ for $E\in\{\StiffELow,\StiffEMid,\StiffEHigh\}$. VICReg columns
+use a \emph{post-hoc} frozen-latent pixel decoder that is not part of AC-JEPA;
+the Pixel-AE row is a short qualitative fit, not a \WorkshopEpochs{}-epoch Variant~C
+(\texttt{outputs/figures/README.txt}). Figure~\ref{fig:failure} is validation
+episode \FailureEpisode{}, the worst latent MSE at $k{=}10$
+(\FailureMseKten{}; $n_{\mathrm{val}}{=}$\NValPhysics{}).
+
+\begin{figure}[t]
+  \centering
+  \begin{minipage}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{../outputs/figures/rollout_comparison_1800.png}\\[-2pt]
+    {\scriptsize $E{=}\StiffELow$ (ep.\ \ShowcaseEpA{})}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{../outputs/figures/rollout_comparison_1801.png}\\[-2pt]
+    {\scriptsize $E{=}\StiffEMid$ (ep.\ \ShowcaseEpB{})}
+  \end{minipage}\hfill
+  \begin{minipage}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{../outputs/figures/rollout_comparison_1802.png}\\[-2pt]
+    {\scriptsize $E{=}\StiffEHigh$ (ep.\ \ShowcaseEpC{})}
+  \end{minipage}
+  \caption{GT $|$ post-hoc-decoded VICReg $|$ Pixel-AE at $k\in\{1,5,10\}$ on the
+  MLS-MPM dump. VICReg weights are an in-progress workshop checkpoint
+  (\texttt{outputs/vicreg/best.pt}); Pixel-AE is a short qualitative fit.
+  Source: \texttt{outputs/figures/}.}
+  \label{fig:rollouts}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.62\linewidth]{../outputs/figures/failure_case.png}
+  \caption{Episode \FailureEpisode{} ($E{=}\StiffEHigh$), worst val latent MSE at
+  $k{=}10$ (\FailureMseKten). Caption text is
+  \texttt{outputs/figures/failure\_case\_caption.txt}, grounded in
+  \texttt{probe\_diagnostics.json}: stiffness stays at chance, $z_{\mathrm{target}}$
+  is collapsed, contact probes beat chance. Not a contact-extrapolation story.}
+  \label{fig:failure}
+\end{figure}
+
+\section{Limitations}
+\label{sec:limitations}
+\paragraph{Probes.}
+Smoke-split probes in \texttt{outputs/metrics.json} use $n_{\mathrm{val}}{=}$\SmokeNVal{}
+and are underpowered (binomial SE $\approx \SmokeProbeSE{}$ at chance \ChanceStiffness{}). On the physics
+dump we do have a powered readout. Findings copied from
+\texttt{outputs/probe\_diagnostics.json}:
+
+\input{generated/probe_findings}
+
+Mean stiffness-class val acc is \ProbeStiffValMean{} vs.\ chance
+\ChanceStiffness{}; the EMA-target oracle is \ProbeStiffTargetMean{}; train acc
+is \ProbeStiffTrainMean{}; Young's-modulus regression $R^2$ averages
+\ProbeStiffValRTwo{}. Contact-quadrant val acc is \ProbeContactValMean{} vs.\
+chance \ChanceContact{}. $z_{\mathrm{target}}$ occupies a near-constant shell
+($\lVert z\rVert$ std \ZTNormStd{}; \ZTDimsBelowGamma{}/\ZTLatentDim{} dims below
+the VICReg $\gamma{=}$\VicregGamma{} hinge; hinge binding \texttt{\ZTHingeBinding{}}). We treat
+stiffness non-decodability as a limitation of this encoder, not a result to
+suppress. The physics VICReg checkpoint is from in-progress workshop training,
+not a finished \WorkshopEpochs{}-epoch run.
+
+\paragraph{Domain gap and scale.}
+PhysWorld and PhysTwin start from real video and a reconstructed MPM twin. We
+render \NEpisodes{} short ($T{=}$\EpisodeLength{}) synthetic clips at
+$\ImgSize^2$ with \NStiffClasses{} discrete global $E$ values. That is orders of magnitude
+away from real-video digital-twin benchmarks in appearance, geometry, and
+parameter identification. Nothing here should be quoted as evidence on those
+benchmarks.
+
+\paragraph{Missing scaled ablations.}
+The planned multi-seed workshop grid that would populate Table~\ref{tab:ac-jepa-ablation-multiseed}
+has not been written. Table~\ref{tab:ac-jepa-ablation} is dummy-scale.
+\texttt{outputs/ablation\_drift.png} was overwritten by a different smoke run and
+is not used. Git HEAD does not contain the code that produced these artifacts
+(\texttt{MAPPING.md}).
+
+\section{Conclusion}
+AC-JEPA on synthetic deformables is a setting in which action conditioning
+changes latent rollout error on a shared mass-spring split, VICReg's extra
+terms do not automatically win latent MSE against a pure invariance baseline,
+and a scaled linear probe can read contact quadrant but not stiffness. Those
+are the claims this repository currently supports. They are not a SOTA result
+on real video.
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+
+\end{document}

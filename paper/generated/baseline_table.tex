@@ -1,0 +1,19 @@
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Within-simulator baseline comparison on the mass-spring lattice ($n_{\mathrm{train}}=120$, $n_{\mathrm{val}}=40$, 8 epochs, device \texttt{cpu}). Open-loop rollout MSE ($\downarrow$) at $k\in\{1,5,10\}$. Linear-probe accuracy ($\uparrow$, \%) at $k{=}1$; chance is 33.3\% stiffness / 25.0\% contact. Particle-GNN \texttt{rollout\_mse} is in pooled graph-readout space, not the ViT latent --- magnitudes are not interchangeable across rows. Source: \texttt{outputs/baseline\_comparison.csv}.}
+  \label{tab:baselines}
+  \setlength{\tabcolsep}{3.5pt}
+  \begin{tabular}{lccccc}
+    \toprule
+    Method & $k{=}1$ & $k{=}5$ & $k{=}10$ & Stiff.\ \% & Contact \% \\
+    \midrule
+    AC-JEPA (VICReg) & 0.145 & 0.174 & 0.181 & 32.5 & 40.0 \\
+    AC-JEPA (no covariance) & 0.247 & 0.257 & 0.273 & 30.0 & 32.5 \\
+    AC-JEPA (MSE-only) & \textbf{5.20e-04} & \textbf{0.021} & \textbf{0.022} & 40.0 & 32.5 \\
+    Pixel autoencoder & 0.335 & 0.325 & 0.326 & 40.0 & 32.5 \\
+    No action conditioning & 0.239 & 0.462 & 0.362 & 40.0 & 32.5 \\
+    Particle GNN (GNS/DPI-Net family) & 3.32e-08 & 8.41e-08 & 9.81e-08 & 40.0 & 32.5 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

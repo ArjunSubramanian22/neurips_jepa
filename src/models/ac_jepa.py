@@ -305,8 +305,24 @@ class ActionPredictor(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.fuse_mode = cfg.fuse_mode
+        self.condition_on_action = bool(cfg.condition_on_action)
         latent_dim = cfg.effective_latent_dim
         pred_dim = cfg.predictor_embed_dim
+        if not self.condition_on_action:
+            self.uncond_proj = nn.Linear(latent_dim, pred_dim)
+            self.mixer = nn.Sequential(
+                *[
+                    ResidualMLPBlock(pred_dim, cfg.mlp_ratio, cfg.dropout)
+                    for _ in range(cfg.predictor_depth)
+                ]
+            )
+            self.head = nn.Sequential(
+                nn.LayerNorm(pred_dim),
+                nn.Linear(pred_dim, latent_dim),
+            )
+            self.apply(_init_transformer_weights)
+            self.apply(_zero_residual_mlp_heads)
+            return
         self.action_embed = nn.Sequential(
             nn.Linear(cfg.action_dim, cfg.action_embed_dim),
             nn.GELU(),
@@ -365,6 +381,8 @@ class ActionPredictor(nn.Module):
             raise ValueError(
                 f"Batch mismatch between z_t ({z_t.shape[0]}) and a_t ({a_t.shape[0]})."
             )
+        if not self.condition_on_action:
+            return self.head(self.mixer(self.uncond_proj(z_t)))
         a_embed = self.action_embed(a_t)
         if self.fuse_mode == "concat":
             hidden = self.mixer(self.fuse_proj(torch.cat([z_t, a_embed], dim=-1)))

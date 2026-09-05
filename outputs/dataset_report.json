@@ -1,0 +1,30 @@
+{
+  "dataset_path": "outputs/physics_mpm",
+  "loader": "DeformablePhysicsDataset",
+  "n_episodes": 2000,
+  "episode_length": 16,
+  "img_size": 64,
+  "in_channels": 3,
+  "action_dim": 4,
+  "n_stiffness_classes": 3,
+  "stiffness_counts": [
+    667,
+    667,
+    666
+  ],
+  "stiffness_fractions": [
+    0.3335,
+    0.3335,
+    0.333
+  ],
+  "n_geometries": 2,
+  "geometry_counts": [
+    1001,
+    999
+  ],
+  "n_transitions": 30000,
+  "disk_bytes": 393729027,
+  "disk_mb": 375.489,
+  "finite_observations": true,
+  "finite_actions": true
+}

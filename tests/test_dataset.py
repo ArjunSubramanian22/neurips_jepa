@@ -21,6 +21,8 @@ from src.dataset import (
     canonicalize_observations,
     load_physics_trajectories,
 )
+from scripts.generate_trajectories import GEOMETRIES, STIFFNESS_E, generate_dataset
+from scripts.validate_dataset import validate_physics_dataset
 
 
 def _write_npy_dump(root: Path, n: int = 6, t: int = 20, h: int = 40, a_dim: int = 4) -> Path:
@@ -113,6 +115,49 @@ class PhysicsDatasetTests(unittest.TestCase):
             x_t, a_t, x_tp1 = ds[0]
             self.assertEqual(tuple(x_t.shape), (3, 32, 32))
             self.assertEqual(int(a_t.numel()), 6)
+
+
+class GeneratedPhysicsPipelineTests(unittest.TestCase):
+    """CI fixture: tiny MLS-MPM dump through validate_dataset (no extra sim install)."""
+
+    def test_validate_small_generated_fixture(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = Path(tmp) / "fixture"
+            generate_dataset(
+                dump,
+                n_episodes=6,
+                episode_length=8,
+                seed=0,
+                img_size=64,
+            )
+            self.assertTrue((dump / "observations.npy").is_file())
+            self.assertTrue((dump / "actions.npy").is_file())
+            self.assertTrue((dump / "stiffness_labels.npy").is_file())
+            self.assertTrue((dump / "stiffness_values.npy").is_file())
+            values = np.load(dump / "stiffness_values.npy")
+            labels = np.load(dump / "stiffness_labels.npy")
+            self.assertEqual(values.shape, labels.shape)
+            self.assertTrue(np.allclose(values, np.asarray(STIFFNESS_E)[labels]))
+            self.assertEqual(len(GEOMETRIES), 2)
+            self.assertEqual(len(STIFFNESS_E), 3)
+            report = validate_physics_dataset(
+                dump,
+                min_episodes=6,
+                n_stiffness_classes=3,
+                min_geometries=2,
+                balance_min_frac=0.15,
+            )
+            self.assertEqual(report["n_episodes"], 6)
+            self.assertEqual(report["episode_length"], 8)
+            self.assertEqual(report["img_size"], 64)
+            self.assertEqual(report["in_channels"], 3)
+            self.assertEqual(report["action_dim"], 4)
+            self.assertEqual(report["n_geometries"], 2)
+            self.assertTrue(report["finite_observations"])
+            self.assertTrue(report["finite_actions"])
+            obs = np.load(dump / "observations.npy")
+            self.assertEqual(obs.dtype, np.uint8)
+            self.assertEqual(tuple(obs.shape), (6, 8, 3, 64, 64))
 
 
 if __name__ == "__main__":

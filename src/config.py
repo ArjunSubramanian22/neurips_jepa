@@ -8,7 +8,9 @@ validate, and serialize a full run with a single object.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field, replace
+from pathlib import Path
 from typing import Any, Literal
+import json
 
 import torch
 
@@ -45,6 +47,8 @@ class ModelConfig:
             ``"cnn"`` is a lightweight convolutional alternative.
         fuse_mode: How actions enter the predictor (additive token, FiLM, or
             concatenated to the CLS / pooled state).
+        condition_on_action: If ``False``, the predictor maps ``z_t`` alone
+            (no-action ablation). Isolates the contribution of ``fuse_mode``.
     """
 
     in_channels: int = 3
@@ -65,6 +69,7 @@ class ModelConfig:
     drop_path: float = 0.1
     backbone: Literal["vit", "cnn"] = "vit"
     fuse_mode: Literal["token", "film", "concat"] = "concat"
+    condition_on_action: bool = True
 
     def __post_init__(self) -> None:
         if self.img_size <= 0 or self.patch_size <= 0:
@@ -108,13 +113,17 @@ class TrainingConfig:
         lr: Peak AdamW learning rate (after warmup).
         min_lr: Cosine-schedule floor.
         weight_decay: AdamW decoupled weight decay.
-        warmup_epochs: Linear warmup length.
+        warmup_epochs: Linear warmup length. The stock default is 10 epochs
+            on a 100-epoch schedule (10%). When ``epochs >= 200`` and this
+            field is left at 10, it is rescaled by ``warmup_ratio``.
+        warmup_ratio: Fraction of ``epochs`` used as warmup on long schedules.
         grad_clip: Global-norm clip. ``0`` disables clipping.
         beta1: AdamW first-moment coefficient.
         beta2: AdamW second-moment coefficient.
         loss_type: Latent prediction loss. ``vicreg`` is the AC-JEPA default;
             ``vicreg_no_cov`` drops the covariance term; ``mse`` is invariance
-            only; ``pixel_ae`` trains a pixel-space autoencoder baseline.
+            only; ``pixel_ae`` trains a pixel-space autoencoder baseline;
+            ``gnn`` trains the particle-graph (GNS/DPI-Net family) baseline.
         vicreg_sim_coeff: VICReg invariance (prediction error) weight.
         vicreg_std_coeff: VICReg variance hinge weight.
         vicreg_cov_coeff: VICReg off-diagonal covariance weight.
@@ -134,10 +143,11 @@ class TrainingConfig:
     min_lr: float = 1e-6
     weight_decay: float = 0.05
     warmup_epochs: int = 10
+    warmup_ratio: float = 0.1
     grad_clip: float = 1.0
     beta1: float = 0.9
     beta2: float = 0.999
-    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae"] = "vicreg"
+    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn"] = "vicreg"
     vicreg_sim_coeff: float = 25.0
     vicreg_std_coeff: float = 25.0
     vicreg_cov_coeff: float = 1.0
@@ -159,6 +169,11 @@ class TrainingConfig:
             raise ValueError("lr must be > 0 and min_lr must be >= 0.")
         if self.warmup_epochs < 0:
             raise ValueError("warmup_epochs must be >= 0.")
+        if not (0.0 <= self.warmup_ratio < 1.0):
+            raise ValueError("warmup_ratio must lie in [0, 1).")
+        self.warmup_epochs = resolve_warmup_epochs(
+            self.epochs, self.warmup_epochs, self.warmup_ratio
+        )
         if self.num_workers < 0:
             raise ValueError("num_workers must be >= 0.")
 
@@ -343,6 +358,67 @@ class ExperimentConfig:
             training=TrainingConfig(**payload.get("training", {})),
             data=DataConfig(**payload.get("data", {})),
         )
+
+
+def resolve_warmup_epochs(
+    epochs: int, warmup_epochs: int, warmup_ratio: float = 0.1
+) -> int:
+    """Keep a 10% warmup when the schedule is scaled past 100 epochs.
+
+    The dataclass default is ``warmup_epochs=10`` for a 100-epoch run. Long
+    workshop schedules (``epochs >= 200``) that still carry that default are
+    expanded to ``round(warmup_ratio * epochs)`` so warmup is not left at 10.
+    Explicit non-default warmups are preserved, then clamped to ``[0, epochs]``.
+    """
+    if epochs >= 200 and warmup_epochs == 10:
+        warmup_epochs = max(1, int(round(float(warmup_ratio) * epochs)))
+    return max(0, min(int(warmup_epochs), int(epochs)))
+
+
+def workshop_config_path() -> Path:
+    """Repo-relative path to the workshop VICReg YAML."""
+    return Path(__file__).resolve().parents[1] / "configs" / "workshop_vicreg.yaml"
+
+
+def _parse_config_file(path: Path) -> dict[str, Any]:
+    text = path.read_text(encoding="utf-8")
+    suffix = path.suffix.lower()
+    if suffix == ".json":
+        payload = json.loads(text)
+    else:
+        try:
+            import yaml
+        except ImportError as exc:
+            raise ImportError(
+                "Loading YAML configs requires PyYAML. Install with `pip install pyyaml` "
+                "or pass a .json file."
+            ) from exc
+        payload = yaml.safe_load(text)
+    if not isinstance(payload, dict):
+        raise ValueError(f"Config {path} must contain a top-level mapping.")
+    return payload
+
+
+def load_experiment_config(path: str | Path) -> ExperimentConfig:
+    """Load an :class:`ExperimentConfig` from YAML or JSON."""
+    path = Path(path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Config not found: {path}")
+    return ExperimentConfig.from_dict(_parse_config_file(path))
+
+
+def build_workshop_config(
+    *,
+    loss_type: str | None = None,
+    dataset_path: str | None = None,
+) -> ExperimentConfig:
+    """Factory for the 200-epoch physics-dump schedule in ``configs/workshop_vicreg.yaml``."""
+    cfg = load_experiment_config(workshop_config_path())
+    if loss_type is not None:
+        cfg.training.loss_type = loss_type  # type: ignore[assignment]
+    if dataset_path is not None:
+        cfg.data.dataset_path = dataset_path
+    return cfg
 
 
 def resolve_device(device: str = "auto") -> torch.device:

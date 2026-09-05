@@ -2,9 +2,12 @@
 
 1. **LaTeX table** — multi-step rollout MSE (k=1,5,10,20), stiffness / friction
    linear-probe accuracy, and inference latency (FPS and ms/frame).
-2. **Trajectory visualizer** — side-by-side PCA and t-SNE of ground-truth
+2. **Multi-seed table** — if ``outputs/ablation_multiseed.json`` is present,
+   a second booktabs table with mean ${\\pm}$ std over seeds 42/43/44 at
+   $k\\in\\{1,5,10\\}$ for rollout MSE and both probe accuracies.
+3. **Trajectory visualizer** — side-by-side PCA and t-SNE of ground-truth
    physical latent paths versus AC-JEPA open-loop predictions.
-3. **Exporter** — writes ``outputs/paper_tables.tex`` ready to ``\\input{}``
+4. **Exporter** — writes ``outputs/paper_tables.tex`` ready to ``\\input{}``
    into a NeurIPS / PhysWorld template.
 
 Run::
@@ -31,7 +34,7 @@ import torch
 from torch import Tensor
 
 if __package__:
-    from ..ablation import VARIANTS
+    from ..ablation import REPORT_HORIZONS, plot_multiseed_drift, study_variants
     from ..config import resolve_device, seed_everything
     from ..dataset import build_dataset
     from ..eval import evaluate_model, rollout_predictions
@@ -40,7 +43,7 @@ else:
     _ROOT = Path(__file__).resolve().parents[2]
     if str(_ROOT) not in sys.path:
         sys.path.insert(0, str(_ROOT))
-    from src.ablation import VARIANTS
+    from src.ablation import REPORT_HORIZONS, plot_multiseed_drift, study_variants
     from src.config import resolve_device, seed_everything
     from src.dataset import build_dataset
     from src.eval import evaluate_model, rollout_predictions
@@ -72,6 +75,10 @@ _METRICS_ALIASES: dict[str, tuple[str, ...]] = {
     "variant_a_no_cov": ("variant_a_no_cov", "vicreg_no_cov"),
     "variant_b_mse": ("variant_b_mse", "mse", "mse_baseline"),
     "variant_c_pixel_ae": ("variant_c_pixel_ae", "pixel_ae"),
+    "no_action": ("no_action",),
+    "ema_0p99": ("ema_0p99", "ema_0.99"),
+    "ema_0p996": ("ema_0p996", "ema_0.996", "full_vicreg"),
+    "ema_0p999": ("ema_0p999", "ema_0.999"),
 }
 
 
@@ -217,6 +224,206 @@ def render_ablation_table(
             _fmt_fps(row.fps, bold=fps_best[i]),
             _fmt_ms(row.ms_per_frame, bold=ms_best[i]),
         ]
+        lines.append("    " + " & ".join(cells) + r" \\")
+    lines.extend(
+        [
+            r"    \bottomrule",
+            r"  \end{tabular}",
+            r"\end{table}",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+@dataclass
+class MultiseedHorizonStats:
+    mse_mean: float
+    mse_std: float
+    stiffness_mean: float
+    stiffness_std: float
+    contact_mean: float
+    contact_std: float
+
+
+@dataclass
+class MultiseedVariantRow:
+    key: str
+    label: str
+    by_horizon: dict[int, MultiseedHorizonStats] = field(default_factory=dict)
+
+
+def load_multiseed_summary(path: Path | str) -> list[MultiseedVariantRow]:
+    """Parse ``ablation_multiseed.json`` (mean ± std over seeds) into table rows."""
+    path = Path(path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Multi-seed ablation JSON not found: {path}")
+    blob = json.loads(path.read_text(encoding="utf-8"))
+    variants = blob.get("variants", blob)
+    if not isinstance(variants, dict):
+        raise ValueError(f"Expected a variants mapping in {path}")
+    order = [item.key for item in study_variants()]
+    rows: list[MultiseedVariantRow] = []
+    seen: set[str] = set()
+    keys = [k for k in order if k in variants] + [k for k in variants if k not in order]
+    for key in keys:
+        payload = variants[key]
+        if not isinstance(payload, dict):
+            continue
+        row = MultiseedVariantRow(key=str(key), label=str(payload.get("label", key)))
+        by_horizon = payload.get("by_horizon", {})
+        if not isinstance(by_horizon, dict):
+            continue
+        for horizon_key, stats in by_horizon.items():
+            if not isinstance(stats, dict):
+                continue
+            horizon = int(horizon_key)
+            row.by_horizon[horizon] = MultiseedHorizonStats(
+                mse_mean=float(stats["rollout_mse_mean"]),
+                mse_std=float(stats.get("rollout_mse_std", 0.0)),
+                stiffness_mean=float(stats.get("stiffness_probe_acc_mean", 0.0)),
+                stiffness_std=float(stats.get("stiffness_probe_acc_std", 0.0)),
+                contact_mean=float(stats.get("contact_probe_acc_mean", 0.0)),
+                contact_std=float(stats.get("contact_probe_acc_std", 0.0)),
+            )
+        rows.append(row)
+        seen.add(key)
+    if not rows:
+        raise ValueError(f"No multi-seed variant rows parsed from {path}")
+    return rows
+
+
+def _fmt_mean_std(
+    mean: float | None,
+    std: float | None,
+    *,
+    digits: int = 3,
+    percent: bool = False,
+    bold: bool = False,
+) -> str:
+    if mean is None:
+        return r"---"
+    sigma = 0.0 if std is None else float(std)
+    if percent:
+        body = f"{100.0 * mean:.1f}{{\\pm}}{100.0 * sigma:.1f}"
+    else:
+        body = f"{mean:.{digits}f}{{\\pm}}{sigma:.{digits}f}"
+    wrapped = f"${body}$"
+    return rf"\textbf{{{wrapped}}}" if bold else wrapped
+
+
+def render_multiseed_table(
+    rows: Sequence[MultiseedVariantRow],
+    *,
+    horizons: Sequence[int] = REPORT_HORIZONS,
+    caption: str | None = None,
+    label: str = "tab:ac-jepa-ablation-multiseed",
+    n_seeds: int | None = None,
+    n_val: int | None = None,
+) -> str:
+    """Booktabs table with mean ± std for rollout MSE and both linear probes."""
+    if not rows:
+        raise ValueError("render_multiseed_table requires at least one variant.")
+    horizons = tuple(int(k) for k in horizons)
+    caption = caption or (
+        "Multi-seed ablation of AC-JEPA (Prompt-2 schedule on the Prompt-1 physics dump). "
+        r"Entries are mean ${\pm}$ sample std over seeds $42,43,44$. "
+        r"Open-loop latent rollout MSE ($\downarrow$) and linear-probe accuracy "
+        r"($\uparrow$, \%) for stiffness class and frictional contact at "
+        r"horizons $k\in\{1,5,10\}$ ($T{=}16$ episodes cannot support $k{=}20$). "
+        r"Best mean in each column is bold. Single-seed dummy-set numbers are omitted."
+    )
+    if n_seeds is not None or n_val is not None:
+        extra = []
+        if n_seeds is not None:
+            extra.append(f"{n_seeds} seeds")
+        if n_val is not None:
+            extra.append(rf"$n_{{\mathrm{{val}}}}={n_val}$")
+        caption = caption.rstrip(".") + " (" + ", ".join(extra) + ")."
+
+    def _means(getter: Any) -> list[float | None]:
+        values: list[float | None] = []
+        for row in rows:
+            values.append(getter(row))
+        return values
+
+    mse_best = {
+        k: _best_mask(
+            _means(lambda row, horizon=k: row.by_horizon[horizon].mse_mean if horizon in row.by_horizon else None),
+            minimize=True,
+        )
+        for k in horizons
+    }
+    stiff_best = {
+        k: _best_mask(
+            _means(
+                lambda row, horizon=k: row.by_horizon[horizon].stiffness_mean
+                if horizon in row.by_horizon
+                else None
+            ),
+            minimize=False,
+        )
+        for k in horizons
+    }
+    contact_best = {
+        k: _best_mask(
+            _means(
+                lambda row, horizon=k: row.by_horizon[horizon].contact_mean
+                if horizon in row.by_horizon
+                else None
+            ),
+            minimize=False,
+        )
+        for k in horizons
+    }
+    n_block = 3
+    n_cols = len(horizons) * n_block
+    group_headers = " & ".join(
+        rf"\multicolumn{{{n_block}}}{{c}}{{$k{{=}}{k}$}}" for k in horizons
+    )
+    sub_headers = " & ".join(["MSE $\\downarrow$ & Stiff.\\ $\\uparrow$ & Contact $\\uparrow$"] * len(horizons))
+    cmidrules = []
+    start = 2
+    for _ in horizons:
+        end = start + n_block - 1
+        cmidrules.append(rf"    \cmidrule(lr){{{start}-{end}}}")
+        start = end + 1
+    lines = [
+        r"\begin{table}[t]",
+        r"  \centering",
+        r"  \small",
+        rf"  \caption{{{caption}}}",
+        rf"  \label{{{label}}}",
+        rf"  \begin{{tabular}}{{l{'c' * n_cols}}}",
+        r"    \toprule",
+        rf"    Method & {group_headers} \\",
+        *cmidrules,
+        rf"    & {sub_headers} \\",
+        r"    \midrule",
+    ]
+    for i, row in enumerate(rows):
+        cells = [_latex_escape(row.label)]
+        for k in horizons:
+            stats = row.by_horizon.get(k)
+            if stats is None:
+                cells.extend([r"---", r"---", r"---"])
+                continue
+            cells.append(_fmt_mean_std(stats.mse_mean, stats.mse_std, bold=mse_best[k][i]))
+            cells.append(
+                _fmt_mean_std(
+                    stats.stiffness_mean,
+                    stats.stiffness_std,
+                    percent=True,
+                    bold=stiff_best[k][i],
+                )
+            )
+            cells.append(
+                _fmt_mean_std(
+                    stats.contact_mean,
+                    stats.contact_std,
+                    percent=True,
+                    bold=contact_best[k][i],
+                )
+            )
         lines.append("    " + " & ".join(cells) + r" \\")
     lines.extend(
         [
@@ -497,7 +704,7 @@ def load_cached_probes(paths: Sequence[Path]) -> dict[str, dict[str, float | Non
         blob = json.loads(path.read_text(encoding="utf-8"))
         if "evaluation" in blob and isinstance(blob["evaluation"], dict):
             blob = blob["evaluation"]
-        for variant in VARIANTS:
+        for variant in study_variants():
             payload = _lookup_cached_metrics(blob, variant.key)
             if payload is None:
                 continue
@@ -519,13 +726,26 @@ def discover_checkpoints(output_dir: Path) -> dict[str, Path]:
     if report_path.is_file():
         report = json.loads(report_path.read_text(encoding="utf-8"))
         for key, meta in report.get("training", {}).items():
-            ckpt = Path(str(meta.get("checkpoint", "")))
-            if ckpt.is_file():
-                found[str(key)] = ckpt
-    for variant in VARIANTS:
-        fallback = output_dir / "ablation" / variant.key / "last.pt"
-        if variant.key not in found and fallback.is_file():
-            found[variant.key] = fallback
+            if isinstance(meta, dict) and "checkpoint" in meta:
+                ckpt = Path(str(meta.get("checkpoint", "")))
+                if ckpt.is_file():
+                    found[str(key)] = ckpt
+            elif isinstance(meta, dict):
+                for seed_meta in meta.values():
+                    if not isinstance(seed_meta, dict):
+                        continue
+                    ckpt = Path(str(seed_meta.get("checkpoint", "")))
+                    if ckpt.is_file() and str(key) not in found:
+                        found[str(key)] = ckpt
+    for variant in study_variants():
+        candidates = [
+            output_dir / "ablation" / "seed42" / variant.key / "last.pt",
+            output_dir / "ablation" / variant.key / "last.pt",
+        ]
+        for fallback in candidates:
+            if variant.key not in found and fallback.is_file():
+                found[variant.key] = fallback
+                break
     return found
 
 
@@ -690,7 +910,7 @@ def _order_like_variants(rows: list[VariantPaperRow]) -> list[VariantPaperRow]:
     lookup = {row.key: row for row in rows}
     ordered: list[VariantPaperRow] = []
     seen: set[str] = set()
-    for variant in VARIANTS:
+    for variant in study_variants():
         if variant.key in lookup:
             if lookup[variant.key].label == variant.key:
                 lookup[variant.key].label = variant.label
@@ -779,10 +999,14 @@ def write_paper_tables_tex(
         "% If compiling this file from the outputs/ directory, figures resolve by basename.",
         "",
     ]
-    body = [render_ablation_table(rows)]
+    body: list[str] = []
+    if rows:
+        body.append(render_ablation_table(rows))
     if figure_name:
         body.append(render_trajectory_figure(figure_name))
     body.extend(extra_blocks)
+    if not body:
+        raise ValueError("write_paper_tables_tex needs at least one table, figure, or extra block.")
     output_path.write_text("\n".join(header + body), encoding="utf-8")
     LOGGER.info("Wrote %s", output_path)
     return output_path
@@ -800,20 +1024,23 @@ def export_paper_artifacts(
     max_horizon: int = 20,
     n_traj_episodes: int = 6,
     tsne_iter: int = 400,
+    multiseed_json: Path | str | None = None,
 ) -> dict[str, Any]:
     """Build the camera-ready table + trajectory figure from experimental outputs."""
     output_dir = Path(output_dir)
     csv_path = Path(csv_path)
-    rows = _order_like_variants(load_ablation_csv(csv_path))
-    cached = load_cached_probes(
-        [output_dir / "metrics.json", output_dir / "run_report.json"]
-    )
-    _apply_cached_probes(rows, cached)
+    rows: list[VariantPaperRow] = []
+    if csv_path.is_file():
+        rows = _order_like_variants(load_ablation_csv(csv_path))
+        cached = load_cached_probes(
+            [output_dir / "metrics.json", output_dir / "run_report.json"]
+        )
+        _apply_cached_probes(rows, cached)
 
     torch_device = resolve_device(device)
     figure_path = output_dir / figure_name
     figure: Path | None = None
-    if live_eval:
+    if live_eval and rows:
         checkpoints = discover_checkpoints(output_dir)
         if checkpoints:
             figure = _enrich_from_checkpoints(
@@ -832,14 +1059,38 @@ def export_paper_artifacts(
                 output_dir,
             )
 
+    extra_blocks: list[str] = []
+    json_path = Path(multiseed_json) if multiseed_json is not None else output_dir / "ablation_multiseed.json"
+    drift_plot: Path | None = None
+    if json_path.is_file():
+        blob = json.loads(json_path.read_text(encoding="utf-8"))
+        extra_blocks.append(
+            render_multiseed_table(
+                load_multiseed_summary(json_path),
+                horizons=tuple(int(h) for h in blob.get("horizons", REPORT_HORIZONS)),
+                n_seeds=blob.get("n_seeds") or (len(blob["seeds"]) if blob.get("seeds") else None),
+                n_val=blob.get("n_val"),
+            )
+        )
+        # Error-band drift figure (originally a single-line plot from src/ablation.py).
+        drift_plot = plot_multiseed_drift(blob, output_dir / "ablation_drift.png")
+
+    if not rows and not extra_blocks:
+        raise FileNotFoundError(
+            f"Need {csv_path} or {json_path} to export paper tables."
+        )
+
     tex_path = write_paper_tables_tex(
         rows,
         output_dir / tex_name,
         figure_name=(figure_path.with_suffix(".pdf").name if figure is not None else None),
+        extra_blocks=extra_blocks,
     )
     return {
         "tex": str(tex_path),
         "figure": None if figure is None else str(figure),
+        "multiseed_json": str(json_path) if json_path.is_file() else None,
+        "ablation_drift": None if drift_plot is None else str(drift_plot),
         "rows": [
             {
                 "variant": row.key,
@@ -861,6 +1112,7 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--output-dir", default="outputs")
     parser.add_argument("--tex", default="paper_tables.tex")
     parser.add_argument("--figure", default="paper_latent_trajectories.png")
+    parser.add_argument("--multiseed-json", default=None, help="Defaults to <output-dir>/ablation_multiseed.json")
     parser.add_argument("--device", default="auto")
     parser.add_argument("--probe-epochs", type=int, default=80)
     parser.add_argument("--max-horizon", type=int, default=20)
@@ -892,6 +1144,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         max_horizon=args.max_horizon,
         n_traj_episodes=args.n_traj_episodes,
         tsne_iter=args.tsne_iter,
+        multiseed_json=args.multiseed_json,
     )
     LOGGER.info("Paper artifacts ready  tex=%s  figure=%s", report["tex"], report["figure"])
     return report

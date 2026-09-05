@@ -1,5 +1,18 @@
-# Python >= 3.10
-torch>=2.1.0
-numpy>=1.24.0
-matplotlib>=3.7.0
-h5py>=3.8.0
+# Core (pinned to the environment that produced `outputs/` on this machine)
+# Python 3.13.2, macOS arm64. See MAPPING.md for which runs used CPU vs MPS.
+torch==2.12.1
+numpy==2.5.2
+matplotlib==3.11.1
+h5py==3.16.0
+pyyaml==6.0.3
+pillow==12.3.0
+
+# Optional. Imported only if present; not required to train or evaluate.
+# wandb: enabled only when WANDB_API_KEY is set (src/train.py ExperimentLogger).
+# scikit-learn: t-SNE in src/utils/export_paper_artifacts.py; NumPy fallback otherwise.
+# taichi: Prompt-1 simulator uses the in-repo NumPy MLS-MPM backend; taichi is not installed here.
+wandb==0.23.0
+scikit-learn==1.9.0
+
+# Device note (TrainingConfig.device="auto"): CUDA if available, else Apple MPS, else CPU.
+# Reported-number devices are per-artifact in MAPPING.md — do not assume one device for all tables.

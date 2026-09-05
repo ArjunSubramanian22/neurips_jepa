@@ -2,8 +2,11 @@
 
 Supports AMP, AdamW, cosine decay with warmup, EMA target updates, and
 JSON/stdout logging of the VICReg constituents (total, invariance, variance,
-covariance). ``python src/train.py --mode train_and_eval`` runs a 5-epoch
-smoke test plus the archival evaluation suite.
+covariance) plus encoder–target L2 distance. Optional W&B / TensorBoard
+mirrors activate via ``WANDB_API_KEY`` / ``TENSORBOARD_LOGDIR``.
+
+    python src/train.py --mode train_and_eval
+    python src/train.py --config configs/workshop_vicreg.yaml
 """
 
 from __future__ import annotations
@@ -12,6 +15,7 @@ import argparse
 import json
 import logging
 import math
+import os
 import sys
 import time
 from collections import defaultdict
@@ -33,12 +37,15 @@ if __package__:
         ExperimentConfig,
         ModelConfig,
         TrainingConfig,
+        load_experiment_config,
         resolve_device,
+        resolve_warmup_epochs,
         seed_everything,
     )
     from .dataset import (
         DeformableObjectDataset,
         DeformablePhysicsDataset,
+        ParticleTransitionDataset,
         build_dataset,
         dataloader_worker_kwargs,
         inspect_physics_source,
@@ -46,6 +53,7 @@ if __package__:
     from .losses import prediction_objective, vicreg_loss
     from .models.ac_jepa import ACJEPA
     from .models.pixel_ae import PixelSpaceAutoencoder
+    from .models.particle_gnn import ParticleGraphWorldModel
 else:
     _ROOT = Path(__file__).resolve().parent.parent
     if str(_ROOT) not in sys.path:
@@ -55,12 +63,15 @@ else:
         ExperimentConfig,
         ModelConfig,
         TrainingConfig,
+        load_experiment_config,
         resolve_device,
+        resolve_warmup_epochs,
         seed_everything,
     )
     from src.dataset import (
         DeformableObjectDataset,
         DeformablePhysicsDataset,
+        ParticleTransitionDataset,
         build_dataset,
         dataloader_worker_kwargs,
         inspect_physics_source,
@@ -68,10 +79,88 @@ else:
     from src.losses import prediction_objective, vicreg_loss
     from src.models.ac_jepa import ACJEPA
     from src.models.pixel_ae import PixelSpaceAutoencoder
+    from src.models.particle_gnn import ParticleGraphWorldModel
 
 LOGGER = logging.getLogger("ac_jepa.train")
 RunMode = Literal["train", "eval", "train_and_eval"]
-WorldModel = Union[ACJEPA, PixelSpaceAutoencoder]
+WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel]
+
+
+class ExperimentLogger:
+    """Always writes metrics.jsonl; optionally mirrors to W&B / TensorBoard.
+
+    W&B activates when ``WANDB_API_KEY`` is set. TensorBoard activates when
+    ``TENSORBOARD_LOGDIR`` is set. Missing packages or init failures are
+    logged and ignored so local training never hard-fails.
+    """
+
+    def __init__(self, run_name: str, output_dir: Path, cfg: ExperimentConfig) -> None:
+        self.run_name = run_name
+        self.jsonl_path = output_dir / "metrics.jsonl"
+        self.jsonl_path.write_text("", encoding="utf-8")
+        self._wandb: Any = None
+        self._tb: Any = None
+        api_key = os.environ.get("WANDB_API_KEY", "").strip()
+        if api_key:
+            try:
+                import wandb
+
+                wandb.init(
+                    project=os.environ.get("WANDB_PROJECT", "ac-jepa"),
+                    name=run_name,
+                    config=cfg.to_dict(),
+                    reinit=True,
+                    settings=wandb.Settings(start_method="thread"),
+                )
+                self._wandb = wandb
+                LOGGER.info("W&B logging enabled  project=%s run=%s", wandb.run.project, run_name)
+            except Exception as exc:  # noqa: BLE001 — optional sink
+                LOGGER.warning("W&B requested via WANDB_API_KEY but init failed: %s", exc)
+        tb_root = os.environ.get("TENSORBOARD_LOGDIR", "").strip()
+        if tb_root:
+            try:
+                from torch.utils.tensorboard import SummaryWriter
+
+                log_dir = Path(tb_root) / run_name
+                log_dir.mkdir(parents=True, exist_ok=True)
+                self._tb = SummaryWriter(log_dir=str(log_dir))
+                LOGGER.info("TensorBoard logging enabled  dir=%s", log_dir)
+            except Exception as exc:  # noqa: BLE001 — optional sink
+                LOGGER.warning("TENSORBOARD_LOGDIR set but TensorBoard init failed: %s", exc)
+
+    def log(self, payload: dict[str, Any], *, step: int) -> None:
+        with self.jsonl_path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload) + "\n")
+        split = str(payload.get("split", "train"))
+        scalars = {
+            key: value
+            for key, value in payload.items()
+            if key not in {"run", "split"} and isinstance(value, (int, float)) and math.isfinite(float(value))
+        }
+        if self._wandb is not None:
+            try:
+                self._wandb.log({f"{split}/{key}": value for key, value in scalars.items()}, step=step)
+            except Exception as exc:  # noqa: BLE001
+                LOGGER.warning("W&B log failed: %s", exc)
+        if self._tb is not None:
+            try:
+                for key, value in scalars.items():
+                    self._tb.add_scalar(f"{split}/{key}", float(value), global_step=step)
+            except Exception as exc:  # noqa: BLE001
+                LOGGER.warning("TensorBoard log failed: %s", exc)
+
+    def close(self) -> None:
+        if self._tb is not None:
+            try:
+                self._tb.flush()
+                self._tb.close()
+            except Exception:
+                pass
+        if self._wandb is not None:
+            try:
+                self._wandb.finish()
+            except Exception:
+                pass
 
 
 def _load_eval():
@@ -139,9 +228,11 @@ def build_smoke_config(epochs: int = 5, output_dir: str = "outputs") -> Experime
 
 
 def build_world_model(cfg: ExperimentConfig) -> WorldModel:
-    """Instantiate AC-JEPA or the pixel autoencoder according to ``loss_type``."""
+    """Instantiate AC-JEPA, pixel autoencoder, or particle GNN according to ``loss_type``."""
     if cfg.training.loss_type == "pixel_ae":
         return PixelSpaceAutoencoder(cfg.model)
+    if cfg.training.loss_type == "gnn":
+        return ParticleGraphWorldModel(cfg.model, cfg.data)
     return ACJEPA(cfg.model)
 
 
@@ -242,6 +333,26 @@ def build_dataloaders(
     dataset = full_dataset or build_dataset(data_cfg, split="all")
     n_train, n_val = dataset.split_sizes()
     worker_kwargs = dataloader_worker_kwargs(data_cfg, train_cfg)
+    if train_cfg.loss_type == "gnn":
+        if getattr(dataset, "positions", None) is None:
+            raise ValueError("GNN baseline requires the mass-spring simulator (no particle dump).")
+        train_idx = dataset.indices_for_episodes(0, n_train)
+        train_loader = DataLoader(
+            ParticleTransitionDataset(dataset, train_idx),  # type: ignore[arg-type]
+            batch_size=train_cfg.batch_size,
+            shuffle=True,
+            **worker_kwargs,
+        )
+        val_loader = None
+        if n_val > 0:
+            val_idx = dataset.indices_for_episodes(n_train, n_train + n_val)
+            val_loader = DataLoader(
+                ParticleTransitionDataset(dataset, val_idx),  # type: ignore[arg-type]
+                batch_size=train_cfg.batch_size,
+                shuffle=False,
+                **worker_kwargs,
+            )
+        return train_loader, val_loader, dataset
     train_set: TorchDataset = _transition_subset(dataset, slice(0, n_train))
     train_loader = DataLoader(
         train_set,
@@ -288,7 +399,10 @@ class ACJEPATrainer:
             weight_decay=cfg.training.weight_decay,
         )
         steps_per_epoch = max(len(self.train_loader), 1)
-        warmup_epochs = min(cfg.training.warmup_epochs, cfg.training.epochs)
+        warmup_epochs = resolve_warmup_epochs(
+            cfg.training.epochs, cfg.training.warmup_epochs, cfg.training.warmup_ratio
+        )
+        warmup_epochs = min(warmup_epochs, cfg.training.epochs)
         self.scheduler = LambdaLR(
             self.optimizer,
             _cosine_warmup_lambda(
@@ -301,6 +415,7 @@ class ACJEPATrainer:
         self.scaler = _grad_scaler(self.device, self.use_amp)
         self.output_dir = Path(cfg.training.output_dir) / run_name
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.logger = ExperimentLogger(run_name, self.output_dir, cfg)
         self.history: list[dict[str, Any]] = []
         self.global_step = 0
 
@@ -333,6 +448,27 @@ class ACJEPATrainer:
         terms["invariance"] = pixel_next
         return loss, terms
 
+    def _gnn_objective(
+        self,
+        pos_t: torch.Tensor,
+        vel_t: torch.Tensor,
+        a_t: torch.Tensor,
+        pos_tp1: torch.Tensor,
+        vel_tp1: torch.Tensor,
+    ):
+        pred_pos, pred_vel, _ = self.model(pos_t, vel_t, a_t)
+        pos_mse = F.mse_loss(pred_pos, pos_tp1)
+        vel_mse = F.mse_loss(pred_vel, vel_tp1)
+        loss = pos_mse + 0.25 * vel_mse
+        zero = loss.new_zeros(())
+        terms = {
+            "loss": loss,
+            "invariance": pos_mse,
+            "variance": vel_mse,
+            "covariance": zero,
+        }
+        return loss, terms
+
     def _forward_loss(
         self, x_t: torch.Tensor, a_t: torch.Tensor, x_tp1: torch.Tensor
     ):
@@ -361,11 +497,10 @@ class ACJEPATrainer:
         with _autocast(self.device, self.use_amp):
             loss, terms = self._forward_loss(x_t, a_t, x_tp1)
         self.scaler.scale(loss).backward()
-        if self.cfg.training.grad_clip > 0:
-            self.scaler.unscale_(self.optimizer)
-            torch.nn.utils.clip_grad_norm_(
-                list(self.model.trainable_parameters()), self.cfg.training.grad_clip
-            )
+        params = list(self.model.trainable_parameters())
+        self.scaler.unscale_(self.optimizer)
+        max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
+        grad_norm = torch.nn.utils.clip_grad_norm_(params, max_norm)
         self.scaler.step(self.optimizer)
         self.scaler.update()
         self.scheduler.step()
@@ -374,7 +509,56 @@ class ACJEPATrainer:
         self.global_step += 1
         metrics = self._step_metrics(terms)
         metrics["lr"] = float(self.optimizer.param_groups[0]["lr"])
+        metrics["grad_norm"] = float(grad_norm)
+        metrics["ema_param_l2"] = self._ema_param_l2()
         return metrics
+
+    def gnn_training_step(
+        self,
+        pos_t: torch.Tensor,
+        vel_t: torch.Tensor,
+        a_t: torch.Tensor,
+        pos_tp1: torch.Tensor,
+        vel_tp1: torch.Tensor,
+    ) -> dict[str, float]:
+        self.model.train()
+        pos_t = pos_t.to(self.device, non_blocking=True)
+        vel_t = vel_t.to(self.device, non_blocking=True)
+        a_t = a_t.to(self.device, non_blocking=True)
+        pos_tp1 = pos_tp1.to(self.device, non_blocking=True)
+        vel_tp1 = vel_tp1.to(self.device, non_blocking=True)
+        self.optimizer.zero_grad(set_to_none=True)
+        with _autocast(self.device, self.use_amp):
+            loss, terms = self._gnn_objective(pos_t, vel_t, a_t, pos_tp1, vel_tp1)
+        self.scaler.scale(loss).backward()
+        params = list(self.model.trainable_parameters())
+        self.scaler.unscale_(self.optimizer)
+        max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
+        grad_norm = torch.nn.utils.clip_grad_norm_(params, max_norm)
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+        self.scheduler.step()
+        self.global_step += 1
+        metrics = self._step_metrics(terms)
+        metrics["lr"] = float(self.optimizer.param_groups[0]["lr"])
+        metrics["grad_norm"] = float(grad_norm)
+        metrics["ema_param_l2"] = float("nan")
+        return metrics
+
+    def _gnn_evaluate_loader(self, loader: DataLoader) -> dict[str, float]:
+        self.model.eval()
+        meter = _AverageMeter()
+        with torch.no_grad():
+            for pos_t, vel_t, a_t, pos_tp1, vel_tp1 in loader:
+                pos_t = pos_t.to(self.device, non_blocking=True)
+                vel_t = vel_t.to(self.device, non_blocking=True)
+                a_t = a_t.to(self.device, non_blocking=True)
+                pos_tp1 = pos_tp1.to(self.device, non_blocking=True)
+                vel_tp1 = vel_tp1.to(self.device, non_blocking=True)
+                with _autocast(self.device, self.use_amp):
+                    _, terms = self._gnn_objective(pos_t, vel_t, a_t, pos_tp1, vel_tp1)
+                meter.update(self._step_metrics(terms), batch_size=pos_t.shape[0])
+        return meter.mean()
 
     @torch.no_grad()
     def evaluate_loader(self, loader: DataLoader) -> dict[str, float]:
@@ -389,6 +573,18 @@ class ACJEPATrainer:
             meter.update(self._step_metrics(terms), batch_size=x_t.shape[0])
         return meter.mean()
 
+    @torch.no_grad()
+    def _ema_param_l2(self) -> float:
+        """L2 distance between online encoder and EMA target parameters."""
+        if not hasattr(self.model, "target_encoder"):
+            return float("nan")
+        total = 0.0
+        for online, target in zip(
+            self.model.encoder.parameters(), self.model.target_encoder.parameters(), strict=True
+        ):
+            total += float((online.detach() - target.detach()).pow(2).sum().item())
+        return math.sqrt(total)
+
     def _log(self, epoch: int, step: int, metrics: dict[str, float], split: str) -> None:
         payload = {
             "run": self.run_name,
@@ -398,7 +594,7 @@ class ACJEPATrainer:
             **metrics,
         }
         LOGGER.info(
-            "[%s] epoch %d step %d  loss=%.4f  inv=%.4f  var=%.4f  cov=%.4f  lr=%.2e",
+            "[%s] epoch %d step %d  loss=%.4f  inv=%.4f  var=%.4f  cov=%.4f  ema_l2=%.4f  gn=%.3f  lr=%.2e",
             self.run_name,
             epoch,
             step,
@@ -406,10 +602,11 @@ class ACJEPATrainer:
             metrics.get("invariance", float("nan")),
             metrics.get("variance", float("nan")),
             metrics.get("covariance", float("nan")),
+            metrics.get("ema_param_l2", float("nan")),
+            metrics.get("grad_norm", float("nan")),
             metrics.get("lr", self.optimizer.param_groups[0]["lr"]),
         )
-        with (self.output_dir / "metrics.jsonl").open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(payload) + "\n")
+        self.logger.log(payload, step=step)
 
     def save_checkpoint(self, path: Path, epoch: int, extra: dict[str, Any] | None = None) -> None:
         payload = {
@@ -438,25 +635,52 @@ class ACJEPATrainer:
         )
         best_val = float("inf")
         started = time.perf_counter()
-        for epoch in range(1, train_cfg.epochs + 1):
-            epoch_meter = _AverageMeter()
-            for step, (x_t, a_t, x_tp1) in enumerate(self.train_loader, start=1):
-                metrics = self.training_step(x_t, a_t, x_tp1)
-                epoch_meter.update(metrics, batch_size=x_t.shape[0])
-                if step % train_cfg.log_interval == 0 or step == 1:
-                    self._log(epoch, self.global_step, metrics, split="train_step")
-            epoch_stats = {f"train_{k}": v for k, v in epoch_meter.mean().items()}
-            if self.val_loader is not None:
-                val_stats = self.evaluate_loader(self.val_loader)
-                epoch_stats.update({f"val_{k}": v for k, v in val_stats.items()})
-                val_loss = val_stats.get("loss", float("inf"))
-                if val_loss < best_val:
-                    best_val = val_loss
-                    self.save_checkpoint(self.output_dir / "best.pt", epoch, {"best_val": best_val})
-            self._log(epoch, self.global_step, epoch_meter.mean(), split="train_epoch")
-            self.history.append({"epoch": epoch, **epoch_stats})
-            if epoch % train_cfg.ckpt_interval == 0 or epoch == train_cfg.epochs:
-                self.save_checkpoint(self.output_dir / "last.pt", epoch)
+        try:
+            for epoch in range(1, train_cfg.epochs + 1):
+                epoch_meter = _AverageMeter()
+                for step, batch in enumerate(self.train_loader, start=1):
+                    if train_cfg.loss_type == "gnn":
+                        metrics = self.gnn_training_step(*batch)
+                        batch_n = int(batch[0].shape[0])
+                    else:
+                        x_t, a_t, x_tp1 = batch
+                        metrics = self.training_step(x_t, a_t, x_tp1)
+                        batch_n = int(x_t.shape[0])
+                    epoch_meter.update(metrics, batch_size=batch_n)
+                    if step % train_cfg.log_interval == 0 or step == 1:
+                        self._log(epoch, self.global_step, metrics, split="train_step")
+                epoch_stats = {f"train_{k}": v for k, v in epoch_meter.mean().items()}
+                epoch_stats["ema_param_l2"] = self._ema_param_l2()
+                if self.val_loader is not None:
+                    if train_cfg.loss_type == "gnn":
+                        val_stats = self._gnn_evaluate_loader(self.val_loader)
+                    else:
+                        val_stats = self.evaluate_loader(self.val_loader)
+                    epoch_stats.update({f"val_{k}": v for k, v in val_stats.items()})
+                    val_loss = val_stats.get("loss", float("inf"))
+                    if val_loss < best_val:
+                        best_val = val_loss
+                        self.save_checkpoint(
+                            self.output_dir / "best.pt", epoch, {"best_val": best_val}
+                        )
+                epoch_log = {
+                    "loss": epoch_stats.get("train_loss", float("nan")),
+                    "invariance": epoch_stats.get("train_invariance", float("nan")),
+                    "variance": epoch_stats.get("train_variance", float("nan")),
+                    "covariance": epoch_stats.get("train_covariance", float("nan")),
+                    "grad_norm": epoch_stats.get("train_grad_norm", float("nan")),
+                    "ema_param_l2": epoch_stats["ema_param_l2"],
+                    "lr": epoch_stats.get("train_lr", float(self.optimizer.param_groups[0]["lr"])),
+                }
+                for key in ("val_loss", "val_invariance", "val_variance", "val_covariance"):
+                    if key in epoch_stats:
+                        epoch_log[key] = epoch_stats[key]
+                self._log(epoch, self.global_step, epoch_log, split="train_epoch")
+                self.history.append({"epoch": epoch, **epoch_stats})
+                if epoch % train_cfg.ckpt_interval == 0 or epoch == train_cfg.epochs:
+                    self.save_checkpoint(self.output_dir / "last.pt", epoch)
+        finally:
+            self.logger.close()
         elapsed = time.perf_counter() - started
         summary = {
             "run_name": self.run_name,
@@ -490,19 +714,34 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         default="train_and_eval",
         help="train, eval a checkpoint, or run the 5-epoch smoke + archival suite.",
     )
-    parser.add_argument("--epochs", type=int, default=5)
-    parser.add_argument("--output-dir", default="outputs")
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="YAML/JSON ExperimentConfig (e.g. configs/workshop_vicreg.yaml). Overrides the smoke defaults.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=None,
+        help="Override training.epochs. Default 5 for the smoke schedule; ignored unless set when --config is used.",
+    )
+    parser.add_argument("--output-dir", default=None)
     parser.add_argument("--metrics-png", default="outputs/metrics.png")
-    parser.add_argument("--device", default="auto")
+    parser.add_argument("--device", default=None)
     parser.add_argument("--ckpt", default=None, help="Checkpoint for --mode eval (VICReg run).")
     parser.add_argument("--baseline-ckpt", default=None, help="Optional MSE-baseline checkpoint.")
     parser.add_argument(
         "--loss-type",
-        choices=("vicreg", "vicreg_no_cov", "mse", "smooth_l1", "cosine", "pixel_ae"),
+        choices=("vicreg", "vicreg_no_cov", "mse", "smooth_l1", "cosine", "pixel_ae", "gnn"),
         default=None,
     )
     parser.add_argument("--max-horizon", type=int, default=10)
     parser.add_argument("--skip-baseline", action="store_true", help="Do not train the MSE ablation.")
+    parser.add_argument(
+        "--skip-pixel-ae",
+        action="store_true",
+        help="Do not train the pixel-space autoencoder baseline (workshop --config only).",
+    )
     parser.add_argument(
         "--dataset_path",
         "--dataset-path",
@@ -577,27 +816,44 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         format="%(asctime)s  %(levelname)s  %(name)s  %(message)s",
         datefmt="%H:%M:%S",
     )
-    cfg = build_smoke_config(epochs=args.epochs, output_dir=args.output_dir)
-    cfg.training.device = args.device
+    if args.config:
+        cfg = load_experiment_config(args.config)
+        workshop = True
+    else:
+        cfg = build_smoke_config(epochs=args.epochs or 5, output_dir=args.output_dir or "outputs")
+        workshop = False
+    if args.output_dir:
+        cfg.training.output_dir = args.output_dir
+    if args.device:
+        cfg.training.device = args.device
+    if args.epochs is not None:
+        cfg.training.epochs = args.epochs
+        cfg.training.warmup_epochs = resolve_warmup_epochs(
+            cfg.training.epochs, cfg.training.warmup_epochs, cfg.training.warmup_ratio
+        )
     if args.loss_type is not None:
-        cfg.training.loss_type = args.loss_type
-    if args.num_workers is not None and args.dataset_path is None:
+        cfg.training.loss_type = args.loss_type  # type: ignore[assignment]
+    if args.num_workers is not None and args.dataset_path is None and cfg.data.dataset_path is None:
         cfg.training.num_workers = args.num_workers
-    Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+    output_root = Path(cfg.training.output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
 
     if args.mode == "eval":
         run_archival_evaluation = _load_eval()
 
-        device = resolve_device(args.device)
-        if args.ckpt is None:
-            args.ckpt = str(Path(args.output_dir) / "vicreg" / "last.pt")
-        model, loaded_cfg = load_model_from_checkpoint(Path(args.ckpt), device)
-        models = {"vicreg": model}
+        device = resolve_device(args.device or cfg.training.device)
+        ckpt = args.ckpt or str(output_root / "vicreg" / "last.pt")
+        model, loaded_cfg = load_model_from_checkpoint(Path(ckpt), device)
+        models: dict[str, WorldModel] = {"vicreg": model}
         if args.baseline_ckpt:
             baseline, _ = load_model_from_checkpoint(Path(args.baseline_ckpt), device)
             models["mse"] = baseline
-        if args.dataset_path:
-            loaded_cfg = apply_dataset_path(loaded_cfg, args.dataset_path, args.num_workers)
+        pixel_ckpt = output_root / "pixel_ae" / "last.pt"
+        if pixel_ckpt.is_file() and "pixel_ae" not in models:
+            models["pixel_ae"], _ = load_model_from_checkpoint(pixel_ckpt, device)
+        dataset_path = args.dataset_path or loaded_cfg.data.dataset_path
+        if dataset_path:
+            loaded_cfg = apply_dataset_path(loaded_cfg, dataset_path, args.num_workers)
         dataset = build_dataset(loaded_cfg.data, split="all")
         report = run_archival_evaluation(
             models,
@@ -608,9 +864,13 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         )
         return report
 
-    if args.dataset_path:
-        cfg = apply_dataset_path(cfg, args.dataset_path, args.num_workers)
-        cfg.training.device = args.device
+    dataset_path = args.dataset_path or cfg.data.dataset_path
+    if dataset_path:
+        cfg = apply_dataset_path(cfg, dataset_path, args.num_workers)
+        if args.device:
+            cfg.training.device = args.device
+        if args.output_dir:
+            cfg.training.output_dir = args.output_dir
 
     seed_everything(cfg.training.seed)
     dataset = build_dataset(cfg.data, split="all")
@@ -624,7 +884,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         cfg.training.num_workers,
     )
 
-    models: dict[str, WorldModel] = {}
+    models = {}
     summaries: dict[str, Any] = {}
 
     def _record(name: str, loss_type: str) -> WorldModel:
@@ -634,15 +894,17 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         return model
 
     if args.mode == "train":
-        loss_type = args.loss_type or "vicreg"
-        run_name = "mse_baseline" if loss_type == "mse" else loss_type
+        loss_type = args.loss_type or cfg.training.loss_type
+        run_name = {"mse": "mse", "pixel_ae": "pixel_ae", "vicreg": "vicreg"}.get(loss_type, loss_type)
         _record(run_name, loss_type)
     elif args.mode == "train_and_eval":
         _record("vicreg", "vicreg")
         if not args.skip_baseline:
             _record("mse", "mse")
+        if workshop and not args.skip_pixel_ae:
+            _record("pixel_ae", "pixel_ae")
 
-    report: dict[str, Any] = {"training": summaries}
+    report = {"training": summaries}
     if args.mode == "train_and_eval":
         run_archival_evaluation = _load_eval()
 
@@ -655,7 +917,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
             max_horizon=args.max_horizon,
         )
         report["evaluation"] = eval_report
-        (Path(args.output_dir) / "run_report.json").write_text(
+        (output_root / "run_report.json").write_text(
             json.dumps(
                 {
                     "training": {
@@ -669,7 +931,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
             ),
             encoding="utf-8",
         )
-        LOGGER.info("Wrote %s and %s", args.metrics_png, Path(args.output_dir) / "run_report.json")
+        LOGGER.info("Wrote %s and %s", args.metrics_png, output_root / "run_report.json")
     return report
 
 

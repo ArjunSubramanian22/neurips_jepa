@@ -16,6 +16,7 @@ time-consistent vision augmentations, and z-score-normalizes actions.
 from __future__ import annotations
 
 import argparse
+import json
 import random
 import sys
 from dataclasses import replace
@@ -257,6 +258,53 @@ def _stiffness_levels(cfg: DataConfig) -> list[float]:
     return [float(cfg.stiffness * m) for m in multipliers]
 
 
+def resolve_stiffness_values(
+    labels: torch.Tensor,
+    *,
+    source: str | Path | None = None,
+    codebook: Sequence[float] | None = None,
+) -> torch.Tensor:
+    """Continuous stiffness (Young's modulus / spring k) aligned with class labels.
+
+    Preference order: on-disk ``stiffness_values`` array, ``metadata.json``
+    ``stiffness_E`` lookup, then ``codebook[label]``. Always returns ``(N,)``.
+    """
+    n_ep = int(labels.reshape(-1).shape[0])
+    values: torch.Tensor | None = None
+    path = Path(source) if source is not None else None
+    if path is not None and path.is_dir():
+        npy = path / "stiffness_values.npy"
+        if npy.is_file():
+            values = torch.as_tensor(np.load(npy, allow_pickle=False)).float().reshape(-1)
+        meta_path = path / "metadata.json"
+        if codebook is None and meta_path.is_file():
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                meta = {}
+            raw = meta.get("stiffness_E") or meta.get("stiffness_levels")
+            if isinstance(raw, (list, tuple)) and raw:
+                codebook = [float(v) for v in raw]
+    elif path is not None and path.is_file() and path.suffix.lower() == ".npz":
+        with np.load(path) as handle:
+            for key in _VALUE_KEYS:
+                if key in handle:
+                    values = torch.as_tensor(handle[key]).float().reshape(-1)
+                    break
+    if values is not None:
+        if int(values.shape[0]) != n_ep:
+            raise ValueError(
+                f"stiffness_values length {int(values.shape[0])} != episode count {n_ep}."
+            )
+        return values.contiguous()
+    if codebook is None or len(codebook) < 1:
+        n_classes = int(max(int(labels.max().item()) + 1, 1)) if labels.numel() else 1
+        codebook = [float(i) for i in range(n_classes)]
+    table = torch.tensor([float(v) for v in codebook], dtype=torch.float32)
+    idx = labels.long().reshape(-1).clamp(0, table.numel() - 1)
+    return table[idx].contiguous()
+
+
 def _load_trajectory_archive(
     path: Path,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor | None]:
@@ -340,7 +388,7 @@ class DeformableObjectDataset(Dataset[Transition]):
         self.cfg = cfg if cfg is not None else DataConfig()
         self.split = split
         if self.cfg.dataset_path is None:
-            observations, actions, stiffness_labels = self._simulate_all()
+            observations, actions, stiffness_labels, positions, velocities = self._simulate_all()
         else:
             observations, actions, loaded_labels = _load_trajectory_archive(Path(self.cfg.dataset_path))
             self._validate_loaded_shapes(observations, actions)
@@ -348,9 +396,27 @@ class DeformableObjectDataset(Dataset[Transition]):
                 stiffness_labels = torch.zeros(observations.shape[0], dtype=torch.long)
             else:
                 stiffness_labels = loaded_labels
-        self.observations, self.actions, self.stiffness_labels = self._apply_split(
-            observations, actions, stiffness_labels
+            positions, velocities = None, None
+        stiffness_values = resolve_stiffness_values(
+            stiffness_labels,
+            source=self.cfg.dataset_path,
+            codebook=_stiffness_levels(self.cfg),
         )
+        n_full = int(observations.shape[0])
+        n_train_ep, n_val_ep = _episode_split_counts(n_full, self.cfg.val_fraction)
+        self.observations, self.actions, self.stiffness_labels, self.stiffness_values = self._apply_split(
+            observations, actions, stiffness_labels, stiffness_values
+        )
+        if positions is not None and velocities is not None:
+            if self.split == "train":
+                positions, velocities = positions[:n_train_ep], velocities[:n_train_ep]
+            elif self.split == "val":
+                positions, velocities = positions[n_train_ep:], velocities[n_train_ep:]
+            self.positions = positions.contiguous()
+            self.velocities = velocities.contiguous()
+        else:
+            self.positions = None
+            self.velocities = None
         self.pairs_per_episode = int(self.observations.shape[1] - 1)
         self.n_episodes = int(self.observations.shape[0])
 
@@ -372,38 +438,50 @@ class DeformableObjectDataset(Dataset[Transition]):
             )
 
     def _apply_split(
-        self, observations: torch.Tensor, actions: torch.Tensor, labels: torch.Tensor
-    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        self,
+        observations: torch.Tensor,
+        actions: torch.Tensor,
+        labels: torch.Tensor,
+        values: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         if self.split == "all":
-            return observations, actions, labels
+            return observations, actions, labels, values
         n_episodes = observations.shape[0]
         n_val = max(1, int(round(n_episodes * self.cfg.val_fraction))) if n_episodes > 1 else 0
         n_val = min(n_val, n_episodes - 1) if n_episodes > 1 else 0
         n_train = n_episodes - n_val
         if self.split == "train":
-            return observations[:n_train], actions[:n_train], labels[:n_train]
+            return observations[:n_train], actions[:n_train], labels[:n_train], values[:n_train]
         if self.split == "val":
             if n_val == 0:
                 raise ValueError("val split is empty; increase n_episodes or val_fraction.")
-            return observations[n_train:], actions[n_train:], labels[n_train:]
+            return observations[n_train:], actions[n_train:], labels[n_train:], values[n_train:]
         raise ValueError(f"Unknown split '{self.split}'.")
 
-    def _simulate_all(self) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def _simulate_all(
+        self,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         cfg = self.cfg
         rng = np.random.default_rng(cfg.seed)
         sim = MassSpringSimulator(cfg)
         levels = _stiffness_levels(cfg)
         n_classes = len(levels)
         n, t, c, h = cfg.n_episodes, cfg.episode_length, cfg.in_channels, cfg.img_size
+        n_particles = cfg.n_particles
+        dims = cfg.spatial_dims
         obs = np.empty((n, t, c, h, h), dtype=np.float32)
         act = np.empty((n, t - 1, cfg.action_dim), dtype=np.float32)
         labels = np.empty((n,), dtype=np.int64)
+        positions_out = np.empty((n, t, n_particles, dims), dtype=np.float32)
+        velocities_out = np.empty((n, t, n_particles, dims), dtype=np.float32)
 
         for ep in range(n):
             class_id = int(rng.integers(0, n_classes))
             labels[ep] = class_id
             stiffness = levels[class_id]
             positions, velocities = sim.reset(rng)
+            positions_out[ep, 0] = positions
+            velocities_out[ep, 0] = velocities
             obs[ep, 0] = render_frame(positions, velocities, h, c, cfg.gaussian_sigma)
             for step in range(t - 1):
                 action = sim.sample_action(rng, positions)
@@ -412,10 +490,18 @@ class DeformableObjectDataset(Dataset[Transition]):
                     positions, velocities = sim.substep(
                         positions, velocities, action, stiffness=stiffness
                     )
+                positions_out[ep, step + 1] = positions
+                velocities_out[ep, step + 1] = velocities
                 obs[ep, step + 1] = render_frame(
                     positions, velocities, h, c, cfg.gaussian_sigma
                 )
-        return torch.from_numpy(obs), torch.from_numpy(act), torch.from_numpy(labels)
+        return (
+            torch.from_numpy(obs),
+            torch.from_numpy(act),
+            torch.from_numpy(labels),
+            torch.from_numpy(positions_out),
+            torch.from_numpy(velocities_out),
+        )
 
     def split_sizes(self) -> tuple[int, int]:
         """Return ``(n_train_episodes, n_val_episodes)`` for the configured fraction."""
@@ -458,6 +544,32 @@ class DeformableObjectDataset(Dataset[Transition]):
         return torch.stack(frames, 0), torch.stack(actions, 0), torch.stack(futures, 0)
 
 
+class ParticleTransitionDataset(Dataset[tuple[torch.Tensor, ...]]):
+    """``(pos_t, vel_t, a_t, pos_{t+1}, vel_{t+1})`` pairs for the GNN baseline."""
+
+    def __init__(self, base: DeformableObjectDataset, indices: Sequence[int]) -> None:
+        if base.positions is None or base.velocities is None:
+            raise ValueError("ParticleTransitionDataset requires stored lattice trajectories.")
+        self.base = base
+        self.indices = [int(i) for i in indices]
+
+    def __len__(self) -> int:
+        return len(self.indices)
+
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        flat = self.indices[index]
+        episode = flat // self.base.pairs_per_episode
+        t = flat % self.base.pairs_per_episode
+        assert self.base.positions is not None and self.base.velocities is not None
+        return (
+            self.base.positions[episode, t],
+            self.base.velocities[episode, t],
+            self.base.actions[episode, t],
+            self.base.positions[episode, t + 1],
+            self.base.velocities[episode, t + 1],
+        )
+
+
 # ---------------------------------------------------------------------------
 # Physical-simulation ingestion (HDF5 / NPY / NPZ)
 # ---------------------------------------------------------------------------
@@ -476,6 +588,7 @@ _OBS_KEYS = (
 )
 _ACT_KEYS = ("actions", "action", "acts", "ctrl", "control", "u", "action_seq")
 _LABEL_KEYS = ("stiffness_labels", "labels", "stiffness", "material", "class_id")
+_VALUE_KEYS = ("stiffness_values", "youngs_modulus", "youngs", "stiffness_e")
 
 
 def _require_h5py():
@@ -812,23 +925,37 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         actions = canonicalize_actions(raw_act, n_frames=int(observations.shape[1]))
         if labels.shape[0] != observations.shape[0]:
             labels = torch.zeros(observations.shape[0], dtype=torch.long)
+        values = resolve_stiffness_values(
+            labels, source=cfg.dataset_path, codebook=_stiffness_levels(cfg)
+        )
         n_train, n_val = _episode_split_counts(int(observations.shape[0]), cfg.val_fraction)
         scaler_src = actions[: max(1, n_train)]
         action_mean = scaler_src.reshape(-1, actions.shape[-1]).mean(dim=0)
         action_std = scaler_src.reshape(-1, actions.shape[-1]).std(dim=0, unbiased=False).clamp_min(1e-6)
         if split == "train":
-            observations, actions, labels = observations[:n_train], actions[:n_train], labels[:n_train]
+            observations, actions, labels, values = (
+                observations[:n_train],
+                actions[:n_train],
+                labels[:n_train],
+                values[:n_train],
+            )
             self._global_episode_offset = 0
         elif split == "val":
             if n_val == 0:
                 raise ValueError("val split is empty; increase n_episodes or val_fraction.")
-            observations, actions, labels = observations[n_train:], actions[n_train:], labels[n_train:]
+            observations, actions, labels, values = (
+                observations[n_train:],
+                actions[n_train:],
+                labels[n_train:],
+                values[n_train:],
+            )
             self._global_episode_offset = n_train
         else:
             self._global_episode_offset = 0
         self.observations = observations.contiguous()
         self.actions = actions.contiguous()
         self.stiffness_labels = labels.long().contiguous()
+        self.stiffness_values = values.float().contiguous()
         self.n_episodes = int(self.observations.shape[0])
         self.pairs_per_episode = int(self.observations.shape[1] - 1)
         self.action_mean = action_mean

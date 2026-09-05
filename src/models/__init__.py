@@ -9,11 +9,13 @@ from .ac_jepa import (
     build_encoder,
 )
 from .pixel_ae import PixelDecoder, PixelSpaceAutoencoder
+from .particle_gnn import ParticleGraphWorldModel
 
 __all__ = [
     "ACJEPA",
     "ACJEPAOutput",
     "ActionPredictor",
+    "ParticleGraphWorldModel",
     "PixelDecoder",
     "PixelSpaceAutoencoder",
     "ResNetEncoder",

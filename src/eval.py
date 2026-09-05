@@ -2,6 +2,8 @@
 
 * Multi-step open-loop latent rollout MSE at horizons ``k = 1 … K``.
 * Frozen linear probes on ``ẑ_{t+k}`` for stiffness class and contact quadrant.
+* Linear regression from ``z_t`` onto continuous stiffness (Young's modulus).
+* Probe diagnostics: label coverage, train vs val accuracy, ``z_target`` health.
 * MSE-only vs VICReg ablation overlay.
 * Plot/report writer targeting ``outputs/metrics.png``.
 """
@@ -10,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -72,6 +75,8 @@ def rollout_predictions(
     max_horizon: int,
     device: torch.device,
     batch_size: int = 8,
+    particle_positions: Tensor | None = None,
+    particle_velocities: Tensor | None = None,
 ) -> tuple[Tensor, Tensor]:
     """Predict ``ẑ_{t+k}`` and encode EMA targets ``z_{t+k}`` for ``k=1..K``.
 
@@ -79,6 +84,8 @@ def rollout_predictions(
         observations: Episode frames ``(N, T, C, H, W)``.
         actions: Episode actions ``(N, T-1, A)``.
         max_horizon: ``K``. Capped at ``T - 1``.
+        particle_positions: Optional lattice ``(N, T, P, D)`` for the GNN baseline.
+        particle_velocities: Optional lattice velocities ``(N, T, P, D)``.
 
     Returns:
         ``(z_hat, z_tgt)`` each of shape ``(N, K, D)``.
@@ -88,6 +95,16 @@ def rollout_predictions(
     k_max = min(max_horizon, horizon_limit)
     if k_max < 1:
         raise ValueError("Need episode_length >= 2 for rollouts.")
+    if getattr(model, "requires_particles", False):
+        if particle_positions is None or particle_velocities is None:
+            raise ValueError("Particle GNN eval requires dataset.positions and dataset.velocities.")
+        return model.rollout_from_particles(
+            particle_positions.to(device),
+            particle_velocities.to(device),
+            actions[:, :k_max].to(device),
+            k_max,
+            batch_size=batch_size,
+        )
     latent_dim = model.latent_dim
     z_hat = torch.empty(n_episodes, k_max, latent_dim, device=device)
     z_tgt = torch.empty(n_episodes, k_max, latent_dim, device=device)
@@ -108,6 +125,73 @@ def horizon_mse(z_hat: Tensor, z_tgt: Tensor) -> list[float]:
     """Per-horizon mean squared error (averaged over batch and latent dim)."""
     err = (z_hat - z_tgt).pow(2).mean(dim=(0, 2))
     return [float(v) for v in err.detach().cpu()]
+
+
+def _horizon_labels(labels: Tensor, horizon: int) -> Tensor:
+    if labels.ndim == 1:
+        return labels
+    return labels[:, horizon]
+
+
+def label_coverage(labels: Tensor, n_classes: int) -> dict[str, Any]:
+    """How many distinct classes a split actually contains (and their counts)."""
+    flat = labels.reshape(-1).detach().cpu().long()
+    n_examples = int(flat.numel())
+    if n_examples == 0:
+        return {
+            "n_examples": 0,
+            "n_distinct": 0,
+            "class_ids": [],
+            "counts": [],
+            "n_classes_configured": int(n_classes),
+            "missing_class_ids": list(range(int(n_classes))),
+        }
+    n_bins = max(int(n_classes), int(flat.max().item()) + 1)
+    counts = torch.bincount(flat, minlength=n_bins)
+    present = torch.nonzero(counts, as_tuple=False).view(-1)
+    missing = [i for i in range(int(n_classes)) if i >= counts.numel() or int(counts[i]) == 0]
+    return {
+        "n_examples": n_examples,
+        "n_distinct": int(present.numel()),
+        "class_ids": [int(v) for v in present.tolist()],
+        "counts": [int(v) for v in counts[: max(int(n_classes), n_bins)].tolist()],
+        "n_classes_configured": int(n_classes),
+        "missing_class_ids": missing,
+    }
+
+
+def latent_health(z: Tensor, *, gamma: float = 1.0, eps: float = 1e-4) -> dict[str, Any]:
+    """Norms and per-dimension spread of a latent tensor ``(..., D)``.
+
+    VICReg's variance hinge is ``mean_j ReLU(gamma - std_j)``. If most
+    dimensions sit at ``std_j >= gamma``, the hinge is not binding.
+    """
+    if z.numel() == 0:
+        raise ValueError("latent_health received an empty tensor.")
+    flat = z.reshape(-1, z.shape[-1]).float()
+    n_vectors, dim = int(flat.shape[0]), int(flat.shape[1])
+    norms = flat.norm(dim=-1)
+    per_dim_var = flat.var(dim=0, unbiased=False)
+    per_dim_std = torch.sqrt(per_dim_var + eps)
+    hinge = torch.relu(gamma - per_dim_std)
+    below = per_dim_std < gamma
+    return {
+        "n_vectors": n_vectors,
+        "latent_dim": dim,
+        "gamma": float(gamma),
+        "norm_mean": float(norms.mean().item()),
+        "norm_std": float(norms.std(unbiased=False).item()),
+        "norm_min": float(norms.min().item()),
+        "norm_max": float(norms.max().item()),
+        "per_dim_variance_mean": float(per_dim_var.mean().item()),
+        "per_dim_variance_median": float(per_dim_var.median().item()),
+        "per_dim_std_mean": float(per_dim_std.mean().item()),
+        "per_dim_std_min": float(per_dim_std.min().item()),
+        "n_dims_std_below_gamma": int(below.sum().item()),
+        "frac_dims_std_below_gamma": float(below.float().mean().item()),
+        "variance_hinge_mean": float(hinge.mean().item()),
+        "variance_hinge_binding": bool(float(hinge.mean().item()) > 1e-3),
+    }
 
 
 def _train_linear_probe(
@@ -134,10 +218,50 @@ def _train_linear_probe(
     return probe
 
 
+def _train_linear_regressor(
+    features: Tensor,
+    targets: Tensor,
+    *,
+    epochs: int,
+    lr: float,
+    device: torch.device,
+) -> tuple[nn.Linear, float, float]:
+    """Fit ``D → 1`` on frozen embeddings. Targets are z-scored for stability."""
+    y = targets.reshape(-1).float()
+    y_mean = float(y.mean().item())
+    y_std = float(y.std(unbiased=False).clamp_min(1e-6).item())
+    y_n = (y - y_mean) / y_std
+    probe = nn.Linear(features.shape[1], 1).to(device)
+    optimizer = AdamW(probe.parameters(), lr=lr, weight_decay=1e-4)
+    feats = features.detach()
+    probe.train()
+    for _ in range(epochs):
+        optimizer.zero_grad(set_to_none=True)
+        pred = probe(feats).squeeze(-1)
+        loss = F.mse_loss(pred, y_n)
+        loss.backward()
+        optimizer.step()
+    probe.eval()
+    return probe, y_mean, y_std
+
+
 @torch.no_grad()
 def _accuracy(probe: nn.Linear, features: Tensor, labels: Tensor) -> float:
     pred = probe(features).argmax(dim=-1)
     return float((pred == labels).float().mean().item())
+
+
+@torch.no_grad()
+def _regression_scores(
+    probe: nn.Linear, features: Tensor, targets: Tensor, y_mean: float, y_std: float
+) -> dict[str, float]:
+    pred = probe(features).squeeze(-1) * y_std + y_mean
+    y = targets.reshape(-1).float()
+    mse = float((pred - y).pow(2).mean().item())
+    ss_res = float((y - pred).pow(2).sum().item())
+    ss_tot = float((y - y.mean()).pow(2).sum().item())
+    r2 = float("nan") if ss_tot < 1e-12 else 1.0 - ss_res / ss_tot
+    return {"mse": mse, "r2": r2}
 
 
 def linear_probe_over_horizon(
@@ -150,35 +274,156 @@ def linear_probe_over_horizon(
     epochs: int,
     lr: float,
     device: torch.device,
-) -> list[float]:
-    """Train one frozen linear probe per horizon and return val accuracies.
+) -> dict[str, Any]:
+    """Train one frozen linear probe per horizon.
+
+    Returns val accuracies (paper-facing) plus train accuracies and the
+    per-split label coverage the probe actually saw.
 
     ``z_hat_*`` are ``(N, K, D)``; ``labels_*`` are either ``(N,)`` (episode-level)
     or ``(N, K)`` (step-level).
     """
     k_max = z_hat_train.shape[1]
-    accuracies: list[float] = []
+    val_acc: list[float] = []
+    train_acc: list[float] = []
+    per_horizon: list[dict[str, Any]] = []
     for horizon in range(k_max):
         feat_tr = z_hat_train[:, horizon]
         feat_va = z_hat_val[:, horizon]
-        if labels_train.ndim == 1:
-            y_tr = labels_train
-            y_va = labels_val
-        else:
-            y_tr = labels_train[:, horizon]
-            y_va = labels_val[:, horizon]
+        y_tr = _horizon_labels(labels_train, horizon)
+        y_va = _horizon_labels(labels_val, horizon)
         n_present = int(y_tr.max().item()) + 1 if y_tr.numel() else n_classes
         classes = max(n_classes, n_present)
         probe = _train_linear_probe(
             feat_tr, y_tr, classes, epochs=epochs, lr=lr, device=device
         )
-        accuracies.append(_accuracy(probe, feat_va, y_va))
-    return accuracies
+        acc_tr = _accuracy(probe, feat_tr, y_tr)
+        acc_va = _accuracy(probe, feat_va, y_va)
+        train_acc.append(acc_tr)
+        val_acc.append(acc_va)
+        coverage_tr = label_coverage(y_tr, n_classes)
+        coverage_va = label_coverage(y_va, n_classes)
+        per_horizon.append(
+            {
+                "horizon": horizon + 1,
+                "train_acc": acc_tr,
+                "val_acc": acc_va,
+                "train_coverage": coverage_tr,
+                "val_coverage": coverage_va,
+            }
+        )
+        LOGGER.info(
+            "  probe k=%d  train_acc=%.3f  val_acc=%.3f  "
+            "train_distinct=%d/%d n=%d  val_distinct=%d/%d n=%d  val_counts=%s",
+            horizon + 1,
+            acc_tr,
+            acc_va,
+            coverage_tr["n_distinct"],
+            n_classes,
+            coverage_tr["n_examples"],
+            coverage_va["n_distinct"],
+            n_classes,
+            coverage_va["n_examples"],
+            coverage_va["counts"],
+        )
+    return {
+        "val_acc": val_acc,
+        "train_acc": train_acc,
+        "per_horizon": per_horizon,
+        "train_coverage": label_coverage(labels_train, n_classes),
+        "val_coverage": label_coverage(labels_val, n_classes),
+    }
+
+
+def linear_regression_over_horizon(
+    z_train: Tensor,
+    z_val: Tensor,
+    y_train: Tensor,
+    y_val: Tensor,
+    *,
+    epochs: int,
+    lr: float,
+    device: torch.device,
+) -> dict[str, Any]:
+    """Frozen linear regression from ``z`` onto a continuous stiffness scalar."""
+    k_max = z_train.shape[1]
+    train_r2: list[float] = []
+    val_r2: list[float] = []
+    train_mse: list[float] = []
+    val_mse: list[float] = []
+    per_horizon: list[dict[str, Any]] = []
+    y_tr = y_train.reshape(-1).float()
+    y_va = y_val.reshape(-1).float()
+    for horizon in range(k_max):
+        probe, y_mean, y_std = _train_linear_regressor(
+            z_train[:, horizon], y_tr, epochs=epochs, lr=lr, device=device
+        )
+        tr = _regression_scores(probe, z_train[:, horizon], y_tr, y_mean, y_std)
+        va = _regression_scores(probe, z_val[:, horizon], y_va, y_mean, y_std)
+        train_r2.append(tr["r2"])
+        val_r2.append(va["r2"])
+        train_mse.append(tr["mse"])
+        val_mse.append(va["mse"])
+        per_horizon.append(
+            {
+                "horizon": horizon + 1,
+                "train_mse": tr["mse"],
+                "val_mse": va["mse"],
+                "train_r2": tr["r2"],
+                "val_r2": va["r2"],
+            }
+        )
+        LOGGER.info(
+            "  stiffness-reg k=%d  train_r2=%.3f  val_r2=%.3f  train_mse=%.4g  val_mse=%.4g",
+            horizon + 1,
+            tr["r2"],
+            va["r2"],
+            tr["mse"],
+            va["mse"],
+        )
+    return {
+        "train_r2": train_r2,
+        "val_r2": val_r2,
+        "train_mse": train_mse,
+        "val_mse": val_mse,
+        "per_horizon": per_horizon,
+        "n_unique_train": int(torch.unique(y_tr).numel()),
+        "n_unique_val": int(torch.unique(y_va).numel()),
+        "value_mean": float(y_tr.mean().item()),
+        "value_std": float(y_tr.std(unbiased=False).item()),
+    }
+
+
+def _chance_finding(val_acc: list[float], chance: float, n_val: int, name: str) -> str:
+    if not val_acc:
+        return f"{name}: no probe accuracies recorded."
+    mean_acc = float(sum(val_acc) / len(val_acc))
+    se = math.sqrt(chance * (1.0 - chance) / max(n_val, 1))
+    z_score = (mean_acc - chance) / max(se, 1e-8)
+    if n_val < 50:
+        return (
+            f"{name}: n_val={n_val} is too small for a {len(val_acc)}-horizon linear "
+            f"probe (binomial SE≈{se:.3f} at chance={chance:.3f}). Mean val acc="
+            f"{mean_acc:.3f} is indistinguishable from sampling noise — not a "
+            f"representation-quality result."
+        )
+    if abs(z_score) < 2.0:
+        return (
+            f"{name}: after scaling to n_val={n_val}, mean val acc={mean_acc:.3f} is "
+            f"still consistent with chance={chance:.3f} (z={z_score:.2f}, SE≈{se:.3f}). "
+            f"This is a real limitation: a linear readout of {name} from the latents "
+            f"does not beat chance."
+        )
+    direction = "above" if z_score > 0 else "below"
+    return (
+        f"{name}: mean val acc={mean_acc:.3f} is {direction} chance={chance:.3f} "
+        f"(z={z_score:.2f}, n_val={n_val})."
+    )
 
 
 def evaluate_model(
-    model: ACJEPA,
-    dataset: DeformableObjectDataset,
+    model: Any,
+    dataset: Any,
     device: torch.device,
     *,
     max_horizon: int = 10,
@@ -197,36 +442,168 @@ def evaluate_model(
     policy_actions = getattr(dataset, "model_actions", raw_actions)
     stiffness = dataset.stiffness_labels.to(device)
     z_hat, z_tgt = rollout_predictions(
-        model, observations, policy_actions, k_max, device, batch_size=batch_size
+        model,
+        observations,
+        policy_actions,
+        k_max,
+        device,
+        batch_size=batch_size,
+        particle_positions=getattr(dataset, "positions", None),
+        particle_velocities=getattr(dataset, "velocities", None),
     )
     mse = horizon_mse(z_hat, z_tgt)
     z_tr, z_va = z_hat[:n_train], z_hat[n_train : n_train + n_val]
+    z_tgt_tr, z_tgt_va = z_tgt[:n_train], z_tgt[n_train : n_train + n_val]
     y_stiff_tr, y_stiff_va = stiffness[:n_train], stiffness[n_train : n_train + n_val]
     contact = contact_classes(raw_actions[:, :k_max].to(device), bins=contact_bins)
     contact_tr, contact_va = contact[:n_train], contact[n_train : n_train + n_val]
     n_stiff = int(max(int(stiffness.max().item()) + 1, dataset.cfg.n_stiffness_classes))
     n_contact = contact_bins * contact_bins
-    stiff_acc = linear_probe_over_horizon(
+
+    LOGGER.info(
+        "Probe split  n_train=%d  n_val=%d  k_max=%d  n_stiff=%d  n_contact=%d",
+        n_train,
+        n_val,
+        k_max,
+        n_stiff,
+        n_contact,
+    )
+    z_tgt_stats = latent_health(z_tgt)
+    z_hat_stats = latent_health(z_hat)
+    LOGGER.info(
+        "z_target  ||z|| mean=%.4f std=%.4f  per-dim std mean=%.4f min=%.4f  "
+        "frac_dims_below_gamma(%.2f)=%.3f  hinge=%.4f binding=%s",
+        z_tgt_stats["norm_mean"],
+        z_tgt_stats["norm_std"],
+        z_tgt_stats["per_dim_std_mean"],
+        z_tgt_stats["per_dim_std_min"],
+        z_tgt_stats["gamma"],
+        z_tgt_stats["frac_dims_std_below_gamma"],
+        z_tgt_stats["variance_hinge_mean"],
+        z_tgt_stats["variance_hinge_binding"],
+    )
+
+    LOGGER.info("Stiffness class probe on predicted latents z_hat:")
+    stiff = linear_probe_over_horizon(
         z_tr, z_va, y_stiff_tr, y_stiff_va, n_stiff,
         epochs=probe_epochs, lr=probe_lr, device=device,
     )
-    contact_acc = linear_probe_over_horizon(
+    LOGGER.info("Contact-quadrant probe on predicted latents z_hat:")
+    contact_probe = linear_probe_over_horizon(
         z_tr, z_va, contact_tr, contact_va, n_contact,
         epochs=probe_epochs, lr=probe_lr, device=device,
     )
+    LOGGER.info("Stiffness class probe on target-encoder latents z_target (oracle):")
+    stiff_tgt = linear_probe_over_horizon(
+        z_tgt_tr, z_tgt_va, y_stiff_tr, y_stiff_va, n_stiff,
+        epochs=probe_epochs, lr=probe_lr, device=device,
+    )
+
+    stiffness_values = getattr(dataset, "stiffness_values", None)
+    stiffness_reg: dict[str, Any] | None = None
+    if stiffness_values is not None:
+        y_val_cont = stiffness_values.to(device).float()
+        y_tr_c, y_va_c = y_val_cont[:n_train], y_val_cont[n_train : n_train + n_val]
+        LOGGER.info(
+            "Continuous stiffness regression  unique_train=%d unique_val=%d",
+            int(torch.unique(y_tr_c).numel()),
+            int(torch.unique(y_va_c).numel()),
+        )
+        stiffness_reg = linear_regression_over_horizon(
+            z_tr, z_va, y_tr_c, y_va_c, epochs=probe_epochs, lr=probe_lr, device=device
+        )
+
     chance_stiff = 1.0 / max(n_stiff, 1)
     chance_contact = 1.0 / max(n_contact, 1)
+    findings = [
+        _chance_finding(stiff["val_acc"], chance_stiff, n_val, "stiffness class"),
+        _chance_finding(contact_probe["val_acc"], chance_contact, n_val, "contact quadrant"),
+        _chance_finding(
+            stiff_tgt["val_acc"], chance_stiff, n_val, "stiffness class (z_target)"
+        ),
+    ]
+    LOGGER.info("Probe findings: %s", " | ".join(findings))
+    diagnostics = {
+        "n_train": n_train,
+        "n_val": n_val,
+        "k_max": k_max,
+        "stiffness_val_coverage": stiff["val_coverage"],
+        "stiffness_train_coverage": stiff["train_coverage"],
+        "contact_val_coverage": contact_probe["val_coverage"],
+        "contact_train_coverage": contact_probe["train_coverage"],
+        "z_target": z_tgt_stats,
+        "z_hat": z_hat_stats,
+        "stiffness_probe": stiff,
+        "contact_probe": contact_probe,
+        "stiffness_target_encoder_probe": stiff_tgt,
+        "stiffness_regression": stiffness_reg,
+        "findings": findings,
+    }
     return {
         "horizons": list(range(1, k_max + 1)),
         "rollout_mse": mse,
-        "stiffness_probe_acc": stiff_acc,
-        "contact_probe_acc": contact_acc,
+        "stiffness_probe_acc": stiff["val_acc"],
+        "contact_probe_acc": contact_probe["val_acc"],
+        "stiffness_probe_train_acc": stiff["train_acc"],
+        "contact_probe_train_acc": contact_probe["train_acc"],
+        "stiffness_target_probe_acc": stiff_tgt["val_acc"],
+        "stiffness_reg_val_r2": None if stiffness_reg is None else stiffness_reg["val_r2"],
+        "stiffness_reg_train_r2": None if stiffness_reg is None else stiffness_reg["train_r2"],
+        "stiffness_reg_val_mse": None if stiffness_reg is None else stiffness_reg["val_mse"],
         "chance_stiffness": chance_stiff,
         "chance_contact": chance_contact,
         "n_train": n_train,
         "n_val": n_val,
         "k_max": k_max,
+        "diagnostics": diagnostics,
     }
+
+
+def write_probe_diagnostics(
+    results: dict[str, dict[str, Any]],
+    output_path: Path,
+    *,
+    extra: dict[str, Any] | None = None,
+) -> Path:
+    """Write ``outputs/probe_diagnostics.json`` from ``evaluate_model`` payloads."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    models: dict[str, Any] = {}
+    limitations: list[str] = []
+    for name, payload in results.items():
+        diag = payload.get("diagnostics") or {}
+        models[name] = {
+            "n_train": payload.get("n_train"),
+            "n_val": payload.get("n_val"),
+            "k_max": payload.get("k_max"),
+            "chance_stiffness": payload.get("chance_stiffness"),
+            "chance_contact": payload.get("chance_contact"),
+            "stiffness_probe_acc": payload.get("stiffness_probe_acc"),
+            "stiffness_probe_train_acc": payload.get("stiffness_probe_train_acc"),
+            "contact_probe_acc": payload.get("contact_probe_acc"),
+            "contact_probe_train_acc": payload.get("contact_probe_train_acc"),
+            "stiffness_target_probe_acc": payload.get("stiffness_target_probe_acc"),
+            "stiffness_reg_val_r2": payload.get("stiffness_reg_val_r2"),
+            "stiffness_reg_train_r2": payload.get("stiffness_reg_train_r2"),
+            "stiffness_reg_val_mse": payload.get("stiffness_reg_val_mse"),
+            "stiffness_val_coverage": diag.get("stiffness_val_coverage"),
+            "stiffness_train_coverage": diag.get("stiffness_train_coverage"),
+            "contact_val_coverage": diag.get("contact_val_coverage"),
+            "z_target": diag.get("z_target"),
+            "z_hat": diag.get("z_hat"),
+            "stiffness_regression": diag.get("stiffness_regression"),
+            "findings": diag.get("findings", []),
+        }
+        limitations.extend(str(item) for item in diag.get("findings", []))
+    document: dict[str, Any] = {
+        "models": models,
+        "limitation": limitations,
+    }
+    if extra:
+        document.update(extra)
+    output_path.write_text(json.dumps(document, indent=2), encoding="utf-8")
+    LOGGER.info("Wrote %s", output_path)
+    return output_path
 
 
 def plot_horizon_metrics(
@@ -302,8 +679,8 @@ def plot_horizon_metrics(
 
 
 def run_archival_evaluation(
-    models: dict[str, ACJEPA],
-    dataset: DeformableObjectDataset,
+    models: dict[str, Any],
+    dataset: Any,
     device: torch.device,
     metrics_png: Path,
     max_horizon: int = 10,
@@ -334,18 +711,18 @@ def run_archival_evaluation(
     png_path = plot_horizon_metrics(results, Path(metrics_png))
     json_path = Path(metrics_png).with_suffix(".json")
     serializable = {
-        name: {
-            key: value
-            for key, value in payload.items()
-        }
+        name: {key: value for key, value in payload.items() if key != "diagnostics"}
         for name, payload in results.items()
     }
     json_path.write_text(json.dumps(serializable, indent=2), encoding="utf-8")
     LOGGER.info("Wrote %s", json_path)
+    diag_path = Path(metrics_png).resolve().parent / "probe_diagnostics.json"
+    write_probe_diagnostics(results, diag_path)
     return {
         "models": serializable,
         "metrics_png": str(png_path),
         "metrics_json": str(json_path),
+        "probe_diagnostics": str(diag_path),
     }
 
 

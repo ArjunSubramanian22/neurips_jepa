@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import sys
 import tempfile
 import unittest
@@ -22,10 +23,12 @@ from src.utils.export_paper_artifacts import (
     collect_latent_trajectories,
     export_paper_artifacts,
     load_ablation_csv,
+    load_multiseed_summary,
     measure_inference_latency,
     pca_embed,
     plot_latent_trajectories,
     render_ablation_table,
+    render_multiseed_table,
     tsne_embed,
     write_paper_tables_tex,
 )
@@ -129,6 +132,142 @@ class LatexTableTests(unittest.TestCase):
             self.assertIn(r"\begin{table}", text)
             self.assertIn(r"\begin{figure}", text)
             self.assertIn("paper_latent_trajectories.pdf", text)
+
+
+class MultiseedLatexTests(unittest.TestCase):
+    def test_mean_std_table_and_export_ingest(self) -> None:
+        payload = {
+            "seeds": [42, 43, 44],
+            "n_seeds": 3,
+            "horizons": [1, 5, 10],
+            "n_val": 200,
+            "variants": {
+                "full_vicreg": {
+                    "label": "Full AC-JEPA (VICReg)",
+                    "loss_type": "vicreg",
+                    "condition_on_action": True,
+                    "ema_momentum": 0.996,
+                    "by_horizon": {
+                        "1": {
+                            "rollout_mse_mean": 0.123,
+                            "rollout_mse_std": 0.045,
+                            "stiffness_probe_acc_mean": 0.40,
+                            "stiffness_probe_acc_std": 0.02,
+                            "contact_probe_acc_mean": 0.55,
+                            "contact_probe_acc_std": 0.03,
+                        },
+                        "5": {
+                            "rollout_mse_mean": 0.200,
+                            "rollout_mse_std": 0.010,
+                            "stiffness_probe_acc_mean": 0.41,
+                            "stiffness_probe_acc_std": 0.01,
+                            "contact_probe_acc_mean": 0.56,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                        "10": {
+                            "rollout_mse_mean": 0.310,
+                            "rollout_mse_std": 0.020,
+                            "stiffness_probe_acc_mean": 0.42,
+                            "stiffness_probe_acc_std": 0.01,
+                            "contact_probe_acc_mean": 0.57,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                    },
+                },
+                "no_action": {
+                    "label": "No action conditioning",
+                    "loss_type": "vicreg",
+                    "condition_on_action": False,
+                    "ema_momentum": 0.996,
+                    "by_horizon": {
+                        "1": {
+                            "rollout_mse_mean": 0.400,
+                            "rollout_mse_std": 0.050,
+                            "stiffness_probe_acc_mean": 0.33,
+                            "stiffness_probe_acc_std": 0.01,
+                            "contact_probe_acc_mean": 0.30,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                        "5": {
+                            "rollout_mse_mean": 0.500,
+                            "rollout_mse_std": 0.040,
+                            "stiffness_probe_acc_mean": 0.34,
+                            "stiffness_probe_acc_std": 0.01,
+                            "contact_probe_acc_mean": 0.31,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                        "10": {
+                            "rollout_mse_mean": 0.600,
+                            "rollout_mse_std": 0.030,
+                            "stiffness_probe_acc_mean": 0.35,
+                            "stiffness_probe_acc_std": 0.01,
+                            "contact_probe_acc_mean": 0.32,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                    },
+                },
+                "ema_0p99": {
+                    "label": "EMA tau=0.99",
+                    "loss_type": "vicreg",
+                    "condition_on_action": True,
+                    "ema_momentum": 0.99,
+                    "by_horizon": {
+                        "1": {
+                            "rollout_mse_mean": 0.150,
+                            "rollout_mse_std": 0.020,
+                            "stiffness_probe_acc_mean": 0.38,
+                            "stiffness_probe_acc_std": 0.02,
+                            "contact_probe_acc_mean": 0.50,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                        "5": {
+                            "rollout_mse_mean": 0.220,
+                            "rollout_mse_std": 0.015,
+                            "stiffness_probe_acc_mean": 0.39,
+                            "stiffness_probe_acc_std": 0.02,
+                            "contact_probe_acc_mean": 0.51,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                        "10": {
+                            "rollout_mse_mean": 0.330,
+                            "rollout_mse_std": 0.018,
+                            "stiffness_probe_acc_mean": 0.40,
+                            "stiffness_probe_acc_std": 0.02,
+                            "contact_probe_acc_mean": 0.52,
+                            "contact_probe_acc_std": 0.02,
+                        },
+                    },
+                },
+            },
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            json_path = Path(tmp) / "ablation_multiseed.json"
+            json_path.write_text(json.dumps(payload), encoding="utf-8")
+            loaded = load_multiseed_summary(json_path)
+            self.assertEqual([row.key for row in loaded], ["full_vicreg", "no_action", "ema_0p99"])
+            tex = render_multiseed_table(loaded)
+            self.assertIn(r"{\pm}", tex)
+            self.assertIn(r"$0.123{\pm}0.045$", tex)
+            self.assertIn(r"$40.0{\pm}2.0$", tex)
+            self.assertIn("No action conditioning", tex)
+            self.assertIn("EMA tau=0.99", tex)
+            self.assertIn(r"$k{=}1$", tex)
+            self.assertIn(r"$k{=}5$", tex)
+            self.assertIn(r"$k{=}10$", tex)
+            self.assertIn(r"\textbf{$0.123{\pm}0.045$}", tex)
+            csv_path = Path(tmp) / "ablation_results.csv"
+            _tiny_csv(csv_path)
+            report = export_paper_artifacts(
+                csv_path=csv_path,
+                output_dir=tmp,
+                live_eval=False,
+                multiseed_json=json_path,
+            )
+            text = Path(report["tex"]).read_text(encoding="utf-8")
+            self.assertIn(r"\begin{table}[t]", text)
+            self.assertIn(r"{\pm}", text)
+            self.assertIn("tab:ac-jepa-ablation-multiseed", text)
+            self.assertIn("Variant B (MSE-only)", text)
 
 
 class TrajectoryPlotTests(unittest.TestCase):
