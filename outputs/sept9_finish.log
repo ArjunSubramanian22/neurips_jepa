@@ -180,3 +180,15 @@ finish_sept9 waiter WAIT_PID=1375 Sat Sep  5 00:07:56 CDT 2026
 == live train PID 1375 is gone at Sat Sep  5 07:06:49 CDT 2026
 vicreg_completed_epochs=200 mse_completed_epochs=200
 == milestone seed42-ckpts Sat Sep  5 07:06:49 CDT 2026
+[main 940713a] Record seed-42 200-epoch VICReg and MSE workshop checkpoints
+ 8 files changed, 5464 insertions(+), 50 deletions(-)
+ create mode 100644 outputs/jobs/seed42_mse.done
+ create mode 100644 outputs/jobs/seed42_vicreg.done
+== committed: Record seed-42 200-epoch VICReg and MSE workshop checkpoints  940713a
+== paper/sync_tables.py after seed42-ckpts
+wrote /Users/Arjun/cursor/neurips_jepa/paper/generated
+macros defined: 158
+artifact macros used in main.tex: 57
+undefined-looking macros: (none)
+bare numeric tokens remaining: (none)
+wrote /Users/Arjun/cursor/neurips_jepa/paper/CLAIMS.md
