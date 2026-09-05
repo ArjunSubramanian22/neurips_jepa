@@ -19,3 +19,164 @@
 == plan parallel42=0 parallel43=0 n_accel=1 skip43=0 skip_pixel_ae=0
 == waiting for live train PID 92746
 == still waiting PID 92746  Fri Sep  4 23:14:41 CDT 2026  vicreg=161 mse=5
+finish_sept9 waiter WAIT_PID=1375 Sat Sep  5 00:07:56 CDT 2026
+== finish_sept9 start Sat Sep  5 00:07:56 CDT 2026  wait_pid=1375
+{
+  "n_accelerators": 1,
+  "cuda_count": 0,
+  "mps": true,
+  "ram_gib": 8.0,
+  "parallel_seed42_mse_with_vicreg": false,
+  "parallel_seed43_vicreg_mse": false,
+  "seed42_mse_device": "mps",
+  "seed43_vic_device": "mps",
+  "seed43_mse_device": "mps",
+  "skip_seed43": false,
+  "skip_pixel_ae": false,
+  "reason": "One Metal/MPS device (no CUDA). Two workshop ViTs on the same GPU would oversubscribe; RAM=8.0 GiB unified. CPU sidecar refused: 200-epoch ViT on CPU is far slower than MPS and would contend for unified memory with the live MPS job."
+}
+== plan parallel42=0 parallel43=0 n_accel=1 skip43=0 skip_pixel_ae=0
+== waiting for live train PID 1375
+== still waiting PID 1375  Sat Sep  5 00:07:59 CDT 2026  vicreg=200 mse=10
+== still waiting PID 1375  Sat Sep  5 00:09:00 CDT 2026  vicreg=200 mse=11
+== still waiting PID 1375  Sat Sep  5 00:10:00 CDT 2026  vicreg=200 mse=13
+== still waiting PID 1375  Sat Sep  5 00:11:00 CDT 2026  vicreg=200 mse=14
+== still waiting PID 1375  Sat Sep  5 00:12:00 CDT 2026  vicreg=200 mse=16
+== still waiting PID 1375  Sat Sep  5 00:13:00 CDT 2026  vicreg=200 mse=17
+== still waiting PID 1375  Sat Sep  5 00:14:01 CDT 2026  vicreg=200 mse=19
+== still waiting PID 1375  Sat Sep  5 00:15:01 CDT 2026  vicreg=200 mse=20
+== still waiting PID 1375  Sat Sep  5 00:16:01 CDT 2026  vicreg=200 mse=22
+== still waiting PID 1375  Sat Sep  5 00:17:01 CDT 2026  vicreg=200 mse=23
+== still waiting PID 1375  Sat Sep  5 00:18:01 CDT 2026  vicreg=200 mse=25
+== still waiting PID 1375  Sat Sep  5 00:19:01 CDT 2026  vicreg=200 mse=27
+== still waiting PID 1375  Sat Sep  5 00:20:02 CDT 2026  vicreg=200 mse=28
+== still waiting PID 1375  Sat Sep  5 00:21:02 CDT 2026  vicreg=200 mse=30
+== still waiting PID 1375  Sat Sep  5 00:22:02 CDT 2026  vicreg=200 mse=31
+== still waiting PID 1375  Sat Sep  5 00:23:02 CDT 2026  vicreg=200 mse=33
+== still waiting PID 1375  Sat Sep  5 00:24:02 CDT 2026  vicreg=200 mse=34
+== still waiting PID 1375  Sat Sep  5 00:25:02 CDT 2026  vicreg=200 mse=35
+== still waiting PID 1375  Sat Sep  5 00:26:03 CDT 2026  vicreg=200 mse=37
+== still waiting PID 1375  Sat Sep  5 00:27:03 CDT 2026  vicreg=200 mse=38
+== still waiting PID 1375  Sat Sep  5 00:28:03 CDT 2026  vicreg=200 mse=40
+== still waiting PID 1375  Sat Sep  5 00:29:03 CDT 2026  vicreg=200 mse=41
+== still waiting PID 1375  Sat Sep  5 00:30:03 CDT 2026  vicreg=200 mse=42
+== still waiting PID 1375  Sat Sep  5 00:31:03 CDT 2026  vicreg=200 mse=44
+== still waiting PID 1375  Sat Sep  5 00:32:04 CDT 2026  vicreg=200 mse=45
+== still waiting PID 1375  Sat Sep  5 00:33:04 CDT 2026  vicreg=200 mse=47
+== still waiting PID 1375  Sat Sep  5 00:34:04 CDT 2026  vicreg=200 mse=49
+== still waiting PID 1375  Sat Sep  5 00:35:04 CDT 2026  vicreg=200 mse=50
+== still waiting PID 1375  Sat Sep  5 00:36:04 CDT 2026  vicreg=200 mse=51
+== still waiting PID 1375  Sat Sep  5 00:37:04 CDT 2026  vicreg=200 mse=53
+== still waiting PID 1375  Sat Sep  5 00:38:05 CDT 2026  vicreg=200 mse=54
+== still waiting PID 1375  Sat Sep  5 00:39:05 CDT 2026  vicreg=200 mse=55
+== still waiting PID 1375  Sat Sep  5 00:40:05 CDT 2026  vicreg=200 mse=57
+== still waiting PID 1375  Sat Sep  5 00:41:05 CDT 2026  vicreg=200 mse=58
+== still waiting PID 1375  Sat Sep  5 00:42:06 CDT 2026  vicreg=200 mse=59
+== still waiting PID 1375  Sat Sep  5 00:43:06 CDT 2026  vicreg=200 mse=60
+== still waiting PID 1375  Sat Sep  5 00:44:06 CDT 2026  vicreg=200 mse=61
+== still waiting PID 1375  Sat Sep  5 00:45:06 CDT 2026  vicreg=200 mse=63
+== still waiting PID 1375  Sat Sep  5 00:46:06 CDT 2026  vicreg=200 mse=64
+== still waiting PID 1375  Sat Sep  5 00:47:07 CDT 2026  vicreg=200 mse=65
+== still waiting PID 1375  Sat Sep  5 00:48:07 CDT 2026  vicreg=200 mse=66
+== still waiting PID 1375  Sat Sep  5 00:49:08 CDT 2026  vicreg=200 mse=67
+== still waiting PID 1375  Sat Sep  5 00:50:08 CDT 2026  vicreg=200 mse=68
+== still waiting PID 1375  Sat Sep  5 00:51:08 CDT 2026  vicreg=200 mse=69
+== still waiting PID 1375  Sat Sep  5 00:52:08 CDT 2026  vicreg=200 mse=71
+== still waiting PID 1375  Sat Sep  5 00:53:09 CDT 2026  vicreg=200 mse=72
+== still waiting PID 1375  Sat Sep  5 00:54:09 CDT 2026  vicreg=200 mse=73
+== still waiting PID 1375  Sat Sep  5 00:55:09 CDT 2026  vicreg=200 mse=74
+== still waiting PID 1375  Sat Sep  5 00:56:09 CDT 2026  vicreg=200 mse=76
+== still waiting PID 1375  Sat Sep  5 00:57:10 CDT 2026  vicreg=200 mse=77
+== still waiting PID 1375  Sat Sep  5 00:58:10 CDT 2026  vicreg=200 mse=78
+== still waiting PID 1375  Sat Sep  5 00:59:10 CDT 2026  vicreg=200 mse=79
+== still waiting PID 1375  Sat Sep  5 01:00:10 CDT 2026  vicreg=200 mse=80
+== still waiting PID 1375  Sat Sep  5 01:01:11 CDT 2026  vicreg=200 mse=81
+== still waiting PID 1375  Sat Sep  5 01:02:11 CDT 2026  vicreg=200 mse=83
+== still waiting PID 1375  Sat Sep  5 01:03:11 CDT 2026  vicreg=200 mse=84
+== still waiting PID 1375  Sat Sep  5 01:04:11 CDT 2026  vicreg=200 mse=85
+== still waiting PID 1375  Sat Sep  5 01:05:11 CDT 2026  vicreg=200 mse=86
+== still waiting PID 1375  Sat Sep  5 01:06:12 CDT 2026  vicreg=200 mse=88
+== still waiting PID 1375  Sat Sep  5 01:07:12 CDT 2026  vicreg=200 mse=89
+== still waiting PID 1375  Sat Sep  5 01:08:12 CDT 2026  vicreg=200 mse=90
+== still waiting PID 1375  Sat Sep  5 01:09:13 CDT 2026  vicreg=200 mse=91
+== still waiting PID 1375  Sat Sep  5 01:10:13 CDT 2026  vicreg=200 mse=92
+== still waiting PID 1375  Sat Sep  5 01:11:13 CDT 2026  vicreg=200 mse=93
+== still waiting PID 1375  Sat Sep  5 01:12:13 CDT 2026  vicreg=200 mse=94
+== still waiting PID 1375  Sat Sep  5 01:13:14 CDT 2026  vicreg=200 mse=96
+== still waiting PID 1375  Sat Sep  5 01:14:14 CDT 2026  vicreg=200 mse=97
+== still waiting PID 1375  Sat Sep  5 01:15:14 CDT 2026  vicreg=200 mse=98
+== still waiting PID 1375  Sat Sep  5 01:16:14 CDT 2026  vicreg=200 mse=99
+== still waiting PID 1375  Sat Sep  5 01:17:15 CDT 2026  vicreg=200 mse=100
+== still waiting PID 1375  Sat Sep  5 01:18:15 CDT 2026  vicreg=200 mse=102
+== still waiting PID 1375  Sat Sep  5 01:19:15 CDT 2026  vicreg=200 mse=103
+== still waiting PID 1375  Sat Sep  5 01:20:15 CDT 2026  vicreg=200 mse=104
+== still waiting PID 1375  Sat Sep  5 01:21:16 CDT 2026  vicreg=200 mse=105
+== still waiting PID 1375  Sat Sep  5 01:22:16 CDT 2026  vicreg=200 mse=106
+== still waiting PID 1375  Sat Sep  5 01:23:16 CDT 2026  vicreg=200 mse=107
+== still waiting PID 1375  Sat Sep  5 01:24:16 CDT 2026  vicreg=200 mse=109
+== still waiting PID 1375  Sat Sep  5 01:25:17 CDT 2026  vicreg=200 mse=110
+== still waiting PID 1375  Sat Sep  5 01:26:17 CDT 2026  vicreg=200 mse=111
+== still waiting PID 1375  Sat Sep  5 01:27:17 CDT 2026  vicreg=200 mse=112
+== still waiting PID 1375  Sat Sep  5 01:28:17 CDT 2026  vicreg=200 mse=113
+== still waiting PID 1375  Sat Sep  5 01:29:18 CDT 2026  vicreg=200 mse=115
+== still waiting PID 1375  Sat Sep  5 01:30:18 CDT 2026  vicreg=200 mse=116
+== still waiting PID 1375  Sat Sep  5 01:31:18 CDT 2026  vicreg=200 mse=117
+== still waiting PID 1375  Sat Sep  5 01:32:18 CDT 2026  vicreg=200 mse=118
+== still waiting PID 1375  Sat Sep  5 01:33:18 CDT 2026  vicreg=200 mse=120
+== still waiting PID 1375  Sat Sep  5 01:34:19 CDT 2026  vicreg=200 mse=121
+== still waiting PID 1375  Sat Sep  5 01:35:19 CDT 2026  vicreg=200 mse=123
+== still waiting PID 1375  Sat Sep  5 01:53:42 CDT 2026  vicreg=200 mse=125
+== still waiting PID 1375  Sat Sep  5 01:54:42 CDT 2026  vicreg=200 mse=126
+== still waiting PID 1375  Sat Sep  5 01:55:42 CDT 2026  vicreg=200 mse=128
+== still waiting PID 1375  Sat Sep  5 01:56:42 CDT 2026  vicreg=200 mse=129
+== still waiting PID 1375  Sat Sep  5 02:02:42 CDT 2026  vicreg=200 mse=129
+== still waiting PID 1375  Sat Sep  5 02:05:23 CDT 2026  vicreg=200 mse=131
+== still waiting PID 1375  Sat Sep  5 02:11:22 CDT 2026  vicreg=200 mse=133
+== still waiting PID 1375  Sat Sep  5 02:27:45 CDT 2026  vicreg=200 mse=134
+== still waiting PID 1375  Sat Sep  5 02:45:32 CDT 2026  vicreg=200 mse=136
+== still waiting PID 1375  Sat Sep  5 02:46:32 CDT 2026  vicreg=200 mse=138
+== still waiting PID 1375  Sat Sep  5 02:47:32 CDT 2026  vicreg=200 mse=139
+== still waiting PID 1375  Sat Sep  5 02:48:32 CDT 2026  vicreg=200 mse=141
+== still waiting PID 1375  Sat Sep  5 02:49:32 CDT 2026  vicreg=200 mse=142
+== still waiting PID 1375  Sat Sep  5 02:50:33 CDT 2026  vicreg=200 mse=144
+== still waiting PID 1375  Sat Sep  5 02:51:33 CDT 2026  vicreg=200 mse=146
+== still waiting PID 1375  Sat Sep  5 02:52:33 CDT 2026  vicreg=200 mse=147
+== still waiting PID 1375  Sat Sep  5 02:53:34 CDT 2026  vicreg=200 mse=149
+== still waiting PID 1375  Sat Sep  5 02:54:34 CDT 2026  vicreg=200 mse=150
+== still waiting PID 1375  Sat Sep  5 02:55:34 CDT 2026  vicreg=200 mse=151
+== still waiting PID 1375  Sat Sep  5 02:56:34 CDT 2026  vicreg=200 mse=152
+== still waiting PID 1375  Sat Sep  5 02:57:34 CDT 2026  vicreg=200 mse=154
+== still waiting PID 1375  Sat Sep  5 02:58:34 CDT 2026  vicreg=200 mse=155
+== still waiting PID 1375  Sat Sep  5 02:59:35 CDT 2026  vicreg=200 mse=156
+== still waiting PID 1375  Sat Sep  5 03:00:35 CDT 2026  vicreg=200 mse=157
+== still waiting PID 1375  Sat Sep  5 03:01:35 CDT 2026  vicreg=200 mse=158
+== still waiting PID 1375  Sat Sep  5 03:02:35 CDT 2026  vicreg=200 mse=160
+== still waiting PID 1375  Sat Sep  5 03:03:35 CDT 2026  vicreg=200 mse=161
+== still waiting PID 1375  Sat Sep  5 03:04:35 CDT 2026  vicreg=200 mse=162
+== still waiting PID 1375  Sat Sep  5 03:05:35 CDT 2026  vicreg=200 mse=163
+== still waiting PID 1375  Sat Sep  5 03:06:36 CDT 2026  vicreg=200 mse=165
+== still waiting PID 1375  Sat Sep  5 03:07:36 CDT 2026  vicreg=200 mse=166
+== still waiting PID 1375  Sat Sep  5 03:08:36 CDT 2026  vicreg=200 mse=167
+== still waiting PID 1375  Sat Sep  5 03:09:36 CDT 2026  vicreg=200 mse=168
+== still waiting PID 1375  Sat Sep  5 03:10:36 CDT 2026  vicreg=200 mse=169
+== still waiting PID 1375  Sat Sep  5 03:27:50 CDT 2026  vicreg=200 mse=171
+== still waiting PID 1375  Sat Sep  5 03:32:07 CDT 2026  vicreg=200 mse=172
+== still waiting PID 1375  Sat Sep  5 03:48:40 CDT 2026  vicreg=200 mse=174
+== still waiting PID 1375  Sat Sep  5 04:05:02 CDT 2026  vicreg=200 mse=176
+== still waiting PID 1375  Sat Sep  5 04:22:52 CDT 2026  vicreg=200 mse=177
+== still waiting PID 1375  Sat Sep  5 04:32:26 CDT 2026  vicreg=200 mse=179
+== still waiting PID 1375  Sat Sep  5 04:34:00 CDT 2026  vicreg=200 mse=180
+== still waiting PID 1375  Sat Sep  5 04:42:40 CDT 2026  vicreg=200 mse=182
+== still waiting PID 1375  Sat Sep  5 04:43:48 CDT 2026  vicreg=200 mse=184
+== still waiting PID 1375  Sat Sep  5 04:47:47 CDT 2026  vicreg=200 mse=185
+== still waiting PID 1375  Sat Sep  5 05:04:08 CDT 2026  vicreg=200 mse=187
+== still waiting PID 1375  Sat Sep  5 05:17:20 CDT 2026  vicreg=200 mse=189
+== still waiting PID 1375  Sat Sep  5 05:24:17 CDT 2026  vicreg=200 mse=190
+== still waiting PID 1375  Sat Sep  5 05:34:12 CDT 2026  vicreg=200 mse=192
+== still waiting PID 1375  Sat Sep  5 05:51:26 CDT 2026  vicreg=200 mse=193
+== still waiting PID 1375  Sat Sep  5 06:26:39 CDT 2026  vicreg=200 mse=195
+== still waiting PID 1375  Sat Sep  5 06:34:36 CDT 2026  vicreg=200 mse=197
+== still waiting PID 1375  Sat Sep  5 06:50:49 CDT 2026  vicreg=200 mse=198
+== live train PID 1375 is gone at Sat Sep  5 07:06:49 CDT 2026
+vicreg_completed_epochs=200 mse_completed_epochs=200
+== milestone seed42-ckpts Sat Sep  5 07:06:49 CDT 2026

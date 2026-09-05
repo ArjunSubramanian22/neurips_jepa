@@ -117,6 +117,32 @@ class VICRegLossTests(unittest.TestCase):
         full, _ = prediction_objective(z_hat, z_target, loss_type="vicreg")
         self.assertFalse(torch.allclose(loss, full))
 
+    def test_mse_is_invariance_only(self) -> None:
+        torch.manual_seed(0)
+        z_hat = torch.randn(8, 16, requires_grad=True)
+        z_target = torch.randn(8, 16)
+        mse_loss, mse_terms = prediction_objective(z_hat, z_target, loss_type="mse")
+        self.assertTrue(torch.allclose(mse_loss, mse_terms["invariance"]))
+        vic_loss, vic_terms = prediction_objective(z_hat, z_target, loss_type="vicreg")
+        expected = (
+            25.0 * vic_terms["invariance"]
+            + 25.0 * vic_terms["variance"]
+            + 1.0 * vic_terms["covariance"]
+        )
+        self.assertTrue(torch.allclose(vic_loss, expected))
+        self.assertFalse(torch.allclose(mse_loss, vic_loss))
+
+    def test_variance_hinge_is_relu_one_minus_std(self) -> None:
+        torch.manual_seed(0)
+        z = torch.zeros(16, 4)
+        z[:, 0] = torch.linspace(-2.0, 2.0, 16)
+        hinge = variance_loss(z, gamma=1.0)
+        std = torch.sqrt(z.var(dim=0) + 1e-4)
+        expected = torch.relu(1.0 - std).mean()
+        self.assertTrue(torch.allclose(hinge, expected))
+        collapsed = torch.ones(16, 8)
+        self.assertGreater(float(variance_loss(collapsed).item()), 0.9)
+
 
 class PixelSpaceAutoencoderTests(unittest.TestCase):
     def test_decode_and_rollout_shapes(self) -> None:
