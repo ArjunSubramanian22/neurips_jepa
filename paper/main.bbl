@@ -1,0 +1,77 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Assran et~al.(2023)Assran, Duval, Misra, Bojanowski, Vincent, Rabbat,
+  LeCun, and Ballas]{assran2023ijepa}
+Mahmoud Assran, Quentin Duval, Ishan Misra, Piotr Bojanowski, Pascal Vincent,
+  Michael Rabbat, Yann LeCun, and Nicolas Ballas.
+\newblock Self-supervised learning from images with a joint-embedding
+  predictive architecture.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, 2023.
+
+\bibitem[Bardes et~al.(2022)Bardes, Ponce, and LeCun]{bardes2022vicreg}
+Adrien Bardes, Jean Ponce, and Yann LeCun.
+\newblock {VICReg}: Variance-invariance-covariance regularization for
+  self-supervised learning.
+\newblock In \emph{International Conference on Learning Representations}, 2022.
+
+\bibitem[Bardes et~al.(2024)Bardes, Garrido, Ponce, Chen, Rabbat, LeCun,
+  Assran, and Ballas]{bardes2024vjepa}
+Adrien Bardes, Quentin Garrido, Jean Ponce, Xinlei Chen, Michael Rabbat, Yann
+  LeCun, Mahmoud Assran, and Nicolas Ballas.
+\newblock {V-JEPA}: Latent video joint embedding predictive architecture.
+\newblock \emph{arXiv preprint arXiv:2404.08471}, 2024.
+
+\bibitem[Grill et~al.(2020)Grill, Strub, Altch{\'e}, Tallec, Richemond,
+  Buchatskaya, Doersch, Avila~Pires, Guo, Gheshlaghi~Azar,
+  et~al.]{grill2020byol}
+Jean-Bastien Grill, Florian Strub, Florent Altch{\'e}, Corentin Tallec, Pierre
+  Richemond, Elena Buchatskaya, Carl Doersch, Bernardo Avila~Pires, Zhaohan
+  Guo, Mohammad Gheshlaghi~Azar, et~al.
+\newblock Bootstrap your own latent: A new approach to self-supervised
+  learning.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2020.
+
+\bibitem[Hu et~al.(2018)Hu, Fang, Ge, Qu, Zhu, Pradhana, and
+  Jiang]{hu2018mlsmpm}
+Yuanming Hu, Yu~Fang, Ziheng Ge, Ziyin Qu, Yixin Zhu, Andre Pradhana, and
+  Chenfanfu Jiang.
+\newblock A moving least squares material point method with displacement
+  discontinuity and two-way rigid body coupling.
+\newblock In \emph{ACM Transactions on Graphics (SIGGRAPH)}, 2018.
+
+\bibitem[Jiang et~al.(2025)Jiang, Hsu, Zhang, Yu, Wang, and
+  Li]{jiang2025phystwin}
+Hanxiao Jiang, Hao-Yu Hsu, Kaifeng Zhang, Hsin-Ni Yu, Shenlong Wang, and Yunzhu
+  Li.
+\newblock {PhysTwin}: Physics-informed reconstruction and simulation of
+  deformable objects from videos.
+\newblock \emph{arXiv preprint arXiv:2503.17973}, 2025.
+
+\bibitem[Li et~al.(2019)Li, Wu, Tedrake, Tenenbaum, and Torralba]{li2019dpinet}
+Yunzhu Li, Jiajun Wu, Russ Tedrake, Joshua~B. Tenenbaum, and Antonio Torralba.
+\newblock Learning particle dynamics for manipulating rigid bodies, deformable
+  objects, and fluids.
+\newblock In \emph{International Conference on Learning Representations}, 2019.
+
+\bibitem[Sanchez-Gonzalez et~al.(2020)Sanchez-Gonzalez, Godwin, Pfaff, Ying,
+  Leskovec, and Battaglia]{sanchezgonzalez2020gns}
+Alvaro Sanchez-Gonzalez, Jonathan Godwin, Tobias Pfaff, Rex Ying, Jure
+  Leskovec, and Peter Battaglia.
+\newblock Learning to simulate complex physics with graph networks.
+\newblock In \emph{Proceedings of the 37th International Conference on Machine
+  Learning}, 2020.
+
+\bibitem[Yang et~al.(2025)Yang, Zhang, Zhang, Zeng, Li, and
+  Zuo]{yang2025physworld}
+Yu~Yang, Zhilu Zhang, Xiang Zhang, Yihan Zeng, Hui Li, and Wangmeng Zuo.
+\newblock {PhysWorld}: From real videos to world models of deformable objects
+  via physics-aware demonstration synthesis.
+\newblock \emph{arXiv preprint arXiv:2510.21447}, 2025.
+
+\end{thebibliography}

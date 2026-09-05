@@ -29,7 +29,7 @@ ALLOWED_BARE = {
 }
 
 SKIP_ENV = re.compile(
-    r"\\(?:includegraphics|input|bibliography|texttt|label|ref|citep|citet|documentclass)"
+    r"\\(?:includegraphics|input|bibliography|texttt|label|ref|citep|citet|documentclass|usepackage|workshoptitle)"
     r"(?:\[[^\]]*\])?\{[^}]*\}"
     r"|\\begin\{(?:subfigure|minipage)\}\{[^}]*\}"
     r"|Prompt~\d+"

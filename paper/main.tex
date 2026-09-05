@@ -1,11 +1,27 @@
-\documentclass[10pt]{article}
-\usepackage{neurips_workshop}
+\documentclass{article}
+
+% Official NeurIPS 2026 style (media.neurips.cc author kit, 2026-06-23).
+% CFP: double-blind, ``NeurIPS 2026 style''. Do not use neurips_workshop.sty
+% for the OpenReview PDF --- that file is a geometry stand-in only.
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{Physical World AI: Geometry, Characteristics, and Multimodal Sensing}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
 
 \title{Action-Conditioned Latent World Models\\
 for Synthetic Deformable-Object Dynamics}
 
-\author{Anonymous Authors\\
-Workshop preprint --- not a real-video or PhysTwin comparison}
+% Double-blind: neurips_2026.sty replaces this block with
+% ``Anonymous Author(s)'' when [final]/[preprint] are omitted.
+\author{Anonymous Authors}
 
 \date{}
 
@@ -14,8 +30,9 @@ Workshop preprint --- not a real-video or PhysTwin comparison}
 \maketitle
 
 \begin{abstract}
-We study action-conditioned joint-embedding predictive architectures (AC-JEPA) as
-latent world models of \emph{synthetic} deformable-object dynamics. Observations
+We study whether stiffness, elasticity, and deformability under contact are
+linearly readable from an action-conditioned latent world model of synthetic
+objects --- the workshop topic \emph{Physical Characteristics}. Observations
 come from an in-repo MLS-MPM renderer (\NEpisodes{} episodes, $T{=}$\EpisodeLength{},
 $\ImgSize\times\ImgSize$), not from captured video, and we do not claim results
 on PhysWorld or PhysTwin. The contribution is a controlled comparison: VICReg
@@ -162,7 +179,7 @@ episode \FailureEpisode{}, the worst latent MSE at $k{=}10$
     \includegraphics[width=\linewidth]{../outputs/figures/rollout_comparison_1802.png}\\[-2pt]
     {\scriptsize $E{=}\StiffEHigh$ (ep.\ \ShowcaseEpC{})}
   \end{minipage}
-  \caption{\input{generated/rollout_caption}}
+  \caption{\protect\input{generated/rollout_caption}}
   \label{fig:rollouts}
 \end{figure}
 
@@ -208,7 +225,7 @@ The originally planned multi-seed variant grid was skipped for the archival dead
 \paragraph{Domain gap and scale.}
 PhysWorld and PhysTwin start from real video and a reconstructed MPM twin. We
 render \NEpisodes{} short ($T{=}$\EpisodeLength{}) synthetic clips at
-$\ImgSize^2$ with \NStiffClasses{} discrete global $E$ values. That is a different
+$\ImgSize\times\ImgSize$ with \NStiffClasses{} discrete global $E$ values. That is a different
 data regime in appearance, geometry, and parameter identification. Nothing here
 should be quoted as evidence on those benchmarks.
 

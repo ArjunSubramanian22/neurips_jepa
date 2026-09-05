@@ -42,6 +42,9 @@ def _tex_escape(text: str) -> str:
         .replace("%", r"\%")
         .replace("_", r"\_")
         .replace("#", r"\#")
+        .replace("≈", r"$\approx$")
+        .replace("—", "---")
+        .replace("–", "--")
     )
 
 

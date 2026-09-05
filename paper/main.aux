@@ -1,0 +1,70 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\citation{jiang2025phystwin,yang2025physworld}
+\citation{assran2023ijepa,bardes2024vjepa}
+\citation{bardes2022vicreg}
+\citation{hu2018mlsmpm}
+\citation{assran2023ijepa}
+\citation{bardes2024vjepa}
+\citation{grill2020byol}
+\citation{bardes2022vicreg}
+\citation{li2019dpinet}
+\citation{sanchezgonzalez2020gns}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{JEPA and VICReg.}{1}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Particle-graph world models.}{1}{section*.2}\protected@file@percent }
+\citation{jiang2025phystwin}
+\citation{yang2025physworld}
+\@writefile{toc}{\contentsline {paragraph}{Real-video digital twins (domain gap).}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Method}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Architecture.}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Objectives.}{2}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data.}{2}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Within-simulator baselines.}{2}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Loss ablation (2{}-seed range).}{2}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Qualitative rollouts.}{2}{section*.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Within-simulator baseline comparison on the mass-spring lattice ($n_{\mathrm  {train}}=120$, $n_{\mathrm  {val}}=40$, 8 epochs, device \texttt  {cpu}). Open-loop rollout MSE ($\downarrow $) at $k\in \{1,5,10\}$. Linear-probe accuracy ($\uparrow $, \%) at $k{=}1$; chance is 33.3\% stiffness / 25.0\% contact. Particle-GNN \texttt  {rollout\_mse} is in pooled graph-readout space, not the ViT latent --- magnitudes are not interchangeable across rows. Source: \texttt  {outputs/baseline\_comparison.csv}.}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:baselines}{{1}{3}{Within-simulator baseline comparison on the mass-spring lattice ($n_{\mathrm {train}}=120$, $n_{\mathrm {val}}=40$, 8 epochs, device \texttt {cpu}). Open-loop rollout MSE ($\downarrow $) at $k\in \{1,5,10\}$. Linear-probe accuracy ($\uparrow $, \%) at $k{=}1$; chance is 33.3\% stiffness / 25.0\% contact. Particle-GNN \texttt {rollout\_mse} is in pooled graph-readout space, not the ViT latent --- magnitudes are not interchangeable across rows. Source: \texttt {outputs/baseline\_comparison.csv}}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Workshop VICReg vs MSE on the MLS-MPM dump, two seeds (42, 43). Table pending \texttt  {outputs/ablation\_twoseed.json}.}}{3}{table.2}\protected@file@percent }
+\newlabel{tab:twoseed}{{2}{3}{Workshop VICReg vs MSE on the MLS-MPM dump, two seeds (42, 43). Table pending \texttt {outputs/ablation\_twoseed.json}}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Limitations}{3}{section.5}\protected@file@percent }
+\newlabel{sec:limitations}{{5}{3}{Limitations}{section.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Probes.}{3}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Effective rank.}{3}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2{}-seed ablation, not a multi-seed study.}{3}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Domain gap and scale.}{3}{section*.13}\protected@file@percent }
+\bibdata{references}
+\bibcite{assran2023ijepa}{{1}{2023}{{Assran et~al.}}{{Assran, Duval, Misra, Bojanowski, Vincent, Rabbat, LeCun, and Ballas}}}
+\bibcite{bardes2022vicreg}{{2}{2022}{{Bardes et~al.}}{{Bardes, Ponce, and LeCun}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \input {generated/rollout_caption}}}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:rollouts}{{1}{4}{\protect \input {generated/rollout_caption}}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Episode 1841{} ($E{=}220$), worst val latent MSE at $k{=}10$ (0.9651). Caption text is \texttt  {outputs/figures/failure\_case\_caption.txt}, grounded in \texttt  {probe\_diagnostics.json}: stiffness stays at chance, $z_{\mathrm  {target}}$ is collapsed, contact probes beat chance. Not a contact-extrapolation story.}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:failure}{{2}{4}{Episode \FailureEpisode {} ($E{=}\StiffEHigh $), worst val latent MSE at $k{=}10$ (\FailureMseKten ). Caption text is \texttt {outputs/figures/failure\_case\_caption.txt}, grounded in \texttt {probe\_diagnostics.json}: stiffness stays at chance, $z_{\mathrm {target}}$ is collapsed, contact probes beat chance. Not a contact-extrapolation story}{figure.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{4}{section.6}\protected@file@percent }
+\bibcite{bardes2024vjepa}{{3}{2024}{{Bardes et~al.}}{{Bardes, Garrido, Ponce, Chen, Rabbat, LeCun, Assran, and Ballas}}}
+\bibcite{grill2020byol}{{4}{2020}{{Grill et~al.}}{{Grill, Strub, Altch{\'e}, Tallec, Richemond, Buchatskaya, Doersch, Avila~Pires, Guo, Gheshlaghi~Azar, et~al.}}}
+\bibcite{hu2018mlsmpm}{{5}{2018}{{Hu et~al.}}{{Hu, Fang, Ge, Qu, Zhu, Pradhana, and Jiang}}}
+\bibcite{jiang2025phystwin}{{6}{2025}{{Jiang et~al.}}{{Jiang, Hsu, Zhang, Yu, Wang, and Li}}}
+\bibcite{li2019dpinet}{{7}{2019}{{Li et~al.}}{{Li, Wu, Tedrake, Tenenbaum, and Torralba}}}
+\bibcite{sanchezgonzalez2020gns}{{8}{2020}{{Sanchez-Gonzalez et~al.}}{{Sanchez-Gonzalez, Godwin, Pfaff, Ying, Leskovec, and Battaglia}}}
+\bibcite{yang2025physworld}{{9}{2025}{{Yang et~al.}}{{Yang, Zhang, Zhang, Zeng, Li, and Zuo}}}
+\bibstyle{plainnat}
+\gdef \@abspage@last{5}

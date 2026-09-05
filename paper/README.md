@@ -1,27 +1,24 @@
-# Workshop paper (4-page NeurIPS format)
+# PhysWorldAI workshop paper (NeurIPS 2026 style)
+
+CFP ([Call for Papers](https://physworld-org.github.io/physworld.github.io/cfp)):
+extended abstract **up to 4 pages** or long paper **up to 8 pages**; references
+and appendix excluded. Style file is official `neurips_2026.sty` from
+https://media.neurips.cc/Conferences/NeurIPS2026/Formatting_Instructions_For_NeurIPS_2026.zip
+with `[dblblindworkshop]`. `neurips_workshop.sty` is a geometry stand-in — do
+not upload a PDF built with it.
 
 Tables in `main.tex` are `\input{}` from `generated/`, which `sync_tables.py`
 rebuilds from `outputs/*.csv` and `outputs/*.json`. Do not edit generated files.
 
 ```bash
-python paper/sync_tables.py
-python paper/check_claims.py
-cd paper && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+cd paper && make pdf
 ```
-
-`neurips_workshop.sty` matches NeurIPS letter / 5.5in text width. For an
-official submission, replace that package with `neurips_2025`.
 
 ## Honesty constraints (from MAPPING.md)
 
 - No PhysWorld / PhysTwin SOTA claim.
-- `outputs/ablation_multiseed.json` is missing: the paper includes a flag table,
-  not invented mean±std numbers.
-- `tab:ac-jepa-ablation` is dummy-scale (`n_val` and epoch count come from
-  `ablation_results.csv` / `history.json`).
-- Probe numbers come from `probe_diagnostics.json` (in-progress VICReg ckpt).
-- Do not invent mean±std numbers; `generated/multiseed_table.tex` is a flag table
-  until `outputs/ablation_multiseed.json` exists.
+- Workshop ablations are a 2-seed range (`outputs/ablation_twoseed.json`), not mean±std.
+- The 3-seed × 4-variant grid was skipped.
+- Probe numbers must come from the finished 200-epoch checkpoint before camera-ready.
 
-This environment does not have `pdflatex` installed; compile locally with the
-Makefile `pdf` target.
+`make pdf` uses `pdflatex` if present, otherwise `tectonic`.

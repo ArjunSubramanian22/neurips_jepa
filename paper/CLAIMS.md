@@ -30,7 +30,7 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\EpisodeLength` = `16`
 - `\FailureEpisode` = `1841`
 - `\FailureMseKten` = `0.9651`
-- `\GitHead` = `a7b39e1`
+- `\GitHead` = `07167b5`
 - `\ImgSize` = `64`
 - `\NEpisodes` = `2000`
 - `\NSeeds` = `2`
@@ -56,7 +56,7 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\StiffELow` = `18`
 - `\StiffEMid` = `70`
 - `\TrainSeedYaml` = `42`
-- `\VicregCompletedEpochs` = `119`
+- `\VicregCompletedEpochs` = `133`
 - `\VicregCov` = `1`
 - `\VicregGamma` = `1`
 - `\VicregSim` = `25`
