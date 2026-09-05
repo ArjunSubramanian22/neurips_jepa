@@ -1,0 +1,23 @@
+{
+  "run_name": "full_vicreg",
+  "epochs": 1,
+  "device": "mps",
+  "amp": true,
+  "seconds": 26.318150874983985,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 49.94166450500488,
+      "train_invariance": 0.22346245042151874,
+      "train_variance": 1.763446697923872,
+      "train_covariance": 0.2689358490517558,
+      "train_lr": 0.0004995000000000002,
+      "val_loss": NaN,
+      "val_invariance": NaN,
+      "val_variance": 1.8955121636390686,
+      "val_covariance": NaN
+    }
+  ],
+  "best_val": null,
+  "checkpoint": "outputs/ablation/full_vicreg/last.pt"
+}

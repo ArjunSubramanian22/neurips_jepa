@@ -1,0 +1,134 @@
+{
+  "variants": {
+    "full_vicreg": "Full AC-JEPA (VICReg)",
+    "variant_a_no_cov": "Variant A (No Covariance)",
+    "variant_b_mse": "Variant B (MSE-only)",
+    "variant_c_pixel_ae": "Variant C (Pixel Autoencoder)"
+  },
+  "training": {
+    "full_vicreg": {
+      "checkpoint": "outputs/ablation/full_vicreg/last.pt",
+      "seconds": 26.318150874983985,
+      "best_val": null
+    },
+    "variant_a_no_cov": {
+      "checkpoint": "outputs/ablation/variant_a_no_cov/last.pt",
+      "seconds": 12.68105666700285,
+      "best_val": 49.95175399780273
+    },
+    "variant_b_mse": {
+      "checkpoint": "outputs/ablation/variant_b_mse/last.pt",
+      "seconds": 10.284321875020396,
+      "best_val": 0.01215222751100858
+    },
+    "variant_c_pixel_ae": {
+      "checkpoint": "outputs/ablation/variant_c_pixel_ae/last.pt",
+      "seconds": 14.506272999977227,
+      "best_val": 0.009478985828657945
+    }
+  },
+  "drift": {
+    "full_vicreg": {
+      "horizons": [
+        1,
+        2,
+        5,
+        10,
+        20
+      ],
+      "mse": [
+        0.17179852724075317,
+        0.2364286631345749,
+        0.18758460879325867,
+        0.19942346215248108,
+        0.19852447509765625
+      ],
+      "cosine": [
+        0.9091763496398926,
+        0.8779731392860413,
+        0.9085374474525452,
+        0.9002599716186523,
+        0.9023668169975281
+      ],
+      "n_val": 12,
+      "k_max": 20
+    },
+    "variant_a_no_cov": {
+      "horizons": [
+        1,
+        2,
+        5,
+        10,
+        20
+      ],
+      "mse": [
+        0.28631120920181274,
+        0.38659462332725525,
+        0.36189740896224976,
+        0.49373722076416016,
+        0.3377280831336975
+      ],
+      "cosine": [
+        0.844326913356781,
+        0.7991945147514343,
+        0.8110694289207458,
+        0.6902678608894348,
+        0.8186456561088562
+      ],
+      "n_val": 12,
+      "k_max": 20
+    },
+    "variant_b_mse": {
+      "horizons": [
+        1,
+        2,
+        5,
+        10,
+        20
+      ],
+      "mse": [
+        0.011420762166380882,
+        0.0464300811290741,
+        0.06323933601379395,
+        0.06324349343776703,
+        0.06331410259008408
+      ],
+      "cosine": [
+        0.9949195384979248,
+        0.9837189316749573,
+        0.9800887107849121,
+        0.9800934791564941,
+        0.980057954788208
+      ],
+      "n_val": 12,
+      "k_max": 20
+    },
+    "variant_c_pixel_ae": {
+      "horizons": [
+        1,
+        2,
+        5,
+        10,
+        20
+      ],
+      "mse": [
+        0.10773196816444397,
+        0.10629823058843613,
+        0.1063866913318634,
+        0.10639234632253647,
+        0.1063874214887619
+      ],
+      "cosine": [
+        0.9457928538322449,
+        0.946197509765625,
+        0.9461393356323242,
+        0.9461349844932556,
+        0.9461392760276794
+      ],
+      "n_val": 12,
+      "k_max": 20
+    }
+  },
+  "csv": "outputs/ablation_results.csv",
+  "plot": "outputs/ablation_drift.png"
+}

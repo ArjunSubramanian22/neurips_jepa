@@ -1,0 +1,71 @@
+{
+  "run_name": "mse",
+  "epochs": 5,
+  "device": "cpu",
+  "amp": false,
+  "seconds": 2.1173298329813406,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.45388174711002244,
+      "train_invariance": 0.45388174711002244,
+      "train_variance": 1.9589363945855034,
+      "train_covariance": 1.4429078060452916e-05,
+      "train_lr": 0.0005328395061728398,
+      "val_loss": 0.02369403379658858,
+      "val_invariance": 0.02369403379658858,
+      "val_variance": 1.9735636393229166,
+      "val_covariance": 3.592749792957761e-06
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0034304155386053027,
+      "train_invariance": 0.0034304155386053027,
+      "train_variance": 1.9682902415593466,
+      "train_covariance": 3.828239959425951e-06,
+      "train_lr": 0.0009490343508404875,
+      "val_loss": 0.000479254184756428,
+      "val_invariance": 0.000479254184756428,
+      "val_variance": 1.9771226326624551,
+      "val_covariance": 4.016172298726417e-07
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.000266870149385391,
+      "train_invariance": 0.000266870149385391,
+      "train_variance": 1.974210696750217,
+      "train_covariance": 6.415732466772776e-07,
+      "train_lr": 0.0006857032248707151,
+      "val_loss": 0.00021276195669391504,
+      "val_invariance": 0.00021276195669391504,
+      "val_variance": 1.978426218032837,
+      "val_covariance": 8.75657351221785e-08
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.00017929328120468805,
+      "train_invariance": 0.00017929328120468805,
+      "train_variance": 1.976433629459805,
+      "train_covariance": 1.9508010136664527e-07,
+      "train_lr": 0.0003165186005362329,
+      "val_loss": 0.0002397920732619241,
+      "val_invariance": 0.0002397920732619241,
+      "val_variance": 1.9788938601811727,
+      "val_covariance": 3.642987314404304e-08
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0007267151111995594,
+      "train_invariance": 0.0007267151111995594,
+      "train_variance": 1.9772035466300117,
+      "train_covariance": 1.3009206587039697e-07,
+      "train_lr": 5.774382375256433e-05,
+      "val_loss": 0.001918262344164153,
+      "val_invariance": 0.001918262344164153,
+      "val_variance": 1.9791025559107462,
+      "val_covariance": 2.2249968284482335e-08
+    }
+  ],
+  "best_val": 0.00021276195669391504,
+  "checkpoint": "outputs/mse/last.pt"
+}

@@ -1,0 +1,21 @@
+variant,variant_label,loss_type,horizon,mse,cosine_similarity,n_val
+full_vicreg,Full AC-JEPA (VICReg),vicreg,1,0.17179852724075317,0.9091763496398926,12
+full_vicreg,Full AC-JEPA (VICReg),vicreg,2,0.2364286631345749,0.8779731392860413,12
+full_vicreg,Full AC-JEPA (VICReg),vicreg,5,0.18758460879325867,0.9085374474525452,12
+full_vicreg,Full AC-JEPA (VICReg),vicreg,10,0.19942346215248108,0.9002599716186523,12
+full_vicreg,Full AC-JEPA (VICReg),vicreg,20,0.19852447509765625,0.9023668169975281,12
+variant_a_no_cov,Variant A (No Covariance),vicreg_no_cov,1,0.28631120920181274,0.844326913356781,12
+variant_a_no_cov,Variant A (No Covariance),vicreg_no_cov,2,0.38659462332725525,0.7991945147514343,12
+variant_a_no_cov,Variant A (No Covariance),vicreg_no_cov,5,0.36189740896224976,0.8110694289207458,12
+variant_a_no_cov,Variant A (No Covariance),vicreg_no_cov,10,0.49373722076416016,0.6902678608894348,12
+variant_a_no_cov,Variant A (No Covariance),vicreg_no_cov,20,0.3377280831336975,0.8186456561088562,12
+variant_b_mse,Variant B (MSE-only),mse,1,0.011420762166380882,0.9949195384979248,12
+variant_b_mse,Variant B (MSE-only),mse,2,0.0464300811290741,0.9837189316749573,12
+variant_b_mse,Variant B (MSE-only),mse,5,0.06323933601379395,0.9800887107849121,12
+variant_b_mse,Variant B (MSE-only),mse,10,0.06324349343776703,0.9800934791564941,12
+variant_b_mse,Variant B (MSE-only),mse,20,0.06331410259008408,0.980057954788208,12
+variant_c_pixel_ae,Variant C (Pixel Autoencoder),pixel_ae,1,0.10773196816444397,0.9457928538322449,12
+variant_c_pixel_ae,Variant C (Pixel Autoencoder),pixel_ae,2,0.10629823058843613,0.946197509765625,12
+variant_c_pixel_ae,Variant C (Pixel Autoencoder),pixel_ae,5,0.1063866913318634,0.9461393356323242,12
+variant_c_pixel_ae,Variant C (Pixel Autoencoder),pixel_ae,10,0.10639234632253647,0.9461349844932556,12
+variant_c_pixel_ae,Variant C (Pixel Autoencoder),pixel_ae,20,0.1063874214887619,0.9461392760276794,12

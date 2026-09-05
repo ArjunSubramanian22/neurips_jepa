@@ -1,0 +1,23 @@
+{
+  "run_name": "variant_b_mse",
+  "epochs": 1,
+  "device": "mps",
+  "amp": true,
+  "seconds": 10.284321875020396,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.09798540002149013,
+      "train_invariance": 0.09798540002149013,
+      "train_variance": 1.97010012600157,
+      "train_covariance": 2.725678343453966e-06,
+      "train_lr": 0.0004995000000000002,
+      "val_loss": 0.01215222751100858,
+      "val_invariance": 0.01215222751100858,
+      "val_variance": 1.9620658198992411,
+      "val_covariance": 3.570331064111088e-05
+    }
+  ],
+  "best_val": 0.01215222751100858,
+  "checkpoint": "outputs/ablation/variant_b_mse/last.pt"
+}

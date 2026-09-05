@@ -1,0 +1,23 @@
+{
+  "run_name": "variant_c_pixel_ae",
+  "epochs": 1,
+  "device": "mps",
+  "amp": true,
+  "seconds": 14.506272999977227,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.029276384661595028,
+      "train_invariance": 0.01474322129247917,
+      "train_variance": 1.971721523337894,
+      "train_covariance": 1.742402620279964e-06,
+      "train_lr": 0.0004995000000000002,
+      "val_loss": 0.009478985828657945,
+      "val_invariance": 0.004730267527823647,
+      "val_variance": 1.9741033077239991,
+      "val_covariance": 6.47572280361904e-07
+    }
+  ],
+  "best_val": 0.009478985828657945,
+  "checkpoint": "outputs/ablation/variant_c_pixel_ae/last.pt"
+}

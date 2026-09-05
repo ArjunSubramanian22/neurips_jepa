@@ -1,0 +1,23 @@
+{
+  "run_name": "vicreg",
+  "epochs": 1,
+  "device": "cpu",
+  "amp": false,
+  "seconds": 0.5759070420172065,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 51.02765379163954,
+      "train_invariance": 0.2839812397956848,
+      "train_variance": 1.747986806233724,
+      "train_covariance": 0.22845209667976532,
+      "train_lr": 0.0005028000000000001,
+      "val_loss": 47.502468516031904,
+      "val_invariance": 0.21068193058172863,
+      "val_variance": 1.6655297009150187,
+      "val_covariance": 0.5971778615315755
+    }
+  ],
+  "best_val": 47.502468516031904,
+  "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/physics_smoke/vicreg/last.pt"
+}

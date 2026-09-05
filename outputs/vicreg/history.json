@@ -1,0 +1,71 @@
+{
+  "run_name": "vicreg",
+  "epochs": 5,
+  "device": "cpu",
+  "amp": false,
+  "seconds": 4.232949165976606,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 60.016849263509116,
+      "train_invariance": 0.5037859191497167,
+      "train_variance": 1.8958591593636407,
+      "train_covariance": 0.025722189626079247,
+      "train_lr": 0.0005328395061728398,
+      "val_loss": 48.927330017089844,
+      "val_invariance": 0.17883002956708272,
+      "val_variance": 1.7717541456222534,
+      "val_covariance": 0.16272633348902066
+    },
+    {
+      "epoch": 2,
+      "train_loss": 46.434857262505425,
+      "train_invariance": 0.13893104899260733,
+      "train_variance": 1.7010406917995877,
+      "train_covariance": 0.4355640264434947,
+      "train_lr": 0.0009490343508404875,
+      "val_loss": 45.99009399414062,
+      "val_invariance": 0.1913578689098358,
+      "val_variance": 1.5926662365595499,
+      "val_covariance": 1.389491287867228
+    },
+    {
+      "epoch": 3,
+      "train_loss": 45.17240312364366,
+      "train_invariance": 0.12673091325494978,
+      "train_variance": 1.6550094472037422,
+      "train_covariance": 0.628894196709411,
+      "train_lr": 0.0006857032248707151,
+      "val_loss": 44.84937337239583,
+      "val_invariance": 0.11678871562083562,
+      "val_variance": 1.6563396692276,
+      "val_covariance": 0.5211643735567729
+    },
+    {
+      "epoch": 4,
+      "train_loss": 44.95282346937392,
+      "train_invariance": 0.12516007141934501,
+      "train_variance": 1.6513850238588121,
+      "train_covariance": 0.5391959587732951,
+      "train_lr": 0.0003165186005362329,
+      "val_loss": 44.82274907430013,
+      "val_invariance": 0.13096796919902165,
+      "val_variance": 1.6343903541564941,
+      "val_covariance": 0.6887907405694326
+    },
+    {
+      "epoch": 5,
+      "train_loss": 44.93101086086697,
+      "train_invariance": 0.12612631734874513,
+      "train_variance": 1.6479970455169677,
+      "train_covariance": 0.5779267883963055,
+      "train_lr": 5.774382375256433e-05,
+      "val_loss": 44.78057632446289,
+      "val_invariance": 0.1256411279241244,
+      "val_variance": 1.640576442082723,
+      "val_covariance": 0.6251368065675099
+    }
+  ],
+  "best_val": 44.78057632446289,
+  "checkpoint": "outputs/vicreg/last.pt"
+}

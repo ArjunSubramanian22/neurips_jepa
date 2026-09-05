@@ -1,0 +1,23 @@
+{
+  "run_name": "variant_a_no_cov",
+  "epochs": 1,
+  "device": "mps",
+  "amp": true,
+  "seconds": 12.68105666700285,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 49.83147688971626,
+      "train_invariance": 0.2965553204218547,
+      "train_variance": 1.696703761153751,
+      "train_covariance": 1.113104516866502,
+      "train_lr": 0.0004995000000000002,
+      "val_loss": 49.95175399780273,
+      "val_invariance": 0.11817976931730906,
+      "val_variance": 1.8798904140790305,
+      "val_covariance": 0.012169766705483198
+    }
+  ],
+  "best_val": 49.95175399780273,
+  "checkpoint": "outputs/ablation/variant_a_no_cov/last.pt"
+}
