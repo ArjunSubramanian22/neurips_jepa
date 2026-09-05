@@ -58,6 +58,20 @@ def _fmt_acc_pct(value: float) -> str:
     return f"{100.0 * value:.1f}"
 
 
+def effective_rank_record_is_final(rank: dict | None, *, min_epochs: int = 200) -> bool:
+    """True only when probe JSON provenance marks a finished 200-epoch checkpoint."""
+    if not isinstance(rank, dict) or "z_target" not in rank:
+        return False
+    if not rank.get("final"):
+        return False
+    try:
+        ckpt_ep = int(rank.get("checkpoint_epoch") or 0)
+        jsonl_ep = int(rank.get("metrics_jsonl_train_epochs") or 0)
+    except (TypeError, ValueError):
+        return False
+    return ckpt_ep >= min_epochs and jsonl_ep >= min_epochs
+
+
 def _completed_epochs(path: Path) -> int:
     if not path.is_file():
         return 0
@@ -87,12 +101,24 @@ def _add_rank_macros(values: dict[str, str], probes: dict) -> None:
     models = probes.get("models", {})
     for name, prefix in (("vicreg_physics_mpm", "Vicreg"), ("mse_physics_mpm", "Mse")):
         blob = (models.get(name) or {}).get("effective_rank") or {}
+        final = effective_rank_record_is_final(blob)
         for view, tag in (("z_target", "Tgt"), ("z_hat", "Hat")):
             pr = (blob.get(view) or {}).get("participation_ratio")
             key = f"EffRank{tag}{prefix}"
-            values[key] = f"{float(pr):.2f}" if pr is not None else "NA"
+            values[key] = f"{float(pr):.2f}" if final and pr is not None else "NA"
             dim = (blob.get(view) or {}).get("latent_dim")
-            values[f"EffRankDim{tag}{prefix}"] = str(int(dim)) if dim is not None else values.get("ZTLatentDim", "NA")
+            values[f"EffRankDim{tag}{prefix}"] = (
+                str(int(dim)) if final and dim is not None else values.get("ZTLatentDim", "NA")
+            )
+        values[f"EffRankCkptEpoch{prefix}"] = (
+            str(int(blob["checkpoint_epoch"])) if final and blob.get("checkpoint_epoch") is not None else "NA"
+        )
+        values[f"EffRankJsonlEpoch{prefix}"] = (
+            str(int(blob["metrics_jsonl_train_epochs"]))
+            if final and blob.get("metrics_jsonl_train_epochs") is not None
+            else "NA"
+        )
+        values[f"EffRankFinal{prefix}"] = "true" if final else "false"
 
 
 def _add_twoseed_macros(values: dict[str, str]) -> None:
@@ -524,43 +550,73 @@ def write_twoseed_table() -> None:
 
 def write_rank_finding() -> None:
     dest = DEST / "effective_rank_finding.tex"
+    exp = DEST / "effective_rank_experiment.tex"
     probes = json.loads((OUT / "probe_diagnostics.json").read_text(encoding="utf-8"))
-    vic = ((probes.get("models") or {}).get("vicreg_physics_mpm") or {}).get("effective_rank")
-    if not vic or "z_target" not in vic:
+    models = probes.get("models") or {}
+    vic_rank = (models.get("vicreg_physics_mpm") or {}).get("effective_rank")
+    mse_rank = (models.get("mse_physics_mpm") or {}).get("effective_rank")
+    vic_final = effective_rank_record_is_final(vic_rank)
+    mse_final = effective_rank_record_is_final(mse_rank)
+    if not vic_final or not mse_final:
         dest.write_text(
             r"Effective-rank participation ratios will be filled from the final "
             r"\WorkshopEpochs{}-epoch probes (\texttt{effective\_rank} in "
-            r"\texttt{outputs/probe\_diagnostics.json})."
+            r"\texttt{outputs/probe\_diagnostics.json}, with "
+            r"\texttt{checkpoint\_path}, \texttt{checkpoint\_epoch}, and "
+            r"\texttt{final=true})."
             "\n",
             encoding="utf-8",
         )
+        exp.write_text("% pending final checkpoints\n", encoding="utf-8")
         return
-    pr = float(vic["z_target"]["participation_ratio"])
-    dim = int(vic["z_target"]["latent_dim"])
-    if pr < 5.0:
-        verdict = (
-            r"low relative to $D{=}$\ZTLatentDim{}: a few covariance eigenmodes "
-            r"dominate, so the rising VICReg covariance term is a second collapse "
-            r"mode, not benign correlation among full-rank features"
+    pr = float(vic_rank["z_target"]["participation_ratio"])
+    dim = int(vic_rank["z_target"]["latent_dim"])
+    # Do not over-claim: this is a description of the eigenspectrum, not a
+    # proof of a second collapse mode or of a healthy representation.
+    if pr < max(10.0, 0.1 * dim):
+        cov_reading = (
+            r"most covariance energy sits in relatively few eigenmodes, so a "
+            r"rising covariance penalty is not well explained as lots of weak "
+            r"pairwise correlations among otherwise full-rank features"
         )
     else:
-        verdict = (
-            r"not rank-1: per-dimension variance can still be below $\gamma$ while "
-            r"several eigenmodes remain, i.e.\ correlated-but-not-fully-collapsed "
-            r"rather than a single-direction collapse"
+        cov_reading = (
+            r"covariance energy is spread across many eigenmodes, so a rising "
+            r"covariance penalty can be residual correlation without a "
+            r"low-dimensional collapse"
         )
     dest.write_text(
         (
-            rf"On the physics val split, VICReg $z_{{\mathrm{{target}}}}$ participation "
-            rf"ratio is \EffRankTgtVicreg{{}} (latent dim \ZTLatentDim{{}}). "
-            rf"That is {verdict}. "
-            rf"Predicted $z_{{\mathrm{{hat}}}}$ PR is \EffRankHatVicreg{{}}."
-            + (
-                r" MSE-only $z_{\mathrm{target}}$ PR is \EffRankTgtMse{}."
-                if (probes.get("models") or {}).get("mse_physics_mpm", {}).get("effective_rank")
-                else ""
-            )
-            + "\n"
+            r"On the physics val split, using \texttt{outputs/vicreg/last.pt} at "
+            r"checkpoint epoch \EffRankCkptEpochVicreg{} "
+            r"(metrics.jsonl train\_epoch=\EffRankJsonlEpochVicreg{}, "
+            r"\texttt{final=\EffRankFinalVicreg{}}), the participation ratio of "
+            r"$z_{\mathrm{target}}$ is \EffRankTgtVicreg{} out of "
+            r"$D{=}$\ZTLatentDim{}. Near 1 means a few eigenmodes carry almost "
+            r"all covariance; near $D$ means the energy is spread. That is a "
+            r"different question from the per-dimension variance hinge: per-dim "
+            r"stds can look healthy while a handful of directions still dominate. "
+            rf"For the earlier rising VICReg covariance term, {cov_reading}. "
+            r"This is a spectrum description, not a claim that the encoder is "
+            r"healthy or that it has undergone a second collapse mode. "
+            r"Predicted $z_{\mathrm{hat}}$ PR is \EffRankHatVicreg{}. "
+            r"MSE-only $z_{\mathrm{target}}$ PR is \EffRankTgtMse{} "
+            r"(checkpoint epoch \EffRankCkptEpochMse{})."
+            "\n"
+        ),
+        encoding="utf-8",
+    )
+    exp.write_text(
+        (
+            r"\paragraph{Effective rank and the covariance term.}"
+            "\n"
+            r"The val-split participation ratio of VICReg $z_{\mathrm{target}}$ "
+            r"is \EffRankTgtVicreg{} (epoch \EffRankCkptEpochVicreg{}, "
+            r"$D{=}$\ZTLatentDim{}; Section~\ref{sec:limitations}): it says "
+            r"whether a rising covariance penalty is spreading residual "
+            r"correlation across many directions or concentrating it in a few, "
+            r"and it does not by itself decide which."
+            "\n"
         ),
         encoding="utf-8",
     )

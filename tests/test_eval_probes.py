@@ -71,6 +71,47 @@ class EffectiveRankTests(unittest.TestCase):
         self.assertLess(stats["participation_ratio"], 16.5)
 
 
+class EffectiveRankProvenanceTests(unittest.TestCase):
+    def test_in_progress_rank_is_not_final(self) -> None:
+        from src.eval import effective_rank_record_is_final
+
+        self.assertFalse(effective_rank_record_is_final(None))
+        self.assertFalse(
+            effective_rank_record_is_final(
+                {
+                    "z_target": {"participation_ratio": 3.0},
+                    "checkpoint_epoch": 162,
+                    "metrics_jsonl_train_epochs": 162,
+                    "final": False,
+                }
+            )
+        )
+
+    def test_final_requires_epoch_and_flag(self) -> None:
+        from src.eval import effective_rank_record_is_final
+
+        self.assertTrue(
+            effective_rank_record_is_final(
+                {
+                    "z_target": {"participation_ratio": 12.0},
+                    "checkpoint_epoch": 200,
+                    "metrics_jsonl_train_epochs": 200,
+                    "final": True,
+                }
+            )
+        )
+        self.assertFalse(
+            effective_rank_record_is_final(
+                {
+                    "z_target": {"participation_ratio": 12.0},
+                    "checkpoint_epoch": 200,
+                    "metrics_jsonl_train_epochs": 200,
+                    "final": False,
+                }
+            )
+        )
+
+
 class LinearProbeTrainAccTests(unittest.TestCase):
     def test_reports_train_and_val_accuracy(self) -> None:
         torch.manual_seed(0)

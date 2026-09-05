@@ -22,7 +22,7 @@ import torch
 
 from src.dataset import build_dataset
 from src.eval import evaluate_model, write_probe_diagnostics
-from src.train import apply_dataset_path, load_model_from_checkpoint
+from src.train import apply_dataset_path, load_model_from_checkpoint, peek_checkpoint_epoch
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,14 +32,39 @@ logging.basicConfig(
 DEVICE = torch.device("cpu")
 
 
-def _eval_ckpt(ckpt: Path, *, dataset_path: str | None, name: str, max_horizon: int, probe_epochs: int) -> dict:
+def _eval_ckpt(
+    ckpt: Path,
+    *,
+    dataset_path: str | None,
+    name: str,
+    max_horizon: int,
+    probe_epochs: int,
+    source_path: Path | None = None,
+    metrics_jsonl_epochs: int = 0,
+    require_final: bool = False,
+    min_epochs: int = 200,
+) -> dict:
+    source = Path(source_path) if source_path is not None else Path(ckpt)
+    ckpt_epoch = peek_checkpoint_epoch(source)
+    jsonl_epochs = int(metrics_jsonl_epochs)
+    is_final = ckpt_epoch >= min_epochs and jsonl_epochs >= min_epochs
+    if require_final and not is_final:
+        raise SystemExit(
+            f"refuse in-progress {name}: checkpoint={source} "
+            f"checkpoint_epoch={ckpt_epoch} metrics.jsonl_train_epoch={jsonl_epochs} "
+            f"(need both >= {min_epochs})"
+        )
     model, cfg = load_model_from_checkpoint(ckpt, DEVICE)
     if dataset_path:
         cfg = apply_dataset_path(cfg, dataset_path, num_workers=0)
         cfg.training.device = "cpu"
     dataset = build_dataset(cfg.data, split="all")
     n_train, n_val = dataset.split_sizes()
-    print(f"== {name}  ckpt={ckpt}  n_train={n_train} n_val={n_val}  path={cfg.data.dataset_path}")
+    print(
+        f"== {name}  source={source}  ckpt_epoch={ckpt_epoch}  "
+        f"jsonl_epochs={jsonl_epochs}  final={is_final}  "
+        f"n_train={n_train} n_val={n_val}  path={cfg.data.dataset_path}"
+    )
     payload = evaluate_model(
         model,
         dataset,
@@ -49,6 +74,10 @@ def _eval_ckpt(ckpt: Path, *, dataset_path: str | None, name: str, max_horizon: 
         batch_size=8,
     )
     payload["checkpoint"] = str(ckpt)
+    payload["checkpoint_source"] = str(source)
+    payload["checkpoint_epoch"] = ckpt_epoch
+    payload["metrics_jsonl_train_epochs"] = jsonl_epochs
+    payload["final"] = is_final
     payload["dataset_path"] = cfg.data.dataset_path
     return payload
 
@@ -72,6 +101,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--audit-notes",
         action="store_true",
         help="Attach the frozen 2026-09-04 paper_limitation text (only valid for the audited outputs/ tree).",
+    )
+    parser.add_argument(
+        "--require-final",
+        action="store_true",
+        help="Refuse to evaluate physics checkpoints unless last.pt epoch and metrics.jsonl are both >= 200.",
     )
     return parser.parse_args(argv)
 
@@ -113,32 +147,6 @@ def main(argv: list[str] | None = None) -> Path:
                 return path
         return None
 
-    if dump_ok:
-        src = _best_or_last(output_dir / "vicreg")
-        if src is not None:
-            with tempfile.TemporaryDirectory() as tmp:
-                copied = Path(tmp) / "vicreg.pt"
-                shutil.copy2(src, copied)
-                results["vicreg_physics_mpm"] = _eval_ckpt(
-                    copied,
-                    dataset_path=dump,
-                    name="vicreg_physics_mpm",
-                    max_horizon=args.max_horizon,
-                    probe_epochs=args.probe_epochs,
-                )
-        mse_src = _best_or_last(output_dir / "mse")
-        if mse_src is not None:
-            with tempfile.TemporaryDirectory() as tmp:
-                copied = Path(tmp) / "mse.pt"
-                shutil.copy2(mse_src, copied)
-                results["mse_physics_mpm"] = _eval_ckpt(
-                    copied,
-                    dataset_path=dump,
-                    name="mse_physics_mpm",
-                    max_horizon=args.max_horizon,
-                    probe_epochs=args.probe_epochs,
-                )
-
     def _completed_epochs(metrics_path: Path) -> int:
         if not metrics_path.is_file():
             return 0
@@ -153,13 +161,43 @@ def main(argv: list[str] | None = None) -> Path:
     vic_ep = _completed_epochs(output_dir / "vicreg" / "metrics.jsonl")
     mse_ep = _completed_epochs(output_dir / "mse" / "metrics.jsonl")
 
-    def _ckpt_note(name: str, epochs: int) -> str:
+    if dump_ok:
+        for key, run_name, jsonl_ep in (
+            ("vicreg_physics_mpm", "vicreg", vic_ep),
+            ("mse_physics_mpm", "mse", mse_ep),
+        ):
+            run_dir = output_dir / run_name
+            # Paper effective-rank uses last.pt (weights after the logged schedule),
+            # not best.pt (which may be an earlier val snapshot).
+            src = run_dir / "last.pt"
+            if not src.is_file():
+                src = _best_or_last(run_dir)
+            if src is None:
+                continue
+            with tempfile.TemporaryDirectory() as tmp:
+                copied = Path(tmp) / f"{run_name}.pt"
+                shutil.copy2(src, copied)
+                results[key] = _eval_ckpt(
+                    copied,
+                    dataset_path=dump,
+                    name=key,
+                    max_horizon=args.max_horizon,
+                    probe_epochs=args.probe_epochs,
+                    source_path=src,
+                    metrics_jsonl_epochs=jsonl_ep,
+                    require_final=args.require_final,
+                )
+
+    def _ckpt_note(name: str, jsonl_epochs: int) -> str:
+        payload = results.get(name) or {}
+        src = payload.get("checkpoint_source") or "missing"
+        ckpt_ep = payload.get("checkpoint_epoch")
+        is_final = payload.get("final")
         if name not in results:
             return f"Not evaluated ({name} checkpoint missing)."
-        if epochs >= 200:
-            return f"Finished {epochs}-epoch workshop checkpoint (best.pt, then last.pt)."
         return (
-            f"metrics.jsonl train_epoch={epochs} of 200 — not a finished workshop checkpoint."
+            f"source={src} checkpoint_epoch={ckpt_ep} "
+            f"metrics.jsonl_train_epoch={jsonl_epochs} final={is_final}"
         )
 
     extra: dict = {

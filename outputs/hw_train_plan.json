@@ -1,0 +1,14 @@
+{
+  "n_accelerators": 1,
+  "cuda_count": 0,
+  "mps": true,
+  "ram_gib": 8.0,
+  "parallel_seed42_mse_with_vicreg": false,
+  "parallel_seed43_vicreg_mse": false,
+  "seed42_mse_device": "mps",
+  "seed43_vic_device": "mps",
+  "seed43_mse_device": "mps",
+  "skip_seed43": false,
+  "skip_pixel_ae": false,
+  "reason": "One Metal/MPS device (no CUDA). Two workshop ViTs on the same GPU would oversubscribe; RAM=8.0 GiB unified. CPU sidecar refused: 200-epoch ViT on CPU is far slower than MPS and would contend for unified memory with the live MPS job."
+}

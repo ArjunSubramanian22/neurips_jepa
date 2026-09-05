@@ -227,6 +227,20 @@ def effective_rank(z: Tensor, *, eps: float = 1e-12) -> dict[str, Any]:
     }
 
 
+def effective_rank_record_is_final(rank: dict[str, Any] | None, *, min_epochs: int = 200) -> bool:
+    """True only when JSON provenance says the rank came from a finished run."""
+    if not isinstance(rank, dict) or "z_target" not in rank:
+        return False
+    if not rank.get("final"):
+        return False
+    try:
+        ckpt_ep = int(rank.get("checkpoint_epoch") or 0)
+        jsonl_ep = int(rank.get("metrics_jsonl_train_epochs") or 0)
+    except (TypeError, ValueError):
+        return False
+    return ckpt_ep >= min_epochs and jsonl_ep >= min_epochs
+
+
 def _train_linear_probe(
     features: Tensor,
     labels: Tensor,
@@ -616,6 +630,13 @@ def write_probe_diagnostics(
     limitations: list[str] = []
     for name, payload in results.items():
         diag = payload.get("diagnostics") or {}
+        rank = payload.get("effective_rank") or diag.get("effective_rank")
+        if isinstance(rank, dict):
+            rank = dict(rank)
+            rank["checkpoint_path"] = payload.get("checkpoint_source") or payload.get("checkpoint")
+            rank["checkpoint_epoch"] = payload.get("checkpoint_epoch")
+            rank["metrics_jsonl_train_epochs"] = payload.get("metrics_jsonl_train_epochs")
+            rank["final"] = bool(payload.get("final"))
         models[name] = {
             "n_train": payload.get("n_train"),
             "n_val": payload.get("n_val"),
@@ -636,7 +657,11 @@ def write_probe_diagnostics(
             "z_target": diag.get("z_target"),
             "z_hat": diag.get("z_hat"),
             "stiffness_regression": diag.get("stiffness_regression"),
-            "effective_rank": payload.get("effective_rank") or diag.get("effective_rank"),
+            "effective_rank": rank,
+            "checkpoint_path": payload.get("checkpoint_source") or payload.get("checkpoint"),
+            "checkpoint_epoch": payload.get("checkpoint_epoch"),
+            "metrics_jsonl_train_epochs": payload.get("metrics_jsonl_train_epochs"),
+            "final": bool(payload.get("final")),
             "findings": diag.get("findings", []),
         }
         limitations.extend(str(item) for item in diag.get("findings", []))

@@ -706,6 +706,12 @@ def load_model_from_checkpoint(path: Path, device: torch.device) -> tuple[WorldM
     return model, cfg
 
 
+def peek_checkpoint_epoch(path: Path) -> int:
+    """Read ``epoch`` from a checkpoint without constructing the model."""
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    return int(payload.get("epoch") or 0)
+
+
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train and evaluate AC-JEPA.")
     parser.add_argument(

@@ -1,3 +1,21 @@
 == finish_sept9 start Fri Sep  4 22:40:36 CDT 2026  wait_pid=92746
 == waiting for PID 92746
 == still waiting Fri Sep  4 22:40:36 CDT 2026
+== finish_sept9 start Fri Sep  4 23:14:36 CDT 2026  wait_pid=92746
+{
+  "n_accelerators": 1,
+  "cuda_count": 0,
+  "mps": true,
+  "ram_gib": 8.0,
+  "parallel_seed42_mse_with_vicreg": false,
+  "parallel_seed43_vicreg_mse": false,
+  "seed42_mse_device": "mps",
+  "seed43_vic_device": "mps",
+  "seed43_mse_device": "mps",
+  "skip_seed43": false,
+  "skip_pixel_ae": false,
+  "reason": "One Metal/MPS device (no CUDA). Two workshop ViTs on the same GPU would oversubscribe; RAM=8.0 GiB unified. CPU sidecar refused: 200-epoch ViT on CPU is far slower than MPS and would contend for unified memory with the live MPS job."
+}
+== plan parallel42=0 parallel43=0 n_accel=1 skip43=0 skip_pixel_ae=0
+== waiting for live train PID 92746
+== still waiting PID 92746  Fri Sep  4 23:14:41 CDT 2026  vicreg=161 mse=5
