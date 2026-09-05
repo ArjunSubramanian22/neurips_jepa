@@ -162,11 +162,11 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## Missing workshop artifact",
+            "## Missing / scoped workshop artifacts",
             "",
-            "`outputs/ablation_multiseed.json` is absent, so no mean±std ablation numbers",
-            "appear as macros. Table `tab:ac-jepa-ablation-multiseed` is a generated flag,",
-            "not invented error bars.",
+            "The 3-seed × 4-variant grid (`outputs/ablation_multiseed.json`) was skipped.",
+            "Workshop VICReg vs MSE uses `outputs/ablation_twoseed.json` (mean ± half-range",
+            "over seeds 42 and 43 — a 2-seed range, not a sample std).",
             "",
         ]
     )

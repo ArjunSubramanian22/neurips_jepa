@@ -728,6 +728,7 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--output-dir", default=None)
     parser.add_argument("--metrics-png", default="outputs/metrics.png")
     parser.add_argument("--device", default=None)
+    parser.add_argument("--seed", type=int, default=None, help="Override training.seed.")
     parser.add_argument("--ckpt", default=None, help="Checkpoint for --mode eval (VICReg run).")
     parser.add_argument("--baseline-ckpt", default=None, help="Optional MSE-baseline checkpoint.")
     parser.add_argument(
@@ -826,6 +827,8 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         cfg.training.output_dir = args.output_dir
     if args.device:
         cfg.training.device = args.device
+    if args.seed is not None:
+        cfg.training.seed = int(args.seed)
     if args.epochs is not None:
         cfg.training.epochs = args.epochs
         cfg.training.warmup_epochs = resolve_warmup_epochs(

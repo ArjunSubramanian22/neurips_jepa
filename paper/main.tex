@@ -26,7 +26,8 @@ action-conditioning knockout, against a particle-GNN baseline in the
 (\ProbeContactValMean{} vs.\ \ChanceContact{}) while stiffness class remains at
 chance (\ProbeStiffValMean{} vs.\ \ChanceStiffness{}), including an oracle probe
 on the EMA target. We report that limitation rather than a new SOTA number.
-Workshop-scale mean\,$\pm$\,std ablations have not been generated.
+Workshop ablations are a \textbf{\NSeeds{}-seed range} (seeds \TrainSeedYaml{}, \SeedB{}), not a
+mean\,$\pm$\,std over a full multi-seed grid.
 \end{abstract}
 
 \section{Introduction}
@@ -44,10 +45,11 @@ We do \textbf{not} claim to outperform PhysWorld or PhysTwin. Those methods
 operate in a different domain (real captures, reconstructed geometry, privileged
 particle twins). Our numbers are within-simulator. The empirical payload is
 (i)~a six-way baseline on a shared mass-spring split
-(Table~\ref{tab:baselines}), (ii)~a dummy-scale loss ablation imported from the
-exporter so cells cannot drift from \texttt{outputs/} (Table~\ref{tab:ac-jepa-ablation}),
-and (iii)~probe diagnostics on the physics dump that put stiffness non-decodability
-on the record (Section~\ref{sec:limitations}).
+(Table~\ref{tab:baselines}), (ii)~a \NSeeds{}-seed VICReg vs MSE comparison on the
+physics dump (Table~\ref{tab:twoseed}; range, not a std),
+and (iii)~probe diagnostics, including an effective-rank
+participation ratio on $z_{\mathrm{target}}$
+(Section~\ref{sec:limitations}).
 
 \section{Related work}
 \paragraph{JEPA and VICReg.}
@@ -128,23 +130,20 @@ ViT latents. Stiffness probes on this split sit near chance for every method
 
 \input{generated/baseline_table}
 
-\paragraph{Loss ablation (dummy scale, imported).}
-Table~\ref{tab:ac-jepa-ablation} is the tabular environment from
-\texttt{outputs/paper\_tables.tex} with an honest caption. It is a
-\AblationEpochs{}-epoch, $n_{\mathrm{val}}{=}$\AblationNVal{} lattice run on
-\texttt{\AblationDevice{}}. Workshop mean\,$\pm$\,std
-(\texttt{outputs/ablation\_multiseed.json}) does not exist; we include the
-placeholder Table~\ref{tab:ac-jepa-ablation-multiseed} rather than inventing
-error bars.
+\paragraph{Loss ablation (\NSeeds{}-seed range).}
+Table~\ref{tab:twoseed} is generated from \texttt{outputs/ablation\_twoseed.json}.
+Cells are mean\,$\pm$\,half-range over seeds \TrainSeedYaml{} and \SeedB{}, \textbf{not} a sample
+std. We did not run the originally planned multi-seed variant grid. Dummy 1-epoch lattice
+numbers are not used as workshop results.
 
-\input{generated/ablation_table}
-\input{generated/multiseed_table}
+\input{generated/twoseed_table}
 
 \paragraph{Qualitative rollouts.}
 Figure~\ref{fig:rollouts} shows held-out MLS-MPM episodes at
 $k\in\{1,5,10\}$ for $E\in\{\StiffELow,\StiffEMid,\StiffEHigh\}$. VICReg columns
 use a \emph{post-hoc} frozen-latent pixel decoder that is not part of AC-JEPA;
-the Pixel-AE row is a short qualitative fit, not a \WorkshopEpochs{}-epoch Variant~C
+the Pixel-AE row is a short qualitative fit unless a finished
+\texttt{outputs/pixel\_ae/} checkpoint exists
 (\texttt{outputs/figures/README.txt}). Figure~\ref{fig:failure} is validation
 episode \FailureEpisode{}, the worst latent MSE at $k{=}10$
 (\FailureMseKten{}; $n_{\mathrm{val}}{=}$\NValPhysics{}).
@@ -163,10 +162,7 @@ episode \FailureEpisode{}, the worst latent MSE at $k{=}10$
     \includegraphics[width=\linewidth]{../outputs/figures/rollout_comparison_1802.png}\\[-2pt]
     {\scriptsize $E{=}\StiffEHigh$ (ep.\ \ShowcaseEpC{})}
   \end{minipage}
-  \caption{GT $|$ post-hoc-decoded VICReg $|$ Pixel-AE at $k\in\{1,5,10\}$ on the
-  MLS-MPM dump. VICReg weights are an in-progress workshop checkpoint
-  (\texttt{outputs/vicreg/best.pt}); Pixel-AE is a short qualitative fit.
-  Source: \texttt{outputs/figures/}.}
+  \caption{\input{generated/rollout_caption}}
   \label{fig:rollouts}
 \end{figure}
 
@@ -199,23 +195,22 @@ chance \ChanceContact{}. $z_{\mathrm{target}}$ occupies a near-constant shell
 ($\lVert z\rVert$ std \ZTNormStd{}; \ZTDimsBelowGamma{}/\ZTLatentDim{} dims below
 the VICReg $\gamma{=}$\VicregGamma{} hinge; hinge binding \texttt{\ZTHingeBinding{}}). We treat
 stiffness non-decodability as a limitation of this encoder, not a result to
-suppress. The physics VICReg checkpoint is from in-progress workshop training,
-not a finished \WorkshopEpochs{}-epoch run.
+suppress. Probe numbers are from epoch \VicregCompletedEpochs{} of
+\WorkshopEpochs{} (git \texttt{\GitHead{}}).
+
+\paragraph{Effective rank.}
+\input{generated/effective_rank_finding}
+
+\paragraph{\NSeeds{}-seed ablation, not a multi-seed study.}
+Table~\ref{tab:twoseed} uses \NSeeds{} seeds. Half-range is not a confidence interval.
+The originally planned multi-seed variant grid was skipped for the archival deadline.
 
 \paragraph{Domain gap and scale.}
 PhysWorld and PhysTwin start from real video and a reconstructed MPM twin. We
 render \NEpisodes{} short ($T{=}$\EpisodeLength{}) synthetic clips at
-$\ImgSize^2$ with \NStiffClasses{} discrete global $E$ values. That is orders of magnitude
-away from real-video digital-twin benchmarks in appearance, geometry, and
-parameter identification. Nothing here should be quoted as evidence on those
-benchmarks.
-
-\paragraph{Missing scaled ablations.}
-The planned multi-seed workshop grid that would populate Table~\ref{tab:ac-jepa-ablation-multiseed}
-has not been written. Table~\ref{tab:ac-jepa-ablation} is dummy-scale.
-\texttt{outputs/ablation\_drift.png} was overwritten by a different smoke run and
-is not used. Git HEAD does not contain the code that produced these artifacts
-(\texttt{MAPPING.md}).
+$\ImgSize^2$ with \NStiffClasses{} discrete global $E$ values. That is a different
+data regime in appearance, geometry, and parameter identification. Nothing here
+should be quoted as evidence on those benchmarks.
 
 \section{Conclusion}
 AC-JEPA on synthetic deformables is a setting in which action conditioning

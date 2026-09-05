@@ -55,6 +55,64 @@ def _fmt_acc_pct(value: float) -> str:
     return f"{100.0 * value:.1f}"
 
 
+def _completed_epochs(path: Path) -> int:
+    if not path.is_file():
+        return 0
+    best = 0
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            rec = json.loads(line)
+            if rec.get("split") == "train_epoch":
+                best = max(best, int(rec["epoch"]))
+    return best
+
+
+def _git_head() -> str:
+    import subprocess
+
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=ROOT,
+            text=True,
+        ).strip()
+    except Exception:
+        return "unknown"
+
+
+def _add_rank_macros(values: dict[str, str], probes: dict) -> None:
+    models = probes.get("models", {})
+    for name, prefix in (("vicreg_physics_mpm", "Vicreg"), ("mse_physics_mpm", "Mse")):
+        blob = (models.get(name) or {}).get("effective_rank") or {}
+        for view, tag in (("z_target", "Tgt"), ("z_hat", "Hat")):
+            pr = (blob.get(view) or {}).get("participation_ratio")
+            key = f"EffRank{tag}{prefix}"
+            values[key] = f"{float(pr):.2f}" if pr is not None else "NA"
+            dim = (blob.get(view) or {}).get("latent_dim")
+            values[f"EffRankDim{tag}{prefix}"] = str(int(dim)) if dim is not None else values.get("ZTLatentDim", "NA")
+
+
+def _add_twoseed_macros(values: dict[str, str]) -> None:
+    path = OUT / "ablation_twoseed.json"
+    horizon_word = {1: "One", 5: "Five", 10: "Ten"}
+    if not path.is_file():
+        for prefix in ("TSVicreg", "TSMse"):
+            for k, word in horizon_word.items():
+                values[f"{prefix}K{word}Mean"] = "NA"
+                values[f"{prefix}K{word}Range"] = "NA"
+        return
+    blob = json.loads(path.read_text(encoding="utf-8"))
+    mapping = {"full_vicreg": "TSVicreg", "mse": "TSMse"}
+    for key, prefix in mapping.items():
+        by_h = ((blob.get("variants") or {}).get(key) or {}).get("by_horizon") or {}
+        for k, word in horizon_word.items():
+            cell = by_h.get(str(k)) or {}
+            mean = cell.get("rollout_mse_mean")
+            rng = cell.get("rollout_mse_range")
+            values[f"{prefix}K{word}Mean"] = _fmt_mse(float(mean)) if mean is not None else "NA"
+            values[f"{prefix}K{word}Range"] = _fmt_mse(float(rng)) if rng is not None else "NA"
+
+
 def _macro(name: str, body: str) -> str:
     return rf"\newcommand{{\{name}}}{{{body}}}"
 
@@ -191,7 +249,15 @@ def write_macros() -> dict[str, str]:
         "ShowcaseEpB": showcase[1] if len(showcase) > 1 else "1801",
         "ShowcaseEpC": showcase[2] if len(showcase) > 2 else "1802",
         "TrainSeedYaml": str(int(w_train.get("seed", 42))),
+        "SeedB": "43",
+        "NSeeds": "2",
+        "VicregCompletedEpochs": str(_completed_epochs(OUT / "vicreg" / "metrics.jsonl")),
+        "MseCompletedEpochs": str(_completed_epochs(OUT / "mse" / "metrics.jsonl")),
+        "GitHead": _git_head(),
+        "TwoSeedExists": "true" if (OUT / "ablation_twoseed.json").is_file() else "false",
     }
+    _add_rank_macros(values, probes)
+    _add_twoseed_macros(values)
 
     method_macro = {
         "ac_jepa_vicreg": "Vicreg",
@@ -386,11 +452,154 @@ def write_multiseed_or_flag() -> None:
     )
 
 
+def write_twoseed_table() -> None:
+    dest = DEST / "twoseed_table.tex"
+    path = OUT / "ablation_twoseed.json"
+    if not path.is_file():
+        dest.write_text(
+            "\n".join(
+                [
+                    r"\begin{table}[t]",
+                    r"  \centering",
+                    r"  \small",
+                    r"  \caption{Workshop VICReg vs MSE on the MLS-MPM dump, two seeds "
+                    r"(42, 43). Table pending \texttt{outputs/ablation\_twoseed.json}.}",
+                    r"  \label{tab:twoseed}",
+                    r"  \begin{tabular}{l}",
+                    r"    \toprule",
+                    r"    Two-seed range not written yet. \\",
+                    r"    \bottomrule",
+                    r"  \end{tabular}",
+                    r"\end{table}",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        return
+    blob = json.loads(path.read_text(encoding="utf-8"))
+    labels = {"full_vicreg": "Full AC-JEPA (VICReg)", "mse": "MSE-only"}
+    body = []
+    for key, label in labels.items():
+        by_h = (blob["variants"][key]["by_horizon"])
+        cells = [label]
+        for k in (1, 5, 10):
+            cell = by_h[str(k)]
+            cells.append(
+                rf"${_fmt_mse(float(cell['rollout_mse_mean']))}{{\pm}}{_fmt_mse(float(cell['rollout_mse_range']))}$"
+            )
+        body.append("    " + " & ".join(cells) + r" \\")
+    caption = (
+        r"Workshop-scale VICReg vs MSE-only on the MLS-MPM dump. "
+        r"Entries are mean\,$\pm$\,half-range over seeds 42 and 43 "
+        r"($\frac{1}{2}|x_{42}-x_{43}|$). "
+        r"This is a \textbf{2-seed range, not a sample standard deviation}. "
+        r"Source: \texttt{outputs/ablation\_twoseed.json}."
+    )
+    dest.write_text(
+        "\n".join(
+            [
+                r"\begin{table}[t]",
+                r"  \centering",
+                r"  \small",
+                rf"  \caption{{{caption}}}",
+                r"  \label{tab:twoseed}",
+                r"  \begin{tabular}{lccc}",
+                r"    \toprule",
+                r"    Method & $k{=}1$ & $k{=}5$ & $k{=}10$ \\",
+                r"    \midrule",
+                *body,
+                r"    \bottomrule",
+                r"  \end{tabular}",
+                r"\end{table}",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+
+def write_rank_finding() -> None:
+    dest = DEST / "effective_rank_finding.tex"
+    probes = json.loads((OUT / "probe_diagnostics.json").read_text(encoding="utf-8"))
+    vic = ((probes.get("models") or {}).get("vicreg_physics_mpm") or {}).get("effective_rank")
+    if not vic or "z_target" not in vic:
+        dest.write_text(
+            r"Effective-rank participation ratios will be filled from the final "
+            r"\WorkshopEpochs{}-epoch probes (\texttt{effective\_rank} in "
+            r"\texttt{outputs/probe\_diagnostics.json})."
+            "\n",
+            encoding="utf-8",
+        )
+        return
+    pr = float(vic["z_target"]["participation_ratio"])
+    dim = int(vic["z_target"]["latent_dim"])
+    if pr < 5.0:
+        verdict = (
+            r"low relative to $D{=}$\ZTLatentDim{}: a few covariance eigenmodes "
+            r"dominate, so the rising VICReg covariance term is a second collapse "
+            r"mode, not benign correlation among full-rank features"
+        )
+    else:
+        verdict = (
+            r"not rank-1: per-dimension variance can still be below $\gamma$ while "
+            r"several eigenmodes remain, i.e.\ correlated-but-not-fully-collapsed "
+            r"rather than a single-direction collapse"
+        )
+    dest.write_text(
+        (
+            rf"On the physics val split, VICReg $z_{{\mathrm{{target}}}}$ participation "
+            rf"ratio is \EffRankTgtVicreg{{}} (latent dim \ZTLatentDim{{}}). "
+            rf"That is {verdict}. "
+            rf"Predicted $z_{{\mathrm{{hat}}}}$ PR is \EffRankHatVicreg{{}}."
+            + (
+                r" MSE-only $z_{\mathrm{target}}$ PR is \EffRankTgtMse{}."
+                if (probes.get("models") or {}).get("mse_physics_mpm", {}).get("effective_rank")
+                else ""
+            )
+            + "\n"
+        ),
+        encoding="utf-8",
+    )
+
+
+def write_rollout_caption() -> None:
+    n = _completed_epochs(OUT / "vicreg" / "metrics.jsonl")
+    dest = DEST / "rollout_caption.tex"
+    if n >= 200:
+        text = (
+            r"GT $|$ post-hoc-decoded VICReg $|$ Pixel-AE at $k\in\{1,5,10\}$ on the "
+            r"MLS-MPM dump. VICReg is the finished seed-42 workshop checkpoint "
+            r"(\texttt{outputs/vicreg/best.pt}, \WorkshopEpochs{} epochs). "
+            r"The Pixel-AE row uses \texttt{outputs/pixel\_ae/} when that run exists; "
+            r"otherwise a short qualitative fit. Source: \texttt{outputs/figures/}."
+        )
+    else:
+        text = (
+            r"GT $|$ post-hoc-decoded VICReg $|$ Pixel-AE at $k\in\{1,5,10\}$ on the "
+            r"MLS-MPM dump. VICReg weights are \textbf{not} finished "
+            r"(\VicregCompletedEpochs{} of \WorkshopEpochs{} epochs). "
+            r"Source: \texttt{outputs/figures/}."
+        )
+    dest.write_text(text + "\n", encoding="utf-8")
+
+
 def write_probe_table() -> None:
     probes = json.loads((OUT / "probe_diagnostics.json").read_text(encoding="utf-8"))
     physics = probes["models"]["vicreg_physics_mpm"]
     findings = physics["findings"]
     items = "\n".join(r"    \item " + _tex_escape(item) for item in findings)
+    note = probes.get("checkpoint_note", {})
+    if isinstance(note, dict):
+        caveat = note.get("vicreg_physics_mpm")
+        mse_note = note.get("mse_physics_mpm")
+        if mse_note:
+            caveat = f"{caveat}; {mse_note}" if caveat else mse_note
+        if caveat is None:
+            evaluated = note.get("evaluated")
+            caveat = ", ".join(str(x) for x in evaluated) if evaluated else str(note)
+    else:
+        caveat = str(note)
     tex = "\n".join(
         [
             r"\begin{quote}",
@@ -401,7 +610,7 @@ def write_probe_table() -> None:
             items,
             r"\end{itemize}",
             r"Checkpoint caveat (same file, \texttt{checkpoint\_note}): "
-            + _tex_escape(probes["checkpoint_note"]["vicreg_physics_mpm"]),
+            + _tex_escape(str(caveat)),
             r"\end{quote}",
             "",
         ]
@@ -415,6 +624,9 @@ def main() -> None:
     write_baseline_table()
     write_ablation_from_export()
     write_multiseed_or_flag()
+    write_twoseed_table()
+    write_rank_finding()
+    write_rollout_caption()
     write_probe_table()
     print(f"wrote {DEST}")
 

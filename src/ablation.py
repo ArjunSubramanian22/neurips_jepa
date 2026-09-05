@@ -1049,9 +1049,9 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         help="Workshop-scale RNG seeds (default 42,43,44).",
     )
     parser.add_argument(
-        "--ema-sweep",
-        default="0.99,0.996,0.999",
-        help="ema_momentum values for the Full AC-JEPA sweep.",
+        "--variants",
+        default=None,
+        help="Comma-separated variant keys (e.g. full_vicreg,variant_b_mse). Default: all.",
     )
     parser.add_argument(
         "--report-horizons",
@@ -1059,6 +1059,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         help="Horizons written to the multi-seed table (physics dump T=16 cannot do k=20).",
     )
     parser.add_argument("--probe-epochs", type=int, default=80)
+    parser.add_argument(
+        "--ema-sweep",
+        default="",
+        help="Comma-separated EMA momenta to add as extra variants. Empty disables the sweep.",
+    )
     parser.add_argument(
         "--no-skip-completed",
         action="store_true",
@@ -1112,7 +1117,15 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
     seeds = _parse_int_tuple(args.seeds)
     ema_momenta = _parse_float_tuple(args.ema_sweep)
     report_horizons = _parse_int_tuple(args.report_horizons)
-    variants = study_variants(include_ema_sweep=True, ema_momenta=ema_momenta)
+    variants = study_variants(
+        include_ema_sweep=bool(ema_momenta),
+        ema_momenta=ema_momenta,
+    )
+    if args.variants:
+        wanted = {part.strip() for part in args.variants.split(",") if part.strip()}
+        variants = tuple(item for item in variants if item.key in wanted)
+        if not variants:
+            raise ValueError(f"No variants matched --variants={args.variants!r}.")
     report = run_multiseed_ablation(
         cfg,
         seeds=seeds,

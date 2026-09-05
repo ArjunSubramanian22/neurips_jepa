@@ -64,6 +64,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--probe-epochs", type=int, default=80)
     parser.add_argument("--max-horizon", type=int, default=10)
     parser.add_argument(
+        "--physics-only",
+        action="store_true",
+        help="Skip dummy-lattice smoke checkpoints; evaluate physics_mpm only.",
+    )
+    parser.add_argument(
         "--audit-notes",
         action="store_true",
         help="Attach the frozen 2026-09-04 paper_limitation text (only valid for the audited outputs/ tree).",
@@ -80,31 +85,82 @@ def main(argv: list[str] | None = None) -> Path:
         dump = str(candidate) if candidate.is_dir() else None
 
     results: dict = {}
-    mse_ckpt = output_dir / "mse" / "last.pt"
-    if mse_ckpt.is_file():
-        results["mse_smoke"] = _eval_ckpt(
-            mse_ckpt, dataset_path=None, name="mse_smoke", max_horizon=args.max_horizon, probe_epochs=args.probe_epochs
-        )
-    abl = output_dir / "ablation" / "full_vicreg" / "last.pt"
-    if abl.is_file():
-        results["vicreg_smoke"] = _eval_ckpt(
-            abl, dataset_path=None, name="vicreg_smoke", max_horizon=args.max_horizon, probe_epochs=args.probe_epochs
-        )
-
-    src = output_dir / "vicreg" / "best.pt"
-    if not src.is_file():
-        src = output_dir / "vicreg" / "last.pt"
-    if src.is_file() and dump and Path(dump).exists():
-        with tempfile.TemporaryDirectory() as tmp:
-            copied = Path(tmp) / "vicreg_best.pt"
-            shutil.copy2(src, copied)
-            results["vicreg_physics_mpm"] = _eval_ckpt(
-                copied,
-                dataset_path=dump,
-                name="vicreg_physics_mpm",
+    dump_ok = bool(dump and Path(dump).exists())
+    if not args.physics_only:
+        mse_ckpt = output_dir / "mse" / "last.pt"
+        if mse_ckpt.is_file():
+            results["mse_smoke"] = _eval_ckpt(
+                mse_ckpt,
+                dataset_path=None,
+                name="mse_smoke",
                 max_horizon=args.max_horizon,
                 probe_epochs=args.probe_epochs,
             )
+        abl = output_dir / "ablation" / "full_vicreg" / "last.pt"
+        if abl.is_file():
+            results["vicreg_smoke"] = _eval_ckpt(
+                abl,
+                dataset_path=None,
+                name="vicreg_smoke",
+                max_horizon=args.max_horizon,
+                probe_epochs=args.probe_epochs,
+            )
+
+    def _best_or_last(run_dir: Path) -> Path | None:
+        for name in ("best.pt", "last.pt"):
+            path = run_dir / name
+            if path.is_file():
+                return path
+        return None
+
+    if dump_ok:
+        src = _best_or_last(output_dir / "vicreg")
+        if src is not None:
+            with tempfile.TemporaryDirectory() as tmp:
+                copied = Path(tmp) / "vicreg.pt"
+                shutil.copy2(src, copied)
+                results["vicreg_physics_mpm"] = _eval_ckpt(
+                    copied,
+                    dataset_path=dump,
+                    name="vicreg_physics_mpm",
+                    max_horizon=args.max_horizon,
+                    probe_epochs=args.probe_epochs,
+                )
+        mse_src = _best_or_last(output_dir / "mse")
+        if mse_src is not None:
+            with tempfile.TemporaryDirectory() as tmp:
+                copied = Path(tmp) / "mse.pt"
+                shutil.copy2(mse_src, copied)
+                results["mse_physics_mpm"] = _eval_ckpt(
+                    copied,
+                    dataset_path=dump,
+                    name="mse_physics_mpm",
+                    max_horizon=args.max_horizon,
+                    probe_epochs=args.probe_epochs,
+                )
+
+    def _completed_epochs(metrics_path: Path) -> int:
+        if not metrics_path.is_file():
+            return 0
+        best = 0
+        with metrics_path.open(encoding="utf-8") as handle:
+            for line in handle:
+                rec = json.loads(line)
+                if rec.get("split") == "train_epoch":
+                    best = max(best, int(rec["epoch"]))
+        return best
+
+    vic_ep = _completed_epochs(output_dir / "vicreg" / "metrics.jsonl")
+    mse_ep = _completed_epochs(output_dir / "mse" / "metrics.jsonl")
+
+    def _ckpt_note(name: str, epochs: int) -> str:
+        if name not in results:
+            return f"Not evaluated ({name} checkpoint missing)."
+        if epochs >= 200:
+            return f"Finished {epochs}-epoch workshop checkpoint (best.pt, then last.pt)."
+        return (
+            f"metrics.jsonl train_epoch={epochs} of 200 — not a finished workshop checkpoint."
+        )
 
     extra: dict = {
         "physics_dump": {
@@ -113,6 +169,10 @@ def main(argv: list[str] | None = None) -> Path:
         },
         "checkpoint_note": {
             "evaluated": sorted(results),
+            "vicreg_epochs": vic_ep,
+            "mse_epochs": mse_ep,
+            "vicreg_physics_mpm": _ckpt_note("vicreg_physics_mpm", vic_ep),
+            "mse_physics_mpm": _ckpt_note("mse_physics_mpm", mse_ep),
         },
     }
     metrics_path = output_dir / "metrics.json"

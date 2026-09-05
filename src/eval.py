@@ -194,6 +194,39 @@ def latent_health(z: Tensor, *, gamma: float = 1.0, eps: float = 1e-4) -> dict[s
     }
 
 
+def effective_rank(z: Tensor, *, eps: float = 1e-12) -> dict[str, Any]:
+    """Participation ratio of the latent covariance: ``(sum λ)² / sum λ²``.
+
+    ``z`` is flattened to ``(N, D)``. Values near 1 are rank-1 collapse;
+    values near ``D`` are isotropic. This is not the VICReg variance hinge:
+    per-dimension std can sit above ``γ`` while a few eigenmodes still
+    dominate the covariance.
+    """
+    if z.numel() == 0:
+        raise ValueError("effective_rank received an empty tensor.")
+    flat = z.reshape(-1, z.shape[-1]).float()
+    n_vectors, dim = int(flat.shape[0]), int(flat.shape[1])
+    if n_vectors < 2:
+        raise ValueError("effective_rank needs at least two vectors.")
+    centered = flat - flat.mean(dim=0, keepdim=True)
+    cov = (centered.transpose(0, 1) @ centered) / float(n_vectors - 1)
+    eig = torch.linalg.eigvalsh(cov).clamp(min=0.0)
+    eig_sum = float(eig.sum().item())
+    eig_sumsq = float(eig.square().sum().item())
+    pr = (eig_sum * eig_sum) / max(eig_sumsq, eps)
+    eig_max = float(eig.max().item())
+    return {
+        "participation_ratio": pr,
+        "n_vectors": n_vectors,
+        "latent_dim": dim,
+        "eig_sum": eig_sum,
+        "eig_sumsq": eig_sumsq,
+        "eig_max": eig_max,
+        "eig_frac_top1": eig_max / max(eig_sum, eps),
+        "split": "val",
+    }
+
+
 def _train_linear_probe(
     features: Tensor,
     labels: Tensor,
@@ -470,6 +503,8 @@ def evaluate_model(
     )
     z_tgt_stats = latent_health(z_tgt)
     z_hat_stats = latent_health(z_hat)
+    rank_tgt = effective_rank(z_tgt_va)
+    rank_hat = effective_rank(z_va)
     LOGGER.info(
         "z_target  ||z|| mean=%.4f std=%.4f  per-dim std mean=%.4f min=%.4f  "
         "frac_dims_below_gamma(%.2f)=%.3f  hinge=%.4f binding=%s",
@@ -481,6 +516,13 @@ def evaluate_model(
         z_tgt_stats["frac_dims_std_below_gamma"],
         z_tgt_stats["variance_hinge_mean"],
         z_tgt_stats["variance_hinge_binding"],
+    )
+    LOGGER.info(
+        "effective_rank (val)  z_target PR=%.3f  z_hat PR=%.3f  D=%d  N_val_vec=%d",
+        rank_tgt["participation_ratio"],
+        rank_hat["participation_ratio"],
+        rank_tgt["latent_dim"],
+        rank_tgt["n_vectors"],
     )
 
     LOGGER.info("Stiffness class probe on predicted latents z_hat:")
@@ -533,6 +575,7 @@ def evaluate_model(
         "contact_train_coverage": contact_probe["train_coverage"],
         "z_target": z_tgt_stats,
         "z_hat": z_hat_stats,
+        "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
         "stiffness_probe": stiff,
         "contact_probe": contact_probe,
         "stiffness_target_encoder_probe": stiff_tgt,
@@ -556,6 +599,7 @@ def evaluate_model(
         "n_val": n_val,
         "k_max": k_max,
         "diagnostics": diagnostics,
+        "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
     }
 
 
@@ -592,6 +636,7 @@ def write_probe_diagnostics(
             "z_target": diag.get("z_target"),
             "z_hat": diag.get("z_hat"),
             "stiffness_regression": diag.get("stiffness_regression"),
+            "effective_rank": payload.get("effective_rank") or diag.get("effective_rank"),
             "findings": diag.get("findings", []),
         }
         limitations.extend(str(item) for item in diag.get("findings", []))

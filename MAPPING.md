@@ -1,10 +1,11 @@
 # Artifact provenance map (reproducibility audit)
 
 **Audit date:** 2026-09-04  
-**Git HEAD:** `34af9d7ed0eb4ff5229ee743cb23c5a38f3caf70` (`jepa`, 2026-09-04 20:27:38 -0500)  
-**Working tree:** **dirty.** Prompt 1–6 code (`src/ablation.py`, `src/baselines.py`, `configs/`, `scripts/`, tests, figures, physics dump, …) is **not in that commit**. No current `outputs/*.json` or `outputs/*.csv` number can honestly be cited as “produced by commit 34af9d7.”  
+**Git HEAD:** see `git rev-parse HEAD` (paper macro `\GitHead`).  
+**Working tree:** live `outputs/vicreg/` is still a moving checkpoint (PID 92746, `train_and_eval`) until 200 epochs. After that job exits, `scripts/finish_sept9.sh` trains seed-43 VICReg+MSE, writes effective-rank probes, regenerates figures, syncs the paper, and commits each milestone. `outputs/physics_mpm/observations.npy` is gitignored (GitHub 100 MB limit); regenerate with `scripts/generate_trajectories.py`.  
 **Python / torch:** 3.13.2 / torch 2.12.1 (macOS arm64).  
-**`TrainingConfig.device="auto"`:** CUDA if available, else Apple MPS, else CPU. Different machines therefore train different kernels even with the same seed.
+**`TrainingConfig.device="auto"`:** CUDA if available, else Apple MPS, else CPU. Different machines therefore train different kernels even with the same seed.  
+**Sept 9 scope:** 2-seed (42, 43) full VICReg and MSE only. The 3-seed × 4-variant grid is skipped. Report mean ± half-range, labeled as a 2-seed range, not a std.
 
 Do **not** copy numbers from flagged rows into the paper.
 
@@ -15,7 +16,7 @@ Do **not** copy numbers from flagged rows into the paper.
 | Artifact | Problem |
 | --- | --- |
 | Entire `outputs/` tree vs git | Code that produced later artifacts is uncommitted; HEAD is an older snapshot. |
-| `outputs/ablation_multiseed.json` / `ablation_summary.csv` | **Missing.** Prompt-5 workshop 3-seed grid has not finished. No mean±std table has a provenance chain. |
+| `outputs/ablation_multiseed.json` / `ablation_summary.csv` | **Skipped** for the Sept 9 deadline. Paper uses `outputs/ablation_twoseed.json` (VICReg vs MSE, seeds 42 and 43, mean ± half-range). |
 | `outputs/ablation_drift.png` | Regenerated from a **temporary 3-seed 1-epoch dummy** run, not from `ablation_results.csv` (single-seed, n_val=12) and not from workshop JSON. The PNG and the CSV describe different experiments. |
 | `outputs/vicreg/{best,last}.pt`, `history.json` | In-progress **200-epoch workshop** job on MPS; `history.json` still records `epochs: 1` from an earlier write. Checkpoint is a moving target. |
 | `outputs/probe_diagnostics.json` → `vicreg_physics_mpm` | Explicitly copied from that in-progress `best.pt`, not a finished 200-epoch model (`checkpoint_note` in the JSON). |
@@ -110,7 +111,9 @@ Format: **paper slot ← file ← config ← command (device, seed)**.
 | --- | --- | --- | --- |
 | `tab:ac-jepa-ablation` | `outputs/paper_tables.tex` | MSE from dummy `ablation_results.csv`; probes/latency from live checkpoint eval | `python src/utils/export_paper_artifacts.py` |
 | `fig:ac-jepa-latent-traj` | `outputs/paper_latent_trajectories.png` / `.pdf` | PCA/t-SNE of dummy full_vicreg (or first available ckpt) | same exporter (`live_eval`) |
-| Multi-seed mean±std table | **not generated** | needs `outputs/ablation_multiseed.json` | `python src/ablation.py --scale workshop --seeds 42,43,44` then export |
+| Multi-seed mean±std table | **not generated (skipped)** | would need `outputs/ablation_multiseed.json` | 3-seed × 4-variant grid skipped for Sept 9 |
+| 2-seed VICReg vs MSE range | `outputs/ablation_twoseed.json` (pending until seed 43 finishes) | `configs/workshop_vicreg.yaml`, seeds 42 and 43 | `scripts/finish_sept9.sh` → `scripts/two_seed_range.py` |
+| Effective rank | `effective_rank` key in `outputs/probe_diagnostics.json` (pending final ckpts) | val-split covariance participation ratio | `scripts/diagnose_probes.py --physics-only` after 200-epoch VICReg+MSE |
 
 ---
 
@@ -147,10 +150,10 @@ No `outputs/*.csv` besides `ablation_results.csv` and `baseline_comparison.csv`.
    - Prompt 1 dump uses `--workers 1` (the audited dump used auto workers=7; per-episode RNG is `seed + 10007 * episode_id`).
    - Prompt 2 trains VICReg then MSE then Pixel-AE from `configs/workshop_vicreg.yaml`.
    - Prompt 4 baselines stay on the mass-spring lattice (CPU), not the physics dump.
-   - Prompt 5 is `--scale workshop --seeds 42,43,44`.
-   - Prompt 3 (`scripts/diagnose_probes.py --output-dir …`) then paper export then Prompt 6 figures.
+   - Prompt 5 workshop 3-seed × 4-variant grid is **skipped**. Sept 9 uses `scripts/finish_sept9.sh` (seed-42 flagship `train_and_eval`, then seed-43 VICReg+MSE only).
+   - Prompt 3 (`scripts/diagnose_probes.py --physics-only`) then paper export then Prompt 6 figures from **final** checkpoints.
 3. Cite only files under that `outputs_repro/` together with `PROVENANCE.json`.
-4. Until Prompt-5 multi-seed JSON exists, do not put mean±std ablation tables in the paper.
+4. Do not put mean±std ablation tables in the paper. The workshop table is a 2-seed range from `outputs/ablation_twoseed.json`.
 
 A smoke-scale `outputs_repro/` **will not** `diff` equal to the audited `outputs/` tree: the original mix is 5-epoch CPU smoke + 1-epoch MPS dummy ablations + 8-epoch CPU baselines + an in-progress 200-epoch MPS VICReg job. The smoke recipe trains 2 epochs on a 48-episode dump (`--workers 1`) so it is a pipeline check, not a number match.
 

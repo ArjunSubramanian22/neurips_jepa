@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 from src.config import DataConfig
 from src.dataset import DeformableObjectDataset
 from src.eval import (
+    effective_rank,
     evaluate_model,
     label_coverage,
     latent_health,
@@ -52,6 +53,22 @@ class LatentHealthTests(unittest.TestCase):
         stats = latent_health(spread, gamma=1.0)
         self.assertLess(stats["frac_dims_std_below_gamma"], 0.5)
         self.assertGreater(stats["per_dim_variance_mean"], 0.5)
+
+
+class EffectiveRankTests(unittest.TestCase):
+    def test_rank_one_is_near_one(self) -> None:
+        torch.manual_seed(0)
+        z = torch.randn(256, 1) @ torch.ones(1, 8)
+        stats = effective_rank(z)
+        self.assertLess(stats["participation_ratio"], 1.5)
+        self.assertEqual(stats["latent_dim"], 8)
+
+    def test_isotropic_near_dimension(self) -> None:
+        torch.manual_seed(0)
+        z = torch.randn(4000, 16)
+        stats = effective_rank(z)
+        self.assertGreater(stats["participation_ratio"], 10.0)
+        self.assertLess(stats["participation_ratio"], 16.5)
 
 
 class LinearProbeTrainAccTests(unittest.TestCase):

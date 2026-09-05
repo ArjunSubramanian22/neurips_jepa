@@ -7,11 +7,8 @@ Every measured number in `main.tex` must be a macro from `generated/macros.tex`
 (synced from `outputs/*.json`, `outputs/*.csv`, or `configs/workshop_vicreg.yaml`).
 Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 
-## Macros used (55)
+## Macros used (57)
 
-- `\AblationDevice` = `mps`
-- `\AblationEpochs` = `1`
-- `\AblationNVal` = `12`
 - `\ActionDim` = `4`
 - `\BLGnnKOneMse` = `3.32e-08`
 - `\BLMseKOneMse` = `5.20e-04`
@@ -33,8 +30,10 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\EpisodeLength` = `16`
 - `\FailureEpisode` = `1841`
 - `\FailureMseKten` = `0.9651`
+- `\GitHead` = `a7b39e1`
 - `\ImgSize` = `64`
 - `\NEpisodes` = `2000`
+- `\NSeeds` = `2`
 - `\NStiffClasses` = `3`
 - `\NStiffOne` = `667`
 - `\NStiffTwo` = `666`
@@ -47,6 +46,7 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\ProbeStiffTrainMean` = `0.350`
 - `\ProbeStiffValMean` = `0.339`
 - `\ProbeStiffValRTwo` = `-0.002`
+- `\SeedB` = `43`
 - `\ShowcaseEpA` = `1800`
 - `\ShowcaseEpB` = `1801`
 - `\ShowcaseEpC` = `1802`
@@ -55,6 +55,8 @@ Bare `{1,5,10}` tokens are allowed as the eval/figure horizon index set.
 - `\StiffEHigh` = `220`
 - `\StiffELow` = `18`
 - `\StiffEMid` = `70`
+- `\TrainSeedYaml` = `42`
+- `\VicregCompletedEpochs` = `119`
 - `\VicregCov` = `1`
 - `\VicregGamma` = `1`
 - `\VicregSim` = `25`
@@ -73,9 +75,9 @@ _none_
 
 None besides the allowed horizon indices {1, 5, 10}.
 
-## Missing workshop artifact
+## Missing / scoped workshop artifacts
 
-`outputs/ablation_multiseed.json` is absent, so no mean±std ablation numbers
-appear as macros. Table `tab:ac-jepa-ablation-multiseed` is a generated flag,
-not invented error bars.
+The 3-seed × 4-variant grid (`outputs/ablation_multiseed.json`) was skipped.
+Workshop VICReg vs MSE uses `outputs/ablation_twoseed.json` (mean ± half-range
+over seeds 42 and 43 — a 2-seed range, not a sample std).
 
