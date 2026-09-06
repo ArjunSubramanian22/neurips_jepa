@@ -1,0 +1,1153 @@
+[
+  {
+    "filename": "HealthyCircle (1).zip",
+    "path": "/Users/Arjun/Downloads/HealthyCircle (1).zip",
+    "exists": true,
+    "bytes": 1501537,
+    "n_members": 76,
+    "n_files": 73,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "Circle": 37,
+      "__MACOSX": 39
+    },
+    "ext_counts": {
+      ".jpg": 70,
+      "(none)": 2,
+      ".ds_store": 1
+    },
+    "sample_paths": [
+      "Circle/",
+      "Circle/.DS_Store",
+      "__MACOSX/",
+      "__MACOSX/Circle/",
+      "__MACOSX/Circle/._.DS_Store",
+      "Circle/circA-P1.jpg",
+      "__MACOSX/Circle/._circA-P1.jpg",
+      "Circle/circA-P10.jpg",
+      "__MACOSX/Circle/._circA-P10.jpg",
+      "Circle/circA-P11.jpg",
+      "__MACOSX/Circle/._circA-P11.jpg",
+      "Circle/circA-P12.jpg",
+      "__MACOSX/Circle/._circA-P12.jpg",
+      "Circle/circA-P13.jpg",
+      "__MACOSX/Circle/._circA-P13.jpg",
+      "Circle/circA-P14.jpg",
+      "__MACOSX/Circle/._circA-P14.jpg",
+      "Circle/circA-P16.jpg",
+      "__MACOSX/Circle/._circA-P16.jpg",
+      "Circle/circA-P17.jpg",
+      "__MACOSX/Circle/._circA-P17.jpg",
+      "Circle/circA-P18.jpg",
+      "__MACOSX/Circle/._circA-P18.jpg",
+      "Circle/circA-P19.jpg",
+      "__MACOSX/Circle/._circA-P19.jpg",
+      "Circle/circA-P2.jpg",
+      "__MACOSX/Circle/._circA-P2.jpg",
+      "Circle/circA-P20.jpg",
+      "__MACOSX/Circle/._circA-P20.jpg",
+      "Circle/circA-P21.jpg",
+      "__MACOSX/Circle/._circA-P21.jpg",
+      "Circle/circA-P22.jpg",
+      "__MACOSX/Circle/._circA-P22.jpg",
+      "Circle/circA-P23.jpg",
+      "__MACOSX/Circle/._circA-P23.jpg",
+      "Circle/circA-P24.jpg",
+      "__MACOSX/Circle/._circA-P24.jpg",
+      "Circle/circA-P26.jpg",
+      "__MACOSX/Circle/._circA-P26.jpg",
+      "Circle/circA-p27.jpg",
+      "__MACOSX/Circle/._circA-p27.jpg",
+      "Circle/circA-P28.jpg",
+      "__MACOSX/Circle/._circA-P28.jpg",
+      "Circle/circA-P29.jpg",
+      "__MACOSX/Circle/._circA-P29.jpg",
+      "Circle/circA-P3.jpg",
+      "__MACOSX/Circle/._circA-P3.jpg",
+      "Circle/circA-P30.jpg",
+      "__MACOSX/Circle/._circA-P30.jpg",
+      "Circle/circA-P31.jpg",
+      "__MACOSX/Circle/._circA-P31.jpg",
+      "Circle/circA-P32.jpg",
+      "__MACOSX/Circle/._circA-P32.jpg",
+      "Circle/circA-P33.jpg",
+      "__MACOSX/Circle/._circA-P33.jpg",
+      "Circle/circA-P34.jpg",
+      "__MACOSX/Circle/._circA-P34.jpg",
+      "Circle/circA-P35.jpg",
+      "__MACOSX/Circle/._circA-P35.jpg",
+      "Circle/circA-P36.jpg",
+      "__MACOSX/Circle/._circA-P36.jpg",
+      "Circle/circA-P37.jpg",
+      "__MACOSX/Circle/._circA-P37.jpg",
+      "Circle/circA-P38.jpg",
+      "__MACOSX/Circle/._circA-P38.jpg",
+      "Circle/circA-P4.jpg",
+      "__MACOSX/Circle/._circA-P4.jpg",
+      "Circle/circA-P5.jpg",
+      "__MACOSX/Circle/._circA-P5.jpg",
+      "Circle/circA-P7.jpg",
+      "__MACOSX/Circle/._circA-P7.jpg",
+      "Circle/circA-P8.jpg",
+      "__MACOSX/Circle/._circA-P8.jpg",
+      "Circle/circA-P9.jpg",
+      "__MACOSX/Circle/._circA-P9.jpg",
+      "__MACOSX/._Circle"
+    ],
+    "comment": "",
+    "readme_like": [],
+    "largest_files": [
+      {
+        "name": "Circle/circA-P4.jpg",
+        "bytes": 397726
+      },
+      {
+        "name": "Circle/circA-P11.jpg",
+        "bytes": 181709
+      },
+      {
+        "name": "Circle/circA-P2.jpg",
+        "bytes": 154310
+      },
+      {
+        "name": "Circle/circA-P7.jpg",
+        "bytes": 148232
+      },
+      {
+        "name": "Circle/circA-P38.jpg",
+        "bytes": 115457
+      },
+      {
+        "name": "Circle/circA-P14.jpg",
+        "bytes": 99332
+      },
+      {
+        "name": "Circle/circA-P3.jpg",
+        "bytes": 66357
+      },
+      {
+        "name": "Circle/circA-P8.jpg",
+        "bytes": 64977
+      },
+      {
+        "name": "Circle/circA-P5.jpg",
+        "bytes": 51387
+      },
+      {
+        "name": "Circle/circA-P9.jpg",
+        "bytes": 32024
+      },
+      {
+        "name": "Circle/circA-P1.jpg",
+        "bytes": 30445
+      },
+      {
+        "name": "Circle/circA-P12.jpg",
+        "bytes": 24576
+      },
+      {
+        "name": "Circle/circA-P13.jpg",
+        "bytes": 23318
+      },
+      {
+        "name": "Circle/circA-P10.jpg",
+        "bytes": 14724
+      },
+      {
+        "name": "Circle/.DS_Store",
+        "bytes": 8196
+      }
+    ]
+  },
+  {
+    "filename": "HealthySpiral (1).zip",
+    "path": "/Users/Arjun/Downloads/HealthySpiral (1).zip",
+    "exists": true,
+    "bytes": 23757936,
+    "n_members": 286,
+    "n_files": 283,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "HealthySpiral": 142,
+      "__MACOSX": 144
+    },
+    "ext_counts": {
+      ".jpg": 280,
+      "(none)": 2,
+      ".ds_store": 1
+    },
+    "sample_paths": [
+      "HealthySpiral/",
+      "HealthySpiral/.DS_Store",
+      "__MACOSX/",
+      "__MACOSX/HealthySpiral/",
+      "__MACOSX/HealthySpiral/._.DS_Store",
+      "HealthySpiral/sp1-H1.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H1.jpg",
+      "HealthySpiral/sp1-H10.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H10.jpg",
+      "HealthySpiral/sp1-H11.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H11.jpg",
+      "HealthySpiral/sp1-H12.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H12.jpg",
+      "HealthySpiral/sp1-H13.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H13.jpg",
+      "HealthySpiral/sp1-H14.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H14.jpg",
+      "HealthySpiral/sp1-H16.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H16.jpg",
+      "HealthySpiral/sp1-H17.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H17.jpg",
+      "HealthySpiral/sp1-H18.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H18.jpg",
+      "HealthySpiral/sp1-H19.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H19.jpg",
+      "HealthySpiral/sp1-H2.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H2.jpg",
+      "HealthySpiral/sp1-H20.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H20.jpg",
+      "HealthySpiral/sp1-H21.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H21.jpg",
+      "HealthySpiral/sp1-H22.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H22.jpg",
+      "HealthySpiral/sp1-H23.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H23.jpg",
+      "HealthySpiral/sp1-H24.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H24.jpg",
+      "HealthySpiral/sp1-H26.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H26.jpg",
+      "HealthySpiral/sp1-H27.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H27.jpg",
+      "HealthySpiral/sp1-H28.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H28.jpg",
+      "HealthySpiral/sp1-H29.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H29.jpg",
+      "HealthySpiral/sp1-H3.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H3.jpg",
+      "HealthySpiral/sp1-H30.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H30.jpg",
+      "HealthySpiral/sp1-H31.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H31.jpg",
+      "HealthySpiral/sp1-H32.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H32.jpg",
+      "HealthySpiral/sp1-H33.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H33.jpg",
+      "HealthySpiral/sp1-H34.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H34.jpg",
+      "HealthySpiral/sp1-H35.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H35.jpg",
+      "HealthySpiral/sp1-H36.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H36.jpg",
+      "HealthySpiral/sp1-H37.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H37.jpg",
+      "HealthySpiral/sp1-H38.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H38.jpg",
+      "HealthySpiral/sp1-H4.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H4.jpg",
+      "HealthySpiral/sp1-H5.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H5.jpg",
+      "HealthySpiral/sp1-H7.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H7.jpg",
+      "HealthySpiral/sp1-H8.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H8.jpg",
+      "HealthySpiral/sp1-H9.jpg",
+      "__MACOSX/HealthySpiral/._sp1-H9.jpg",
+      "HealthySpiral/sp2-H1.jpg",
+      "__MACOSX/HealthySpiral/._sp2-H1.jpg",
+      "HealthySpiral/sp2-H10.jpg",
+      "__MACOSX/HealthySpiral/._sp2-H10.jpg",
+      "HealthySpiral/sp2-H11.jpg"
+    ],
+    "comment": "",
+    "readme_like": [],
+    "largest_files": [
+      {
+        "name": "HealthySpiral/sp2-H2.jpg",
+        "bytes": 404551
+      },
+      {
+        "name": "HealthySpiral/sp1-H10.jpg",
+        "bytes": 393246
+      },
+      {
+        "name": "HealthySpiral/sp2-H7.jpg",
+        "bytes": 389562
+      },
+      {
+        "name": "HealthySpiral/sp3-H2.jpg",
+        "bytes": 389175
+      },
+      {
+        "name": "HealthySpiral/sp1-H5.jpg",
+        "bytes": 384042
+      },
+      {
+        "name": "HealthySpiral/sp1-H11.jpg",
+        "bytes": 383609
+      },
+      {
+        "name": "HealthySpiral/sp3-H9.jpg",
+        "bytes": 383163
+      },
+      {
+        "name": "HealthySpiral/sp1-H3.jpg",
+        "bytes": 382206
+      },
+      {
+        "name": "HealthySpiral/sp3-H14.jpg",
+        "bytes": 380562
+      },
+      {
+        "name": "HealthySpiral/sp3-H11.jpg",
+        "bytes": 379718
+      },
+      {
+        "name": "HealthySpiral/sp2-H10.jpg",
+        "bytes": 377774
+      },
+      {
+        "name": "HealthySpiral/sp3-H3.jpg",
+        "bytes": 377703
+      },
+      {
+        "name": "HealthySpiral/sp1-H2.jpg",
+        "bytes": 374639
+      },
+      {
+        "name": "HealthySpiral/sp2-H9.jpg",
+        "bytes": 374047
+      },
+      {
+        "name": "HealthySpiral/sp3-H13.jpg",
+        "bytes": 373906
+      }
+    ]
+  },
+  {
+    "filename": "PatientCircle (1).zip",
+    "path": "/Users/Arjun/Downloads/PatientCircle (1).zip",
+    "exists": true,
+    "bytes": 2508729,
+    "n_members": 68,
+    "n_files": 65,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "Circle": 33,
+      "__MACOSX": 35
+    },
+    "ext_counts": {
+      ".jpg": 62,
+      "(none)": 2,
+      ".ds_store": 1
+    },
+    "sample_paths": [
+      "Circle/",
+      "Circle/.DS_Store",
+      "__MACOSX/",
+      "__MACOSX/Circle/",
+      "__MACOSX/Circle/._.DS_Store",
+      "Circle/circA-P1.jpg",
+      "__MACOSX/Circle/._circA-P1.jpg",
+      "Circle/circA-P10.jpg",
+      "__MACOSX/Circle/._circA-P10.jpg",
+      "Circle/circA-P11.jpg",
+      "__MACOSX/Circle/._circA-P11.jpg",
+      "Circle/circA-P12.jpg",
+      "__MACOSX/Circle/._circA-P12.jpg",
+      "Circle/circA-P13.jpg",
+      "__MACOSX/Circle/._circA-P13.jpg",
+      "Circle/circA-P14.jpg",
+      "__MACOSX/Circle/._circA-P14.jpg",
+      "Circle/circA-P15.jpg",
+      "__MACOSX/Circle/._circA-P15.jpg",
+      "Circle/circA-P16.jpg",
+      "__MACOSX/Circle/._circA-P16.jpg",
+      "Circle/circA-P17.jpg",
+      "__MACOSX/Circle/._circA-P17.jpg",
+      "Circle/circA-P18.jpg",
+      "__MACOSX/Circle/._circA-P18.jpg",
+      "Circle/circA-P19.jpg",
+      "__MACOSX/Circle/._circA-P19.jpg",
+      "Circle/circA-P2.jpg",
+      "__MACOSX/Circle/._circA-P2.jpg",
+      "Circle/circA-P20.jpg",
+      "__MACOSX/Circle/._circA-P20.jpg",
+      "Circle/circA-P21.jpg",
+      "__MACOSX/Circle/._circA-P21.jpg",
+      "Circle/circA-P22.jpg",
+      "__MACOSX/Circle/._circA-P22.jpg",
+      "Circle/circA-P23.jpg",
+      "__MACOSX/Circle/._circA-P23.jpg",
+      "Circle/circA-P24.jpg",
+      "__MACOSX/Circle/._circA-P24.jpg",
+      "Circle/circA-P25.jpg",
+      "__MACOSX/Circle/._circA-P25.jpg",
+      "Circle/circA-P26.jpg",
+      "__MACOSX/Circle/._circA-P26.jpg",
+      "Circle/circA-P27.jpg",
+      "__MACOSX/Circle/._circA-P27.jpg",
+      "Circle/circA-P28.jpg",
+      "__MACOSX/Circle/._circA-P28.jpg",
+      "Circle/circA-P29.jpg",
+      "__MACOSX/Circle/._circA-P29.jpg",
+      "Circle/circA-P3.jpg",
+      "__MACOSX/Circle/._circA-P3.jpg",
+      "Circle/circA-P30.jpg",
+      "__MACOSX/Circle/._circA-P30.jpg",
+      "Circle/circA-P31.jpg",
+      "__MACOSX/Circle/._circA-P31.jpg",
+      "Circle/circA-P32.jpg",
+      "__MACOSX/Circle/._circA-P32.jpg",
+      "Circle/circA-P4.jpg",
+      "__MACOSX/Circle/._circA-P4.jpg",
+      "Circle/circA-P6.jpg",
+      "__MACOSX/Circle/._circA-P6.jpg",
+      "Circle/circA-P7.jpg",
+      "__MACOSX/Circle/._circA-P7.jpg",
+      "Circle/circA-P8.jpg",
+      "__MACOSX/Circle/._circA-P8.jpg",
+      "Circle/circA-P9.jpg",
+      "__MACOSX/Circle/._circA-P9.jpg",
+      "__MACOSX/._Circle"
+    ],
+    "comment": "",
+    "readme_like": [],
+    "largest_files": [
+      {
+        "name": "Circle/circA-P8.jpg",
+        "bytes": 251510
+      },
+      {
+        "name": "Circle/circA-P31.jpg",
+        "bytes": 212520
+      },
+      {
+        "name": "Circle/circA-P18.jpg",
+        "bytes": 171609
+      },
+      {
+        "name": "Circle/circA-P30.jpg",
+        "bytes": 159602
+      },
+      {
+        "name": "Circle/circA-P24.jpg",
+        "bytes": 140947
+      },
+      {
+        "name": "Circle/circA-P7.jpg",
+        "bytes": 123730
+      },
+      {
+        "name": "Circle/circA-P32.jpg",
+        "bytes": 101732
+      },
+      {
+        "name": "Circle/circA-P2.jpg",
+        "bytes": 96107
+      },
+      {
+        "name": "Circle/circA-P23.jpg",
+        "bytes": 90054
+      },
+      {
+        "name": "Circle/circA-P6.jpg",
+        "bytes": 89834
+      },
+      {
+        "name": "Circle/circA-P3.jpg",
+        "bytes": 87866
+      },
+      {
+        "name": "Circle/circA-P26.jpg",
+        "bytes": 87599
+      },
+      {
+        "name": "Circle/circA-P13.jpg",
+        "bytes": 72295
+      },
+      {
+        "name": "Circle/circA-P9.jpg",
+        "bytes": 69399
+      },
+      {
+        "name": "Circle/circA-P20.jpg",
+        "bytes": 66906
+      }
+    ]
+  },
+  {
+    "filename": "PatientSpiral.zip",
+    "path": "/Users/Arjun/Downloads/PatientSpiral.zip",
+    "exists": true,
+    "bytes": 47623086,
+    "n_members": 254,
+    "n_files": 251,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "PatientSpiral": 126,
+      "__MACOSX": 128
+    },
+    "ext_counts": {
+      ".jpg": 248,
+      "(none)": 2,
+      ".ds_store": 1
+    },
+    "sample_paths": [
+      "PatientSpiral/",
+      "PatientSpiral/.DS_Store",
+      "__MACOSX/",
+      "__MACOSX/PatientSpiral/",
+      "__MACOSX/PatientSpiral/._.DS_Store",
+      "PatientSpiral/sp1-P1.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P1.jpg",
+      "PatientSpiral/sp1-P10.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P10.jpg",
+      "PatientSpiral/sp1-P11.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P11.jpg",
+      "PatientSpiral/sp1-P12.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P12.jpg",
+      "PatientSpiral/sp1-P13.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P13.jpg",
+      "PatientSpiral/sp1-P14.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P14.jpg",
+      "PatientSpiral/sp1-P15.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P15.jpg",
+      "PatientSpiral/sp1-P16.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P16.jpg",
+      "PatientSpiral/sp1-P17.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P17.jpg",
+      "PatientSpiral/sp1-P18.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P18.jpg",
+      "PatientSpiral/sp1-P19.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P19.jpg",
+      "PatientSpiral/sp1-P2.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P2.jpg",
+      "PatientSpiral/sp1-P20.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P20.jpg",
+      "PatientSpiral/sp1-P21.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P21.jpg",
+      "PatientSpiral/sp1-P22.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P22.jpg",
+      "PatientSpiral/sp1-P23.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P23.jpg",
+      "PatientSpiral/sp1-P24.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P24.jpg",
+      "PatientSpiral/sp1-P25.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P25.jpg",
+      "PatientSpiral/sp1-P26.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P26.jpg",
+      "PatientSpiral/sp1-P27.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P27.jpg",
+      "PatientSpiral/sp1-P28.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P28.jpg",
+      "PatientSpiral/sp1-P29.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P29.jpg",
+      "PatientSpiral/sp1-P3.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P3.jpg",
+      "PatientSpiral/sp1-P30.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P30.jpg",
+      "PatientSpiral/sp1-P31.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P31.jpg",
+      "PatientSpiral/sp1-P32.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P32.jpg",
+      "PatientSpiral/sp1-P4.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P4.jpg",
+      "PatientSpiral/sp1-P6.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P6.jpg",
+      "PatientSpiral/sp1-P7.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P7.jpg",
+      "PatientSpiral/sp1-P8.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P8.jpg",
+      "PatientSpiral/sp1-P9.jpg",
+      "__MACOSX/PatientSpiral/._sp1-P9.jpg",
+      "PatientSpiral/sp2-P1.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P1.jpg",
+      "PatientSpiral/sp2-P10.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P10.jpg",
+      "PatientSpiral/sp2-P11.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P11.jpg",
+      "PatientSpiral/sp2-P12.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P12.jpg",
+      "PatientSpiral/sp2-P13.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P13.jpg",
+      "PatientSpiral/sp2-P14.jpg",
+      "__MACOSX/PatientSpiral/._sp2-P14.jpg",
+      "PatientSpiral/sp2-P15.jpg"
+    ],
+    "comment": "",
+    "readme_like": [],
+    "largest_files": [
+      {
+        "name": "PatientSpiral/sp4-P30.jpg",
+        "bytes": 475453
+      },
+      {
+        "name": "PatientSpiral/sp2-P30.jpg",
+        "bytes": 472758
+      },
+      {
+        "name": "PatientSpiral/sp1-P30.jpg",
+        "bytes": 469108
+      },
+      {
+        "name": "PatientSpiral/sp3-P18.jpg",
+        "bytes": 449911
+      },
+      {
+        "name": "PatientSpiral/sp3-P30.jpg",
+        "bytes": 449107
+      },
+      {
+        "name": "PatientSpiral/sp1-P14.jpg",
+        "bytes": 447355
+      },
+      {
+        "name": "PatientSpiral/sp1-P16.jpg",
+        "bytes": 447355
+      },
+      {
+        "name": "PatientSpiral/sp3-P8.jpg",
+        "bytes": 438818
+      },
+      {
+        "name": "PatientSpiral/sp2-P6.jpg",
+        "bytes": 429137
+      },
+      {
+        "name": "PatientSpiral/sp2-P8.jpg",
+        "bytes": 428572
+      },
+      {
+        "name": "PatientSpiral/sp4-P24.jpg",
+        "bytes": 426987
+      },
+      {
+        "name": "PatientSpiral/sp1-P24.jpg",
+        "bytes": 419169
+      },
+      {
+        "name": "PatientSpiral/sp2-P14.jpg",
+        "bytes": 418865
+      },
+      {
+        "name": "PatientSpiral/sp2-P16.jpg",
+        "bytes": 418865
+      },
+      {
+        "name": "PatientSpiral/sp1-P18.jpg",
+        "bytes": 417892
+      }
+    ]
+  },
+  {
+    "filename": "PatientSignal.zip",
+    "path": "/Users/Arjun/Downloads/PatientSignal.zip",
+    "exists": true,
+    "bytes": 251451298,
+    "n_members": 750,
+    "n_files": 747,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "Signal": 374,
+      "__MACOSX": 376
+    },
+    "ext_counts": {
+      ".txt": 744,
+      "(none)": 2,
+      ".ds_store": 1
+    },
+    "sample_paths": [
+      "Signal/",
+      "Signal/.DS_Store",
+      "__MACOSX/",
+      "__MACOSX/Signal/",
+      "__MACOSX/Signal/._.DS_Store",
+      "Signal/circA-P1.txt",
+      "__MACOSX/Signal/._circA-P1.txt",
+      "Signal/circA-P10.txt",
+      "__MACOSX/Signal/._circA-P10.txt",
+      "Signal/circA-P11.txt",
+      "__MACOSX/Signal/._circA-P11.txt",
+      "Signal/circA-P12.txt",
+      "__MACOSX/Signal/._circA-P12.txt",
+      "Signal/circA-P13.txt",
+      "__MACOSX/Signal/._circA-P13.txt",
+      "Signal/circA-P14.txt",
+      "__MACOSX/Signal/._circA-P14.txt",
+      "Signal/circA-P15.txt",
+      "__MACOSX/Signal/._circA-P15.txt",
+      "Signal/circA-P16.txt",
+      "__MACOSX/Signal/._circA-P16.txt",
+      "Signal/circA-P17.txt",
+      "__MACOSX/Signal/._circA-P17.txt",
+      "Signal/circA-P18.txt",
+      "__MACOSX/Signal/._circA-P18.txt",
+      "Signal/circA-P19.txt",
+      "__MACOSX/Signal/._circA-P19.txt",
+      "Signal/circA-P2.txt",
+      "__MACOSX/Signal/._circA-P2.txt",
+      "Signal/circA-P20.txt",
+      "__MACOSX/Signal/._circA-P20.txt",
+      "Signal/circA-P21.txt",
+      "__MACOSX/Signal/._circA-P21.txt",
+      "Signal/circA-P22.txt",
+      "__MACOSX/Signal/._circA-P22.txt",
+      "Signal/circA-P23.txt",
+      "__MACOSX/Signal/._circA-P23.txt",
+      "Signal/circA-P24.txt",
+      "__MACOSX/Signal/._circA-P24.txt",
+      "Signal/circA-P25.txt",
+      "__MACOSX/Signal/._circA-P25.txt",
+      "Signal/circA-P26.txt",
+      "__MACOSX/Signal/._circA-P26.txt",
+      "Signal/circA-P27.txt",
+      "__MACOSX/Signal/._circA-P27.txt",
+      "Signal/circA-P28.txt",
+      "__MACOSX/Signal/._circA-P28.txt",
+      "Signal/circA-P29.txt",
+      "__MACOSX/Signal/._circA-P29.txt",
+      "Signal/circA-P3.txt",
+      "__MACOSX/Signal/._circA-P3.txt",
+      "Signal/circA-P30.txt",
+      "__MACOSX/Signal/._circA-P30.txt",
+      "Signal/circA-P31.txt",
+      "__MACOSX/Signal/._circA-P31.txt",
+      "Signal/circA-P32.txt",
+      "__MACOSX/Signal/._circA-P32.txt",
+      "Signal/circA-P4.txt",
+      "__MACOSX/Signal/._circA-P4.txt",
+      "Signal/circA-P6.txt",
+      "__MACOSX/Signal/._circA-P6.txt",
+      "Signal/circA-P7.txt",
+      "__MACOSX/Signal/._circA-P7.txt",
+      "Signal/circA-P8.txt",
+      "__MACOSX/Signal/._circA-P8.txt",
+      "Signal/circA-P9.txt",
+      "__MACOSX/Signal/._circA-P9.txt",
+      "Signal/circB-P1.txt",
+      "__MACOSX/Signal/._circB-P1.txt",
+      "Signal/circB-P10.txt",
+      "__MACOSX/Signal/._circB-P10.txt",
+      "Signal/circB-P11.txt",
+      "__MACOSX/Signal/._circB-P11.txt",
+      "Signal/circB-P12.txt",
+      "__MACOSX/Signal/._circB-P12.txt",
+      "Signal/circB-P13.txt",
+      "__MACOSX/Signal/._circB-P13.txt",
+      "Signal/circB-P14.txt",
+      "__MACOSX/Signal/._circB-P14.txt",
+      "Signal/circB-P15.txt"
+    ],
+    "comment": "",
+    "readme_like": [],
+    "largest_files": [
+      {
+        "name": "Signal/circA-P13.txt",
+        "bytes": 7878465
+      },
+      {
+        "name": "Signal/sigSp1-P29.txt",
+        "bytes": 5626298
+      },
+      {
+        "name": "Signal/circA-P29.txt",
+        "bytes": 5626008
+      },
+      {
+        "name": "Signal/circA-P7.txt",
+        "bytes": 5369526
+      },
+      {
+        "name": "Signal/circA-P24.txt",
+        "bytes": 5328461
+      },
+      {
+        "name": "Signal/sigSp2-P7.txt",
+        "bytes": 5283721
+      },
+      {
+        "name": "Signal/circA-P3.txt",
+        "bytes": 4905289
+      },
+      {
+        "name": "Signal/circB-P13.txt",
+        "bytes": 4782365
+      },
+      {
+        "name": "Signal/circA-P26.txt",
+        "bytes": 4256919
+      },
+      {
+        "name": "Signal/circA-P2.txt",
+        "bytes": 4200402
+      },
+      {
+        "name": "Signal/circA-P25.txt",
+        "bytes": 4200402
+      },
+      {
+        "name": "Signal/sigSp4-P29.txt",
+        "bytes": 4022848
+      },
+      {
+        "name": "Signal/sigDiaA-P11.txt",
+        "bytes": 3836226
+      },
+      {
+        "name": "Signal/sigSp1-P3.txt",
+        "bytes": 3694168
+      },
+      {
+        "name": "Signal/sigSp3-P29.txt",
+        "bytes": 3607527
+      }
+    ]
+  },
+  {
+    "filename": "gait-in-neurodegenerative-disease-database-1.0.0 (1).zip",
+    "path": "/Users/Arjun/Downloads/gait-in-neurodegenerative-disease-database-1.0.0 (1).zip",
+    "exists": true,
+    "bytes": 18788912,
+    "n_members": 326,
+    "n_files": 326,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "gait-in-neurodegenerative-disease-database-1.0.0": 326
+    },
+    "ext_counts": {
+      ".hea-": 64,
+      ".rit": 64,
+      ".ts": 64,
+      ".hea": 64,
+      ".let": 64,
+      ".txt": 2,
+      "(none)": 1,
+      ".ps": 1,
+      ".png": 1,
+      ".shtml": 1
+    },
+    "sample_paths": [
+      "gait-in-neurodegenerative-disease-database-1.0.0/control14.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control5.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park6.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt13.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control13.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt18.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als11.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control9.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control14.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park4.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt6.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park2.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt20.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als11.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park12.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control11.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control7.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als9.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control8.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt8.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt16.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/SHA256SUMS.txt",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park4.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt14.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt15.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park3.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control10.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt14.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt12.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt17.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt8.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt20.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control13.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control5.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt15.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt3.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control14.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als12.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt8.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park10.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park11.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park10.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als13.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt15.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/RECORDS",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als4.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als12.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control13.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt17.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt5.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als8.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als9.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control6.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control12.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control6.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park3.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt4.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control10.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als5.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control15.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als10.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park7.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als2.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park13.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park9.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als8.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als13.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park9.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control6.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt11.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als6.hea",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt19.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park15.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control4.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park2.hea-",
+      "gait-in-neurodegenerative-disease-database-1.0.0/als12.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park10.rit",
+      "gait-in-neurodegenerative-disease-database-1.0.0/hunt3.let",
+      "gait-in-neurodegenerative-disease-database-1.0.0/control11.ts",
+      "gait-in-neurodegenerative-disease-database-1.0.0/park6.rit"
+    ],
+    "comment": "",
+    "readme_like": [
+      "gait-in-neurodegenerative-disease-database-1.0.0/SHA256SUMS.txt",
+      "gait-in-neurodegenerative-disease-database-1.0.0/RECORDS",
+      "gait-in-neurodegenerative-disease-database-1.0.0/subject-description.txt"
+    ],
+    "largest_files": [
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt13.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt18.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/als11.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/control14.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/control11.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/control7.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/park4.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt12.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt17.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt8.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt20.let",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/control5.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/hunt3.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/als12.rit",
+        "bytes": 135000
+      },
+      {
+        "name": "gait-in-neurodegenerative-disease-database-1.0.0/park11.let",
+        "bytes": 135000
+      }
+    ]
+  },
+  {
+    "filename": "gait-in-parkinsons-disease-1.0.0.zip",
+    "path": "/Users/Arjun/Downloads/gait-in-parkinsons-disease-1.0.0.zip",
+    "exists": true,
+    "bytes": 302436928,
+    "n_members": 312,
+    "n_files": 312,
+    "n_nested_archives": 0,
+    "nested_archives": [],
+    "top_level": {
+      "gait-in-parkinsons-disease-1.0.0": 312
+    },
+    "ext_counts": {
+      ".txt": 309,
+      ".png": 1,
+      ".html": 1,
+      ".xls": 1
+    },
+    "sample_paths": [
+      "gait-in-parkinsons-disease-1.0.0/JuPt03_04.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt15_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo08_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt14_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt01_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt28_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo06_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt03_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt24_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo22_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt29_03.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo16_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo19_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt03_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt28_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt24_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo11_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt08_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt20_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo09_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt26_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt28_04.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt29_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo01_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt14_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt18_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SHA256SUMS.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo28_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt20_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt06_03.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt20_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo04_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt31_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/gaitpd.png",
+      "gait-in-parkinsons-disease-1.0.0/SiPt38_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt28_03.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo24_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt19_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt20_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt29_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt03_07.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo13_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo03_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt23_07.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo24_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo04_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt04_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo13_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt06_04.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt09_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt09_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt28_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt06_06.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt15_04.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo01_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt20_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt17_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt19_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt23_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt15_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt32_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiCo23_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt11_03.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt29_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt21_04.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo15_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo06_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt29_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt17_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo17_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt05_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt21_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo18_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuCo21_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt24_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaPt32_10.txt",
+      "gait-in-parkinsons-disease-1.0.0/SiPt37_01.txt",
+      "gait-in-parkinsons-disease-1.0.0/JuPt15_05.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo10_02.txt",
+      "gait-in-parkinsons-disease-1.0.0/GaCo02_02.txt"
+    ],
+    "comment": "",
+    "readme_like": [
+      "gait-in-parkinsons-disease-1.0.0/SHA256SUMS.txt"
+    ],
+    "largest_files": [
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt18_01.txt",
+        "bytes": 2512288
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_01.txt",
+        "bytes": 1680596
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_02.txt",
+        "bytes": 1590605
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_05.txt",
+        "bytes": 1538538
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_07.txt",
+        "bytes": 1531860
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_03.txt",
+        "bytes": 1525437
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt13_01.txt",
+        "bytes": 1492226
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_04.txt",
+        "bytes": 1458330
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt21_06.txt",
+        "bytes": 1414679
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt11_02.txt",
+        "bytes": 1334393
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt16_01.txt",
+        "bytes": 1315644
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt11_03.txt",
+        "bytes": 1298993
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt11_01.txt",
+        "bytes": 1260423
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/JuPt11_04.txt",
+        "bytes": 1189712
+      },
+      {
+        "name": "gait-in-parkinsons-disease-1.0.0/GaPt23_10.txt",
+        "bytes": 1188425
+      }
+    ]
+  }
+]

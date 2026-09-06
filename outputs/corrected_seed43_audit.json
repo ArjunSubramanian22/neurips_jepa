@@ -1,0 +1,1168 @@
+{
+  "eval_device": "cpu",
+  "dataset_path": "outputs/physics_mpm",
+  "checkpoint_policy": "last.pt final epoch, not best.pt",
+  "mse_scope": "evaluate_model averages rollout MSE over all episodes (train+val), matching outputs/mpm_action_ablation.json; rank and probes use val",
+  "variance_normalized_mse": "not implemented in src/eval.py",
+  "table_markdown": "| Model | Seed | MSE@1 | MSE@5 | MSE@10 | Pred. eff. rank | Top-1 | Contact | Stiffness | Geometry | Shuffle \u0394 all | Shuffle \u0394 change |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n| corrected no-crop + action | 42 | 0.0757 | 0.622 | 1.200 | 12.27 | 0.178 | 0.395 | 0.302 | 0.999 | 0.02 | 0.02 |\n| corrected no-crop + action | 43 | 0.0695 | 0.616 | 1.107 | 5.78 | 0.333 | 0.398 | 0.294 | 1.000 | 0.01 | 0.01 |\n| corrected no-crop + no-action | 42 | 0.0739 | 0.597 | 1.144 | 11.67 | 0.182 | 0.394 | 0.298 | 1.000 | 0.00 | 0.00 |\n| corrected no-crop + no-action | 43 | 0.0992 | 0.703 | 1.260 | 13.44 | 0.184 | 0.407 | 0.358 | 1.000 | 0.00 | 0.00 |",
+  "two_seed_mean_half_range": {
+    "corrected no-crop + action": {
+      "mse_1": {
+        "mean": 0.07258760184049606,
+        "half_range": 0.0031232833862304688
+      },
+      "mse_5": {
+        "mean": 0.6188909709453583,
+        "half_range": 0.003239363431930542
+      },
+      "mse_10": {
+        "mean": 1.1531729698181152,
+        "half_range": 0.046352267265319824
+      },
+      "pred_eff_rank": {
+        "mean": 9.02195845576523,
+        "half_range": 3.245778400076015
+      },
+      "target_eff_rank": {
+        "mean": 3.3805626811568805,
+        "half_range": 1.2601966818954773
+      },
+      "top1": {
+        "mean": 0.25526281005644974,
+        "half_range": 0.07744052237759408
+      },
+      "contact": {
+        "mean": 0.39674999862909316,
+        "half_range": 0.0012500032782554737
+      },
+      "stiffness": {
+        "mean": 0.2980000004172325,
+        "half_range": 0.0044999971985816845
+      },
+      "geometry": {
+        "mean": 0.9992500007152557,
+        "half_range": 0.0007499992847442849
+      },
+      "shuffle_delta_all": {
+        "mean": 0.01434311755301386,
+        "half_range": 0.0016974266445898998
+      },
+      "shuffle_delta_change": {
+        "mean": 0.014803096810358792,
+        "half_range": 0.001538062609485892
+      }
+    },
+    "corrected no-crop + no-action": {
+      "mse_1": {
+        "mean": 0.08653930202126503,
+        "half_range": 0.012676533311605453
+      },
+      "mse_5": {
+        "mean": 0.6500355899333954,
+        "half_range": 0.05265185236930847
+      },
+      "mse_10": {
+        "mean": 1.2017768621444702,
+        "half_range": 0.057770490646362305
+      },
+      "pred_eff_rank": {
+        "mean": 12.55465134440076,
+        "half_range": 0.8875959298929699
+      },
+      "target_eff_rank": {
+        "mean": 5.193878674469545,
+        "half_range": 0.19773531705381586
+      },
+      "top1": {
+        "mean": 0.18290278385520203,
+        "half_range": 0.0006914215305631327
+      },
+      "contact": {
+        "mean": 0.4002499967813492,
+        "half_range": 0.0067499965429305975
+      },
+      "stiffness": {
+        "mean": 0.32775000035762786,
+        "half_range": 0.030249997973442078
+      },
+      "geometry": {
+        "mean": 1.0,
+        "half_range": 0.0
+      },
+      "shuffle_delta_all": {
+        "mean": 0.0,
+        "half_range": 0.0
+      },
+      "shuffle_delta_change": {
+        "mean": 0.0,
+        "half_range": 0.0
+      }
+    }
+  },
+  "runs": [
+    {
+      "key": "vicreg_nocrop_s42",
+      "label": "corrected no-crop + action",
+      "seed": 42,
+      "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/vicreg_nocrop/last.pt",
+      "checkpoint_epoch": 200,
+      "condition_on_action": true,
+      "config": {
+        "model": {
+          "in_channels": 3,
+          "img_size": 64,
+          "patch_size": 8,
+          "embed_dim": 128,
+          "encoder_depth": 4,
+          "encoder_num_heads": 4,
+          "mlp_ratio": 2.0,
+          "action_dim": 4,
+          "action_embed_dim": 64,
+          "predictor_embed_dim": 128,
+          "predictor_depth": 4,
+          "predictor_num_heads": 4,
+          "latent_dim": 0,
+          "ema_momentum": 0.996,
+          "dropout": 0.0,
+          "drop_path": 0.05,
+          "backbone": "vit",
+          "fuse_mode": "concat",
+          "condition_on_action": true
+        },
+        "training": {
+          "batch_size": 128,
+          "epochs": 200,
+          "lr": 0.0002,
+          "min_lr": 1e-06,
+          "weight_decay": 0.05,
+          "warmup_epochs": 20,
+          "warmup_ratio": 0.1,
+          "grad_clip": 1.0,
+          "beta1": 0.9,
+          "beta2": 0.999,
+          "loss_type": "vicreg",
+          "vicreg_sim_coeff": 25.0,
+          "vicreg_std_coeff": 25.0,
+          "vicreg_cov_coeff": 1.0,
+          "amp": true,
+          "seed": 42,
+          "num_workers": 0,
+          "log_interval": 20,
+          "ckpt_interval": 25,
+          "output_dir": "outputs",
+          "device": "cpu",
+          "ema_sync_every": 1
+        },
+        "data": {
+          "dataset_path": "outputs/physics_mpm",
+          "spatial_dims": 2,
+          "img_size": 64,
+          "in_channels": 3,
+          "action_dim": 4,
+          "n_episodes": 2000,
+          "episode_length": 16,
+          "n_grid": 8,
+          "dt": 0.02,
+          "substeps": 4,
+          "stiffness": 40.0,
+          "damping": 0.12,
+          "mass": 1.0,
+          "gravity": 0.0,
+          "contact_radius": 0.12,
+          "action_gain": 8.0,
+          "gaussian_sigma": 1.75,
+          "seed": 0,
+          "val_fraction": 0.1,
+          "pin_memory": true,
+          "n_stiffness_classes": 3,
+          "chunk_length": 16,
+          "chunk_stride": 1,
+          "augment": true,
+          "crop_scale_min": 1.0,
+          "color_jitter": 0.4,
+          "blur_prob": 0.25,
+          "blur_sigma_max": 2.0,
+          "normalize_actions": true,
+          "prefetch_factor": 2
+        }
+      },
+      "n_train": 1800,
+      "n_val": 200,
+      "start_frame": 0,
+      "summary": {
+        "mse_k": {
+          "1": 0.07571088522672653,
+          "5": 0.6221303343772888,
+          "10": 1.199525237083435
+        },
+        "variance_normalized_mse_k": {
+          "1": null,
+          "5": null,
+          "10": null
+        },
+        "effective_rank_z_target": 4.640759363052358,
+        "effective_rank_z_hat": 12.267736855841244,
+        "eig_frac_top1_z_hat": 0.17782228767885566,
+        "eig_frac_top1_z_target": 0.41485626781255064,
+        "geometry_val_mean": 0.9985000014305114,
+        "stiffness_val_mean": 0.3024999976158142,
+        "contact_val_mean": 0.3954999953508377,
+        "shuffle_delta_all": 0.01604054419760376,
+        "shuffle_delta_change": 0.016341159419844684,
+        "neutral_delta_all": 0.013324476591138338,
+        "pred_to_pred_mse_all": 3.324896397316479e-06
+      },
+      "horizons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "rollout_mse": [
+        0.07571088522672653,
+        0.17678125202655792,
+        0.31627780199050903,
+        0.4703160524368286,
+        0.6221303343772888,
+        0.763498067855835,
+        0.8921485543251038,
+        1.0068590641021729,
+        1.108925223350525,
+        1.199525237083435
+      ],
+      "effective_rank": {
+        "z_target": {
+          "participation_ratio": 4.640759363052358,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 34.855525970458984,
+          "eig_sumsq": 261.79071044921875,
+          "eig_max": 14.460033416748047,
+          "eig_frac_top1": 0.41485626781255064,
+          "split": "val"
+        },
+        "z_hat": {
+          "participation_ratio": 12.267736855841244,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 100.11424255371094,
+          "eig_sumsq": 817.0098266601562,
+          "eig_max": 17.80254364013672,
+          "eig_frac_top1": 0.17782228767885566,
+          "split": "val"
+        }
+      },
+      "geometry_probe_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9950000047683716,
+        0.9900000095367432
+      ],
+      "stiffness_probe_acc": [
+        0.33500000834465027,
+        0.3100000023841858,
+        0.29499998688697815,
+        0.2800000011920929,
+        0.3199999928474426,
+        0.2750000059604645,
+        0.2849999964237213,
+        0.29499998688697815,
+        0.32499998807907104,
+        0.3050000071525574
+      ],
+      "contact_probe_acc": [
+        0.36000001430511475,
+        0.3799999952316284,
+        0.3799999952316284,
+        0.38999998569488525,
+        0.3799999952316284,
+        0.375,
+        0.4449999928474426,
+        0.41999998688697815,
+        0.4099999964237213,
+        0.41499999165534973
+      ],
+      "counterfactual": {
+        "protocol": {
+          "shuffle": "episode permutation of model_actions; one shared perm for all t",
+          "neutral": "zeros in z-scored action space (training-split mean)",
+          "one_step": "rollout_predictions start_frame=t, max_horizon=1",
+          "change_times": [
+            3,
+            6,
+            9,
+            12
+          ],
+          "shuffle_seed": 0,
+          "prior_script": null,
+          "note": "No counterfactual-action helper existed in src/eval.py or paper macros. This wraps rollout_predictions only."
+        },
+        "all_t0_one_step": {
+          "true_mse": 0.07571093738079071,
+          "shuffled_mse": 0.0757230818271637,
+          "neutral_mse": 0.07572102546691895,
+          "shuffle_pct_change": 0.01604054419760376,
+          "neutral_pct_change": 0.013324476591138338,
+          "pred_to_pred_mse": 3.324896397316479e-06
+        },
+        "change_boundaries": [
+          {
+            "t": 3,
+            "true_mse": 0.07699552178382874,
+            "shuffled_mse": 0.07700689136981964,
+            "neutral_mse": 0.07700683921575546,
+            "shuffle_pct_change": 0.014766554895006504,
+            "neutral_pct_change": 0.014698818404662438,
+            "pred_to_pred_mse": 3.3313665426248917e-06
+          },
+          {
+            "t": 6,
+            "true_mse": 0.07663541287183762,
+            "shuffled_mse": 0.07664913684129715,
+            "neutral_mse": 0.07664857059717178,
+            "shuffle_pct_change": 0.01790813012580121,
+            "neutral_pct_change": 0.017169249621153605,
+            "pred_to_pred_mse": 3.2505120088899275e-06
+          },
+          {
+            "t": 9,
+            "true_mse": 0.07667049765586853,
+            "shuffled_mse": 0.0766807347536087,
+            "neutral_mse": 0.07668419182300568,
+            "shuffle_pct_change": 0.013352068987633301,
+            "neutral_pct_change": 0.017861064628289673,
+            "pred_to_pred_mse": 3.3480580441391794e-06
+          },
+          {
+            "t": 12,
+            "true_mse": 0.07678713649511337,
+            "shuffled_mse": 0.07680198550224304,
+            "neutral_mse": 0.07679938524961472,
+            "shuffle_pct_change": 0.019337883670937722,
+            "neutral_pct_change": 0.015951570875575322,
+            "pred_to_pred_mse": 3.4311071885895217e-06
+          }
+        ],
+        "change_boundary_mean": {
+          "true_mse": 0.07677214220166206,
+          "shuffled_mse": 0.07678468711674213,
+          "neutral_mse": 0.07678474672138691,
+          "shuffle_pct_change": 0.016341159419844684,
+          "neutral_pct_change": 0.01642017588242026,
+          "pred_to_pred_mse": 3.34026094606088e-06
+        }
+      },
+      "variance_normalized_mse_supported": false
+    },
+    {
+      "key": "vicreg_nocrop_s43",
+      "label": "corrected no-crop + action",
+      "seed": 43,
+      "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/vicreg_nocrop_seed43/last.pt",
+      "checkpoint_epoch": 200,
+      "condition_on_action": true,
+      "config": {
+        "model": {
+          "in_channels": 3,
+          "img_size": 64,
+          "patch_size": 8,
+          "embed_dim": 128,
+          "encoder_depth": 4,
+          "encoder_num_heads": 4,
+          "mlp_ratio": 2.0,
+          "action_dim": 4,
+          "action_embed_dim": 64,
+          "predictor_embed_dim": 128,
+          "predictor_depth": 4,
+          "predictor_num_heads": 4,
+          "latent_dim": 0,
+          "ema_momentum": 0.996,
+          "dropout": 0.0,
+          "drop_path": 0.05,
+          "backbone": "vit",
+          "fuse_mode": "concat",
+          "condition_on_action": true
+        },
+        "training": {
+          "batch_size": 128,
+          "epochs": 200,
+          "lr": 0.0002,
+          "min_lr": 1e-06,
+          "weight_decay": 0.05,
+          "warmup_epochs": 20,
+          "warmup_ratio": 0.1,
+          "grad_clip": 1.0,
+          "beta1": 0.9,
+          "beta2": 0.999,
+          "loss_type": "vicreg",
+          "vicreg_sim_coeff": 25.0,
+          "vicreg_std_coeff": 25.0,
+          "vicreg_cov_coeff": 1.0,
+          "amp": true,
+          "seed": 43,
+          "num_workers": 0,
+          "log_interval": 20,
+          "ckpt_interval": 25,
+          "output_dir": "outputs",
+          "device": "cpu",
+          "ema_sync_every": 1
+        },
+        "data": {
+          "dataset_path": "outputs/physics_mpm",
+          "spatial_dims": 2,
+          "img_size": 64,
+          "in_channels": 3,
+          "action_dim": 4,
+          "n_episodes": 2000,
+          "episode_length": 16,
+          "n_grid": 8,
+          "dt": 0.02,
+          "substeps": 4,
+          "stiffness": 40.0,
+          "damping": 0.12,
+          "mass": 1.0,
+          "gravity": 0.0,
+          "contact_radius": 0.12,
+          "action_gain": 8.0,
+          "gaussian_sigma": 1.75,
+          "seed": 0,
+          "val_fraction": 0.1,
+          "pin_memory": true,
+          "n_stiffness_classes": 3,
+          "chunk_length": 16,
+          "chunk_stride": 1,
+          "augment": true,
+          "crop_scale_min": 1.0,
+          "color_jitter": 0.4,
+          "blur_prob": 0.25,
+          "blur_sigma_max": 2.0,
+          "normalize_actions": true,
+          "prefetch_factor": 2
+        }
+      },
+      "n_train": 1800,
+      "n_val": 200,
+      "start_frame": 0,
+      "summary": {
+        "mse_k": {
+          "1": 0.0694643184542656,
+          "5": 0.6156516075134277,
+          "10": 1.1068207025527954
+        },
+        "variance_normalized_mse_k": {
+          "1": null,
+          "5": null,
+          "10": null
+        },
+        "effective_rank_z_target": 2.1203659992614035,
+        "effective_rank_z_hat": 5.776180055689214,
+        "eig_frac_top1_z_hat": 0.3327033324340438,
+        "eig_frac_top1_z_target": 0.6654541457469261,
+        "geometry_val_mean": 1.0,
+        "stiffness_val_mean": 0.29350000321865083,
+        "contact_val_mean": 0.39800000190734863,
+        "shuffle_delta_all": 0.01264569090842396,
+        "shuffle_delta_change": 0.0132650342008729,
+        "neutral_delta_all": 0.010532712868594004,
+        "pred_to_pred_mse_all": 4.315193564252695e-06
+      },
+      "horizons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "rollout_mse": [
+        0.0694643184542656,
+        0.15649496018886566,
+        0.2921050786972046,
+        0.4563141167163849,
+        0.6156516075134277,
+        0.7502053380012512,
+        0.8615178465843201,
+        0.955860435962677,
+        1.0368757247924805,
+        1.1068207025527954
+      ],
+      "effective_rank": {
+        "z_target": {
+          "participation_ratio": 2.1203659992614035,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 19.790203094482422,
+          "eig_sumsq": 184.70968627929688,
+          "eig_max": 13.169472694396973,
+          "eig_frac_top1": 0.6654541457469261,
+          "split": "val"
+        },
+        "z_hat": {
+          "participation_ratio": 5.776180055689214,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 72.73446655273438,
+          "eig_sumsq": 915.882568359375,
+          "eig_max": 24.198999404907227,
+          "eig_frac_top1": 0.3327033324340438,
+          "split": "val"
+        }
+      },
+      "geometry_probe_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "stiffness_probe_acc": [
+        0.29499998688697815,
+        0.30000001192092896,
+        0.28999999165534973,
+        0.28999999165534973,
+        0.2750000059604645,
+        0.30000001192092896,
+        0.2849999964237213,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896
+      ],
+      "contact_probe_acc": [
+        0.4050000011920929,
+        0.39500001072883606,
+        0.41999998688697815,
+        0.3799999952316284,
+        0.3700000047683716,
+        0.36500000953674316,
+        0.4350000023841858,
+        0.42500001192092896,
+        0.41499999165534973,
+        0.3700000047683716
+      ],
+      "counterfactual": {
+        "protocol": {
+          "shuffle": "episode permutation of model_actions; one shared perm for all t",
+          "neutral": "zeros in z-scored action space (training-split mean)",
+          "one_step": "rollout_predictions start_frame=t, max_horizon=1",
+          "change_times": [
+            3,
+            6,
+            9,
+            12
+          ],
+          "shuffle_seed": 0,
+          "prior_script": null,
+          "note": "No counterfactual-action helper existed in src/eval.py or paper macros. This wraps rollout_predictions only."
+        },
+        "all_t0_one_step": {
+          "true_mse": 0.06946425139904022,
+          "shuffled_mse": 0.069473035633564,
+          "neutral_mse": 0.0694715678691864,
+          "shuffle_pct_change": 0.01264569090842396,
+          "neutral_pct_change": 0.010532712868594004,
+          "pred_to_pred_mse": 4.315193564252695e-06
+        },
+        "change_boundaries": [
+          {
+            "t": 3,
+            "true_mse": 0.0697440505027771,
+            "shuffled_mse": 0.06975306570529938,
+            "neutral_mse": 0.06975261121988297,
+            "shuffle_pct_change": 0.012926124102756063,
+            "neutral_pct_change": 0.01227447652402208,
+            "pred_to_pred_mse": 4.317998900660314e-06
+          },
+          {
+            "t": 6,
+            "true_mse": 0.06979658454656601,
+            "shuffled_mse": 0.06980674713850021,
+            "neutral_mse": 0.06980545073747635,
+            "shuffle_pct_change": 0.014560299762840043,
+            "neutral_pct_change": 0.01270290081948655,
+            "pred_to_pred_mse": 4.176465154159814e-06
+          },
+          {
+            "t": 9,
+            "true_mse": 0.07017002254724503,
+            "shuffled_mse": 0.07017717510461807,
+            "neutral_mse": 0.07017828524112701,
+            "shuffle_pct_change": 0.010193180953064544,
+            "neutral_pct_change": 0.011775247580154769,
+            "pred_to_pred_mse": 4.340118721302133e-06
+          },
+          {
+            "t": 12,
+            "true_mse": 0.06975594907999039,
+            "shuffled_mse": 0.06976667791604996,
+            "neutral_mse": 0.06976480036973953,
+            "shuffle_pct_change": 0.01538053198483095,
+            "neutral_pct_change": 0.012688938887485533,
+            "pred_to_pred_mse": 4.441858891368611e-06
+          }
+        ],
+        "change_boundary_mean": {
+          "true_mse": 0.06986665166914463,
+          "shuffled_mse": 0.0698759164661169,
+          "neutral_mse": 0.06987528689205647,
+          "shuffle_pct_change": 0.0132650342008729,
+          "neutral_pct_change": 0.012360390952787233,
+          "pred_to_pred_mse": 4.319110416872718e-06
+        }
+      },
+      "variance_normalized_mse_supported": false
+    },
+    {
+      "key": "vicreg_nocrop_noaction_s42",
+      "label": "corrected no-crop + no-action",
+      "seed": 42,
+      "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/no_action/last.pt",
+      "checkpoint_epoch": 200,
+      "condition_on_action": false,
+      "config": {
+        "model": {
+          "in_channels": 3,
+          "img_size": 64,
+          "patch_size": 8,
+          "embed_dim": 128,
+          "encoder_depth": 4,
+          "encoder_num_heads": 4,
+          "mlp_ratio": 2.0,
+          "action_dim": 4,
+          "action_embed_dim": 64,
+          "predictor_embed_dim": 128,
+          "predictor_depth": 4,
+          "predictor_num_heads": 4,
+          "latent_dim": 0,
+          "ema_momentum": 0.996,
+          "dropout": 0.0,
+          "drop_path": 0.05,
+          "backbone": "vit",
+          "fuse_mode": "concat",
+          "condition_on_action": false
+        },
+        "training": {
+          "batch_size": 128,
+          "epochs": 200,
+          "lr": 0.0002,
+          "min_lr": 1e-06,
+          "weight_decay": 0.05,
+          "warmup_epochs": 20,
+          "warmup_ratio": 0.1,
+          "grad_clip": 1.0,
+          "beta1": 0.9,
+          "beta2": 0.999,
+          "loss_type": "vicreg",
+          "vicreg_sim_coeff": 25.0,
+          "vicreg_std_coeff": 25.0,
+          "vicreg_cov_coeff": 1.0,
+          "amp": true,
+          "seed": 42,
+          "num_workers": 0,
+          "log_interval": 20,
+          "ckpt_interval": 25,
+          "output_dir": "outputs",
+          "device": "cpu",
+          "ema_sync_every": 1
+        },
+        "data": {
+          "dataset_path": "outputs/physics_mpm",
+          "spatial_dims": 2,
+          "img_size": 64,
+          "in_channels": 3,
+          "action_dim": 4,
+          "n_episodes": 2000,
+          "episode_length": 16,
+          "n_grid": 8,
+          "dt": 0.02,
+          "substeps": 4,
+          "stiffness": 40.0,
+          "damping": 0.12,
+          "mass": 1.0,
+          "gravity": 0.0,
+          "contact_radius": 0.12,
+          "action_gain": 8.0,
+          "gaussian_sigma": 1.75,
+          "seed": 0,
+          "val_fraction": 0.1,
+          "pin_memory": true,
+          "n_stiffness_classes": 3,
+          "chunk_length": 16,
+          "chunk_stride": 1,
+          "augment": true,
+          "crop_scale_min": 1.0,
+          "color_jitter": 0.4,
+          "blur_prob": 0.25,
+          "blur_sigma_max": 2.0,
+          "normalize_actions": true,
+          "prefetch_factor": 2
+        }
+      },
+      "n_train": 1800,
+      "n_val": 200,
+      "start_frame": 0,
+      "summary": {
+        "mse_k": {
+          "1": 0.07386276870965958,
+          "5": 0.5973837375640869,
+          "10": 1.144006371498108
+        },
+        "variance_normalized_mse_k": {
+          "1": null,
+          "5": null,
+          "10": null
+        },
+        "effective_rank_z_target": 4.996143357415729,
+        "effective_rank_z_hat": 11.667055414507791,
+        "eig_frac_top1_z_hat": 0.18221136232463891,
+        "eig_frac_top1_z_target": 0.3747397736210466,
+        "geometry_val_mean": 1.0,
+        "stiffness_val_mean": 0.2975000023841858,
+        "contact_val_mean": 0.3935000002384186,
+        "shuffle_delta_all": 0.0,
+        "shuffle_delta_change": 0.0,
+        "neutral_delta_all": 0.0,
+        "pred_to_pred_mse_all": 0.0
+      },
+      "horizons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "rollout_mse": [
+        0.07386276870965958,
+        0.16376587748527527,
+        0.29082155227661133,
+        0.44191718101501465,
+        0.5973837375640869,
+        0.7436360716819763,
+        0.8720805644989014,
+        0.9818134903907776,
+        1.0715454816818237,
+        1.144006371498108
+      ],
+      "effective_rank": {
+        "z_target": {
+          "participation_ratio": 4.996143357415729,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 34.445335388183594,
+          "eig_sumsq": 237.47940063476562,
+          "eig_max": 12.908037185668945,
+          "eig_frac_top1": 0.3747397736210466,
+          "split": "val"
+        },
+        "z_hat": {
+          "participation_ratio": 11.667055414507791,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 93.66899108886719,
+          "eig_sumsq": 752.0217895507812,
+          "eig_max": 17.067554473876953,
+          "eig_frac_top1": 0.18221136232463891,
+          "split": "val"
+        }
+      },
+      "geometry_probe_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "stiffness_probe_acc": [
+        0.2750000059604645,
+        0.2800000011920929,
+        0.30000001192092896,
+        0.29499998688697815,
+        0.2750000059604645,
+        0.2750000059604645,
+        0.29499998688697815,
+        0.33000001311302185,
+        0.33000001311302185,
+        0.3199999928474426
+      ],
+      "contact_probe_acc": [
+        0.4050000011920929,
+        0.4000000059604645,
+        0.41499999165534973,
+        0.38499999046325684,
+        0.375,
+        0.375,
+        0.4300000071525574,
+        0.4300000071525574,
+        0.4000000059604645,
+        0.3199999928474426
+      ],
+      "counterfactual": {
+        "protocol": {
+          "shuffle": "episode permutation of model_actions; one shared perm for all t",
+          "neutral": "zeros in z-scored action space (training-split mean)",
+          "one_step": "rollout_predictions start_frame=t, max_horizon=1",
+          "change_times": [
+            3,
+            6,
+            9,
+            12
+          ],
+          "shuffle_seed": 0,
+          "prior_script": null,
+          "note": "No counterfactual-action helper existed in src/eval.py or paper macros. This wraps rollout_predictions only."
+        },
+        "all_t0_one_step": {
+          "true_mse": 0.07386283576488495,
+          "shuffled_mse": 0.07386283576488495,
+          "neutral_mse": 0.07386283576488495,
+          "shuffle_pct_change": 0.0,
+          "neutral_pct_change": 0.0,
+          "pred_to_pred_mse": 0.0
+        },
+        "change_boundaries": [
+          {
+            "t": 3,
+            "true_mse": 0.07593240588903427,
+            "shuffled_mse": 0.07593240588903427,
+            "neutral_mse": 0.07593240588903427,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 6,
+            "true_mse": 0.07451942563056946,
+            "shuffled_mse": 0.07451942563056946,
+            "neutral_mse": 0.07451942563056946,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 9,
+            "true_mse": 0.07578981667757034,
+            "shuffled_mse": 0.07578981667757034,
+            "neutral_mse": 0.07578981667757034,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 12,
+            "true_mse": 0.07466581463813782,
+            "shuffled_mse": 0.07466581463813782,
+            "neutral_mse": 0.07466581463813782,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          }
+        ],
+        "change_boundary_mean": {
+          "true_mse": 0.07522686570882797,
+          "shuffled_mse": 0.07522686570882797,
+          "neutral_mse": 0.07522686570882797,
+          "shuffle_pct_change": 0.0,
+          "neutral_pct_change": 0.0,
+          "pred_to_pred_mse": 0.0
+        }
+      },
+      "variance_normalized_mse_supported": false
+    },
+    {
+      "key": "vicreg_nocrop_noaction_s43",
+      "label": "corrected no-crop + no-action",
+      "seed": 43,
+      "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/vicreg_nocrop_noaction_seed43/last.pt",
+      "checkpoint_epoch": 200,
+      "condition_on_action": false,
+      "config": {
+        "model": {
+          "in_channels": 3,
+          "img_size": 64,
+          "patch_size": 8,
+          "embed_dim": 128,
+          "encoder_depth": 4,
+          "encoder_num_heads": 4,
+          "mlp_ratio": 2.0,
+          "action_dim": 4,
+          "action_embed_dim": 64,
+          "predictor_embed_dim": 128,
+          "predictor_depth": 4,
+          "predictor_num_heads": 4,
+          "latent_dim": 0,
+          "ema_momentum": 0.996,
+          "dropout": 0.0,
+          "drop_path": 0.05,
+          "backbone": "vit",
+          "fuse_mode": "concat",
+          "condition_on_action": false
+        },
+        "training": {
+          "batch_size": 128,
+          "epochs": 200,
+          "lr": 0.0002,
+          "min_lr": 1e-06,
+          "weight_decay": 0.05,
+          "warmup_epochs": 20,
+          "warmup_ratio": 0.1,
+          "grad_clip": 1.0,
+          "beta1": 0.9,
+          "beta2": 0.999,
+          "loss_type": "vicreg",
+          "vicreg_sim_coeff": 25.0,
+          "vicreg_std_coeff": 25.0,
+          "vicreg_cov_coeff": 1.0,
+          "amp": true,
+          "seed": 43,
+          "num_workers": 0,
+          "log_interval": 20,
+          "ckpt_interval": 25,
+          "output_dir": "outputs",
+          "device": "cpu",
+          "ema_sync_every": 1
+        },
+        "data": {
+          "dataset_path": "outputs/physics_mpm",
+          "spatial_dims": 2,
+          "img_size": 64,
+          "in_channels": 3,
+          "action_dim": 4,
+          "n_episodes": 2000,
+          "episode_length": 16,
+          "n_grid": 8,
+          "dt": 0.02,
+          "substeps": 4,
+          "stiffness": 40.0,
+          "damping": 0.12,
+          "mass": 1.0,
+          "gravity": 0.0,
+          "contact_radius": 0.12,
+          "action_gain": 8.0,
+          "gaussian_sigma": 1.75,
+          "seed": 0,
+          "val_fraction": 0.1,
+          "pin_memory": true,
+          "n_stiffness_classes": 3,
+          "chunk_length": 16,
+          "chunk_stride": 1,
+          "augment": true,
+          "crop_scale_min": 1.0,
+          "color_jitter": 0.4,
+          "blur_prob": 0.25,
+          "blur_sigma_max": 2.0,
+          "normalize_actions": true,
+          "prefetch_factor": 2
+        }
+      },
+      "n_train": 1800,
+      "n_val": 200,
+      "start_frame": 0,
+      "summary": {
+        "mse_k": {
+          "1": 0.09921583533287048,
+          "5": 0.7026874423027039,
+          "10": 1.2595473527908325
+        },
+        "variance_normalized_mse_k": {
+          "1": null,
+          "5": null,
+          "10": null
+        },
+        "effective_rank_z_target": 5.391613991523361,
+        "effective_rank_z_hat": 13.442247274293731,
+        "eig_frac_top1_z_hat": 0.18359420538576518,
+        "eig_frac_top1_z_target": 0.39645294046172413,
+        "geometry_val_mean": 1.0,
+        "stiffness_val_mean": 0.35799999833106994,
+        "contact_val_mean": 0.4069999933242798,
+        "shuffle_delta_all": 0.0,
+        "shuffle_delta_change": 0.0,
+        "neutral_delta_all": 0.0,
+        "pred_to_pred_mse_all": 0.0
+      },
+      "horizons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "rollout_mse": [
+        0.09921583533287048,
+        0.2365729957818985,
+        0.39673125743865967,
+        0.5557234883308411,
+        0.7026874423027039,
+        0.8368950486183167,
+        0.9602218270301819,
+        1.0724116563796997,
+        1.1732635498046875,
+        1.2595473527908325
+      ],
+      "effective_rank": {
+        "z_target": {
+          "participation_ratio": 5.391613991523361,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 36.44948196411133,
+          "eig_sumsq": 246.41317749023438,
+          "eig_max": 14.450504302978516,
+          "eig_frac_top1": 0.39645294046172413,
+          "split": "val"
+        },
+        "z_hat": {
+          "participation_ratio": 13.442247274293731,
+          "n_vectors": 2000,
+          "latent_dim": 128,
+          "eig_sum": 105.62681579589844,
+          "eig_sumsq": 829.9969482421875,
+          "eig_max": 19.392471313476562,
+          "eig_frac_top1": 0.18359420538576518,
+          "split": "val"
+        }
+      },
+      "geometry_probe_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "stiffness_probe_acc": [
+        0.35499998927116394,
+        0.3449999988079071,
+        0.3700000047683716,
+        0.3449999988079071,
+        0.3449999988079071,
+        0.3400000035762787,
+        0.3449999988079071,
+        0.375,
+        0.3799999952316284,
+        0.3799999952316284
+      ],
+      "contact_probe_acc": [
+        0.41499999165534973,
+        0.38999998569488525,
+        0.375,
+        0.41499999165534973,
+        0.4099999964237213,
+        0.41499999165534973,
+        0.4449999928474426,
+        0.4300000071525574,
+        0.44999998807907104,
+        0.32499998807907104
+      ],
+      "counterfactual": {
+        "protocol": {
+          "shuffle": "episode permutation of model_actions; one shared perm for all t",
+          "neutral": "zeros in z-scored action space (training-split mean)",
+          "one_step": "rollout_predictions start_frame=t, max_horizon=1",
+          "change_times": [
+            3,
+            6,
+            9,
+            12
+          ],
+          "shuffle_seed": 0,
+          "prior_script": null,
+          "note": "No counterfactual-action helper existed in src/eval.py or paper macros. This wraps rollout_predictions only."
+        },
+        "all_t0_one_step": {
+          "true_mse": 0.09921569377183914,
+          "shuffled_mse": 0.09921569377183914,
+          "neutral_mse": 0.09921569377183914,
+          "shuffle_pct_change": 0.0,
+          "neutral_pct_change": 0.0,
+          "pred_to_pred_mse": 0.0
+        },
+        "change_boundaries": [
+          {
+            "t": 3,
+            "true_mse": 0.10120250284671783,
+            "shuffled_mse": 0.10120250284671783,
+            "neutral_mse": 0.10120250284671783,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 6,
+            "true_mse": 0.100387804210186,
+            "shuffled_mse": 0.100387804210186,
+            "neutral_mse": 0.100387804210186,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 9,
+            "true_mse": 0.10120042413473129,
+            "shuffled_mse": 0.10120042413473129,
+            "neutral_mse": 0.10120042413473129,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          },
+          {
+            "t": 12,
+            "true_mse": 0.1007777526974678,
+            "shuffled_mse": 0.1007777526974678,
+            "neutral_mse": 0.1007777526974678,
+            "shuffle_pct_change": 0.0,
+            "neutral_pct_change": 0.0,
+            "pred_to_pred_mse": 0.0
+          }
+        ],
+        "change_boundary_mean": {
+          "true_mse": 0.10089212097227573,
+          "shuffled_mse": 0.10089212097227573,
+          "neutral_mse": 0.10089212097227573,
+          "shuffle_pct_change": 0.0,
+          "neutral_pct_change": 0.0,
+          "pred_to_pred_mse": 0.0
+        }
+      },
+      "variance_normalized_mse_supported": false
+    }
+  ]
+}
