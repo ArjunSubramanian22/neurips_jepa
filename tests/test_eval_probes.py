@@ -170,6 +170,21 @@ class EvaluateModelDiagnosticsTests(unittest.TestCase):
         self.assertIn("per_dim_variance_mean", payload["diagnostics"]["z_target"])
         self.assertIsNotNone(payload["stiffness_reg_val_r2"])
         self.assertEqual(len(payload["stiffness_reg_val_r2"]), payload["k_max"])
+        delayed = evaluate_model(
+            model,
+            dataset,
+            torch.device("cpu"),
+            max_horizon=3,
+            probe_epochs=4,
+            batch_size=4,
+            start_frames=(0, 3),
+        )
+        self.assertEqual(delayed["start_frame"], 0)
+        self.assertIn("0", delayed["by_start_frame"])
+        self.assertIn("3", delayed["by_start_frame"])
+        self.assertEqual(delayed["by_start_frame"]["3"]["start_frame"], 3)
+        self.assertLess(delayed["by_start_frame"]["3"]["k_max"], delayed["k_max"])
+        self.assertIsNotNone(delayed["context_stiffness_val_acc"])
         with tempfile.TemporaryDirectory() as tmp:
             path = write_probe_diagnostics({"vicreg": payload}, Path(tmp) / "probe_diagnostics.json")
             doc = json.loads(path.read_text(encoding="utf-8"))

@@ -20,6 +20,7 @@ from src.dataset import (
     DeformablePhysicsDataset,
     canonicalize_observations,
     load_physics_trajectories,
+    warp_contact_xy,
 )
 from scripts.generate_trajectories import GEOMETRIES, STIFFNESS_E, generate_dataset
 from scripts.validate_dataset import validate_physics_dataset
@@ -52,6 +53,29 @@ class ConsistentAugmentTests(unittest.TestCase):
         out = aug(stacked)
         self.assertEqual(tuple(out.shape), (2, 3, 32, 32))
         self.assertTrue(torch.allclose(out[0], out[1], atol=1e-6))
+
+    def test_crop_scale_one_skips_geometry(self) -> None:
+        cfg = DataConfig(
+            img_size=32,
+            augment=True,
+            crop_scale_min=1.0,
+            color_jitter=0.0,
+            blur_prob=0.0,
+            dataset_path=None,
+        )
+        aug = ConsistentFrameAugment(cfg)
+        frames = torch.rand(2, 3, 32, 32)
+        actions = torch.tensor([[0.65, 0.40, 1.0, -0.5], [0.65, 0.40, 1.0, -0.5]])
+        out_frames, out_actions = aug(frames.clone(), actions.clone())
+        self.assertTrue(torch.allclose(out_frames, frames))
+        self.assertTrue(torch.allclose(out_actions, actions))
+
+    def test_warp_contact_maps_crop_center_to_half(self) -> None:
+        actions = torch.tensor([[0.5, 0.5, 0.1, 0.2]])
+        warped = warp_contact_xy(actions, top=8, left=8, crop_h=16, crop_w=16, height=32, width=32)
+        self.assertAlmostEqual(float(warped[0, 0]), 0.5, places=5)
+        self.assertAlmostEqual(float(warped[0, 1]), 0.5, places=5)
+        self.assertAlmostEqual(float(warped[0, 2]), 0.1, places=5)
 
 
 class PhysicsDatasetTests(unittest.TestCase):
@@ -148,6 +172,21 @@ class GeneratedPhysicsPipelineTests(unittest.TestCase):
                 balance_min_frac=0.15,
             )
             self.assertEqual(report["n_episodes"], 6)
+            cfg = DataConfig(
+                dataset_path=str(dump),
+                img_size=64,
+                in_channels=3,
+                action_dim=4,
+                chunk_length=8,
+                augment=False,
+                normalize_actions=False,
+                n_stiffness_classes=3,
+            )
+            ds = DeformablePhysicsDataset(cfg, split="all")
+            self.assertIsNotNone(ds.geometry_labels)
+            self.assertEqual(int(ds.geometry_labels.shape[0]), 6)
+            self.assertEqual(int(ds.geometry_labels.min()), 0)
+            self.assertEqual(int(ds.geometry_labels.max()), 1)
             self.assertEqual(report["episode_length"], 8)
             self.assertEqual(report["img_size"], 64)
             self.assertEqual(report["in_channels"], 3)

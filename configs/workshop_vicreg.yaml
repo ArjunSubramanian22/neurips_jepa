@@ -59,5 +59,6 @@ data:
   chunk_stride: 1
   val_fraction: 0.1
   augment: true
+  crop_scale_min: 1.0
   normalize_actions: true
   pin_memory: true

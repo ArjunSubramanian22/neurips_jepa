@@ -43,6 +43,7 @@ def _eval_ckpt(
     metrics_jsonl_epochs: int = 0,
     require_final: bool = False,
     min_epochs: int = 200,
+    start_frames: tuple[int, ...] = (0,),
 ) -> dict:
     source = Path(source_path) if source_path is not None else Path(ckpt)
     ckpt_epoch = peek_checkpoint_epoch(source)
@@ -72,6 +73,7 @@ def _eval_ckpt(
         max_horizon=max_horizon,
         probe_epochs=probe_epochs,
         batch_size=8,
+        start_frames=start_frames,
     )
     payload["checkpoint"] = str(ckpt)
     payload["checkpoint_source"] = str(source)
@@ -107,6 +109,12 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         action="store_true",
         help="Refuse to evaluate physics checkpoints unless last.pt epoch and metrics.jsonl are both >= 200.",
     )
+    parser.add_argument(
+        "--start-frames",
+        default="0,3,5,7",
+        help="Comma-separated rollout start indices. Frame 0 is the rest state; later "
+        "starts encode after the object has already deformed.",
+    )
     return parser.parse_args(argv)
 
 
@@ -120,6 +128,9 @@ def main(argv: list[str] | None = None) -> Path:
 
     results: dict = {}
     dump_ok = bool(dump and Path(dump).exists())
+    start_frames = tuple(int(part.strip()) for part in str(args.start_frames).split(",") if part.strip())
+    if not start_frames:
+        start_frames = (0,)
     if not args.physics_only:
         mse_ckpt = output_dir / "mse" / "last.pt"
         if mse_ckpt.is_file():
@@ -186,6 +197,7 @@ def main(argv: list[str] | None = None) -> Path:
                     source_path=src,
                     metrics_jsonl_epochs=jsonl_ep,
                     require_final=args.require_final,
+                    start_frames=start_frames,
                 )
 
     def _ckpt_note(name: str, jsonl_epochs: int) -> str:

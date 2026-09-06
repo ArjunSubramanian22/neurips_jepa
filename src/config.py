@@ -230,7 +230,10 @@ class DataConfig:
             ``x_{t:t+T}``). Capped at the native episode length.
         chunk_stride: Hop between consecutive windows.
         augment: Train-time vision augmentations (shared across a window).
-        crop_scale_min: Lower bound on random-crop area fraction.
+        crop_scale_min: Lower bound on random-crop area fraction. ``1.0``
+            disables geometric crop so contact ``(x, y)`` stay in image
+            coordinates. Values ``< 1`` crop then warp those two action
+            channels with the crop box.
         color_jitter: Strength of brightness / contrast / saturation jitter.
         blur_prob: Probability of a shared Gaussian blur on the window.
         blur_sigma_max: Max Gaussian sigma in pixels.

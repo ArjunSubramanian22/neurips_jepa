@@ -15,7 +15,7 @@ import logging
 import math
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 import torch
 import torch.nn as nn
@@ -77,13 +77,17 @@ def rollout_predictions(
     batch_size: int = 8,
     particle_positions: Tensor | None = None,
     particle_velocities: Tensor | None = None,
+    start_frame: int = 0,
 ) -> tuple[Tensor, Tensor]:
     """Predict ``ẑ_{t+k}`` and encode EMA targets ``z_{t+k}`` for ``k=1..K``.
 
     Args:
         observations: Episode frames ``(N, T, C, H, W)``.
         actions: Episode actions ``(N, T-1, A)``.
-        max_horizon: ``K``. Capped at ``T - 1``.
+        max_horizon: ``K``. Capped at ``T - 1 - start_frame``.
+        start_frame: Encode this index as ``z_t`` instead of always frame 0.
+            Use ``t>0`` when stiffness is only visible after the object has
+            already deformed.
         particle_positions: Optional lattice ``(N, T, P, D)`` for the GNN baseline.
         particle_velocities: Optional lattice velocities ``(N, T, P, D)``.
 
@@ -91,7 +95,12 @@ def rollout_predictions(
         ``(z_hat, z_tgt)`` each of shape ``(N, K, D)``.
     """
     model.eval()
-    n_episodes, horizon_limit = observations.shape[0], observations.shape[1] - 1
+    n_episodes, n_frames = observations.shape[0], observations.shape[1]
+    if start_frame < 0 or start_frame >= n_frames - 1:
+        raise ValueError(
+            f"start_frame={start_frame} needs 0 <= start_frame < T-1 (T={n_frames})."
+        )
+    horizon_limit = n_frames - 1 - start_frame
     k_max = min(max_horizon, horizon_limit)
     if k_max < 1:
         raise ValueError("Need episode_length >= 2 for rollouts.")
@@ -99,9 +108,9 @@ def rollout_predictions(
         if particle_positions is None or particle_velocities is None:
             raise ValueError("Particle GNN eval requires dataset.positions and dataset.velocities.")
         return model.rollout_from_particles(
-            particle_positions.to(device),
-            particle_velocities.to(device),
-            actions[:, :k_max].to(device),
+            particle_positions[:, start_frame:].to(device),
+            particle_velocities[:, start_frame:].to(device),
+            actions[:, start_frame : start_frame + k_max].to(device),
             k_max,
             batch_size=batch_size,
         )
@@ -111,14 +120,36 @@ def rollout_predictions(
     for start in range(0, n_episodes, batch_size):
         end = min(start + batch_size, n_episodes)
         frames = observations[start:end].to(device)
-        acts = actions[start:end, :k_max].to(device)
-        z_0 = model.encode(frames[:, 0], target=False)
+        acts = actions[start:end, start_frame : start_frame + k_max].to(device)
+        z_0 = model.encode(frames[:, start_frame], target=False)
         preds = model.rollout(z_0, acts)
-        future = frames[:, 1 : k_max + 1].reshape(-1, *frames.shape[2:])
+        future = frames[:, start_frame + 1 : start_frame + 1 + k_max].reshape(-1, *frames.shape[2:])
         targets = model.encode(future, target=True).reshape(end - start, k_max, latent_dim)
         z_hat[start:end] = preds
         z_tgt[start:end] = targets
     return z_hat, z_tgt
+
+
+@torch.no_grad()
+def encode_frame_latents(
+    model: Any,
+    observations: Tensor,
+    frame_index: int,
+    device: torch.device,
+    *,
+    batch_size: int = 8,
+    target: bool = False,
+) -> Tensor:
+    """Encode a single frame index for every episode: ``(N, D)``."""
+    model.eval()
+    n_episodes = observations.shape[0]
+    latent_dim = model.latent_dim
+    out = torch.empty(n_episodes, latent_dim, device=device)
+    for start in range(0, n_episodes, batch_size):
+        end = min(start + batch_size, n_episodes)
+        frames = observations[start:end, frame_index].to(device)
+        out[start:end] = model.encode(frames, target=target)
+    return out
 
 
 def horizon_mse(z_hat: Tensor, z_tgt: Tensor) -> list[float]:
@@ -478,143 +509,230 @@ def evaluate_model(
     probe_lr: float = 1e-2,
     contact_bins: int = 2,
     batch_size: int = 8,
+    start_frames: Sequence[int] = (0,),
 ) -> dict[str, Any]:
-    """Run rollout MSE + stiffness/contact linear probes for one model."""
+    """Run rollout MSE + stiffness/contact linear probes for one model.
+
+    ``start_frames`` encodes ``z_t`` at those indices (default frame 0). Extra
+    starts (e.g. 3, 5, 7) test stiffness after the object has already moved.
+    The top-level payload is always ``start_frames[0]`` so existing tables stay
+    comparable; other starts live under ``by_start_frame``.
+    """
     n_train, n_val = dataset.split_sizes()
     if n_val < 1:
         raise ValueError("Need a non-empty val split for archival probes.")
-    k_max = min(max_horizon, dataset.pairs_per_episode)
     observations = dataset.observations
     raw_actions = dataset.actions
     policy_actions = getattr(dataset, "model_actions", raw_actions)
     stiffness = dataset.stiffness_labels.to(device)
-    z_hat, z_tgt = rollout_predictions(
-        model,
-        observations,
-        policy_actions,
-        k_max,
-        device,
-        batch_size=batch_size,
-        particle_positions=getattr(dataset, "positions", None),
-        particle_velocities=getattr(dataset, "velocities", None),
-    )
-    mse = horizon_mse(z_hat, z_tgt)
-    z_tr, z_va = z_hat[:n_train], z_hat[n_train : n_train + n_val]
-    z_tgt_tr, z_tgt_va = z_tgt[:n_train], z_tgt[n_train : n_train + n_val]
-    y_stiff_tr, y_stiff_va = stiffness[:n_train], stiffness[n_train : n_train + n_val]
-    contact = contact_classes(raw_actions[:, :k_max].to(device), bins=contact_bins)
-    contact_tr, contact_va = contact[:n_train], contact[n_train : n_train + n_val]
     n_stiff = int(max(int(stiffness.max().item()) + 1, dataset.cfg.n_stiffness_classes))
     n_contact = contact_bins * contact_bins
-
-    LOGGER.info(
-        "Probe split  n_train=%d  n_val=%d  k_max=%d  n_stiff=%d  n_contact=%d",
-        n_train,
-        n_val,
-        k_max,
-        n_stiff,
-        n_contact,
-    )
-    z_tgt_stats = latent_health(z_tgt)
-    z_hat_stats = latent_health(z_hat)
-    rank_tgt = effective_rank(z_tgt_va)
-    rank_hat = effective_rank(z_va)
-    LOGGER.info(
-        "z_target  ||z|| mean=%.4f std=%.4f  per-dim std mean=%.4f min=%.4f  "
-        "frac_dims_below_gamma(%.2f)=%.3f  hinge=%.4f binding=%s",
-        z_tgt_stats["norm_mean"],
-        z_tgt_stats["norm_std"],
-        z_tgt_stats["per_dim_std_mean"],
-        z_tgt_stats["per_dim_std_min"],
-        z_tgt_stats["gamma"],
-        z_tgt_stats["frac_dims_std_below_gamma"],
-        z_tgt_stats["variance_hinge_mean"],
-        z_tgt_stats["variance_hinge_binding"],
-    )
-    LOGGER.info(
-        "effective_rank (val)  z_target PR=%.3f  z_hat PR=%.3f  D=%d  N_val_vec=%d",
-        rank_tgt["participation_ratio"],
-        rank_hat["participation_ratio"],
-        rank_tgt["latent_dim"],
-        rank_tgt["n_vectors"],
-    )
-
-    LOGGER.info("Stiffness class probe on predicted latents z_hat:")
-    stiff = linear_probe_over_horizon(
-        z_tr, z_va, y_stiff_tr, y_stiff_va, n_stiff,
-        epochs=probe_epochs, lr=probe_lr, device=device,
-    )
-    LOGGER.info("Contact-quadrant probe on predicted latents z_hat:")
-    contact_probe = linear_probe_over_horizon(
-        z_tr, z_va, contact_tr, contact_va, n_contact,
-        epochs=probe_epochs, lr=probe_lr, device=device,
-    )
-    LOGGER.info("Stiffness class probe on target-encoder latents z_target (oracle):")
-    stiff_tgt = linear_probe_over_horizon(
-        z_tgt_tr, z_tgt_va, y_stiff_tr, y_stiff_va, n_stiff,
-        epochs=probe_epochs, lr=probe_lr, device=device,
-    )
-
+    y_stiff_tr, y_stiff_va = stiffness[:n_train], stiffness[n_train : n_train + n_val]
+    geometry = getattr(dataset, "geometry_labels", None)
+    y_geo_tr = y_geo_va = None
+    n_geo = 0
+    if geometry is not None:
+        geo = geometry.to(device).long()
+        n_geo = int(max(int(geo.max().item()) + 1, 2))
+        y_geo_tr, y_geo_va = geo[:n_train], geo[n_train : n_train + n_val]
     stiffness_values = getattr(dataset, "stiffness_values", None)
-    stiffness_reg: dict[str, Any] | None = None
-    if stiffness_values is not None:
-        y_val_cont = stiffness_values.to(device).float()
-        y_tr_c, y_va_c = y_val_cont[:n_train], y_val_cont[n_train : n_train + n_val]
-        LOGGER.info(
-            "Continuous stiffness regression  unique_train=%d unique_val=%d",
-            int(torch.unique(y_tr_c).numel()),
-            int(torch.unique(y_va_c).numel()),
-        )
-        stiffness_reg = linear_regression_over_horizon(
-            z_tr, z_va, y_tr_c, y_va_c, epochs=probe_epochs, lr=probe_lr, device=device
-        )
+    particle_positions = getattr(dataset, "positions", None)
+    particle_velocities = getattr(dataset, "velocities", None)
+    t_limit = int(observations.shape[1]) - 1
+    starts = []
+    for raw in start_frames:
+        start = int(raw)
+        if 0 <= start < t_limit and start not in starts:
+            starts.append(start)
+    if not starts:
+        raise ValueError(f"No valid start_frames in {tuple(start_frames)} (T-1={t_limit}).")
 
-    chance_stiff = 1.0 / max(n_stiff, 1)
-    chance_contact = 1.0 / max(n_contact, 1)
-    findings = [
-        _chance_finding(stiff["val_acc"], chance_stiff, n_val, "stiffness class"),
-        _chance_finding(contact_probe["val_acc"], chance_contact, n_val, "contact quadrant"),
-        _chance_finding(
-            stiff_tgt["val_acc"], chance_stiff, n_val, "stiffness class (z_target)"
-        ),
-    ]
-    LOGGER.info("Probe findings: %s", " | ".join(findings))
-    diagnostics = {
+    def _pack(start_frame: int) -> dict[str, Any]:
+        z_hat, z_tgt = rollout_predictions(
+            model,
+            observations,
+            policy_actions,
+            max_horizon,
+            device,
+            batch_size=batch_size,
+            particle_positions=particle_positions,
+            particle_velocities=particle_velocities,
+            start_frame=start_frame,
+        )
+        k_here = int(z_hat.shape[1])
+        mse = horizon_mse(z_hat, z_tgt)
+        z_tr, z_va = z_hat[:n_train], z_hat[n_train : n_train + n_val]
+        z_tgt_tr, z_tgt_va = z_tgt[:n_train], z_tgt[n_train : n_train + n_val]
+        contact = contact_classes(
+            raw_actions[:, start_frame : start_frame + k_here].to(device),
+            bins=contact_bins,
+        )
+        contact_tr, contact_va = contact[:n_train], contact[n_train : n_train + n_val]
+        LOGGER.info(
+            "Probes start_frame=%d  n_train=%d  n_val=%d  k_max=%d",
+            start_frame, n_train, n_val, k_here,
+        )
+        z_tgt_stats = latent_health(z_tgt)
+        z_hat_stats = latent_health(z_hat)
+        rank_tgt = effective_rank(z_tgt_va)
+        rank_hat = effective_rank(z_va)
+        stiff = linear_probe_over_horizon(
+            z_tr, z_va, y_stiff_tr, y_stiff_va, n_stiff,
+            epochs=probe_epochs, lr=probe_lr, device=device,
+        )
+        contact_probe = linear_probe_over_horizon(
+            z_tr, z_va, contact_tr, contact_va, n_contact,
+            epochs=probe_epochs, lr=probe_lr, device=device,
+        )
+        stiff_tgt = linear_probe_over_horizon(
+            z_tgt_tr, z_tgt_va, y_stiff_tr, y_stiff_va, n_stiff,
+            epochs=probe_epochs, lr=probe_lr, device=device,
+        )
+        stiffness_reg: dict[str, Any] | None = None
+        if stiffness_values is not None:
+            y_val_cont = stiffness_values.to(device).float()
+            y_tr_c, y_va_c = y_val_cont[:n_train], y_val_cont[n_train : n_train + n_val]
+            stiffness_reg = linear_regression_over_horizon(
+                z_tr, z_va, y_tr_c, y_va_c, epochs=probe_epochs, lr=probe_lr, device=device
+            )
+        geo_probe = geo_tgt = None
+        if y_geo_tr is not None and y_geo_va is not None:
+            geo_probe = linear_probe_over_horizon(
+                z_tr, z_va, y_geo_tr, y_geo_va, n_geo,
+                epochs=probe_epochs, lr=probe_lr, device=device,
+            )
+            geo_tgt = linear_probe_over_horizon(
+                z_tgt_tr, z_tgt_va, y_geo_tr, y_geo_va, n_geo,
+                epochs=probe_epochs, lr=probe_lr, device=device,
+            )
+        context_stiff = context_geo = None
+        if not getattr(model, "requires_particles", False):
+            z_ctx = encode_frame_latents(
+                model, observations, start_frame, device, batch_size=batch_size, target=False
+            )
+            z_ctx_tr, z_ctx_va = z_ctx[:n_train], z_ctx[n_train : n_train + n_val]
+            context_stiff = linear_probe_over_horizon(
+                z_ctx_tr.unsqueeze(1), z_ctx_va.unsqueeze(1),
+                y_stiff_tr, y_stiff_va, n_stiff,
+                epochs=probe_epochs, lr=probe_lr, device=device,
+            )
+            if y_geo_tr is not None and y_geo_va is not None:
+                context_geo = linear_probe_over_horizon(
+                    z_ctx_tr.unsqueeze(1), z_ctx_va.unsqueeze(1),
+                    y_geo_tr, y_geo_va, n_geo,
+                    epochs=probe_epochs, lr=probe_lr, device=device,
+                )
+        chance_stiff = 1.0 / max(n_stiff, 1)
+        chance_contact = 1.0 / max(n_contact, 1)
+        chance_geo = 1.0 / max(n_geo, 1) if n_geo else None
+        findings = [
+            _chance_finding(
+                stiff["val_acc"], chance_stiff, n_val, f"stiffness class (start={start_frame})"
+            ),
+            _chance_finding(
+                contact_probe["val_acc"], chance_contact, n_val, f"contact quadrant (start={start_frame})"
+            ),
+            _chance_finding(
+                stiff_tgt["val_acc"], chance_stiff, n_val,
+                f"stiffness class z_target (start={start_frame})",
+            ),
+        ]
+        if context_stiff is not None:
+            findings.append(
+                _chance_finding(
+                    context_stiff["val_acc"], chance_stiff, n_val,
+                    f"stiffness from z_t (start={start_frame})",
+                )
+            )
+        if geo_probe is not None:
+            findings.append(
+                _chance_finding(
+                    geo_probe["val_acc"], float(chance_geo or 0.5), n_val,
+                    f"geometry (start={start_frame})",
+                )
+            )
+            if context_geo is not None:
+                findings.append(
+                    _chance_finding(
+                        context_geo["val_acc"], float(chance_geo or 0.5), n_val,
+                        f"geometry from z_t (start={start_frame})",
+                    )
+                )
+        return {
+            "start_frame": start_frame,
+            "horizons": list(range(1, k_here + 1)),
+            "rollout_mse": mse,
+            "k_max": k_here,
+            "stiffness_probe_acc": stiff["val_acc"],
+            "contact_probe_acc": contact_probe["val_acc"],
+            "stiffness_probe_train_acc": stiff["train_acc"],
+            "contact_probe_train_acc": contact_probe["train_acc"],
+            "stiffness_target_probe_acc": stiff_tgt["val_acc"],
+            "stiffness_reg_val_r2": None if stiffness_reg is None else stiffness_reg["val_r2"],
+            "stiffness_reg_train_r2": None if stiffness_reg is None else stiffness_reg["train_r2"],
+            "stiffness_reg_val_mse": None if stiffness_reg is None else stiffness_reg["val_mse"],
+            "geometry_probe_acc": None if geo_probe is None else geo_probe["val_acc"],
+            "geometry_target_probe_acc": None if geo_tgt is None else geo_tgt["val_acc"],
+            "context_stiffness_val_acc": None if context_stiff is None else context_stiff["val_acc"],
+            "context_geometry_val_acc": None if context_geo is None else context_geo["val_acc"],
+            "chance_stiffness": chance_stiff,
+            "chance_contact": chance_contact,
+            "chance_geometry": chance_geo,
+            "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
+            "diagnostics": {
+                "start_frame": start_frame,
+                "n_train": n_train,
+                "n_val": n_val,
+                "k_max": k_here,
+                "stiffness_val_coverage": stiff["val_coverage"],
+                "stiffness_train_coverage": stiff["train_coverage"],
+                "contact_val_coverage": contact_probe["val_coverage"],
+                "contact_train_coverage": contact_probe["train_coverage"],
+                "z_target": z_tgt_stats,
+                "z_hat": z_hat_stats,
+                "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
+                "stiffness_probe": stiff,
+                "contact_probe": contact_probe,
+                "stiffness_target_encoder_probe": stiff_tgt,
+                "stiffness_regression": stiffness_reg,
+                "geometry_probe": geo_probe,
+                "context_stiffness_probe": context_stiff,
+                "context_geometry_probe": context_geo,
+                "findings": findings,
+            },
+            "findings": findings,
+        }
+
+    packed = {start: _pack(start) for start in starts}
+    primary = packed[starts[0]]
+    LOGGER.info("Probe findings: %s", " | ".join(primary["findings"]))
+    payload = {
+        "horizons": primary["horizons"],
+        "rollout_mse": primary["rollout_mse"],
+        "stiffness_probe_acc": primary["stiffness_probe_acc"],
+        "contact_probe_acc": primary["contact_probe_acc"],
+        "stiffness_probe_train_acc": primary["stiffness_probe_train_acc"],
+        "contact_probe_train_acc": primary["contact_probe_train_acc"],
+        "stiffness_target_probe_acc": primary["stiffness_target_probe_acc"],
+        "stiffness_reg_val_r2": primary["stiffness_reg_val_r2"],
+        "stiffness_reg_train_r2": primary["stiffness_reg_train_r2"],
+        "stiffness_reg_val_mse": primary["stiffness_reg_val_mse"],
+        "geometry_probe_acc": primary["geometry_probe_acc"],
+        "geometry_target_probe_acc": primary["geometry_target_probe_acc"],
+        "context_stiffness_val_acc": primary["context_stiffness_val_acc"],
+        "context_geometry_val_acc": primary["context_geometry_val_acc"],
+        "chance_stiffness": primary["chance_stiffness"],
+        "chance_contact": primary["chance_contact"],
+        "chance_geometry": primary["chance_geometry"],
         "n_train": n_train,
         "n_val": n_val,
-        "k_max": k_max,
-        "stiffness_val_coverage": stiff["val_coverage"],
-        "stiffness_train_coverage": stiff["train_coverage"],
-        "contact_val_coverage": contact_probe["val_coverage"],
-        "contact_train_coverage": contact_probe["train_coverage"],
-        "z_target": z_tgt_stats,
-        "z_hat": z_hat_stats,
-        "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
-        "stiffness_probe": stiff,
-        "contact_probe": contact_probe,
-        "stiffness_target_encoder_probe": stiff_tgt,
-        "stiffness_regression": stiffness_reg,
-        "findings": findings,
+        "k_max": primary["k_max"],
+        "start_frame": starts[0],
+        "diagnostics": primary["diagnostics"],
+        "effective_rank": primary["effective_rank"],
+        "by_start_frame": {str(start): packed[start] for start in starts},
     }
-    return {
-        "horizons": list(range(1, k_max + 1)),
-        "rollout_mse": mse,
-        "stiffness_probe_acc": stiff["val_acc"],
-        "contact_probe_acc": contact_probe["val_acc"],
-        "stiffness_probe_train_acc": stiff["train_acc"],
-        "contact_probe_train_acc": contact_probe["train_acc"],
-        "stiffness_target_probe_acc": stiff_tgt["val_acc"],
-        "stiffness_reg_val_r2": None if stiffness_reg is None else stiffness_reg["val_r2"],
-        "stiffness_reg_train_r2": None if stiffness_reg is None else stiffness_reg["train_r2"],
-        "stiffness_reg_val_mse": None if stiffness_reg is None else stiffness_reg["val_mse"],
-        "chance_stiffness": chance_stiff,
-        "chance_contact": chance_contact,
-        "n_train": n_train,
-        "n_val": n_val,
-        "k_max": k_max,
-        "diagnostics": diagnostics,
-        "effective_rank": {"z_target": rank_tgt, "z_hat": rank_hat},
-    }
+    return payload
 
 
 def write_probe_diagnostics(
@@ -651,6 +769,13 @@ def write_probe_diagnostics(
             "stiffness_reg_val_r2": payload.get("stiffness_reg_val_r2"),
             "stiffness_reg_train_r2": payload.get("stiffness_reg_train_r2"),
             "stiffness_reg_val_mse": payload.get("stiffness_reg_val_mse"),
+            "geometry_probe_acc": payload.get("geometry_probe_acc"),
+            "geometry_target_probe_acc": payload.get("geometry_target_probe_acc"),
+            "context_stiffness_val_acc": payload.get("context_stiffness_val_acc"),
+            "context_geometry_val_acc": payload.get("context_geometry_val_acc"),
+            "chance_geometry": payload.get("chance_geometry"),
+            "start_frame": payload.get("start_frame", 0),
+            "by_start_frame": payload.get("by_start_frame"),
             "stiffness_val_coverage": diag.get("stiffness_val_coverage"),
             "stiffness_train_coverage": diag.get("stiffness_train_coverage"),
             "contact_val_coverage": diag.get("contact_val_coverage"),

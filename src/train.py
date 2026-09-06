@@ -750,6 +750,16 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         help="Do not train the pixel-space autoencoder baseline (workshop --config only).",
     )
     parser.add_argument(
+        "--no-action",
+        action="store_true",
+        help="Drop a_t from the predictor (condition_on_action=False).",
+    )
+    parser.add_argument(
+        "--run-name",
+        default=None,
+        help="Override the output run directory name under training.output_dir.",
+    )
+    parser.add_argument(
         "--dataset_path",
         "--dataset-path",
         dest="dataset_path",
@@ -842,6 +852,8 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         )
     if args.loss_type is not None:
         cfg.training.loss_type = args.loss_type  # type: ignore[assignment]
+    if args.no_action:
+        cfg.model.condition_on_action = False
     if args.num_workers is not None and args.dataset_path is None and cfg.data.dataset_path is None:
         cfg.training.num_workers = args.num_workers
     output_root = Path(cfg.training.output_dir)
@@ -904,7 +916,11 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
 
     if args.mode == "train":
         loss_type = args.loss_type or cfg.training.loss_type
-        run_name = {"mse": "mse", "pixel_ae": "pixel_ae", "vicreg": "vicreg"}.get(loss_type, loss_type)
+        run_name = args.run_name or {"mse": "mse", "pixel_ae": "pixel_ae", "vicreg": "vicreg"}.get(
+            loss_type, loss_type
+        )
+        if args.no_action and args.run_name is None:
+            run_name = "no_action"
         _record(run_name, loss_type)
     elif args.mode == "train_and_eval":
         _record("vicreg", "vicreg")

@@ -417,6 +417,7 @@ class DeformableObjectDataset(Dataset[Transition]):
         else:
             self.positions = None
             self.velocities = None
+        self.geometry_labels = None
         self.pairs_per_episode = int(self.observations.shape[1] - 1)
         self.n_episodes = int(self.observations.shape[0])
 
@@ -823,12 +824,38 @@ def inspect_physics_source(path: str | Path) -> dict[str, int]:
     }
 
 
+def warp_contact_xy(
+    actions: torch.Tensor,
+    *,
+    top: int,
+    left: int,
+    crop_h: int,
+    crop_w: int,
+    height: int,
+    width: int,
+) -> torch.Tensor:
+    """Map contact ``(x, y)`` from full-frame ``[0, 1]`` into the crop.
+
+    Action layout is ``(contact_x, contact_y, force_x, force_y, ...)``. Forces
+    are left unchanged (they are not pixel coordinates).
+    """
+    if actions.shape[-1] < 2:
+        return actions
+    out = actions.clone()
+    px = actions[..., 0] * float(width)
+    py = actions[..., 1] * float(height)
+    out[..., 0] = (px - float(left)) / float(max(crop_w, 1))
+    out[..., 1] = (py - float(top)) / float(max(crop_h, 1))
+    return out
+
+
 class ConsistentFrameAugment:
     """Vision augmentations with parameters tied across time.
 
     Random resized crop, color jitter, and Gaussian blur use one draw per
     window so ``x_t`` and ``x_{t+k}`` stay photometrically / geometrically
-    consistent — the standard SSL recipe for video / world-model encoders.
+    consistent. When a crop is applied, contact ``(x, y)`` in the action
+    vector are warped with the same box. ``crop_scale_min=1`` skips crop.
     """
 
     def __init__(self, cfg: DataConfig) -> None:
@@ -838,26 +865,47 @@ class ConsistentFrameAugment:
         self.blur_prob = cfg.blur_prob
         self.blur_sigma_max = cfg.blur_sigma_max
 
-    def __call__(self, frames: torch.Tensor) -> torch.Tensor:
+    def __call__(
+        self, frames: torch.Tensor, actions: torch.Tensor | None = None
+    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
         if frames.ndim != 4:
             raise ValueError(f"Expected frames (T, C, H, W); got {tuple(frames.shape)}.")
-        frames = self._random_resized_crop(frames)
+        height, width = int(frames.shape[-2]), int(frames.shape[-1])
+        frames, crop = self._random_resized_crop(frames)
+        if actions is not None and crop is not None:
+            top, left, crop_h, crop_w = crop
+            actions = warp_contact_xy(
+                actions,
+                top=top,
+                left=left,
+                crop_h=crop_h,
+                crop_w=crop_w,
+                height=height,
+                width=width,
+            )
         frames = self._color_jitter(frames)
         if torch.rand(()) < self.blur_prob:
             frames = self._gaussian_blur(frames)
-        return frames
+        if actions is None:
+            return frames
+        return frames, actions
 
-    def _random_resized_crop(self, frames: torch.Tensor) -> torch.Tensor:
+    def _random_resized_crop(
+        self, frames: torch.Tensor
+    ) -> tuple[torch.Tensor, tuple[int, int, int, int] | None]:
         _, _, height, width = frames.shape
+        if self.crop_scale_min >= 1.0:
+            return frames, None
         scale = float(torch.empty(()).uniform_(self.crop_scale_min, 1.0))
         crop_h = max(1, int(round(height * scale)))
         crop_w = max(1, int(round(width * scale)))
         top = int(torch.randint(0, height - crop_h + 1, (1,)).item())
         left = int(torch.randint(0, width - crop_w + 1, (1,)).item())
         cropped = frames[:, :, top : top + crop_h, left : left + crop_w]
-        return F.interpolate(
+        resized = F.interpolate(
             cropped, size=(self.img_size, self.img_size), mode="bilinear", align_corners=False
         )
+        return resized, (top, left, crop_h, crop_w)
 
     def _color_jitter(self, frames: torch.Tensor) -> torch.Tensor:
         strength = self.jitter
@@ -906,6 +954,19 @@ def _worker_init_fn(worker_id: int) -> None:
     random.seed(seed)
 
 
+def _load_optional_geometry_labels(source: str | Path, *, n_episodes: int) -> torch.Tensor | None:
+    path = Path(source)
+    geo_path = path / "geometry_labels.npy" if path.is_dir() else None
+    if geo_path is None or not geo_path.is_file():
+        return None
+    labels = torch.as_tensor(np.load(geo_path, allow_pickle=False)).long().reshape(-1)
+    if int(labels.shape[0]) != n_episodes:
+        raise ValueError(
+            f"geometry_labels.npy length {int(labels.shape[0])} != n_episodes {n_episodes}."
+        )
+    return labels
+
+
 class DeformablePhysicsDataset(Dataset[Transition]):
     """HDF5/NPY loader with chunking, time-consistent augs, and action z-scoring.
 
@@ -928,26 +989,29 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         values = resolve_stiffness_values(
             labels, source=cfg.dataset_path, codebook=_stiffness_levels(cfg)
         )
+        geometry = _load_optional_geometry_labels(cfg.dataset_path, n_episodes=int(observations.shape[0]))
         n_train, n_val = _episode_split_counts(int(observations.shape[0]), cfg.val_fraction)
         scaler_src = actions[: max(1, n_train)]
         action_mean = scaler_src.reshape(-1, actions.shape[-1]).mean(dim=0)
         action_std = scaler_src.reshape(-1, actions.shape[-1]).std(dim=0, unbiased=False).clamp_min(1e-6)
         if split == "train":
-            observations, actions, labels, values = (
+            observations, actions, labels, values, geometry = (
                 observations[:n_train],
                 actions[:n_train],
                 labels[:n_train],
                 values[:n_train],
+                None if geometry is None else geometry[:n_train],
             )
             self._global_episode_offset = 0
         elif split == "val":
             if n_val == 0:
                 raise ValueError("val split is empty; increase n_episodes or val_fraction.")
-            observations, actions, labels, values = (
+            observations, actions, labels, values, geometry = (
                 observations[n_train:],
                 actions[n_train:],
                 labels[n_train:],
                 values[n_train:],
+                None if geometry is None else geometry[n_train:],
             )
             self._global_episode_offset = n_train
         else:
@@ -956,6 +1020,7 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         self.actions = actions.contiguous()
         self.stiffness_labels = labels.long().contiguous()
         self.stiffness_values = values.float().contiguous()
+        self.geometry_labels = None if geometry is None else geometry.long().contiguous()
         self.n_episodes = int(self.observations.shape[0])
         self.pairs_per_episode = int(self.observations.shape[1] - 1)
         self.action_mean = action_mean
@@ -1017,7 +1082,7 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         frames = self.observations[episode, start : start + chunk].clone()
         actions = self.actions[episode, start : start + chunk - 1].clone()
         if self._should_augment(episode):
-            frames = self.augmentor(frames)
+            frames, actions = self.augmentor(frames, actions)
         actions = self._normalize_action(actions)
         return frames, actions
 
@@ -1030,11 +1095,12 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         if index < 0 or index >= len(self):
             raise IndexError(index)
         episode, t = self._pair_index[index]
-        frames = self.observations[episode, t : t + 2]
+        frames = self.observations[episode, t : t + 2].clone()
+        action = self.actions[episode, t : t + 1].clone()
         if self._should_augment(episode):
-            frames = self.augmentor(frames)
+            frames, action = self.augmentor(frames, action)
         x_t, x_tp1 = frames[0], frames[1]
-        a_t = self._normalize_action(self.actions[episode, t])
+        a_t = self._normalize_action(action[0])
         return x_t, a_t, x_tp1
 
 
