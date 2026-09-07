@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "tests_run": 7,
+  "failures": 0,
+  "errors": 0,
+  "state_copied": [
+    "x",
+    "v",
+    "C",
+    "F",
+    "mu",
+    "lam"
+  ],
+  "grid_persistent": false,
+  "substep_rng": false,
+  "effective_contact_definition": "min_particle_distance <= 2 * contact_radius",
+  "log": "test_alternate_action_does_not_contaminate_original (test_counterfactual_fork.SnapshotForkTests.test_alternate_action_does_not_contaminate_original) ... ok\ntest_cloned_branches_same_action_identical (test_counterfactual_fork.SnapshotForkTests.test_cloned_branches_same_action_identical) ... ok\ntest_dump_replay_matches_stored_episode_if_present (test_counterfactual_fork.SnapshotForkTests.test_dump_replay_matches_stored_episode_if_present) ... ok\ntest_geometry_material_unchanged_on_restore (test_counterfactual_fork.SnapshotForkTests.test_geometry_material_unchanged_on_restore) ... ok\ntest_replay_matches_generate_episode_frames (test_counterfactual_fork.SnapshotForkTests.test_replay_matches_generate_episode_frames) ... ok\ntest_snapshot_restore_same_action_identical (test_counterfactual_fork.SnapshotForkTests.test_snapshot_restore_same_action_identical) ... ok\ntest_substep_has_no_hidden_rng (test_counterfactual_fork.SnapshotForkTests.test_substep_has_no_hidden_rng) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.548s\n\nOK\n"
+}

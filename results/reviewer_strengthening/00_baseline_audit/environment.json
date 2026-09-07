@@ -1,0 +1,22 @@
+{
+  "python": "3.13.2",
+  "python_implementation": "CPython",
+  "torch": "2.12.1",
+  "numpy": "2.5.2",
+  "sklearn": "1.9.0",
+  "matplotlib": "3.11.1",
+  "os_name": "Darwin",
+  "os_release": "25.5.0",
+  "machine": "arm64",
+  "ram_gb": 8.0,
+  "mps_available": true,
+  "cuda_available": false,
+  "git": {
+    "commit": "9cceb731df9e26b17874a57bd04c1306af1b7896",
+    "commit_short": "9cceb73",
+    "dirty_file_count": 11,
+    "branch": "main",
+    "note": "Remote URL and usernames omitted from submission-facing artifacts."
+  },
+  "note": "No hostname, username, home directory, or git remote is recorded here."
+}

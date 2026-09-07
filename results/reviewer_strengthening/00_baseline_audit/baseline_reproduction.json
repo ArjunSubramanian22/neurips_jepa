@@ -1,0 +1,365 @@
+{
+  "status": "PASS",
+  "headline_source": "outputs/corrected_seed43_audit.json (last.pt, not re-executed in this audit)",
+  "legacy_lastpt_source": "outputs/mpm_action_ablation.json",
+  "legacy_bestpt_source": "outputs/ablation_twoseed.json",
+  "data_hashes": {
+    "observations.npy": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+    "actions.npy": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+    "stiffness_labels.npy": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+    "stiffness_values.npy": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+    "geometry_labels.npy": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff"
+  },
+  "checksum_matches_claimed_sanity_check": true,
+  "split": {
+    "rule": "episode index order; last n_val episodes are validation",
+    "n_episodes": 2000,
+    "n_train": 1800,
+    "n_val": 200,
+    "train_episode_range": [
+      0,
+      1800
+    ],
+    "val_episode_range": [
+      1800,
+      2000
+    ],
+    "computed_split": [
+      1800,
+      200
+    ]
+  },
+  "split_hash": "8498e197723c8cef72f2ae1734d416b7062bf84fb79aaa9ab0129554317066c3",
+  "model": {
+    "trainable_excluding_ema": 874368,
+    "total_including_ema": 1437952,
+    "workshop_yaml": "configs/workshop_vicreg.yaml",
+    "crop_scale_min": 1.0,
+    "condition_on_action_default": true
+  },
+  "tests": {
+    "ran": 83,
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0
+  },
+  "discrepancies": [],
+  "rows": [
+    {
+      "metric": "obs_shape",
+      "claimed_sanity_check": [
+        2000,
+        16,
+        3,
+        64,
+        64
+      ],
+      "measured": [
+        2000,
+        16,
+        3,
+        64,
+        64
+      ],
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "act_shape",
+      "claimed_sanity_check": [
+        2000,
+        15,
+        4
+      ],
+      "measured": [
+        2000,
+        15,
+        4
+      ],
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "n_episodes",
+      "claimed_sanity_check": 2000,
+      "measured": 2000,
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "episode_length",
+      "claimed_sanity_check": 16,
+      "measured": 16,
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "n_transitions",
+      "claimed_sanity_check": 30000,
+      "measured": 30000,
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "split_train_val",
+      "claimed_sanity_check": [
+        1800,
+        200
+      ],
+      "measured": [
+        1800,
+        200
+      ],
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "observations_sha256",
+      "claimed_sanity_check": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+      "measured": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+      "kind": "data",
+      "note": ""
+    },
+    {
+      "metric": "trainable_params_excl_ema_approx",
+      "claimed_sanity_check": 870000,
+      "measured": 874368,
+      "kind": "model",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s42_mse@1",
+      "claimed_sanity_check": 0.07571,
+      "measured": 0.07571088522672653,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s42_mse@5",
+      "claimed_sanity_check": 0.62213,
+      "measured": 0.6221303343772888,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s42_mse@10",
+      "claimed_sanity_check": 1.19953,
+      "measured": 1.199525237083435,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s42_pred_eff_rank",
+      "claimed_sanity_check": 12.27,
+      "measured": 12.267736855841244,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s42_top1",
+      "claimed_sanity_check": 0.178,
+      "measured": 0.17782228767885566,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s43_mse@1",
+      "claimed_sanity_check": 0.06946,
+      "measured": 0.0694643184542656,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s43_mse@5",
+      "claimed_sanity_check": 0.61565,
+      "measured": 0.6156516075134277,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s43_mse@10",
+      "claimed_sanity_check": 1.10682,
+      "measured": 1.1068207025527954,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s43_pred_eff_rank",
+      "claimed_sanity_check": 5.78,
+      "measured": 5.776180055689214,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_s43_top1",
+      "claimed_sanity_check": 0.333,
+      "measured": 0.3327033324340438,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s42_mse@1",
+      "claimed_sanity_check": 0.07386,
+      "measured": 0.07386276870965958,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s42_mse@5",
+      "claimed_sanity_check": 0.59738,
+      "measured": 0.5973837375640869,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s42_mse@10",
+      "claimed_sanity_check": 1.14401,
+      "measured": 1.144006371498108,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s42_pred_eff_rank",
+      "claimed_sanity_check": 11.67,
+      "measured": 11.667055414507791,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s43_mse@1",
+      "claimed_sanity_check": 0.09922,
+      "measured": 0.09921583533287048,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s43_mse@5",
+      "claimed_sanity_check": 0.70269,
+      "measured": 0.7026874423027039,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s43_mse@10",
+      "claimed_sanity_check": 1.25955,
+      "measured": 1.2595473527908325,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "vicreg_nocrop_noaction_s43_pred_eff_rank",
+      "claimed_sanity_check": 13.44,
+      "measured": 13.442247274293731,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s42_geometry",
+      "claimed_sanity_check": 0.9985,
+      "measured": 0.9985000014305114,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s42_stiffness",
+      "claimed_sanity_check": 0.3025,
+      "measured": 0.3024999976158142,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s42_contact",
+      "claimed_sanity_check": 0.3955,
+      "measured": 0.3954999953508377,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s42_shuffle_t0_pct",
+      "claimed_sanity_check": 0.01604,
+      "measured": 0.01604054419760376,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s42_shuffle_change_pct",
+      "claimed_sanity_check": 0.01634,
+      "measured": 0.016341159419844684,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s43_geometry",
+      "claimed_sanity_check": 1.0,
+      "measured": 1.0,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s43_stiffness",
+      "claimed_sanity_check": 0.2935,
+      "measured": 0.29350000321865083,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s43_contact",
+      "claimed_sanity_check": 0.398,
+      "measured": 0.39800000190734863,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s43_shuffle_t0_pct",
+      "claimed_sanity_check": 0.01265,
+      "measured": 0.01264569090842396,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "s43_shuffle_change_pct",
+      "claimed_sanity_check": 0.01327,
+      "measured": 0.0132650342008729,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "mean_shuffle_change_pct",
+      "claimed_sanity_check": 0.0148,
+      "measured": 0.014803096810358792,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "pred_to_pred_mse_s42",
+      "claimed_sanity_check": 3.82e-06,
+      "measured": 3.324896397316479e-06,
+      "kind": "document",
+      "note": "Brief ~3.82e-6 is a two-seed/rounded figure; measured is seed-42 only from the audit JSON."
+    },
+    {
+      "metric": "legacy_cropped_vicreg_s42_mse10_lastpt",
+      "claimed_sanity_check": 0.899262,
+      "measured": 0.8932738304138184,
+      "kind": "harmless_rounding",
+      "note": "outputs/mpm_action_ablation.json uses last.pt. Brief ~0.899 is close to last.pt 0.893."
+    },
+    {
+      "metric": "legacy_cropped_vicreg_s42_rank_lastpt",
+      "claimed_sanity_check": 5.886,
+      "measured": 5.88592681051897,
+      "kind": "harmless_rounding",
+      "note": ""
+    },
+    {
+      "metric": "ablation_twoseed_uses_best_pt",
+      "claimed_sanity_check": "last.pt policy",
+      "measured": "{\"seed42_vicreg\": \"outputs/vicreg/best.pt\", \"seed42_mse\": \"outputs/mse/best.pt\", \"seed43_vicreg\": \"outputs/seed43/vicreg/best.pt\", \"seed43_mse\": \"outputs/seed43/mse/best.pt\"}",
+      "kind": "protocol_mismatch",
+      "note": "ablation_twoseed.json uses best.pt; corrected headlines use last.pt. Do not mix."
+    }
+  ],
+  "probe_note": "outputs/mpm_action_ablation.json seed-42 nocrop geometry 0.9995 vs corrected_seed43_audit.json 0.9985: linear probes are re-fit; small drift is expected. Use the audit JSON for the matched 4-way table.",
+  "vn_mse": "not implemented in src/eval.py; recorded as null in the audit JSON",
+  "legacy_objective_caveat": "Cropped VICReg/MSE last.pt and best.pt disagree. Brief legacy MSE@10 ~0.090/0.046 does not match ablation_twoseed best.pt (0.114/0.184) nor a naive last.pt expectation. Treat legacy objective comparison as pre-fix."
+}

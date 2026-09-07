@@ -137,6 +137,62 @@ class MLSMPM2D:
         self.F = np.repeat(np.eye(2, dtype=np.float32)[None, ...], n, axis=0)
         self.mu, self.lam = lame(youngs)
 
+    def snapshot(self) -> dict[str, Any]:
+        """Copy the complete particle state. Grid mass/velocity is rebuilt each substep."""
+        return {
+            "x": self.x.copy(),
+            "v": self.v.copy(),
+            "C": self.C.copy(),
+            "F": self.F.copy(),
+            "mu": float(self.mu),
+            "lam": float(self.lam),
+        }
+
+    def restore(self, snap: dict[str, Any]) -> None:
+        """Restore particle state from :meth:`snapshot`. Does not copy the config."""
+        self.x = np.asarray(snap["x"], dtype=np.float32).copy()
+        self.v = np.asarray(snap["v"], dtype=np.float32).copy()
+        self.C = np.asarray(snap["C"], dtype=np.float32).copy()
+        self.F = np.asarray(snap["F"], dtype=np.float32).copy()
+        self.mu = float(snap["mu"])
+        self.lam = float(snap["lam"])
+
+    def clone(self) -> "MLSMPM2D":
+        """Independent copy that shares only the frozen ``MPMConfig``."""
+        other = MLSMPM2D(self.cfg)
+        other.restore(self.snapshot())
+        return other
+
+    def contact_diagnostics(self, action: FloatArr) -> dict[str, float]:
+        """Mechanics-derived contact statistics (predeclared, not result-tuned).
+
+        The actuator always applies the full scaled force after *normalizing*
+        Gaussian weights, so a far contact still injects the same total
+        impulse, only more uniformly. ``effective_contact`` is therefore
+        ``min_particle_distance <= 2 * contact_radius`` (Gaussian support).
+        """
+        action = np.asarray(action, dtype=np.float32).reshape(-1)
+        contact = action[:2]
+        force = action[2:4] * np.float32(self.cfg.action_gain)
+        offset = self.x - contact[None, :]
+        dist2 = np.sum(offset * offset, axis=-1)
+        radius = float(self.cfg.contact_radius)
+        radius2 = np.float32(radius ** 2)
+        w_raw = np.exp(-dist2 / (np.float32(2.0) * radius2 + 1e-8))
+        z = float(np.sum(w_raw) + 1e-8)
+        w = w_raw / z
+        min_dist = float(np.sqrt(np.min(dist2) + 1e-12))
+        pr = float(1.0 / max(float(np.sum(w * w)), 1e-12))
+        return {
+            "min_particle_distance": min_dist,
+            "raw_weight_sum": z,
+            "max_normalized_weight": float(np.max(w)),
+            "weight_participation": pr,
+            "force_norm": float(np.linalg.norm(force)),
+            "contact_radius": radius,
+            "effective_contact": float(min_dist <= 2.0 * radius),
+        }
+
     def _action_force(self, action: FloatArr) -> FloatArr:
         contact = action[:2]
         force = action[2:4] * np.float32(self.cfg.action_gain)
@@ -289,6 +345,83 @@ def generate_episode(
             sim.substep(current)
         frames[t + 1] = render_rgb(sim.x, sim.v, cfg.img_size, cfg.render_sigma)
     return frames, actions
+
+
+def episode_rng_seed(dump_seed: int, episode_index: int) -> int:
+    """Per-episode RNG seed used by :func:`generate_dataset`."""
+    return int(dump_seed) + 10007 * int(episode_index)
+
+
+def episode_class_geom(episode_index: int) -> tuple[int, int]:
+    """Stiffness class id and geometry id for ``episode_index`` (dump layout)."""
+    n_class = len(STIFFNESS_E)
+    n_geom = len(GEOMETRIES)
+    class_id = int(episode_index % n_class)
+    geom_id = int((episode_index // n_class) % n_geom)
+    return class_id, geom_id
+
+
+def apply_action_frames(sim: MLSMPM2D, action: FloatArr, n_frames: int) -> None:
+    """Advance ``n_frames`` observation steps under a constant command."""
+    if n_frames < 1:
+        return
+    action = np.asarray(action, dtype=np.float32)
+    for _ in range(int(n_frames)):
+        for _sub in range(sim.cfg.substeps):
+            sim.substep(action)
+
+
+def replay_episode(
+    episode_index: int,
+    *,
+    dump_seed: int = 0,
+    episode_length: int = 16,
+    mpm: MPMConfig | None = None,
+    hold: int = 3,
+) -> dict[str, Any]:
+    """Re-simulate one dump episode, capturing a snapshot before every action.
+
+    Returns frames, actions, geometry/stiffness labels, and ``snapshots[t]``
+    for ``t = 0 .. T-2`` (state immediately before applying ``actions[t]``),
+    plus ``snapshots[T-1]`` after the last command. Dynamics in ``substep``
+    are deterministic given ``(x, v, C, F, μ, λ, a)``; the RNG is used only
+    for rest-shape jitter and action sampling.
+    """
+    class_id, geom_id = episode_class_geom(episode_index)
+    rng = np.random.default_rng(episode_rng_seed(dump_seed, episode_index))
+    sim = MLSMPM2D(mpm if mpm is not None else MPMConfig())
+    geometry = GEOMETRIES[geom_id]
+    youngs = STIFFNESS_E[class_id]
+    pts = sample_geometry(geometry, sim.cfg.particle_spacing, rng)
+    sim.reset(pts, youngs)
+    frames = np.empty(
+        (episode_length, sim.cfg.in_channels, sim.cfg.img_size, sim.cfg.img_size),
+        dtype=np.uint8,
+    )
+    actions = np.empty((episode_length - 1, sim.cfg.action_dim), dtype=np.float32)
+    snapshots: list[dict[str, Any]] = []
+    frames[0] = render_rgb(sim.x, sim.v, sim.cfg.img_size, sim.cfg.render_sigma)
+    snapshots.append(sim.snapshot())
+    current = sample_action(rng, sim.x, sim.cfg.action_dim)
+    for t in range(episode_length - 1):
+        if t % hold == 0:
+            current = sample_action(rng, sim.x, sim.cfg.action_dim)
+        actions[t] = current
+        apply_action_frames(sim, current, 1)
+        frames[t + 1] = render_rgb(sim.x, sim.v, sim.cfg.img_size, sim.cfg.render_sigma)
+        snapshots.append(sim.snapshot())
+    return {
+        "episode_index": int(episode_index),
+        "frames": frames,
+        "actions": actions,
+        "snapshots": snapshots,
+        "class_id": class_id,
+        "geom_id": geom_id,
+        "geometry": geometry,
+        "youngs": float(youngs),
+        "hold": int(hold),
+        "dump_seed": int(dump_seed),
+    }
 
 
 def _simulate_index(
