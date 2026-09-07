@@ -1,0 +1,16 @@
+{
+  "start_time_utc": "2026-09-07T09:25:53Z",
+  "git_commit_internal": "b5b6555f9a6d87648bb49a50fa13a612308f2916",
+  "seed": 42,
+  "objective": "mse",
+  "condition_on_action": true,
+  "output_root": "results/reviewer_strengthening/06_corrected_objective",
+  "run_name": "mse_action_s42",
+  "epochs": 200,
+  "crop_scale_min": 1.0,
+  "device": "mps",
+  "checkpoint_policy": "last.pt final epoch",
+  "os": "Darwin",
+  "machine": "arm64",
+  "end_time_utc": "2026-09-07T12:03:38Z"
+}

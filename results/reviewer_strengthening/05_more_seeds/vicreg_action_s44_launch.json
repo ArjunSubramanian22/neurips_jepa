@@ -1,0 +1,16 @@
+{
+  "start_time_utc": "2026-09-07T03:59:06Z",
+  "git_commit_internal": "f10c3ad24cb1f0b94899b1582144ad044318a953",
+  "seed": 44,
+  "objective": "vicreg",
+  "condition_on_action": true,
+  "output_root": "results/reviewer_strengthening/05_more_seeds",
+  "run_name": "vicreg_action_s44",
+  "epochs": 200,
+  "crop_scale_min": 1.0,
+  "device": "mps",
+  "checkpoint_policy": "last.pt final epoch",
+  "os": "Darwin",
+  "machine": "arm64",
+  "end_time_utc": "2026-09-07T06:43:06Z"
+}

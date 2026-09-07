@@ -1,0 +1,15 @@
+{
+  "start_time_utc": "2026-09-07T17:15:58Z",
+  "git_commit_internal": "b5b6555f9a6d87648bb49a50fa13a612308f2916",
+  "seed": 45,
+  "objective": "vicreg",
+  "condition_on_action": false,
+  "output_root": "results/reviewer_strengthening/05_more_seeds",
+  "run_name": "vicreg_noaction_s45",
+  "epochs": 200,
+  "crop_scale_min": 1.0,
+  "device": "mps",
+  "checkpoint_policy": "last.pt final epoch",
+  "os": "Darwin",
+  "machine": "arm64"
+}

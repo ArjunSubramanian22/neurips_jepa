@@ -1,0 +1,5 @@
+QUEUE_START 2026-09-07T03:40:35Z
+22:40:39  INFO  ac_jepa.train  Physics dump outputs/physics_mpm  N=2000 T=16 C=3 A=4  (frames resized to 64, workers=0)
+22:40:41  INFO  ac_jepa.train  Dataset  source=outputs/physics_mpm  episodes=2000  T=16  transitions=30000  train/val=(1800, 200)  workers=0
+22:40:42  INFO  ac_jepa.train  Training vicreg_action_s44 on mps  (AMP=True, epochs=200, steps/epoch=211, N_train=27000)
+22:40:43  INFO  ac_jepa.train  [vicreg_action_s44] epoch 1 step 1  loss=72.0272  inv=1.0838  var=1.7967  cov=0.0132  ema_l2=0.0000  gn=200.888  lr=9.48e-08

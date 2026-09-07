@@ -1,0 +1,10 @@
+test_action_embed_changes_with_action (test_action_path.ActionPathTests.test_action_embed_changes_with_action) ... ok
+test_changing_action_changes_predictor_output_at_init (test_action_path.ActionPathTests.test_changing_action_changes_predictor_output_at_init) ... ok
+test_condition_flag_on_action_model (test_action_path.ActionPathTests.test_condition_flag_on_action_model) ... ok
+test_gradients_flow_into_action_embed (test_action_path.ActionPathTests.test_gradients_flow_into_action_embed) ... ok
+test_no_action_ignores_action_tensor (test_action_path.ActionPathTests.test_no_action_ignores_action_tensor) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.032s
+
+OK
