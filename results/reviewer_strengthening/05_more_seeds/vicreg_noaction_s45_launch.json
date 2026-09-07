@@ -11,5 +11,6 @@
   "device": "mps",
   "checkpoint_policy": "last.pt final epoch",
   "os": "Darwin",
-  "machine": "arm64"
+  "machine": "arm64",
+  "end_time_utc": "2026-09-07T19:59:50Z"
 }
