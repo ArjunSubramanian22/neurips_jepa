@@ -1,0 +1,8 @@
+{
+  "dump_command": "python scripts/generate_trajectories.py --n-episodes 2000 --episode-length 16 --img-size 64 --seed 0 --output outputs/physics_mpm",
+  "dump_seed": 0,
+  "n_episodes": 2000,
+  "full_bitwise_regen_tested": false,
+  "subset_replay_tested": true,
+  "subset_replay_test": "tests/test_counterfactual_fork.py dump bitwise match"
+}

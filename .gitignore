@@ -2,6 +2,7 @@
 # scripts/generate_trajectories.py (see MAPPING.md / scripts/reproduce_all.sh).
 outputs/physics_mpm/observations.npy
 outputs/.mplconfig/
+results/reviewer_strengthening/.mplconfig/
 
 __pycache__/
 *.py[cod]

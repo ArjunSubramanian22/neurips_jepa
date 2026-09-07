@@ -1,0 +1,10 @@
+path,exists,bytes
+outputs/physics_mpm/observations.npy,true,393216128
+outputs/physics_mpm/actions.npy,true,480128
+outputs/physics_mpm/stiffness_labels.npy,true,16128
+outputs/physics_mpm/stiffness_values.npy,true,8128
+outputs/physics_mpm/geometry_labels.npy,true,16128
+outputs/vicreg_nocrop/last.pt,true,12930469
+outputs/vicreg_nocrop_seed43/last.pt,true,12930469
+outputs/no_action/last.pt,true,12771229
+outputs/vicreg_nocrop_noaction_seed43/last.pt,true,12771229

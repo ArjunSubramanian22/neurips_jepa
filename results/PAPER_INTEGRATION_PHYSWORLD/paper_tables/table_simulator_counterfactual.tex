@@ -1,0 +1,20 @@
+% Candidate table. Not manuscript prose. Values from aggregate_metrics.json.
+
+\begin{tabular}{lrrr}
+\toprule
+Intervention (h=1) & median RMS pos $\Delta$ & identical uint8 frac. & median $v$ RMS $\Delta$ \\
+\midrule
+shuffled-same-time & 1.1906e-05 & 0.4153 & 0.002386 \\
+neutral            & 7.8767e-06 & 0.5793 & 0.001577 \\
+force-reversed (OOD) & 1.5762e-05 & 0.5203 & 0.003156 \\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{lrrrr}
+\toprule
+Checkpoint & pred MSE (shuf) & tgt MSE (shuf) & median capture & excluded $N$ \\
+\midrule
+vicreg nocrop s42 last.pt & 1.9272e-06 & 1.8069e-06 & 0.01647 & 1273/3000 \\
+vicreg nocrop s43 last.pt & 2.5879e-06 & 3.1272e-06 & 0.06699 & 1256/3000 \\
+\bottomrule
+\end{tabular}

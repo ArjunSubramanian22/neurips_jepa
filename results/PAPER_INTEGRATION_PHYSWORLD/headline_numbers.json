@@ -1,0 +1,106 @@
+{
+  "source_note": "Exact executed values. Null means not implemented or not yet run. Seeds 44+ training was running at package time.",
+  "data": {
+    "observations_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+    "actions_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+    "obs_shape": [2000, 16, 3, 64, 64],
+    "act_shape": [2000, 15, 4],
+    "n_train": 1800,
+    "n_val": 200,
+    "split_hash": "8498e197723c8cef72f2ae1734d416b7062bf84fb79aaa9ab0129554317066c3"
+  },
+  "model": {
+    "trainable_excluding_ema": 874368,
+    "total_including_ema": 1437952
+  },
+  "corrected_lastpt_from_outputs_corrected_seed43_audit": {
+    "vicreg_nocrop_s42": {
+      "mse_1": 0.07571088522672653,
+      "mse_5": 0.6221303343772888,
+      "mse_10": 1.199525237083435,
+      "pred_eff_rank": 12.267736855841244,
+      "tgt_eff_rank": 4.640759363052358,
+      "top1_z_hat": 0.17782228767885566,
+      "geometry": 0.9985000014305114,
+      "stiffness": 0.3024999976158142,
+      "contact": 0.3954999953508377,
+      "shuffle_delta_all_pct": 0.01604054419760376,
+      "shuffle_delta_change_pct": 0.016341159419844684,
+      "pred_to_pred_mse_all": 3.324896397316479e-06,
+      "vn_mse": null
+    },
+    "vicreg_nocrop_s43": {
+      "mse_1": 0.0694643184542656,
+      "mse_5": 0.6156516075134277,
+      "mse_10": 1.1068207025527954,
+      "pred_eff_rank": 5.776180055689214,
+      "tgt_eff_rank": 2.1203659992614035,
+      "top1_z_hat": 0.3327033324340438,
+      "geometry": 1.0,
+      "stiffness": 0.29350000321865083,
+      "contact": 0.39800000190734863,
+      "shuffle_delta_all_pct": 0.01264569090842396,
+      "shuffle_delta_change_pct": 0.0132650342008729,
+      "pred_to_pred_mse_all": 4.315193564252695e-06,
+      "vn_mse": null
+    }
+  },
+  "simulator_counterfactual": {
+    "n_val_episodes": 200,
+    "n_transitions": 3000,
+    "n_command_change": 800,
+    "n_effective_contact_predeclared": 3000,
+    "wallclock_seconds": 876.7343699932098,
+    "h1_shuffled": {
+      "median_rms_pos": 1.1906067811651155e-05,
+      "median_rms_vel": 0.002385589526966214,
+      "median_raster_mse_uint8": 8.885939450919977e-08,
+      "fraction_identical_uint8": 0.41533333333333333,
+      "median_tgt_mse_s42": 1.8069437714984815e-06,
+      "median_tgt_mse_s43": 3.127198965557909e-06,
+      "median_pred_mse_s42": 1.9272439431006205e-06,
+      "median_pred_mse_s43": 2.587943640719459e-06,
+      "median_capture_ratio_s42": 0.016469133928909738,
+      "median_capture_ratio_s43": 0.06698928339760657,
+      "ratio_excluded_s42": {"n_excluded": 1273, "n_total": 3000},
+      "ratio_excluded_s43": {"n_excluded": 1256, "n_total": 3000}
+    },
+    "h1_neutral": {
+      "median_rms_pos": 7.876719791966025e-06,
+      "median_rms_vel": 0.001576861715875566,
+      "fraction_identical_uint8": 0.5793333333333334
+    }
+  },
+  "action_distance": {
+    "spearman_action_l2_vs_rms_pos": 0.6840317911146434,
+    "spearman_action_l2_vs_pred_mse_s42": 0.5955399643933293,
+    "largest_quintile_s42": {
+      "n": 600,
+      "action_l2_median": 3.7943987540032067,
+      "rms_pos_median": 1.854148558777524e-05,
+      "tgt_mse_median": 9.034944741870277e-05,
+      "pred_mse_median": 5.172790224605706e-06
+    }
+  },
+  "bootstrap": {
+    "n_boot": 5000,
+    "seed": 0,
+    "unit": "episode",
+    "s42_all_pred_mse_mean": 3.183240559874475e-06,
+    "s42_all_pred_mse_ci95": [3.032647785946696e-06, 3.3428980929705253e-06],
+    "note": "Mean capture-ratio CIs are unstable; use median capture ratio."
+  },
+  "more_seeds": {
+    "completed": [],
+    "running": ["vicreg_action_s44"]
+  },
+  "corrected_mse_objective": {
+    "completed": []
+  },
+  "stiffness_observability": {
+    "status": "NOT_RUN"
+  },
+  "jacobian": {
+    "status": "NOT_RUN"
+  }
+}
