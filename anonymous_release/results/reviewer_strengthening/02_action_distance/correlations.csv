@@ -1,0 +1,9 @@
+checkpoint,x,y,spearman,n
+vicreg_nocrop_s42,action_l2_normalized,rms_pos,0.6840317911146434,3000
+vicreg_nocrop_s42,action_l2_normalized,tgt_mse,0.2924783116087013,3000
+vicreg_nocrop_s42,action_l2_normalized,pred_mse,0.5955399643933293,3000
+vicreg_nocrop_s42,action_l2_normalized,capture_ratio,0.11856183708649924,1727
+vicreg_nocrop_s43,action_l2_normalized,rms_pos,0.6840317911146434,3000
+vicreg_nocrop_s43,action_l2_normalized,tgt_mse,0.32693241988138,3000
+vicreg_nocrop_s43,action_l2_normalized,pred_mse,0.5902910895878989,3000
+vicreg_nocrop_s43,action_l2_normalized,capture_ratio,0.09203302071806663,1744

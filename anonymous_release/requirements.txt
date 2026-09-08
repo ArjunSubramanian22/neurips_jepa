@@ -1,0 +1,18 @@
+# Core (pinned to the environment that produced the shipped checkpoints)
+# Python 3.13, macOS arm64 / CUDA / CPU. Device is recorded per run in history.json.
+torch==2.12.1
+numpy==2.5.2
+matplotlib==3.11.1
+h5py==3.16.0
+pyyaml==6.0.3
+pillow==12.3.0
+
+# Optional. Imported only if present; not required to train or evaluate.
+# wandb: enabled only when WANDB_API_KEY is set (src/train.py ExperimentLogger).
+# scikit-learn: t-SNE in src/utils/export_paper_artifacts.py; NumPy fallback otherwise.
+# taichi: the simulator uses the in-repo NumPy MLS-MPM backend; taichi is not required.
+wandb==0.23.0
+scikit-learn==1.9.0
+
+# Device note (TrainingConfig.device="auto"): CUDA if available, else Apple MPS, else CPU.
+# Reported-number devices are per-run in history.json — do not assume one device for all tables.

@@ -1,0 +1,18 @@
+{
+  "n_episodes": 20,
+  "n_frames": 320,
+  "n_frames_any_pixel_diff": 0,
+  "n_pixels": 3932160,
+  "n_pixels_diff": 0,
+  "frac_pixels_diff": 0.0,
+  "max_abs_uint8": 0,
+  "mean_abs_uint8": 0.0,
+  "median_frame_mean_abs": 0.0,
+  "per_channel_pixels_diff": [
+    0,
+    0,
+    0
+  ],
+  "actions_all_equal": true,
+  "note": "Subset of val episodes. Full dump hash is in baseline_reproduction.json."
+}

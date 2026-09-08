@@ -1,0 +1,7 @@
+# Core (pinned to the environment that produced the shipped checkpoints). Not a hashed pip freeze of every wheel.
+python==3.13.2
+torch==2.12.1
+numpy==2.5.2
+scikit-learn==1.9.0
+matplotlib==3.11.1
+# scipy is optional; analysis uses numpy ranks if scipy is absent

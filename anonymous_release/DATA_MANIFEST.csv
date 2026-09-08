@@ -1,0 +1,13 @@
+path,kind,used_in_revised_paper,obsolete,sha256,bytes,notes,in_this_artifact
+outputs/physics_mpm/observations.npy,original_observations,yes,no,ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f,393216128,Canonical original dump (~375MB). Omitted from this artifact. Matches Appendix C hash.,no
+outputs/physics_mpm/actions.npy,recorded_actions,yes,no,cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1,480128,Matches the paper and Linux-replay action hash.,yes
+outputs/physics_mpm/stiffness_labels.npy,stiffness_class_labels,yes,no,758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835,16128,Episode labels; E class in {0,1,2}.,yes
+outputs/physics_mpm/stiffness_values.npy,stiffness_E,yes,no,3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f,8128,Young's modulus values {18,70,220}.,yes
+outputs/physics_mpm/geometry_labels.npy,geometry_labels,yes,no,39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff,16128,disk/bar.,yes
+outputs/physics_mpm/metadata.json,dump_metadata,yes,no,674f356b69bed0add1bb2cbbe119d4a1d1028a8edab3a92e3d1e9764fed3a7ba,515,STALE constitutive label: still says neo-Hookean; code is fixed-corotated.,yes
+results/reviewer_strengthening/01_simulator_counterfactual/physical_divergence_per_example.csv,original_fork_physical,yes,no,cb9b9b1b5a7db68f390b4bbb6ea114f243bf87c63ee6a0726fe33f0896b96c83,13425735,N=54600 rows. Original dump observations.,yes
+results/reviewer_strengthening/01_simulator_counterfactual/target_latent_divergence_per_example.csv,original_fork_target,yes,no,909106e7147ea0176837e356ced6ca599bf63c4831d9588358aa6ec54670bcba,9733666,Seeds 42/43 VICReg action only.,yes
+results/reviewer_strengthening/01_simulator_counterfactual/predictor_divergence_per_example.csv,original_fork_predictor,yes,no,7e6884de7e408562ae8f13d87763f9da527aa6c2696666049ca5e10157da0382,7204410,One-step predictor contrast.,yes
+linux_replay_observations.npy,replay_observations,yes_in_paper,no,aedda53c0486f2dea3903d78bf360208e57040665defbeb00064180716485a7b,,Omitted. Linux recorded-action replay tensor is not in this artifact.,no
+particle_positions.npy,simulator_state,no,n/a,,,Never saved in the dump. Recoverable only by snapshot/replay.,no
+particle_velocities.npy,simulator_state,no,n/a,,,Never saved in the dump.,no

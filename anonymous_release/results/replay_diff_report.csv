@@ -1,0 +1,2 @@
+n_episodes,n_frames,n_frames_any_pixel_diff,n_pixels,n_pixels_diff,frac_pixels_diff,max_abs_uint8,mean_abs_uint8,per_channel_pixels_diff,n_episodes_any_diff,n_action_mismatches,method
+2000,32000,0,393216000,0,0.0,0,0.0,"[0, 0, 0]",0,0,"replay_episode dump_seed=0 (RNG resample, not Linux recorded-action replay)"

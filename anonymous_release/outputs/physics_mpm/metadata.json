@@ -1,0 +1,29 @@
+{
+  "simulator": "taichi_mls_mpm_2d",
+  "backend": "numpy",
+  "constitutive": "MLS-MPM neo-Hookean (Hu et al. 2018 / Taichi 88-line)",
+  "n_episodes": 2000,
+  "episode_length": 16,
+  "img_size": 64,
+  "in_channels": 3,
+  "action_dim": 4,
+  "action_layout": [
+    "contact_x",
+    "contact_y",
+    "force_x",
+    "force_y"
+  ],
+  "geometries": [
+    "disk",
+    "bar"
+  ],
+  "stiffness_E": [
+    18.0,
+    70.0,
+    220.0
+  ],
+  "n_stiffness_classes": 3,
+  "seed": 0,
+  "workers": 7,
+  "seconds": 85.25142008299008
+}

@@ -1,0 +1,15 @@
+{
+  "python": "3.13.2",
+  "python_implementation": "CPython",
+  "torch": "2.12.1",
+  "numpy": "2.5.2",
+  "sklearn": "1.9.0",
+  "matplotlib": "3.11.1",
+  "os_name": "Darwin",
+  "os_release": "25.5.0",
+  "machine": "arm64",
+  "ram_gb": 8.0,
+  "mps_available": true,
+  "cuda_available": false,
+  "note": "Git metadata omitted from this anonymous artifact. No hostname, username, home directory, or remote URL is recorded."
+}

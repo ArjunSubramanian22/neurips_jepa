@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.DS_Store
+.mplconfig/
+results/reviewer_strengthening/.mplconfig/
+outputs/physics_mpm/observations.npy
