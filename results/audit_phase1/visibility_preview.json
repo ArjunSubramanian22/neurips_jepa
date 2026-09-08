@@ -1,0 +1,58 @@
+{
+  "n": 3000,
+  "frac_identical": 0.41533333333333333,
+  "bins": {
+    "identical_raster": {
+      "n": 1246,
+      "median_rms_pos": 8.562690709368326e-06,
+      "median_rms_vel": 0.0017074396018870175,
+      "median_raster_mse": 0.0,
+      "median_d_tgt": 0.0,
+      "median_d_pred": 1.7468560145061929e-06,
+      "frac_dpred_lt_dtgt": 0.0,
+      "median_action_l2": 2.2984727520408974,
+      "median_force_l2": 0.4971531291064869,
+      "median_center_l2": 0.11265585775486886,
+      "median_dpred_over_dtgt_where_dtgt_gt_1e8": null
+    },
+    "low_nonzero_raster": {
+      "n": 583,
+      "median_rms_pos": 1.2430954484443646e-05,
+      "median_rms_vel": 0.002473806729540229,
+      "median_raster_mse": 1.0387631022013011e-07,
+      "median_d_tgt": 8.13645419839304e-06,
+      "median_d_pred": 1.8696947563512367e-06,
+      "frac_dpred_lt_dtgt": 0.614065180102916,
+      "median_action_l2": 2.5808966532921085,
+      "median_force_l2": 0.6828054350575441,
+      "median_center_l2": 0.11732418873561816,
+      "median_dpred_over_dtgt_where_dtgt_gt_1e8": 0.1697070500518385
+    },
+    "mid_raster": {
+      "n": 592,
+      "median_rms_pos": 1.4727504549227888e-05,
+      "median_rms_vel": 0.0029450907604768872,
+      "median_raster_mse": 2.941076218121452e-07,
+      "median_d_tgt": 0.00013480700727086514,
+      "median_d_pred": 2.008251044571807e-06,
+      "frac_dpred_lt_dtgt": 0.9459459459459459,
+      "median_action_l2": 2.8625979829148984,
+      "median_force_l2": 0.7888089734646389,
+      "median_center_l2": 0.12391059318492495,
+      "median_dpred_over_dtgt_where_dtgt_gt_1e8": 0.014671052209264056
+    },
+    "high_raster": {
+      "n": 579,
+      "median_rms_pos": 1.6633630366413854e-05,
+      "median_rms_vel": 0.0033321119844913483,
+      "median_raster_mse": 3.3991329928539926e-06,
+      "median_d_tgt": 0.00041331216925755143,
+      "median_d_pred": 2.1371527054725448e-06,
+      "frac_dpred_lt_dtgt": 0.9723661485319517,
+      "median_action_l2": 3.0984906950621327,
+      "median_force_l2": 0.9094692029199595,
+      "median_center_l2": 0.1290347743245855,
+      "median_dpred_over_dtgt_where_dtgt_gt_1e8": 0.005095001207675742
+    }
+  }
+}

@@ -1,0 +1,13 @@
+path,exists,objective,condition_on_action,seed,crop_scale_min,epoch,sha256,bytes,used_in_revised_paper,notes
+outputs/vicreg_nocrop/last.pt,True,vicreg,True,42,1.0,200,af5699a87b31e60faebddba1deffeae29b967d3212ddb532c460277f72f3f60c,12930469,True,paper_and_fork
+outputs/vicreg_nocrop_seed43/last.pt,True,vicreg,True,43,1.0,200,78527aea4761c613caa7be3850e97c6c0a369932891e1717c3c859bba84f39ff,12930469,True,paper_and_fork
+outputs/no_action/last.pt,True,vicreg,False,42,1.0,200,5b920e81424225f90849fb3600fa1324d7b595b6216adcd728ff36e43b8f01fa,12771229,True,paper
+outputs/vicreg_nocrop_noaction_seed43/last.pt,True,vicreg,False,43,1.0,200,69c16cb3979896ab1f8815ffad8757b021c0b18048aca0f33515d3c374e0de9b,12771229,True,paper
+results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt,True,vicreg,True,44,1.0,200,0f75471addc4707ef1ee9a179f7a329c9d24a1dddb7685113157cff196e85abc,12930533,True,paper
+results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt,True,vicreg,True,45,1.0,200,b617baa926d48aa7dba4e7f3be3bfc135882599d1653b909179fcc3ef68c9110,12930533,True,paper
+results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt,True,vicreg,False,44,1.0,200,e5f354d4969eb6ad704ac90b480b0de350a29eea7d1ef9e76478e48fa8a73df1,12771293,True,paper
+results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt,True,vicreg,False,45,1.0,200,0b044676b75f11d48e52be7b747b8f4b2ec0ff20738bdd5668b9fb3a79e15f60,12771293,True,paper
+results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt,True,mse,True,42,1.0,200,f32f436bbb3bcc5daf69aa9deb2b972d10b93c8bb26224c092e01163ce680ef8,12930533,True,paper
+results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt,True,mse,True,43,1.0,200,e364c9620b7d5253f6aaa46b2294d7561c232125df598151b8088a1bbb03e0a5,12930533,True,paper
+outputs/vicreg/last.pt,True,vicreg,True,42,0.75,200,fcedbac86e4f5241316207bc2a188fad7161f80c2ac3a23a39f09bfbebae66f5,12930405,False,obsolete_cropped
+outputs/mse/last.pt,True,mse,True,42,0.75,200,40daa7a34725aa2c034a03cc91f817c8068e387e836dd98fe0c8c985421bea99,12930469,False,obsolete_cropped

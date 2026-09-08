@@ -1,0 +1,68 @@
+{
+  "n": 3000,
+  "frac_identical": 0.41533333333333333,
+  "bins": {
+    "identical_raster": {
+      "n": 1246,
+      "median_rms_pos": 8.562690709368326e-06,
+      "median_rms_vel": 0.0017074396018870175,
+      "median_raster_mse": 0.0,
+      "median_d_tgt": 0.0,
+      "median_d_pred": 1.7468560145061929e-06,
+      "frac_dpred_lt_dtgt": 0.0
+    },
+    "low_nonzero_raster": {
+      "n": 583,
+      "median_rms_pos": 1.2430954484443646e-05,
+      "median_rms_vel": 0.002473806729540229,
+      "median_raster_mse": 1.0387631022013011e-07,
+      "median_d_tgt": 8.13645419839304e-06,
+      "median_d_pred": 1.8696947563512367e-06,
+      "frac_dpred_lt_dtgt": 0.614065180102916
+    },
+    "mid_raster": {
+      "n": 592,
+      "median_rms_pos": 1.4727504549227888e-05,
+      "median_rms_vel": 0.0029450907604768872,
+      "median_raster_mse": 2.941076218121452e-07,
+      "median_d_tgt": 0.00013480700727086514,
+      "median_d_pred": 2.008251044571807e-06,
+      "frac_dpred_lt_dtgt": 0.9459459459459459
+    },
+    "high_raster": {
+      "n": 579,
+      "median_rms_pos": 1.6633630366413854e-05,
+      "median_rms_vel": 0.0033321119844913483,
+      "median_raster_mse": 3.3991329928539926e-06,
+      "median_d_tgt": 0.00041331216925755143,
+      "median_d_pred": 2.1371527054725448e-06,
+      "frac_dpred_lt_dtgt": 0.9723661485319517
+    }
+  },
+  "top10pct_visible": {
+    "n": 300,
+    "median_d_tgt": 0.0011936489026993513,
+    "median_d_pred": 1.9482179141050437e-06,
+    "frac_dpred_lt_dtgt": 0.95
+  },
+  "dtgt_threshold_1e-8_s42": {
+    "excluded": {
+      "n": 1273,
+      "frac_of_3000": 0.42433333333333334,
+      "median_rms_pos": 8.690590220794547e-06,
+      "median_raster_mse": 0.0,
+      "median_d_pred": 1.757832023940864e-06,
+      "median_action_l2_normalized": 2.3118428416933967,
+      "frac_identical_raster": 0.9787902592301649
+    },
+    "included": {
+      "n": 1727,
+      "frac_of_3000": 0.5756666666666667,
+      "median_rms_pos": 1.4512866073346231e-05,
+      "median_raster_mse": 2.9661066491826205e-07,
+      "median_d_pred": 1.9988451640529092e-06,
+      "median_action_l2_normalized": 2.848281230055331,
+      "frac_identical_raster": 0.0
+    }
+  }
+}
