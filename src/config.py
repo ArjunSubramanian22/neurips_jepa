@@ -141,6 +141,14 @@ class TrainingConfig:
         output_dir: Run directory for logs and checkpoints.
         device: ``"auto"`` selects CUDA, then MPS, then CPU.
         ema_sync_every: Optimizer steps between target-encoder EMA updates.
+        inverse_aux_weight: Weight on the inverse-dynamics loss. ``0`` leaves
+            the prediction objective unchanged and does not build the head.
+        inverse_loss_type: ``mse`` or ``smooth_l1`` on normalized actions.
+        inverse_mode: ``joint`` trains the head with the encoder. ``probe``
+            fits the head only after representation learning, with the encoder
+            frozen. Probe mode requires ``inverse_aux_weight=0``.
+        inverse_probe_epochs: Epochs of frozen-encoder inverse fitting. Used
+            only when ``inverse_mode`` is ``probe``.
     """
 
     batch_size: int = 32
@@ -165,6 +173,10 @@ class TrainingConfig:
     output_dir: str = "runs/ac_jepa"
     device: str = "auto"
     ema_sync_every: int = 1
+    inverse_aux_weight: float = 0.0
+    inverse_loss_type: Literal["mse", "smooth_l1"] = "mse"
+    inverse_mode: Literal["joint", "probe"] = "joint"
+    inverse_probe_epochs: int = 0
 
     def __post_init__(self) -> None:
         if self.batch_size < 1:
@@ -182,6 +194,14 @@ class TrainingConfig:
         )
         if self.num_workers < 0:
             raise ValueError("num_workers must be >= 0.")
+        if self.inverse_aux_weight < 0.0:
+            raise ValueError("inverse_aux_weight must be >= 0.")
+        if self.inverse_probe_epochs < 0:
+            raise ValueError("inverse_probe_epochs must be >= 0.")
+        if self.inverse_mode == "probe" and self.inverse_aux_weight != 0.0:
+            raise ValueError("probe mode fits the inverse head after representation learning, so inverse_aux_weight must be 0.")
+        if self.inverse_mode == "probe" and self.inverse_probe_epochs < 1:
+            raise ValueError("probe mode requires inverse_probe_epochs >= 1.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""

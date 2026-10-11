@@ -389,11 +389,25 @@ class ACJEPATrainer:
         self.use_amp = _amp_enabled(self.device, cfg.training.amp)
         seed_everything(cfg.training.seed)
         self.model = (model if model is not None else build_world_model(cfg)).to(self.device)
+        self.inverse_head = None
+        if cfg.training.inverse_mode == "joint" and cfg.training.inverse_aux_weight > 0.0:
+            if not cfg.data.normalize_actions:
+                raise ValueError("inverse_aux_weight > 0 requires normalized actions.")
+            from src.models.inverse_dynamics import InverseDynamicsHead
+
+            self.inverse_head = InverseDynamicsHead(
+                cfg.model.effective_latent_dim,
+                cfg.model.action_dim,
+                cfg.model.predictor_embed_dim,
+            ).to(self.device)
+        trainable = list(self.model.trainable_parameters())
+        if self.inverse_head is not None:
+            trainable.extend(self.inverse_head.parameters())
         self.train_loader, self.val_loader, self.dataset = build_dataloaders(
             cfg.data, cfg.training, full_dataset=dataset
         )
         self.optimizer = AdamW(
-            list(self.model.trainable_parameters()),
+            trainable,
             lr=cfg.training.lr,
             betas=(cfg.training.beta1, cfg.training.beta2),
             weight_decay=cfg.training.weight_decay,
@@ -476,15 +490,38 @@ class ACJEPATrainer:
             return self._pixel_ae_objective(x_t, a_t, x_tp1)
         output = self.model(x_t, a_t, x_tp1)
         assert output.z_tp1 is not None
-        return self._objective(output.z_hat_tp1, output.z_tp1)
+        loss, terms = self._objective(output.z_hat_tp1, output.z_tp1)
+        weight = float(self.cfg.training.inverse_aux_weight)
+        if self.inverse_head is not None and weight > 0.0:
+            from src.models.inverse_dynamics import combine_prediction_and_inverse, inverse_dynamics_loss
+
+            z_tp1_online = self.model.encode(x_tp1)
+            predicted_action = self.inverse_head(output.z_t, z_tp1_online)
+            inverse = inverse_dynamics_loss(
+                predicted_action,
+                a_t,
+                loss_type=self.cfg.training.inverse_loss_type,
+            )
+            loss = combine_prediction_and_inverse(loss, inverse["loss"], weight)
+            terms["loss"] = loss
+            terms["inverse"] = inverse["loss"].detach()
+            terms["inverse_center"] = inverse["center"].detach()
+            terms["inverse_force"] = inverse["force"].detach()
+            for index, value in enumerate(inverse["per_coordinate"].detach()):
+                terms[f"inverse_coord_{index}"] = value
+        return loss, terms
 
     def _step_metrics(self, terms: dict[str, torch.Tensor]) -> dict[str, float]:
-        return {
+        metrics = {
             "loss": float(terms["loss"].detach().item()),
             "invariance": float(terms["invariance"].detach().item()),
             "variance": float(terms["variance"].detach().item()),
             "covariance": float(terms["covariance"].detach().item()),
         }
+        for key, value in terms.items():
+            if key.startswith("inverse"):
+                metrics[key] = float(value.detach().item())
+        return metrics
 
     def training_step(
         self, x_t: torch.Tensor, a_t: torch.Tensor, x_tp1: torch.Tensor
@@ -498,6 +535,8 @@ class ACJEPATrainer:
             loss, terms = self._forward_loss(x_t, a_t, x_tp1)
         self.scaler.scale(loss).backward()
         params = list(self.model.trainable_parameters())
+        if self.inverse_head is not None:
+            params.extend(self.inverse_head.parameters())
         self.scaler.unscale_(self.optimizer)
         from src.models.ac_jepa import action_conditioning_grad_norm
 
@@ -516,6 +555,51 @@ class ACJEPATrainer:
         metrics["action_cond_grad_norm"] = action_grad
         metrics["ema_param_l2"] = self._ema_param_l2()
         return metrics
+
+    def _fit_inverse_probe(self) -> None:
+        """Fit the inverse head on a frozen encoder. Representation weights do not move."""
+        from src.models.inverse_dynamics import InverseDynamicsHead, inverse_dynamics_loss
+
+        if not self.cfg.data.normalize_actions:
+            raise ValueError("the inverse probe requires normalized actions.")
+        self.model.eval()
+        for parameter in self.model.parameters():
+            parameter.requires_grad_(False)
+        self.inverse_head = InverseDynamicsHead(
+            self.cfg.model.effective_latent_dim,
+            self.cfg.model.action_dim,
+            self.cfg.model.predictor_embed_dim,
+        ).to(self.device)
+        optimizer = AdamW(
+            self.inverse_head.parameters(),
+            lr=self.cfg.training.lr,
+            weight_decay=self.cfg.training.weight_decay,
+        )
+        for epoch in range(1, self.cfg.training.inverse_probe_epochs + 1):
+            meter = _AverageMeter()
+            for batch in self.train_loader:
+                x_t, a_t, x_tp1 = (tensor.to(self.device) for tensor in batch[:3])
+                with torch.no_grad():
+                    z_t = self.model.encode(x_t)
+                    z_tp1 = self.model.encode(x_tp1)
+                inverse = inverse_dynamics_loss(
+                    self.inverse_head(z_t, z_tp1),
+                    a_t,
+                    loss_type=self.cfg.training.inverse_loss_type,
+                )
+                optimizer.zero_grad(set_to_none=True)
+                inverse["loss"].backward()
+                optimizer.step()
+                stats = {
+                    "inverse": float(inverse["loss"].detach().item()),
+                    "inverse_center": float(inverse["center"].detach().item()),
+                    "inverse_force": float(inverse["force"].detach().item()),
+                }
+                for index, value in enumerate(inverse["per_coordinate"].detach()):
+                    stats[f"inverse_coord_{index}"] = float(value.item())
+                meter.update(stats, batch_size=int(x_t.shape[0]))
+            self.history.append({"probe_epoch": epoch, **{f"probe_{key}": value for key, value in meter.mean().items()}})
+        self.save_checkpoint(self.output_dir / "inverse_probe.pt", self.cfg.training.epochs, {"inverse_probe": True})
 
     def gnn_training_step(
         self,
@@ -625,6 +709,8 @@ class ACJEPATrainer:
             "history": self.history,
             **(extra or {}),
         }
+        if self.inverse_head is not None:
+            payload["inverse_head"] = self.inverse_head.state_dict()
         torch.save(payload, path)
 
     def fit(self) -> dict[str, Any]:
@@ -678,6 +764,9 @@ class ACJEPATrainer:
                     "ema_param_l2": epoch_stats["ema_param_l2"],
                     "lr": epoch_stats.get("train_lr", float(self.optimizer.param_groups[0]["lr"])),
                 }
+                for key, value in epoch_stats.items():
+                    if key.startswith("train_inverse"):
+                        epoch_log[key.removeprefix("train_")] = value
                 for key in ("val_loss", "val_invariance", "val_variance", "val_covariance"):
                     if key in epoch_stats:
                         epoch_log[key] = epoch_stats[key]
@@ -685,6 +774,8 @@ class ACJEPATrainer:
                 self.history.append({"epoch": epoch, **epoch_stats})
                 if epoch % train_cfg.ckpt_interval == 0 or epoch == train_cfg.epochs:
                     self.save_checkpoint(self.output_dir / "last.pt", epoch)
+            if train_cfg.inverse_mode == "probe":
+                self._fit_inverse_probe()
         finally:
             self.logger.close()
         elapsed = time.perf_counter() - started
