@@ -1,0 +1,249 @@
+{
+  "experiment_id": "capacity_sweep_v1",
+  "varied_factor": "width",
+  "fixed": {
+    "encoder_depth": 4,
+    "predictor_depth": 4,
+    "encoder_num_heads": 4,
+    "predictor_num_heads": 4,
+    "mlp_ratio": 2.0,
+    "action_embed_dim": 64,
+    "drop_path": 0.05
+  },
+  "is_test_set": false,
+  "split_version": "legacy_v1",
+  "training_seconds_available_for_untrained_scales": false,
+  "flops_are_forward_only": true,
+  "scale_trends": {
+    "rollout_error": "not_identified",
+    "effective_rank": "not_identified",
+    "action_response_magnitude": "not_identified",
+    "directional_alignment": "not_identified",
+    "retrieval": "not_identified",
+    "planning_success": "not_identified",
+    "planning_distance": "not_identified"
+  },
+  "conclusion": "not_identified",
+  "headline": "Only the base width has trained seeds. Small and large were not trained, so the sweep cannot tell whether action under-use is a capacity limit.",
+  "scales": [
+    {
+      "scale": "small",
+      "width": 64,
+      "status": "not_trained",
+      "trainable_parameters": 234688,
+      "train_step_forward_flops": 12487168,
+      "seeds": [],
+      "metrics": {
+        "rollout_error": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "effective_rank": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "action_response_magnitude": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "directional_alignment": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "retrieval": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "planning_success": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "planning_distance": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        }
+      }
+    },
+    {
+      "scale": "base",
+      "width": 128,
+      "status": "trained",
+      "trainable_parameters": 874368,
+      "train_step_forward_flops": 26309120,
+      "seeds": [
+        {
+          "seed": 42,
+          "checkpoint": "outputs/vicreg_nocrop/last.pt",
+          "training_seconds": 9046.350118290982,
+          "rollout_error": 0.07550955563783646,
+          "effective_rank": 12.267737809145414,
+          "action_response_magnitude": 0.05108793787621897,
+          "directional_alignment": 0.03127096015293091,
+          "retrieval": 0.5277777777777778,
+          "planning_success": 0.0,
+          "planning_distance": 0.00017263466278409303
+        },
+        {
+          "seed": 43,
+          "checkpoint": "outputs/vicreg_nocrop_seed43/last.pt",
+          "training_seconds": 11077.658793709008,
+          "rollout_error": 0.06967872381210327,
+          "effective_rank": 5.776180882530848,
+          "action_response_magnitude": 0.1559358383300664,
+          "directional_alignment": -0.014829199734041544,
+          "retrieval": 0.45,
+          "planning_success": 0.0,
+          "planning_distance": 0.00033228451402253257
+        },
+        {
+          "seed": 44,
+          "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt",
+          "training_seconds": 9830.317086042,
+          "rollout_error": 0.07080326974391937,
+          "effective_rank": 13.05630343534373,
+          "action_response_magnitude": 0.06638414551556114,
+          "directional_alignment": 0.011780400854635175,
+          "retrieval": 0.5,
+          "planning_success": 0.0,
+          "planning_distance": 0.00013876519911485953
+        },
+        {
+          "seed": 45,
+          "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt",
+          "training_seconds": 9759.76832925,
+          "rollout_error": 0.08054740726947784,
+          "effective_rank": 13.141592283121296,
+          "action_response_magnitude": 0.047624494778574944,
+          "directional_alignment": -0.0010590091451775077,
+          "retrieval": 0.4388888888888889,
+          "planning_success": 0.0,
+          "planning_distance": 0.0003390481030353867
+        }
+      ],
+      "metrics": {
+        "rollout_error": {
+          "mean": 0.07413473911583424,
+          "n": 4,
+          "values": [
+            0.07550955563783646,
+            0.06967872381210327,
+            0.07080326974391937,
+            0.08054740726947784
+          ]
+        },
+        "effective_rank": {
+          "mean": 11.060453602535322,
+          "n": 4,
+          "values": [
+            12.267737809145414,
+            5.776180882530848,
+            13.05630343534373,
+            13.141592283121296
+          ]
+        },
+        "action_response_magnitude": {
+          "mean": 0.08025810412510537,
+          "n": 4,
+          "values": [
+            0.05108793787621897,
+            0.1559358383300664,
+            0.06638414551556114,
+            0.047624494778574944
+          ]
+        },
+        "directional_alignment": {
+          "mean": 0.0067907880320867585,
+          "n": 4,
+          "values": [
+            0.03127096015293091,
+            -0.014829199734041544,
+            0.011780400854635175,
+            -0.0010590091451775077
+          ]
+        },
+        "retrieval": {
+          "mean": 0.4791666666666667,
+          "n": 4,
+          "values": [
+            0.5277777777777778,
+            0.45,
+            0.5,
+            0.4388888888888889
+          ]
+        },
+        "planning_success": {
+          "mean": 0.0,
+          "n": 4,
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "planning_distance": {
+          "mean": 0.00024568311973921796,
+          "n": 4,
+          "values": [
+            0.00017263466278409303,
+            0.00033228451402253257,
+            0.00013876519911485953,
+            0.0003390481030353867
+          ]
+        }
+      }
+    },
+    {
+      "scale": "large",
+      "width": 256,
+      "status": "not_trained",
+      "trainable_parameters": 3382528,
+      "train_step_forward_flops": 57983488,
+      "seeds": [],
+      "metrics": {
+        "rollout_error": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "effective_rank": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "action_response_magnitude": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "directional_alignment": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "retrieval": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "planning_success": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        },
+        "planning_distance": {
+          "mean": null,
+          "n": 0,
+          "values": []
+        }
+      }
+    }
+  ]
+}
