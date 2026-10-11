@@ -1,0 +1,29 @@
+# Same seeds as configs/seeds/headline_v1.yaml. None of these runs exist yet.
+seed_registry_id: obs_pred_v1
+seeds: [42, 43, 44, 45, 46]
+minimum_complete_seeds: 5
+split_version: legacy_v1
+same_seeds_as: headline_v1
+headline_role: legacy_validation
+is_test_set: false
+configurations:
+  - id: obs_pred_raster
+    objective: obs_pred
+    condition_on_action: true
+    observation_space: raster
+    checkpoints:
+      42: null
+      43: null
+      44: null
+      45: null
+      46: null
+  - id: obs_pred_rgb
+    objective: obs_pred
+    condition_on_action: true
+    observation_space: rgb
+    checkpoints:
+      42: null
+      43: null
+      44: null
+      45: null
+      46: null

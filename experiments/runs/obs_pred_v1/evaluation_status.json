@@ -1,0 +1,16 @@
+{
+  "experiment_id": "obs_pred_v1",
+  "trained": false,
+  "is_test_set": false,
+  "split_version": "legacy_v1",
+  "observation_space": "raster",
+  "rgb": "not_measured_requires_particle_positions",
+  "pixel_mse": "not_measured",
+  "psnr": "not_measured",
+  "ssim": "not_measured",
+  "counterfactual_observation_accuracy": "not_measured",
+  "action_retrieval": "not_measured",
+  "planning": "not_measured",
+  "intervention": "force_reversal",
+  "reason": "configs/seeds/obs_pred_v1.yaml has no checkpoints. Pixel metrics on an untrained network are not an answer about action under-use."
+}
