@@ -16,4 +16,6 @@ No paper checkpoint was retrained or re-scored. No test-set protocol was edited 
 
 `EXPERIMENT_MANIFEST.csv` was left unchanged. It still says the stiffness and state-perturbation controls were not run, while later files under `results/audit_phase2/` are present. That discrepancy is recorded in `docs/EXPERIMENTS.md` rather than silently rewritten.
 
-`dump_regeneration_hashcheck_v1` regenerated the seed-0 dump with one worker. Observations and actions matched `DATA_MANIFEST.csv`, and the observation tensor was copied to `outputs/physics_mpm/observations.npy`. Episode 1800 of that file matches `replay_episode`. Checkpoints were not re-scored.
+`dump_regeneration_hashcheck_v1` regenerated the seed-0 dump with one worker. Observations and actions matched `DATA_MANIFEST.csv`, and the observation tensor was copied to `outputs/physics_mpm/observations.npy`. Episode 1800 of that file matches `replay_episode`.
+
+`heldout_reproduction_v1` then recomputed the ten no-crop checkpoints with `scripts/evaluate_final.py`. MSE and variance-normalized MSE at horizons 1, 5, and 10 matched `results/final_checkpoint_results.csv` with absolute delta 0, inside the predeclared tolerance 0.001. The archive CSV was not overwritten.

@@ -57,4 +57,12 @@ Worktree hash inventory:
 python3.13 scripts/audit_reproducibility_baseline.py
 ```
 
+Reproduce the archived val-only MSE table into a new directory:
+
+```bash
+python3.13 scripts/run_heldout_reproduction.py
+```
+
+`heldout_reproduction_v1` already occupies that experiment id. A further reproduction needs a new id.
+
 The reduced simulator in the cascade smoke uses `n_grid=16`, `img_size=32`, and `substeps=4`. The historical dump uses `n_grid=32`, `img_size=64`, and `substeps=8`. Those RMS values are not interchangeable.

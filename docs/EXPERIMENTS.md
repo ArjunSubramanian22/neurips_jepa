@@ -61,6 +61,18 @@ Output: `experiments/runs/cascade_protocol_smoke_v1/cascade_layers.png`.
 - **Recorded outcome.** `experiments/runs/dump_regeneration_hashcheck_v1/hashcheck.json`: observations, actions, stiffness labels, stiffness values, and geometry labels all match. Observations SHA-256 begins `ee3fe0fedfc6`, the manifest value. The checker copied `observations.npy` into `outputs/physics_mpm/`. `tests.test_counterfactual_fork.SnapshotForkTests.test_dump_replay_matches_stored_episode_if_present` then passed for episode 1800.
 - **Permitted interpretation.** This machine can regenerate the manifest observation tensor. That does not establish byte identity with the Linux replay file, and it does not re-score any checkpoint.
 
+## heldout_reproduction_v1
+
+- **Status.** COMPLETE. `success_criterion_met` is true. Failure reason: none. Git commit `c64d74a89e28`, dirty false.
+- **Research question.** Does `scripts/evaluate_final.py` on the restored observation tensor reproduce the archived val-only MSE columns for every scheduled no-crop checkpoint?
+- **Hypothesis.** The same script, split, and `last.pt` weights reproduce `results/final_checkpoint_results.csv` on MSE and variance-normalized MSE at horizons 1, 5, and 10.
+- **Implementation.** `configs/experiments/heldout_reproduction_v1.yaml`. Episodes `[1800, 2000)`. All ten scheduled checkpoints. Absolute tolerance 0.001 was written in that config before the run. Outputs go to `experiments/runs/heldout_reproduction_v1/` and do not replace the archive CSV.
+- **Controls.** Every scheduled name is listed. A missing checkpoint would be `MISSING` and would fail the criterion. The tolerance is not a license to drop a seed.
+- **Confounds.** This is the historical validation tail, not an untouched test. Agreement with the archive does not validate the scientific interpretation of those numbers. Columns other than the six MSE fields were not part of the predeclared comparison.
+- **Success criterion.** All ten checkpoints finish, and each of MSE@1, MSE@5, MSE@10, VN-MSE@1, VN-MSE@5, and VN-MSE@10 is within 0.001 absolute of the archive.
+- **Recorded outcome.** `experiments/runs/heldout_reproduction_v1/comparison.json`: 10 compared, 0 missing, and the maximum absolute delta on those columns is 0.
+- **Permitted interpretation.** This worktree reproduces those archived validation numbers. It does not create a new test set and does not change the claim boundaries in `AUDIT.md`.
+
 ## Historical dump and revised-paper evaluations
 
 These were not rerun in this pass. Their protocol and caveats are in `AUDIT.md`, `REPRODUCIBILITY_MATRIX.md`, and `configs/protocols/hist_v1_split.yaml`. Do not mix cropped `outputs/vicreg/last.pt` and `outputs/mse/last.pt` (`crop_scale_min=0.75`) with the no-crop `last.pt` checkpoints.
