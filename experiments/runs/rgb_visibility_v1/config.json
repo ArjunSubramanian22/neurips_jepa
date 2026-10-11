@@ -1,0 +1,27 @@
+{
+  "environments": [
+    "mpm_legacy.yaml",
+    "mpm_high_excitation.yaml"
+  ],
+  "fork": "force_reversed",
+  "horizon": 3,
+  "pipelines": [
+    "physical_raster",
+    "rgb_64",
+    "rgb_128",
+    "rgb_256"
+  ],
+  "showcase_rule": "max rgb_128 affected-pixel fraction, then latest frame, high-excitation disk",
+  "states": [
+    [
+      "disk",
+      70.0,
+      0
+    ],
+    [
+      "bar",
+      70.0,
+      1
+    ]
+  ]
+}

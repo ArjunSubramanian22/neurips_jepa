@@ -1,0 +1,35 @@
+{
+  "background_color": [
+    0.94,
+    0.93,
+    0.9
+  ],
+  "camera_center": [
+    0.5,
+    0.5
+  ],
+  "camera_scale": 1.0,
+  "coverage_gain": 1.6,
+  "distractor_seed": 0,
+  "distractors": false,
+  "light_dir": [
+    0.35,
+    -0.45,
+    0.82
+  ],
+  "n_distractors": 4,
+  "object_color": [
+    0.82,
+    0.32,
+    0.18
+  ],
+  "renderer_version": "rgb_v1",
+  "resolution": 64,
+  "shading": true,
+  "splat_sigma_at_64": 1.35,
+  "splat_sigma_px": 1.35,
+  "texture": false,
+  "texture_amplitude": 0.12,
+  "texture_frequency": 18.0,
+  "version": "rgb_v1"
+}

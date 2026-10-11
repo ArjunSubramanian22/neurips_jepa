@@ -1,0 +1,78 @@
+{
+  "rows": [
+    {
+      "environment_id": "mpm_high_excitation",
+      "pipeline": "physical_raster",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.19189453125,
+      "median_pixel_mse": 0.0016346080228686333,
+      "median_ssim": 0.9275128543376923,
+      "median_fraction_identical_uint8": 0.8344319661458333
+    },
+    {
+      "environment_id": "mpm_high_excitation",
+      "pipeline": "rgb_64",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.1243896484375,
+      "median_pixel_mse": 0.00019293907098472118,
+      "median_ssim": 0.9902046918869019,
+      "median_fraction_identical_uint8": 0.8887125651041666
+    },
+    {
+      "environment_id": "mpm_high_excitation",
+      "pipeline": "rgb_128",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.118072509765625,
+      "median_pixel_mse": 6.269415462156758e-05,
+      "median_ssim": 0.9967644214630127,
+      "median_fraction_identical_uint8": 0.901275634765625
+    },
+    {
+      "environment_id": "mpm_high_excitation",
+      "pipeline": "rgb_256",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.119598388671875,
+      "median_pixel_mse": 3.214243952243123e-05,
+      "median_ssim": 0.9991898834705353,
+      "median_fraction_identical_uint8": 0.9100596110026042
+    },
+    {
+      "environment_id": "mpm_legacy",
+      "pipeline": "physical_raster",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.0,
+      "median_pixel_mse": 0.0,
+      "median_ssim": 1.0,
+      "median_fraction_identical_uint8": 1.0
+    },
+    {
+      "environment_id": "mpm_legacy",
+      "pipeline": "rgb_64",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.0,
+      "median_pixel_mse": 0.0,
+      "median_ssim": 1.0,
+      "median_fraction_identical_uint8": 1.0
+    },
+    {
+      "environment_id": "mpm_legacy",
+      "pipeline": "rgb_128",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.0,
+      "median_pixel_mse": 0.0,
+      "median_ssim": 1.0,
+      "median_fraction_identical_uint8": 1.0
+    },
+    {
+      "environment_id": "mpm_legacy",
+      "pipeline": "rgb_256",
+      "n": 6,
+      "median_fraction_affected_pixels": 0.0,
+      "median_pixel_mse": 0.0,
+      "median_ssim": 1.0,
+      "median_fraction_identical_uint8": 1.0
+    }
+  ],
+  "showcase_frame": 2,
+  "learned_model_evaluated": false
+}

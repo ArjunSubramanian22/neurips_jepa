@@ -1,0 +1,153 @@
+{
+  "checkpoint": {
+    "note": "no checkpoint",
+    "path": null
+  },
+  "command": "python3.13 experiments/rgb_observations/run_visibility.py",
+  "config": {
+    "environments": [
+      "mpm_legacy.yaml",
+      "mpm_high_excitation.yaml"
+    ],
+    "fork": "force_reversed",
+    "horizon": 3,
+    "pipelines": [
+      "physical_raster",
+      "rgb_64",
+      "rgb_128",
+      "rgb_256"
+    ],
+    "showcase_rule": "max rgb_128 affected-pixel fraction, then latest frame, high-excitation disk",
+    "states": [
+      [
+        "disk",
+        70.0,
+        0
+      ],
+      [
+        "bar",
+        70.0,
+        1
+      ]
+    ]
+  },
+  "dataset_split": {
+    "evaluated": false,
+    "split_version": "not_applicable"
+  },
+  "ended_at": "2026-10-11T20:21:26+00:00",
+  "environment": {
+    "simulator": "MLSMPM2D"
+  },
+  "experiment_id": "rgb_visibility_v1",
+  "failure_reason": null,
+  "git_commit": "d1bf9e0e4799ee78fa0abb0ca0d8735b53e0e7ee",
+  "git_dirty": false,
+  "git_dirty_count": 0,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "learned_model_evaluated": false,
+    "lpips_status": "unavailable",
+    "n_rows": 48,
+    "showcase_frame": 2,
+    "summary": [
+      {
+        "environment_id": "mpm_high_excitation",
+        "median_fraction_affected_pixels": 0.19189453125,
+        "median_fraction_identical_uint8": 0.8344319661458333,
+        "median_pixel_mse": 0.0016346080228686333,
+        "median_ssim": 0.9275128543376923,
+        "n": 6,
+        "pipeline": "physical_raster"
+      },
+      {
+        "environment_id": "mpm_high_excitation",
+        "median_fraction_affected_pixels": 0.1243896484375,
+        "median_fraction_identical_uint8": 0.8887125651041666,
+        "median_pixel_mse": 0.00019293907098472118,
+        "median_ssim": 0.9902046918869019,
+        "n": 6,
+        "pipeline": "rgb_64"
+      },
+      {
+        "environment_id": "mpm_high_excitation",
+        "median_fraction_affected_pixels": 0.118072509765625,
+        "median_fraction_identical_uint8": 0.901275634765625,
+        "median_pixel_mse": 6.269415462156758e-05,
+        "median_ssim": 0.9967644214630127,
+        "n": 6,
+        "pipeline": "rgb_128"
+      },
+      {
+        "environment_id": "mpm_high_excitation",
+        "median_fraction_affected_pixels": 0.119598388671875,
+        "median_fraction_identical_uint8": 0.9100596110026042,
+        "median_pixel_mse": 3.214243952243123e-05,
+        "median_ssim": 0.9991898834705353,
+        "n": 6,
+        "pipeline": "rgb_256"
+      },
+      {
+        "environment_id": "mpm_legacy",
+        "median_fraction_affected_pixels": 0.0,
+        "median_fraction_identical_uint8": 1.0,
+        "median_pixel_mse": 0.0,
+        "median_ssim": 1.0,
+        "n": 6,
+        "pipeline": "physical_raster"
+      },
+      {
+        "environment_id": "mpm_legacy",
+        "median_fraction_affected_pixels": 0.0,
+        "median_fraction_identical_uint8": 1.0,
+        "median_pixel_mse": 0.0,
+        "median_ssim": 1.0,
+        "n": 6,
+        "pipeline": "rgb_64"
+      },
+      {
+        "environment_id": "mpm_legacy",
+        "median_fraction_affected_pixels": 0.0,
+        "median_fraction_identical_uint8": 1.0,
+        "median_pixel_mse": 0.0,
+        "median_ssim": 1.0,
+        "n": 6,
+        "pipeline": "rgb_128"
+      },
+      {
+        "environment_id": "mpm_legacy",
+        "median_fraction_affected_pixels": 0.0,
+        "median_fraction_identical_uint8": 1.0,
+        "median_pixel_mse": 0.0,
+        "median_ssim": 1.0,
+        "n": 6,
+        "pipeline": "rgb_256"
+      }
+    ]
+  },
+  "model": {
+    "name": null,
+    "note": "no learned model"
+  },
+  "output_dir": "experiments/runs/rgb_visibility_v1",
+  "schema_version": 1,
+  "seed": 0,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T20:21:22+00:00",
+  "status": "COMPLETE"
+}
