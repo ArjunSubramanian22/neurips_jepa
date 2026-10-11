@@ -23,3 +23,7 @@ No paper checkpoint was retrained or re-scored. No test-set protocol was edited 
 ## 2026-10-11 split protocol
 
 Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy validation and are excluded from the new train, validation, and test roles. `cvpr_v1` is an exact 80/10/10 split of episodes `[0, 1800)`, with ids saved in `configs/protocols/cvpr_v1_episode_ids.json`. Archived validation numbers were not relabeled as test numbers. Historical checkpoints are refused on the `cvpr_v1` test ids because those checkpoints trained on them.
+
+## 2026-10-11 excitation regimes
+
+`MPMConfig()` remains the historical actuator. `excitation_calibration_v1` measured 58 environments and 1392 forks with no learned model. All 58 passed the stability screen. Selected regimes, from predeclared pixel-RMS bands on the force-reversed fork, are `mpm_legacy` (low), `mpm_medium_excitation`, `mpm_persistent_excitation`, and `mpm_high_excitation`. See `docs/EXCITATION_REGIMES.md`.
