@@ -1,0 +1,107 @@
+{
+  "checkpoint": {
+    "note": "historical checkpoints",
+    "path": "ten no-crop last.pt"
+  },
+  "command": "python3.13 scripts/run_future_ranking.py",
+  "config": {
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 0,
+    "distances": [
+      "mse",
+      "l2",
+      "vn_mse",
+      "cosine"
+    ],
+    "environments": [
+      "configs/environments/mpm_legacy.yaml",
+      "configs/environments/mpm_medium_excitation.yaml"
+    ],
+    "experiment_id": "future_ranking_v1",
+    "force_half_scale": 0.5,
+    "headline_role": "legacy_validation",
+    "high_visibility_affected": 0.05,
+    "horizons": [
+      1,
+      5,
+      10
+    ],
+    "is_test_set": false,
+    "modes": [
+      "model",
+      "shuffled_predictions",
+      "oracle_targets",
+      "constant_prediction"
+    ],
+    "norm_tau": 1e-08,
+    "notes": "Episodes 1800-1999 are legacy validation, not a test set. The shuffled candidate is another validation episode's recorded action at the same time. Force reversal and half-force are controlled perturbations. A query whose raster matches another candidate is ambiguous and is not a retrieval miss.\n",
+    "physical_small_rms": 0.001,
+    "physical_tau": 0.0,
+    "prediction_shuffle_seed": 1,
+    "shuffle_seed": 0,
+    "split_version": "legacy_v1",
+    "start_times": [
+      0,
+      5
+    ],
+    "topk": 2
+  },
+  "dataset_split": {
+    "episodes": [
+      1800,
+      2000
+    ],
+    "headline_role": "legacy_validation",
+    "is_test_set": false,
+    "split_version": "legacy_v1"
+  },
+  "ended_at": "2026-10-11T20:54:16+00:00",
+  "environment": {
+    "ids": [
+      "mpm_legacy",
+      "mpm_medium_excitation"
+    ]
+  },
+  "experiment_id": "future_ranking_v1",
+  "failure_reason": "NameError: name 'STATUS_UNDEFINED' is not defined",
+  "git_commit": "aafed6723f40b00fe22c28f6546a1a6001b09c1d",
+  "git_dirty": false,
+  "git_dirty_count": 0,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": null,
+  "model": {
+    "checkpoints": [
+      "vicreg_action_s42",
+      "vicreg_action_s43",
+      "vicreg_noaction_s42",
+      "vicreg_noaction_s43",
+      "vicreg_action_s44",
+      "vicreg_action_s45",
+      "vicreg_noaction_s44",
+      "vicreg_noaction_s45",
+      "mse_action_s42",
+      "mse_action_s43"
+    ]
+  },
+  "output_dir": "experiments/runs/future_ranking_v1",
+  "schema_version": 1,
+  "seed": "legacy_val_held_action",
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T20:54:13+00:00",
+  "status": "FAILED"
+}

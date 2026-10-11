@@ -1,0 +1,42 @@
+{
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 0,
+  "distances": [
+    "mse",
+    "l2",
+    "vn_mse",
+    "cosine"
+  ],
+  "environments": [
+    "configs/environments/mpm_legacy.yaml",
+    "configs/environments/mpm_medium_excitation.yaml"
+  ],
+  "experiment_id": "future_ranking_v1",
+  "force_half_scale": 0.5,
+  "headline_role": "legacy_validation",
+  "high_visibility_affected": 0.05,
+  "horizons": [
+    1,
+    5,
+    10
+  ],
+  "is_test_set": false,
+  "modes": [
+    "model",
+    "shuffled_predictions",
+    "oracle_targets",
+    "constant_prediction"
+  ],
+  "norm_tau": 1e-08,
+  "notes": "Episodes 1800-1999 are legacy validation, not a test set. The shuffled candidate is another validation episode's recorded action at the same time. Force reversal and half-force are controlled perturbations. A query whose raster matches another candidate is ambiguous and is not a retrieval miss.\n",
+  "physical_small_rms": 0.001,
+  "physical_tau": 0.0,
+  "prediction_shuffle_seed": 1,
+  "shuffle_seed": 0,
+  "split_version": "legacy_v1",
+  "start_times": [
+    0,
+    5
+  ],
+  "topk": 2
+}

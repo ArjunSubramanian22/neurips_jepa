@@ -1,7 +1,7 @@
 # Future ranking on legacy validation. Thresholds were fixed before retrieval
 # accuracy was computed. Each candidate action is held for the whole horizon.
 # That future is not the logged multi-action trajectory.
-experiment_id: future_ranking_v1
+experiment_id: future_ranking_v2
 split_version: legacy_v1
 headline_role: legacy_validation
 is_test_set: false

@@ -1,5 +1,7 @@
 # Counterfactual future ranking
 
+`future_ranking_v1` failed while scoring the first checkpoint: a status constant was not imported. No summary was written. The partial `queries.csv` in that run is incomplete and is not a result. `future_ranking_v2` is the same predeclared protocol after that import fix.
+
 The question is whether, from one starting state, the predicted future under action `a` is closer to the true future under `a` than to the true futures under the other candidate actions.
 
 Each candidate is held constant for the horizon. This is not the logged sequence of actions. Horizons are 1, 5, and 10 observation frames. Start times are `t = 0` and `t = 5` on legacy validation episodes 1800–1999. `is_test_set` is false.

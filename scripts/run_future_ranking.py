@@ -37,6 +37,7 @@ from src.metrics.future_ranking import (
     STATUS_SCORED,
     STATUS_SIM,
     STATUS_TIE,
+    STATUS_UNDEFINED,
     bootstrap_top1,
     candidate_actions,
     control_predictions,
@@ -427,7 +428,7 @@ def _csv_value(value: Any) -> Any:
 
 
 def main() -> None:
-    config_path = ROOT / "configs" / "experiments" / "future_ranking_v1.yaml"
+    config_path = ROOT / "configs" / "experiments" / "future_ranking_v2.yaml"
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     legacy = get_split("legacy_v1")
     if legacy.headline_role != "legacy_validation":
