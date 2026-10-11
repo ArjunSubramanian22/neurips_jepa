@@ -1,0 +1,40 @@
+{
+  "comparable_to_paper_dump": false,
+  "dataset_split": {
+    "fresh_pool_v2_used": false,
+    "historical_dump_used": false,
+    "notes": "One reduced-resolution initial state and three action forks. This is not a train, validation, or test evaluation of the historical dump.\n",
+    "protocol_id": "cascade_protocol_smoke_v1"
+  },
+  "experiment_id": "cascade_protocol_smoke_v1",
+  "geometry": "disk",
+  "interventions": [
+    "identical",
+    "force_reversed",
+    "zero_force"
+  ],
+  "learned_checkpoint": null,
+  "n_frames": 2,
+  "permitted_interpretation": "Protocol check that each layer is stored separately and that identical actions leave the reduced simulator unchanged. Not an AC-JEPA result.\n",
+  "seed": 0,
+  "simulator": {
+    "action_gain": 55.0,
+    "contact_radius": 0.1,
+    "damping": 0.08,
+    "dt": 0.001,
+    "gravity": 0.0,
+    "img_size": 32,
+    "n_grid": 16,
+    "particle_spacing": 0.04,
+    "render_sigma": 1.35,
+    "substeps": 4
+  },
+  "success_criterion": {
+    "identical_action_l2": 0,
+    "identical_fraction_identical": 1,
+    "identical_rms_pos": 0,
+    "synthetic_aligned_cosine": 1,
+    "synthetic_opposite_cosine": -1
+  },
+  "youngs": 70.0
+}

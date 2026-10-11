@@ -1,0 +1,7 @@
+{
+  "checkpoint_manifest": "CHECKPOINT_MANIFEST.csv",
+  "data_manifest": "DATA_MANIFEST.csv",
+  "experiment_manifest": "EXPERIMENT_MANIFEST.csv",
+  "hashes_recomputed": true,
+  "models_evaluated": false
+}

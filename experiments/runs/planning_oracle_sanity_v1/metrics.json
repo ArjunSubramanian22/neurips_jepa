@@ -1,0 +1,102 @@
+{
+  "oracle": {
+    "seed": 0,
+    "chosen_index": 3,
+    "correct_index": 3,
+    "n_minima": 1,
+    "unique_minimum": true,
+    "costs": [
+      0.31626159580036234,
+      0.7499171230217403,
+      2.269486617311938,
+      0.0,
+      1.1603895566380398,
+      1.864208678943444,
+      0.970497077438963,
+      0.3484775016971537
+    ],
+    "utility": {
+      "top1": 1.0,
+      "chance": 0.125,
+      "n_candidates": 8,
+      "chosen_index": 3,
+      "correct_index": 3,
+      "status": "measured"
+    },
+    "dynamics": "linear_residual_identity"
+  },
+  "cem": {
+    "initial_cost": 0.7,
+    "final_cost": 0.00010014623116759674,
+    "history": [
+      {
+        "iteration": 0,
+        "best_cost": 0.08340713293848863,
+        "elite_mean_cost": 1.4706847960451046,
+        "population_mean_cost": 5.076565997453349
+      },
+      {
+        "iteration": 1,
+        "best_cost": 0.08340713293848863,
+        "elite_mean_cost": 0.37588056074173193,
+        "population_mean_cost": 1.3258864826723986
+      },
+      {
+        "iteration": 2,
+        "best_cost": 0.021158359349184946,
+        "elite_mean_cost": 0.13502111891560692,
+        "population_mean_cost": 0.38230401334444647
+      },
+      {
+        "iteration": 3,
+        "best_cost": 0.005719118734585436,
+        "elite_mean_cost": 0.04628164088165829,
+        "population_mean_cost": 0.14647341403858072
+      },
+      {
+        "iteration": 4,
+        "best_cost": 0.0014068479890230788,
+        "elite_mean_cost": 0.013323159420735618,
+        "population_mean_cost": 0.044714996332192704
+      },
+      {
+        "iteration": 5,
+        "best_cost": 0.001140557284491331,
+        "elite_mean_cost": 0.0034363083606655043,
+        "population_mean_cost": 0.013016909187810153
+      },
+      {
+        "iteration": 6,
+        "best_cost": 0.0003275581084069572,
+        "elite_mean_cost": 0.0008700775718241281,
+        "population_mean_cost": 0.003578446370944788
+      },
+      {
+        "iteration": 7,
+        "best_cost": 0.00010014623116759674,
+        "elite_mean_cost": 0.00028014746394119873,
+        "population_mean_cost": 0.000843382617451568
+      }
+    ],
+    "population": 128,
+    "n_iterations": 8,
+    "elite_count": 32
+  },
+  "random_ranking": {
+    "n_trials": 4000,
+    "n_candidates": 4,
+    "n_hits": 1001,
+    "top1": 0.25025,
+    "chance": 0.25,
+    "correct_index": 0,
+    "status": "measured"
+  },
+  "success_checks": {
+    "oracle_top1_is_one": true,
+    "oracle_minimum_unique": true,
+    "cem_cost_below_initial": true,
+    "random_top1_near_chance": true
+  },
+  "success_criterion_met": true,
+  "learned_model_evaluated": false
+}

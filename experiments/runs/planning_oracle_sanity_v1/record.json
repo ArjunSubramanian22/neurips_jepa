@@ -1,0 +1,180 @@
+{
+  "checkpoint": {
+    "note": "no learned checkpoint",
+    "path": null
+  },
+  "command": "python3.13 scripts/run_planning_oracle.py",
+  "config": {
+    "cem": {
+      "elite_fraction": 0.25,
+      "n_iterations": 8,
+      "population": 128
+    },
+    "correct_index": 3,
+    "dataset_split": {
+      "historical_dump_used": false,
+      "notes": "Synthetic latent targets. No episode split is involved.",
+      "protocol_id": "planning_oracle_sanity_v1"
+    },
+    "dynamics": "linear_residual_identity",
+    "experiment_id": "planning_oracle_sanity_v1",
+    "latent_dim": 4,
+    "learned_checkpoint": null,
+    "n_candidates": 8,
+    "permitted_interpretation": "Planner sanity check on identity residual dynamics and uniform random scores. Not evidence about a learned world model.\n",
+    "random_ranking": {
+      "n_candidates": 4,
+      "n_trials": 4000,
+      "seed": 0
+    },
+    "seed": 0,
+    "success_criterion": {
+      "cem_cost_below_initial": true,
+      "oracle_top1": 1,
+      "random_top1_abs_error_max": 0.03
+    }
+  },
+  "dataset_split": {
+    "historical_dump_used": false,
+    "notes": "Synthetic latent targets. No episode split is involved.",
+    "protocol_id": "planning_oracle_sanity_v1"
+  },
+  "ended_at": "2026-10-11T19:28:17+00:00",
+  "environment": {
+    "name": "synthetic_latent",
+    "simulator": null
+  },
+  "experiment_id": "planning_oracle_sanity_v1",
+  "failure_reason": null,
+  "git_commit": "949564e11baa7f787a6f2ea71a3ce3be9a8b50f0",
+  "git_dirty": true,
+  "git_dirty_count": 1,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "cem": {
+      "elite_count": 32,
+      "final_cost": 0.00010014623116759674,
+      "history": [
+        {
+          "best_cost": 0.08340713293848863,
+          "elite_mean_cost": 1.4706847960451046,
+          "iteration": 0,
+          "population_mean_cost": 5.076565997453349
+        },
+        {
+          "best_cost": 0.08340713293848863,
+          "elite_mean_cost": 0.37588056074173193,
+          "iteration": 1,
+          "population_mean_cost": 1.3258864826723986
+        },
+        {
+          "best_cost": 0.021158359349184946,
+          "elite_mean_cost": 0.13502111891560692,
+          "iteration": 2,
+          "population_mean_cost": 0.38230401334444647
+        },
+        {
+          "best_cost": 0.005719118734585436,
+          "elite_mean_cost": 0.04628164088165829,
+          "iteration": 3,
+          "population_mean_cost": 0.14647341403858072
+        },
+        {
+          "best_cost": 0.0014068479890230788,
+          "elite_mean_cost": 0.013323159420735618,
+          "iteration": 4,
+          "population_mean_cost": 0.044714996332192704
+        },
+        {
+          "best_cost": 0.001140557284491331,
+          "elite_mean_cost": 0.0034363083606655043,
+          "iteration": 5,
+          "population_mean_cost": 0.013016909187810153
+        },
+        {
+          "best_cost": 0.0003275581084069572,
+          "elite_mean_cost": 0.0008700775718241281,
+          "iteration": 6,
+          "population_mean_cost": 0.003578446370944788
+        },
+        {
+          "best_cost": 0.00010014623116759674,
+          "elite_mean_cost": 0.00028014746394119873,
+          "iteration": 7,
+          "population_mean_cost": 0.000843382617451568
+        }
+      ],
+      "initial_cost": 0.7,
+      "n_iterations": 8,
+      "population": 128
+    },
+    "learned_model_evaluated": false,
+    "oracle": {
+      "chosen_index": 3,
+      "correct_index": 3,
+      "costs": [
+        0.31626159580036234,
+        0.7499171230217403,
+        2.269486617311938,
+        0.0,
+        1.1603895566380398,
+        1.864208678943444,
+        0.970497077438963,
+        0.3484775016971537
+      ],
+      "dynamics": "linear_residual_identity",
+      "n_minima": 1,
+      "seed": 0,
+      "unique_minimum": true,
+      "utility": {
+        "chance": 0.125,
+        "chosen_index": 3,
+        "correct_index": 3,
+        "n_candidates": 8,
+        "status": "measured",
+        "top1": 1.0
+      }
+    },
+    "random_ranking": {
+      "chance": 0.25,
+      "correct_index": 0,
+      "n_candidates": 4,
+      "n_hits": 1001,
+      "n_trials": 4000,
+      "status": "measured",
+      "top1": 0.25025
+    },
+    "success_checks": {
+      "cem_cost_below_initial": true,
+      "oracle_minimum_unique": true,
+      "oracle_top1_is_one": true,
+      "random_top1_near_chance": true
+    },
+    "success_criterion_met": true
+  },
+  "model": {
+    "learned": null,
+    "name": "linear_residual_identity"
+  },
+  "output_dir": "experiments/runs/planning_oracle_sanity_v1",
+  "schema_version": 1,
+  "seed": 0,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T19:28:17+00:00",
+  "status": "COMPLETE"
+}

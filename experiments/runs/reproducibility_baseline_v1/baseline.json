@@ -1,0 +1,426 @@
+{
+  "n_checkpoint_rows": 12,
+  "n_checkpoints_present": 12,
+  "n_checkpoint_hashes_matched": 12,
+  "n_checkpoint_hashes_mismatched": 0,
+  "checkpoints": [
+    {
+      "path": "outputs/vicreg_nocrop/last.pt",
+      "exists": true,
+      "recorded_sha256": "af5699a87b31e60faebddba1deffeae29b967d3212ddb532c460277f72f3f60c",
+      "measured_sha256": "af5699a87b31e60faebddba1deffeae29b967d3212ddb532c460277f72f3f60c",
+      "sha256_match": true,
+      "bytes": 12930469,
+      "manifest_notes": "paper_and_fork"
+    },
+    {
+      "path": "outputs/vicreg_nocrop_seed43/last.pt",
+      "exists": true,
+      "recorded_sha256": "78527aea4761c613caa7be3850e97c6c0a369932891e1717c3c859bba84f39ff",
+      "measured_sha256": "78527aea4761c613caa7be3850e97c6c0a369932891e1717c3c859bba84f39ff",
+      "sha256_match": true,
+      "bytes": 12930469,
+      "manifest_notes": "paper_and_fork"
+    },
+    {
+      "path": "outputs/no_action/last.pt",
+      "exists": true,
+      "recorded_sha256": "5b920e81424225f90849fb3600fa1324d7b595b6216adcd728ff36e43b8f01fa",
+      "measured_sha256": "5b920e81424225f90849fb3600fa1324d7b595b6216adcd728ff36e43b8f01fa",
+      "sha256_match": true,
+      "bytes": 12771229,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "outputs/vicreg_nocrop_noaction_seed43/last.pt",
+      "exists": true,
+      "recorded_sha256": "69c16cb3979896ab1f8815ffad8757b021c0b18048aca0f33515d3c374e0de9b",
+      "measured_sha256": "69c16cb3979896ab1f8815ffad8757b021c0b18048aca0f33515d3c374e0de9b",
+      "sha256_match": true,
+      "bytes": 12771229,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt",
+      "exists": true,
+      "recorded_sha256": "0f75471addc4707ef1ee9a179f7a329c9d24a1dddb7685113157cff196e85abc",
+      "measured_sha256": "0f75471addc4707ef1ee9a179f7a329c9d24a1dddb7685113157cff196e85abc",
+      "sha256_match": true,
+      "bytes": 12930533,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt",
+      "exists": true,
+      "recorded_sha256": "b617baa926d48aa7dba4e7f3be3bfc135882599d1653b909179fcc3ef68c9110",
+      "measured_sha256": "b617baa926d48aa7dba4e7f3be3bfc135882599d1653b909179fcc3ef68c9110",
+      "sha256_match": true,
+      "bytes": 12930533,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt",
+      "exists": true,
+      "recorded_sha256": "e5f354d4969eb6ad704ac90b480b0de350a29eea7d1ef9e76478e48fa8a73df1",
+      "measured_sha256": "e5f354d4969eb6ad704ac90b480b0de350a29eea7d1ef9e76478e48fa8a73df1",
+      "sha256_match": true,
+      "bytes": 12771293,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt",
+      "exists": true,
+      "recorded_sha256": "0b044676b75f11d48e52be7b747b8f4b2ec0ff20738bdd5668b9fb3a79e15f60",
+      "measured_sha256": "0b044676b75f11d48e52be7b747b8f4b2ec0ff20738bdd5668b9fb3a79e15f60",
+      "sha256_match": true,
+      "bytes": 12771293,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt",
+      "exists": true,
+      "recorded_sha256": "f32f436bbb3bcc5daf69aa9deb2b972d10b93c8bb26224c092e01163ce680ef8",
+      "measured_sha256": "f32f436bbb3bcc5daf69aa9deb2b972d10b93c8bb26224c092e01163ce680ef8",
+      "sha256_match": true,
+      "bytes": 12930533,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt",
+      "exists": true,
+      "recorded_sha256": "e364c9620b7d5253f6aaa46b2294d7561c232125df598151b8088a1bbb03e0a5",
+      "measured_sha256": "e364c9620b7d5253f6aaa46b2294d7561c232125df598151b8088a1bbb03e0a5",
+      "sha256_match": true,
+      "bytes": 12930533,
+      "manifest_notes": "paper"
+    },
+    {
+      "path": "outputs/vicreg/last.pt",
+      "exists": true,
+      "recorded_sha256": "fcedbac86e4f5241316207bc2a188fad7161f80c2ac3a23a39f09bfbebae66f5",
+      "measured_sha256": "fcedbac86e4f5241316207bc2a188fad7161f80c2ac3a23a39f09bfbebae66f5",
+      "sha256_match": true,
+      "bytes": 12930405,
+      "manifest_notes": "obsolete_cropped"
+    },
+    {
+      "path": "outputs/mse/last.pt",
+      "exists": true,
+      "recorded_sha256": "40daa7a34725aa2c034a03cc91f817c8068e387e836dd98fe0c8c985421bea99",
+      "measured_sha256": "40daa7a34725aa2c034a03cc91f817c8068e387e836dd98fe0c8c985421bea99",
+      "sha256_match": true,
+      "bytes": 12930469,
+      "manifest_notes": "obsolete_cropped"
+    }
+  ],
+  "data_files": [
+    {
+      "path": "outputs/physics_mpm/observations.npy",
+      "exists": false,
+      "recorded_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": null,
+      "manifest_notes": "Canonical original dump. Gitignored (~375MB). Matches paper Appendix C."
+    },
+    {
+      "path": "outputs/physics_mpm/actions.npy",
+      "exists": true,
+      "recorded_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+      "measured_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+      "sha256_match": true,
+      "bytes": 480128,
+      "manifest_notes": "Matches paper and Linux-replay action hash."
+    },
+    {
+      "path": "outputs/physics_mpm/stiffness_labels.npy",
+      "exists": true,
+      "recorded_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+      "measured_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+      "sha256_match": true,
+      "bytes": 16128,
+      "manifest_notes": "Episode labels; E class in {0"
+    },
+    {
+      "path": "outputs/physics_mpm/stiffness_values.npy",
+      "exists": true,
+      "recorded_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+      "measured_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+      "sha256_match": true,
+      "bytes": 8128,
+      "manifest_notes": "Young's modulus values {18"
+    },
+    {
+      "path": "outputs/physics_mpm/geometry_labels.npy",
+      "exists": true,
+      "recorded_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+      "measured_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+      "sha256_match": true,
+      "bytes": 16128,
+      "manifest_notes": "disk/bar."
+    },
+    {
+      "path": "outputs/physics_mpm/metadata.json",
+      "exists": true,
+      "recorded_sha256": "674f356b69bed0add1bb2cbbe119d4a1d1028a8edab3a92e3d1e9764fed3a7ba",
+      "measured_sha256": "674f356b69bed0add1bb2cbbe119d4a1d1028a8edab3a92e3d1e9764fed3a7ba",
+      "sha256_match": true,
+      "bytes": 515,
+      "manifest_notes": "STALE constitutive label: still says neo-Hookean; code is fixed-corotated."
+    },
+    {
+      "path": "results/reviewer_strengthening/01_simulator_counterfactual/physical_divergence_per_example.csv",
+      "exists": true,
+      "recorded_sha256": "cb9b9b1b5a7db68f390b4bbb6ea114f243bf87c63ee6a0726fe33f0896b96c83",
+      "measured_sha256": "cb9b9b1b5a7db68f390b4bbb6ea114f243bf87c63ee6a0726fe33f0896b96c83",
+      "sha256_match": true,
+      "bytes": 13425735,
+      "manifest_notes": "N=54600 rows. Original dump observations."
+    },
+    {
+      "path": "results/reviewer_strengthening/01_simulator_counterfactual/target_latent_divergence_per_example.csv",
+      "exists": true,
+      "recorded_sha256": "909106e7147ea0176837e356ced6ca599bf63c4831d9588358aa6ec54670bcba",
+      "measured_sha256": "909106e7147ea0176837e356ced6ca599bf63c4831d9588358aa6ec54670bcba",
+      "sha256_match": true,
+      "bytes": 9733666,
+      "manifest_notes": "Seeds 42/43 VICReg action only."
+    },
+    {
+      "path": "results/reviewer_strengthening/01_simulator_counterfactual/predictor_divergence_per_example.csv",
+      "exists": true,
+      "recorded_sha256": "7e6884de7e408562ae8f13d87763f9da527aa6c2696666049ca5e10157da0382",
+      "measured_sha256": "7e6884de7e408562ae8f13d87763f9da527aa6c2696666049ca5e10157da0382",
+      "sha256_match": true,
+      "bytes": 7204410,
+      "manifest_notes": "One-step predictor contrast."
+    },
+    {
+      "path": "outputs/corrected_seed43_audit.json",
+      "exists": true,
+      "recorded_sha256": "63bab2473be90ad25ec8dfeff36af09b5295212875863a9168e63c24730db0a0",
+      "measured_sha256": "63bab2473be90ad25ec8dfeff36af09b5295212875863a9168e63c24730db0a0",
+      "sha256_match": true,
+      "bytes": 35325,
+      "manifest_notes": "Pooled train+val rollout MSE. Contains absolute /Users paths. Do not use for new tables."
+    },
+    {
+      "path": "PhysWorldAI_Minimal_Paper_Integration.zip",
+      "exists": true,
+      "recorded_sha256": "56a96c2f2e48e2bac57c2750f45fc671763b4098d5c9da99c95792ef92bc502e",
+      "measured_sha256": "56a96c2f2e48e2bac57c2750f45fc671763b4098d5c9da99c95792ef92bc502e",
+      "sha256_match": true,
+      "bytes": 750831,
+      "manifest_notes": "Earlier integration pack. Not the 2026-09-08 revised manuscript zip."
+    },
+    {
+      "path": "PhysWorldAI_Code_Results_Package.zip",
+      "exists": true,
+      "recorded_sha256": "2a1776304e5494fc5383aaf363475ad32ffb0a21f36de8715a10439627705a98",
+      "measured_sha256": "2a1776304e5494fc5383aaf363475ad32ffb0a21f36de8715a10439627705a98",
+      "sha256_match": true,
+      "bytes": 9582075,
+      "manifest_notes": "Earlier code/results pack. Superseded by Downloads revised zip."
+    },
+    {
+      "path": "linux_replay_observations.npy",
+      "exists": false,
+      "recorded_sha256": null,
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": null,
+      "manifest_notes": "NOT IN THIS WORKSPACE. Paper SHA-256 aedda53c0486f2dea3903d78bf360208e57040665defbeb00064180716485a7b. Pixel-level original-vs-Linux diff therefore not yet possible here."
+    },
+    {
+      "path": "particle_positions.npy",
+      "exists": false,
+      "recorded_sha256": null,
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": null,
+      "manifest_notes": "Never saved in the dump. Recoverable only by snapshot/replay."
+    },
+    {
+      "path": "particle_velocities.npy",
+      "exists": false,
+      "recorded_sha256": null,
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": null,
+      "manifest_notes": "Never saved in the dump."
+    },
+    {
+      "path": "outputs/figures/",
+      "exists": false,
+      "recorded_sha256": null,
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": null,
+      "manifest_notes": "Post-hoc decoder rollouts; revised paper does not use them as corrected-checkpoint predictions."
+    },
+    {
+      "path": "paper/main.tex",
+      "exists": true,
+      "recorded_sha256": null,
+      "measured_sha256": null,
+      "sha256_match": null,
+      "bytes": 12494,
+      "manifest_notes": "OLD title/objective paper (2026-09-04). Canonical manuscript is the 2026-09-08 zip + PhysWorldAI_Revised PDF."
+    }
+  ],
+  "experiment_manifest": [
+    {
+      "experiment_id": "dump_physics_mpm",
+      "manifest_status": "complete",
+      "artifact": "outputs/physics_mpm/",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_action_s42",
+      "manifest_status": "complete",
+      "artifact": "outputs/vicreg_nocrop/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_action_s43",
+      "manifest_status": "complete",
+      "artifact": "outputs/vicreg_nocrop_seed43/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_noaction_s42",
+      "manifest_status": "complete",
+      "artifact": "outputs/no_action/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_noaction_s43",
+      "manifest_status": "complete",
+      "artifact": "outputs/vicreg_nocrop_noaction_seed43/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_action_s44",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_action_s45",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_noaction_s44",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_noaction_s45",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "mse_action_s42",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "mse_action_s43",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "vicreg_cropped_s42",
+      "manifest_status": "complete",
+      "artifact": "outputs/vicreg/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "mse_cropped_s42",
+      "manifest_status": "complete",
+      "artifact": "outputs/mse/last.pt",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "original_simulator_fork",
+      "manifest_status": "complete",
+      "artifact": "results/reviewer_strengthening/01_simulator_counterfactual/",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "heldout_linux_replay_eval",
+      "manifest_status": "complete",
+      "artifact": "Downloads revised zip data/heldout_evaluation/",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "appendix_F_probes",
+      "manifest_status": "complete",
+      "artifact": "Downloads zip data/observability_replay/",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "phase1_actuator_damping",
+      "manifest_status": "complete",
+      "artifact": "results/audit_phase1/",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "phase1_local_replay_diff",
+      "manifest_status": "partial",
+      "artifact": "results/audit_phase1/replay_diff_subset.json",
+      "artifact_exists": true
+    },
+    {
+      "experiment_id": "stiffness_particle_state_probe",
+      "manifest_status": "not_run",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "state_perturbation_control",
+      "manifest_status": "not_run",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "per_horizon_rank",
+      "manifest_status": "not_in_paper",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "aug_off_pilot",
+      "manifest_status": "not_run",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "corrected_actuator_retrain",
+      "manifest_status": "not_run",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "new_unused_seed_eval_set",
+      "manifest_status": "not_run",
+      "artifact": "",
+      "artifact_exists": false
+    },
+    {
+      "experiment_id": "smoke_and_mass_spring_baselines",
+      "manifest_status": "complete",
+      "artifact": "outputs/baselines/ outputs/physics_smoke/",
+      "artifact_exists": true
+    }
+  ],
+  "disk_free_bytes": 4053331968,
+  "models_evaluated": false,
+  "observations_present": false
+}
