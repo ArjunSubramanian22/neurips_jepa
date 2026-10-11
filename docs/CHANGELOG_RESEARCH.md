@@ -27,3 +27,7 @@ Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy val
 ## 2026-10-11 excitation regimes
 
 `MPMConfig()` remains the historical actuator. `excitation_calibration_v1` measured 58 environments and 1392 forks with no learned model. All 58 passed the stability screen. Selected regimes, from predeclared pixel-RMS bands on the force-reversed fork, are `mpm_legacy` (low), `mpm_medium_excitation`, `mpm_persistent_excitation`, and `mpm_high_excitation`. See `docs/EXCITATION_REGIMES.md`.
+
+## 2026-10-11 material identifiability
+
+`material_identifiability_v1` probed open-loop force schedules without training a world model. The predeclared validation rule returned NONE because the linear readout of collinear `(mu, lambda)` stayed at 0.667. Mechanical-history and uint8-history linear probes were above the stiffness bar for the stronger open-loop protocols, including `high_bend`. That protocol was not designated after the fact. No encoder-level stiffness-loss claim was added. See `docs/MATERIAL_IDENTIFIABILITY.md`.
