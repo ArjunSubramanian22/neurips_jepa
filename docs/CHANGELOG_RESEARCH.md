@@ -32,6 +32,10 @@ Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy val
 
 `material_identifiability_v1` probed open-loop force schedules without training a world model. The predeclared validation rule returned NONE because the linear readout of collinear `(mu, lambda)` stayed at 0.667. Mechanical-history and uint8-history linear probes were above the stiffness bar for the stronger open-loop protocols, including `high_bend`. That protocol was not designated after the fact. No encoder-level stiffness-loss claim was added. See `docs/MATERIAL_IDENTIFIABILITY.md`.
 
+## 2026-10-11 multi-horizon audit
+
+`horizon_audit_v1` extended the counterfactual audit to horizons 1, 3, 5, and 10 under four labeled interventions. Open-loop recorded rollout error grows with horizon. Teacher-forced error stays at the one-step level. Open-loop counterfactual retrieval stays near one half, including the no-action checkpoints, whose open-loop cosine is undefined. Teacher-forced cosine is high for those same no-action checkpoints because they read the true frame. See `docs/HORIZON_AUDIT.md`.
+
 ## 2026-10-11 future ranking
 
 `future_ranking_v1` failed during the first checkpoint because a status name was not imported. No summary was written. `future_ranking_v2` repeated the same protocol. On medium excitation, where nearly every held-action future is visible, pooled MSE top-1 is 0.25 and matches the shuffled and constant controls. The oracle that copies target embeddings scores 1 on every scored slice. Legacy validation leaves most horizon-1 queries observationally ambiguous even though the particles moved; those rows are counted and are not treated as misses. See `docs/FUTURE_RANKING.md`.

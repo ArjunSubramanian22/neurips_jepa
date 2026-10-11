@@ -1,0 +1,31 @@
+{
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 0,
+  "environment": "configs/environments/mpm_legacy.yaml",
+  "epsilon": 1e-12,
+  "experiment_id": "horizon_audit_v1",
+  "headline_role": "legacy_validation",
+  "horizons": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "is_test_set": false,
+  "norm_tau": 1e-08,
+  "notes": "Branch A follows the recorded legacy action sequence. Branch B is one labeled intervention. open_loop recurses on predicted latents. teacher_forced reads the true frame at each step. Episodes 1800-1999 are not a test set.\n",
+  "protocols": [
+    "one_step_replacement",
+    "command_block_replacement",
+    "persistent_alternative",
+    "alternative_then_recorded"
+  ],
+  "rgb_config": "configs/rgb/rgb_v1_64.yaml",
+  "rollout_modes": [
+    "open_loop",
+    "teacher_forced"
+  ],
+  "shuffle_seed": 0,
+  "split_version": "legacy_v1",
+  "start_time": 0
+}

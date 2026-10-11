@@ -22,7 +22,7 @@ def _rows(rows: Sequence[dict[str, Any]], **filters: Any) -> list[dict[str, Any]
     return chosen
 
 
-def _median(rows: Sequence[dict[str, Any]], key: str) -> tuple[float | None, int]:
+def _aggregate(rows: Sequence[dict[str, Any]], key: str, how: str) -> tuple[float | None, int]:
     values = []
     for row in rows:
         value = row.get(key)
@@ -33,7 +33,9 @@ def _median(rows: Sequence[dict[str, Any]], key: str) -> tuple[float | None, int
             values.append(number)
     if not values:
         return None, 0
-    return float(np.median(values)), len(values)
+    array = np.asarray(values, dtype=np.float64)
+    summary = float(array.mean()) if how == "mean" else float(np.median(array))
+    return summary, int(array.size)
 
 
 def plot_horizon_audit(rows: Sequence[dict[str, Any]], out_dir: Path) -> None:
@@ -57,13 +59,14 @@ def plot_horizon_audit(rows: Sequence[dict[str, Any]], out_dir: Path) -> None:
         out_dir / "rgb_visibility_vs_horizon.png",
         "RGB visibility",
     )
-    _model_grid(rows, "cosine", "Cosine", out_dir / "direction_vs_horizon.png", "Defined cosines only", ylim=(-1.05, 1.05))
+    _model_grid(rows, "cosine", "Median cosine", out_dir / "direction_vs_horizon.png", "Defined cosines only", how="median", ylim=(-1.05, 1.05))
     _model_grid(
         rows,
         "counterfactual_ranking_top1",
         "Top-1",
         out_dir / "ranking_vs_horizon.png",
-        "Scored counterfactual retrieval. Grey line is chance 1/2.",
+        "Mean counterfactual retrieval on scored queries. Grey line is chance 1/2.",
+        how="mean",
         chance=0.5,
         ylim=(-0.05, 1.05),
     )
@@ -78,7 +81,7 @@ def _protocol_curves(rows, key, ylabel, path, title) -> None:
     for protocol in PROTOCOLS:
         xs, ys = [], []
         for horizon in horizons:
-            median, count = _median(_rows(rows, protocol=protocol, horizon=horizon), key)
+            median, count = _aggregate(_rows(rows, protocol=protocol, horizon=horizon), key, "median")
             if median is None:
                 continue
             xs.append(horizon)
@@ -97,7 +100,7 @@ def _protocol_curves(rows, key, ylabel, path, title) -> None:
     plt.close(fig)
 
 
-def _model_grid(rows, key, ylabel, path, title, *, chance: float | None = None, ylim: tuple[float, float] | None = None) -> None:
+def _model_grid(rows, key, ylabel, path, title, *, how: str, chance: float | None = None, ylim: tuple[float, float] | None = None) -> None:
     models = list(dict.fromkeys(row["model"] for row in rows))
     horizons = sorted({int(row["horizon"]) for row in rows})
     fig, axes = plt.subplots(len(ROLLOUT_MODES), len(PROTOCOLS), figsize=(14.5, 6.4), sharex=True, sharey=True, constrained_layout=True)
@@ -109,9 +112,10 @@ def _model_grid(rows, key, ylabel, path, title, *, chance: float | None = None, 
             for color, model in zip(colors, models):
                 xs, ys = [], []
                 for horizon in horizons:
-                    median, count = _median(
+                    median, count = _aggregate(
                         _rows(rows, model=model, protocol=protocol, rollout_mode=mode, horizon=horizon),
                         key,
+                        how,
                     )
                     if count == 0 or median is None:
                         continue
@@ -149,7 +153,7 @@ def _rollout_curves(rows, path) -> None:
         for color, model in zip(colors, models):
             xs, ys = [], []
             for horizon in horizons:
-                median, count = _median(_rows(recorded, model=model, rollout_mode=mode, horizon=horizon), "rollout_mse_recorded")
+                median, count = _aggregate(_rows(recorded, model=model, rollout_mode=mode, horizon=horizon), "rollout_mse_recorded", "median")
                 if median is None:
                     continue
                 xs.append(horizon)
@@ -178,14 +182,14 @@ def _model_bars(rows, path) -> None:
     for index, protocol in enumerate(PROTOCOLS):
         heights = []
         for model in models:
-            median, count = _median(_rows(chosen, model=model, protocol=protocol), "counterfactual_ranking_top1")
+            median, count = _aggregate(_rows(chosen, model=model, protocol=protocol), "counterfactual_ranking_top1", "mean")
             heights.append(np.nan if median is None or count == 0 else median)
         ax.bar(x + (index - 1.5) * width, heights, width=width, label=protocol)
     ax.axhline(0.5, color="#888888", lw=1)
     ax.set_xticks(x, [model.replace("_", "\n") for model in models], fontsize=7)
     ax.set_ylabel("Horizon-10 open-loop top-1")
     ax.set_ylim(0, 1.05)
-    ax.set_title("Counterfactual retrieval. Grey line is chance 1/2.")
+    ax.set_title("Mean counterfactual retrieval. Grey line is chance 1/2.")
     ax.legend(fontsize=7)
     fig.savefig(path, dpi=140)
     plt.close(fig)
