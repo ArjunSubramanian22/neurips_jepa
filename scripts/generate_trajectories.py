@@ -44,7 +44,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 import numpy.typing as npt
@@ -76,6 +76,22 @@ class MPMConfig:
     action_dim: int = 4
     render_sigma: float = 1.35
     substeps: int = 8
+    # Defaults reproduce the historical actuator. Other values take a separate path.
+    contact_weight_mode: Literal["normalized", "local_peak"] = "normalized"
+    force_influence: float = 1.0
+    center_influence: float = 1.0
+
+    def __post_init__(self) -> None:
+        if self.contact_weight_mode not in ("normalized", "local_peak"):
+            raise ValueError("contact_weight_mode must be 'normalized' or 'local_peak'.")
+        if not 0.0 <= float(self.center_influence) <= 1.0:
+            raise ValueError("center_influence must lie in [0, 1].")
+        if float(self.force_influence) <= 0.0:
+            raise ValueError("force_influence must be positive.")
+        if not 0.0 <= float(self.damping) < 1.0:
+            raise ValueError("damping must lie in [0, 1).")
+        if float(self.action_gain) <= 0.0 or float(self.contact_radius) <= 0.0:
+            raise ValueError("action_gain and contact_radius must be positive.")
 
 
 def lame(youngs: float, nu: float = POISSON) -> tuple[float, float]:
@@ -193,7 +209,17 @@ class MLSMPM2D:
             "effective_contact": float(min_dist <= 2.0 * radius),
         }
 
-    def _action_force(self, action: FloatArr) -> FloatArr:
+    def _uses_legacy_actuator(self) -> bool:
+        """True when the historical normalized actuator arithmetic must be used."""
+        cfg = self.cfg
+        return (
+            cfg.contact_weight_mode == "normalized"
+            and float(cfg.force_influence) == 1.0
+            and float(cfg.center_influence) == 1.0
+        )
+
+    def _legacy_action_force(self, action: FloatArr) -> FloatArr:
+        """Historical actuator. Total impulse is independent of contact location."""
         contact = action[:2]
         force = action[2:4] * np.float32(self.cfg.action_gain)
         offset = self.x - contact[None, :]
@@ -202,6 +228,41 @@ class MLSMPM2D:
         weights = np.exp(-dist2 / (np.float32(2.0) * radius2 + 1e-8))
         weights = weights / (np.sum(weights) + 1e-8)
         return (weights[:, None] * force[None, :]).astype(np.float32)
+
+    def _configured_action_force(self, action: FloatArr) -> FloatArr:
+        """Actuator with explicit center influence, force influence, and weight mode.
+
+        ``center_influence=1`` uses the commanded contact. Smaller values pull
+        the contact toward the particle centroid, which reduces how much
+        ``(cx, cy)`` move the force distribution. ``force_influence`` multiplies
+        the force channels on top of ``action_gain``. ``local_peak`` divides
+        Gaussian weights by their maximum instead of their sum, so a tight
+        contact injects more total impulse than a distant one.
+        """
+        cfg = self.cfg
+        action = np.asarray(action, dtype=np.float32)
+        center = action[:2].astype(np.float32, copy=True)
+        if float(cfg.center_influence) < 1.0:
+            centroid = self.x.mean(axis=0).astype(np.float32)
+            mix = np.float32(cfg.center_influence)
+            center = (np.float32(1.0) - mix) * centroid + mix * center
+        force = action[2:4] * np.float32(cfg.action_gain) * np.float32(cfg.force_influence)
+        offset = self.x - center[None, :]
+        dist2 = np.sum(offset * offset, axis=-1)
+        radius2 = np.float32(cfg.contact_radius**2)
+        weights = np.exp(-dist2 / (np.float32(2.0) * radius2 + 1e-8))
+        if cfg.contact_weight_mode == "normalized":
+            weights = weights / (np.sum(weights) + 1e-8)
+        elif cfg.contact_weight_mode == "local_peak":
+            weights = weights / (np.max(weights) + 1e-8)
+        else:
+            raise ValueError(f"Unknown contact_weight_mode {cfg.contact_weight_mode!r}.")
+        return (weights[:, None] * force[None, :]).astype(np.float32)
+
+    def _action_force(self, action: FloatArr) -> FloatArr:
+        if self._uses_legacy_actuator():
+            return self._legacy_action_force(action)
+        return self._configured_action_force(action)
 
     def substep(self, action: FloatArr) -> None:
         cfg = self.cfg
