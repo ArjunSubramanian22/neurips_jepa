@@ -1,0 +1,177 @@
+{
+  "decision": {
+    "status": "NONE",
+    "protocol_id": null,
+    "threshold": 0.5333333333333333,
+    "admissible": []
+  },
+  "protocols": [
+    {
+      "protocol_id": "legacy_random",
+      "selectable": false,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "legacy_random",
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_legacy.yaml"
+    },
+    {
+      "protocol_id": "legacy_orbit",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "orbit",
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_legacy.yaml"
+    },
+    {
+      "protocol_id": "medium_orbit",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "orbit",
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_medium_excitation.yaml"
+    },
+    {
+      "protocol_id": "high_orbit",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "orbit",
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml"
+    },
+    {
+      "protocol_id": "high_push_release",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "push_release",
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml"
+    },
+    {
+      "protocol_id": "high_bend",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "bend",
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml"
+    },
+    {
+      "protocol_id": "persistent_compression",
+      "selectable": true,
+      "stable_fraction": 1.0,
+      "stable": true,
+      "schedule": "compression",
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_persistent_excitation.yaml"
+    }
+  ],
+  "val_records": [
+    {
+      "protocol_id": "legacy_random",
+      "selectable": false,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 0.25,
+        "uint8_history_stiffness_linear": 0.5
+      }
+    },
+    {
+      "protocol_id": "legacy_orbit",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 0.9166666666666666,
+        "uint8_history_stiffness_linear": 0.5
+      }
+    },
+    {
+      "protocol_id": "medium_orbit",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 1.0,
+        "uint8_history_stiffness_linear": 0.6666666666666666
+      }
+    },
+    {
+      "protocol_id": "high_orbit",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 1.0,
+        "uint8_history_stiffness_linear": 0.9166666666666666
+      }
+    },
+    {
+      "protocol_id": "high_push_release",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 0.9166666666666666,
+        "uint8_history_stiffness_linear": 0.9166666666666666
+      }
+    },
+    {
+      "protocol_id": "high_bend",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 1.0,
+        "uint8_history_stiffness_linear": 1.0
+      }
+    },
+    {
+      "protocol_id": "persistent_compression",
+      "selectable": true,
+      "stable": true,
+      "val": {
+        "privileged_stiffness_linear": 0.6666666666666666,
+        "geometry_uint8_linear": 1.0,
+        "geometry_mechanical_linear": 1.0,
+        "mechanical_history_stiffness_linear": 0.9166666666666666,
+        "uint8_history_stiffness_linear": 0.5
+      }
+    }
+  ],
+  "chance_stiffness": 0.3333333333333333,
+  "margin_above_chance": 0.2,
+  "learned_model_evaluated": false,
+  "split": {
+    "split_version": "fresh_pool_v2",
+    "train": [
+      0,
+      96
+    ],
+    "val": [
+      96,
+      108
+    ],
+    "test": [
+      108,
+      120
+    ]
+  }
+}

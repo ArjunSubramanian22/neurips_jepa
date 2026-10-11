@@ -1,0 +1,160 @@
+{
+  "checkpoint": {
+    "note": "no checkpoint",
+    "path": null
+  },
+  "command": "python3.13 experiments/material_identifiability/run_study.py",
+  "config": {
+    "bend_offset": 0.12,
+    "chance_stiffness": 0.3333333333333333,
+    "dump_seed": 0,
+    "episode_length": 24,
+    "experiment_id": "material_identifiability_v1",
+    "geometry_min": 0.9,
+    "history_lengths": [
+      1,
+      2,
+      4,
+      6
+    ],
+    "margin_above_chance": 0.2,
+    "max_particles": 64,
+    "n_episodes": 120,
+    "notes": "Open-loop schedules use the rest centroid and a time-only waveform. legacy_random resamples from the deformed state and is not selectable. fresh_pool_v2 on each 120-episode pool is train 96, validation 12, test 12. Test accuracy is stored and is not an input to selection.\n",
+    "period": 8,
+    "privileged_min": 0.99,
+    "probe_seed": 0,
+    "projection_seed": 0,
+    "protocols": [
+      {
+        "amplitude": 0.4,
+        "environment": "configs/environments/mpm_legacy.yaml",
+        "id": "legacy_random",
+        "schedule": "legacy_random",
+        "selectable": false
+      },
+      {
+        "amplitude": 0.4,
+        "environment": "configs/environments/mpm_legacy.yaml",
+        "id": "legacy_orbit",
+        "schedule": "orbit",
+        "selectable": true
+      },
+      {
+        "amplitude": 0.4,
+        "environment": "configs/environments/mpm_medium_excitation.yaml",
+        "id": "medium_orbit",
+        "schedule": "orbit",
+        "selectable": true
+      },
+      {
+        "amplitude": 0.25,
+        "environment": "configs/environments/mpm_high_excitation.yaml",
+        "id": "high_orbit",
+        "schedule": "orbit",
+        "selectable": true
+      },
+      {
+        "amplitude": 0.25,
+        "environment": "configs/environments/mpm_high_excitation.yaml",
+        "id": "high_push_release",
+        "schedule": "push_release",
+        "selectable": true
+      },
+      {
+        "amplitude": 0.25,
+        "environment": "configs/environments/mpm_high_excitation.yaml",
+        "id": "high_bend",
+        "schedule": "bend",
+        "selectable": true
+      },
+      {
+        "amplitude": 0.25,
+        "environment": "configs/environments/mpm_persistent_excitation.yaml",
+        "id": "persistent_compression",
+        "schedule": "compression",
+        "selectable": true
+      }
+    ],
+    "raster_projection_dim": 48,
+    "save_times": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      23
+    ],
+    "split_version": "fresh_pool_v2"
+  },
+  "dataset_split": {
+    "n_episodes": 120,
+    "split_version": "fresh_pool_v2",
+    "test": [
+      108,
+      120
+    ],
+    "train": [
+      0,
+      96
+    ],
+    "val": [
+      96,
+      108
+    ]
+  },
+  "ended_at": "2026-10-11T20:12:03+00:00",
+  "environment": {
+    "protocols": [
+      "legacy_random",
+      "legacy_orbit",
+      "medium_orbit",
+      "high_orbit",
+      "high_push_release",
+      "high_bend",
+      "persistent_compression"
+    ]
+  },
+  "experiment_id": "material_identifiability_v1",
+  "failure_reason": null,
+  "git_commit": "10e57cec7e84d7b746e11a529b86f689be6f571d",
+  "git_dirty": false,
+  "git_dirty_count": 0,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "decision": {
+      "admissible": [],
+      "protocol_id": null,
+      "status": "NONE",
+      "threshold": 0.5333333333333333
+    },
+    "learned_model_evaluated": false,
+    "n_rows": 882
+  },
+  "model": {
+    "name": null,
+    "note": "fixed probes, no world model"
+  },
+  "output_dir": "experiments/runs/material_identifiability_v1",
+  "schema_version": 1,
+  "seed": 0,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T20:08:39+00:00",
+  "status": "COMPLETE"
+}

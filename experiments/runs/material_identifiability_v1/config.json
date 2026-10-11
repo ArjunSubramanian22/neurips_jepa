@@ -1,0 +1,84 @@
+{
+  "bend_offset": 0.12,
+  "chance_stiffness": 0.3333333333333333,
+  "dump_seed": 0,
+  "episode_length": 24,
+  "experiment_id": "material_identifiability_v1",
+  "geometry_min": 0.9,
+  "history_lengths": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "margin_above_chance": 0.2,
+  "max_particles": 64,
+  "n_episodes": 120,
+  "notes": "Open-loop schedules use the rest centroid and a time-only waveform. legacy_random resamples from the deformed state and is not selectable. fresh_pool_v2 on each 120-episode pool is train 96, validation 12, test 12. Test accuracy is stored and is not an input to selection.\n",
+  "period": 8,
+  "privileged_min": 0.99,
+  "probe_seed": 0,
+  "projection_seed": 0,
+  "protocols": [
+    {
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_legacy.yaml",
+      "id": "legacy_random",
+      "schedule": "legacy_random",
+      "selectable": false
+    },
+    {
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_legacy.yaml",
+      "id": "legacy_orbit",
+      "schedule": "orbit",
+      "selectable": true
+    },
+    {
+      "amplitude": 0.4,
+      "environment": "configs/environments/mpm_medium_excitation.yaml",
+      "id": "medium_orbit",
+      "schedule": "orbit",
+      "selectable": true
+    },
+    {
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml",
+      "id": "high_orbit",
+      "schedule": "orbit",
+      "selectable": true
+    },
+    {
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml",
+      "id": "high_push_release",
+      "schedule": "push_release",
+      "selectable": true
+    },
+    {
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_high_excitation.yaml",
+      "id": "high_bend",
+      "schedule": "bend",
+      "selectable": true
+    },
+    {
+      "amplitude": 0.25,
+      "environment": "configs/environments/mpm_persistent_excitation.yaml",
+      "id": "persistent_compression",
+      "schedule": "compression",
+      "selectable": true
+    }
+  ],
+  "raster_projection_dim": 48,
+  "save_times": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    23
+  ],
+  "split_version": "fresh_pool_v2"
+}
