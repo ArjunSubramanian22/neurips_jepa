@@ -337,6 +337,25 @@ def summarize_ranking(
     return summary
 
 
+def visibility_bin(correct_observation_unique: bool, fraction_affected: float, *, high_visibility: float) -> str:
+    """Ambiguous rasters stay in their own bin. They are not labeled low visibility."""
+    if not bool(correct_observation_unique):
+        return "ambiguous"
+    if float(fraction_affected) >= float(high_visibility):
+        return "high_visibility"
+    return "low_visibility"
+
+
+def physical_bin(physical_rms: float, *, small_rms: float) -> str:
+    """Predeclared displacement bins. A zero RMS is exact agreement, not a small move."""
+    rms = float(physical_rms)
+    if rms <= 0.0:
+        return "zero_displacement"
+    if rms <= float(small_rms):
+        return "small_displacement"
+    return "large_displacement"
+
+
 def bootstrap_top1(
     episode_ids: Sequence[int],
     top1: Sequence[float | None],

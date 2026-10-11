@@ -20,7 +20,9 @@ from src.metrics.future_ranking import (
     candidate_actions,
     control_predictions,
     derangement,
+    physical_bin,
     rank_candidates,
+    visibility_bin,
 )
 
 
@@ -145,6 +147,14 @@ class FutureRankingTests(unittest.TestCase):
     def test_derangement_has_no_fixed_point(self) -> None:
         perm = derangement(50, np.random.default_rng(1))
         self.assertTrue(np.all(perm != np.arange(50)))
+
+    def test_visibility_bin_keeps_ambiguity_out_of_the_low_bin(self) -> None:
+        self.assertEqual(visibility_bin(False, 0.0, high_visibility=0.05), "ambiguous")
+        self.assertEqual(visibility_bin(True, 0.04, high_visibility=0.05), "low_visibility")
+        self.assertEqual(visibility_bin(True, 0.05, high_visibility=0.05), "high_visibility")
+        self.assertEqual(physical_bin(0.0, small_rms=1e-3), "zero_displacement")
+        self.assertEqual(physical_bin(1e-4, small_rms=1e-3), "small_displacement")
+        self.assertEqual(physical_bin(0.01, small_rms=1e-3), "large_displacement")
 
     def test_bootstrap_lists_episodes_with_no_scored_query(self) -> None:
         result = bootstrap_top1(

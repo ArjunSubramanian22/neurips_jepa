@@ -1,0 +1,29 @@
+# Future ranking on legacy validation. Thresholds were fixed before retrieval
+# accuracy was computed. Each candidate action is held for the whole horizon.
+# That future is not the logged multi-action trajectory.
+experiment_id: future_ranking_v1
+split_version: legacy_v1
+headline_role: legacy_validation
+is_test_set: false
+environments:
+  - configs/environments/mpm_legacy.yaml
+  - configs/environments/mpm_medium_excitation.yaml
+start_times: [0, 5]
+horizons: [1, 5, 10]
+topk: 2
+norm_tau: 1.0e-8
+high_visibility_affected: 0.05
+physical_small_rms: 0.001
+physical_tau: 0.0
+force_half_scale: 0.5
+shuffle_seed: 0
+prediction_shuffle_seed: 1
+bootstrap_resamples: 2000
+bootstrap_seed: 0
+distances: [mse, l2, vn_mse, cosine]
+modes: [model, shuffled_predictions, oracle_targets, constant_prediction]
+notes: >
+  Episodes 1800-1999 are legacy validation, not a test set. The shuffled
+  candidate is another validation episode's recorded action at the same time.
+  Force reversal and half-force are controlled perturbations. A query whose
+  raster matches another candidate is ambiguous and is not a retrieval miss.

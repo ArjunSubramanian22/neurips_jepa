@@ -62,6 +62,11 @@ def main() -> None:
         help="Run legacy-validation directional counterfactuals and return.",
     )
     parser.add_argument(
+        "--future-ranking",
+        action="store_true",
+        help="Run legacy-validation future ranking and return.",
+    )
+    parser.add_argument(
         "--only",
         nargs="*",
         default=None,
@@ -75,6 +80,11 @@ def main() -> None:
         from scripts.run_counterfactual_direction import main as directional_main
 
         directional_main()
+        return
+    if args.future_ranking:
+        from scripts.run_future_ranking import main as ranking_main
+
+        ranking_main()
         return
     args.out.mkdir(parents=True, exist_ok=True)
     from src.config import ModelConfig

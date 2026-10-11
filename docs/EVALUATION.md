@@ -71,4 +71,12 @@ python3.13 scripts/run_counterfactual_direction.py
 
 `scripts/evaluate_final.py --directional` calls that script and returns before the MSE table. The default MSE path is unchanged. Definitions and the `counterfactual_direction_v1` counts are in `docs/COUNTERFACTUAL_DIRECTION.md`.
 
+Future ranking on the same checkpoints:
+
+```bash
+python3.13 scripts/run_future_ranking.py
+```
+
+`scripts/evaluate_final.py --future-ranking` calls that script and returns before the MSE table. The protocol is in `docs/FUTURE_RANKING.md`.
+
 The reduced simulator in the cascade smoke uses `n_grid=16`, `img_size=32`, and `substeps=4`. The historical dump uses `n_grid=32`, `img_size=64`, and `substeps=8`. Those RMS values are not interchangeable.
