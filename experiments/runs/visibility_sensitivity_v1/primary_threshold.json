@@ -1,0 +1,15 @@
+{
+  "threshold": 3.7984814534473923e-06,
+  "role": "val",
+  "n_episodes": 34,
+  "quantile": 0.67,
+  "split_version": "cvpr_v1",
+  "saw_test": false,
+  "n_zero_excluded_from_nonzero_population": 146,
+  "n_validation_episodes": 180,
+  "visibility_metric": "raster_mse",
+  "population": "nonzero",
+  "uses_predictor": false,
+  "selected_by_outcome": false,
+  "fit_saw_predictor_metrics": false
+}

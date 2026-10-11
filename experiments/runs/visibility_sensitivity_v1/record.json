@@ -1,0 +1,335 @@
+{
+  "checkpoint": {
+    "note": "no checkpoint is loaded for the threshold fit",
+    "path": "experiments/runs/horizon_audit_v1/queries.parquet"
+  },
+  "command": "python3.13 scripts/run_visibility_sensitivity.py",
+  "config": {
+    "absolute_thresholds": {
+      "fraction_affected_pixels": [
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "raster_mse": [
+        1e-06,
+        1e-05,
+        0.0001,
+        0.001,
+        0.01
+      ],
+      "rgb_mse": [
+        1e-06,
+        1e-05,
+        0.0001,
+        0.001,
+        0.01
+      ]
+    },
+    "experiment_id": "visibility_sensitivity_v1",
+    "fit_role": "val",
+    "focus_horizon": 10,
+    "focus_protocol": "persistent_alternative",
+    "n_visibility_bins": 10,
+    "notes": "Sensitivity percentiles describe the legacy reporting table. They do not replace the primary threshold. State/action ratio is reported only when that column is present.\n",
+    "primary": {
+      "horizon": 1,
+      "intervention": "one_step_force_reversal",
+      "population": "nonzero",
+      "quantile": 0.67,
+      "start_time": 0,
+      "top_fraction": 0.33,
+      "uses_predictor": false,
+      "visibility_metric": "raster_mse"
+    },
+    "reporting_is_test_set": false,
+    "reporting_split_version": "legacy_v1",
+    "reporting_table": "experiments/runs/horizon_audit_v1/queries.parquet",
+    "split_version": "cvpr_v1",
+    "top_fractions": [
+      0.1,
+      0.2,
+      0.25,
+      0.33,
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "dataset_split": {
+    "fit_role": "val",
+    "fit_split_version": "cvpr_v1",
+    "is_test_set": false,
+    "reporting_split_version": "legacy_v1"
+  },
+  "ended_at": "2026-10-11T21:42:15+00:00",
+  "environment": {
+    "id": "mpm_legacy"
+  },
+  "experiment_id": "visibility_sensitivity_v1",
+  "failure_reason": null,
+  "git_commit": "6e9be40c0531ebf2c4435bc4952fb90e51baaff5",
+  "git_dirty": false,
+  "git_dirty_count": 0,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "fit_role": "val",
+    "fit_split_version": "cvpr_v1",
+    "focus_primary": [
+      {
+        "cosine_median": 0.03546942596478553,
+        "model": "vicreg_action_s42",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.5246913580246914,
+        "response_ratio_median": 0.04490516129772952,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9641510545565186,
+        "model": "vicreg_action_s42",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.845679012345679,
+        "response_ratio_median": 1.4665268131202467,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": -0.00564172814667027,
+        "model": "vicreg_action_s43",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.46296296296296297,
+        "response_ratio_median": 0.1371635993480056,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9554542897408815,
+        "model": "vicreg_action_s43",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8024691358024691,
+        "response_ratio_median": 1.5183344534004752,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": null,
+        "model": "vicreg_noaction_s42",
+        "n_cosine_defined": 0,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.4506172839506173,
+        "response_ratio_median": 0.0,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9694187632578697,
+        "model": "vicreg_noaction_s42",
+        "n_cosine_defined": 160,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8518518518518519,
+        "response_ratio_median": 1.408382332946696,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": null,
+        "model": "vicreg_noaction_s43",
+        "n_cosine_defined": 0,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.4012345679012346,
+        "response_ratio_median": 0.0,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.972743469705718,
+        "model": "vicreg_noaction_s43",
+        "n_cosine_defined": 160,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8518518518518519,
+        "response_ratio_median": 1.5083993667506301,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.011780400854635175,
+        "model": "vicreg_action_s44",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.4876543209876543,
+        "response_ratio_median": 0.060777914569187325,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9706366865544951,
+        "model": "vicreg_action_s44",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8518518518518519,
+        "response_ratio_median": 1.449523840468467,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.009514696417093755,
+        "model": "vicreg_action_s45",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.43209876543209874,
+        "response_ratio_median": 0.04458276918608077,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9697512100605146,
+        "model": "vicreg_action_s45",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8765432098765432,
+        "response_ratio_median": 1.4639069581289585,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": null,
+        "model": "vicreg_noaction_s44",
+        "n_cosine_defined": 0,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.4876543209876543,
+        "response_ratio_median": 0.0,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9702799528166037,
+        "model": "vicreg_noaction_s44",
+        "n_cosine_defined": 160,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8641975308641975,
+        "response_ratio_median": 1.409489922232582,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": null,
+        "model": "vicreg_noaction_s45",
+        "n_cosine_defined": 0,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.48148148148148145,
+        "response_ratio_median": 0.0,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9656358158697576,
+        "model": "vicreg_noaction_s45",
+        "n_cosine_defined": 160,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8580246913580247,
+        "response_ratio_median": 1.3839202303884024,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.0806672697538156,
+        "model": "mse_action_s42",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.4506172839506173,
+        "response_ratio_median": 0.09636829693937232,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9877444653425014,
+        "model": "mse_action_s42",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8765432098765432,
+        "response_ratio_median": 0.9609219889932736,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.08690386074458212,
+        "model": "mse_action_s43",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.41975308641975306,
+        "response_ratio_median": 0.07755520211627473,
+        "rollout_mode": "open_loop",
+        "state_action_ratio_status": "not_available"
+      },
+      {
+        "cosine_median": 0.9932345506797658,
+        "model": "mse_action_s43",
+        "n_cosine_defined": 162,
+        "n_excluded": 38,
+        "n_selected": 162,
+        "ranking_top1": 0.8888888888888888,
+        "response_ratio_median": 0.9733150413026791,
+        "rollout_mode": "teacher_forced",
+        "state_action_ratio_status": "not_available"
+      }
+    ],
+    "is_test_set": false,
+    "n_sensitivity_rows": 11840,
+    "primary_n_nonzero": 34,
+    "primary_n_zero_excluded": 146,
+    "primary_quantile": 0.67,
+    "primary_threshold": 3.7984814534473923e-06,
+    "saw_test": false,
+    "selected_by_outcome": false
+  },
+  "model": {
+    "source": "horizon_audit_v1 cached queries"
+  },
+  "output_dir": "experiments/runs/visibility_sensitivity_v1",
+  "schema_version": 1,
+  "seed": "visibility_primary_not_fit_on_reporting",
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T21:41:23+00:00",
+  "status": "COMPLETE"
+}

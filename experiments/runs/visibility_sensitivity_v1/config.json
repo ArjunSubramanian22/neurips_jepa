@@ -1,0 +1,54 @@
+{
+  "absolute_thresholds": {
+    "fraction_affected_pixels": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "raster_mse": [
+      1e-06,
+      1e-05,
+      0.0001,
+      0.001,
+      0.01
+    ],
+    "rgb_mse": [
+      1e-06,
+      1e-05,
+      0.0001,
+      0.001,
+      0.01
+    ]
+  },
+  "experiment_id": "visibility_sensitivity_v1",
+  "fit_role": "val",
+  "focus_horizon": 10,
+  "focus_protocol": "persistent_alternative",
+  "n_visibility_bins": 10,
+  "notes": "Sensitivity percentiles describe the legacy reporting table. They do not replace the primary threshold. State/action ratio is reported only when that column is present.\n",
+  "primary": {
+    "horizon": 1,
+    "intervention": "one_step_force_reversal",
+    "population": "nonzero",
+    "quantile": 0.67,
+    "start_time": 0,
+    "top_fraction": 0.33,
+    "uses_predictor": false,
+    "visibility_metric": "raster_mse"
+  },
+  "reporting_is_test_set": false,
+  "reporting_split_version": "legacy_v1",
+  "reporting_table": "experiments/runs/horizon_audit_v1/queries.parquet",
+  "split_version": "cvpr_v1",
+  "top_fractions": [
+    0.1,
+    0.2,
+    0.25,
+    0.33,
+    0.5,
+    0.75,
+    1.0
+  ]
+}
