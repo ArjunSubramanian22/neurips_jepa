@@ -1,0 +1,94 @@
+# Causal latent-transformer baseline.
+# Same legacy split, observations, action normalization, and seeds as the
+# headline JEPA checkpoints. No checkpoint has been trained.
+experiment_id: latent_transformer_v1
+split_version: legacy_v1
+selection_role: val
+select_on_test: false
+is_test_set: false
+seed_registry: configs/seeds/latent_transformer_v1.yaml
+primary_scale: small
+train_mode: one_step
+eval_rollout: autoregressive
+attention_is_not_causal_importance: true
+parameter_counts:
+  small: 1093120
+  medium: 3046272
+  jepa_workshop_reference: 874368
+scale_note: >
+  The small transformer is about 1.09M parameters, near the workshop JEPA.
+  The medium model is wider and deeper. Raw latent MSE is not compared across
+  architectures. Variance-normalized error is the cross-architecture summary.
+diagnostics:
+  - action_attention_mass
+  - latent_attention_mass
+  - action_embed_grad_norm
+  - action_replacement_sensitivity
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.0
+  backbone: vit
+  fuse_mode: concat
+  condition_on_action: true
+  latent_tf_width: 128
+  latent_tf_layers: 2
+  latent_tf_heads: 4
+  latent_tf_history: 4
+  latent_tf_train_mode: one_step
+training:
+  batch_size: 32
+  epochs: 200
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 20
+  warmup_ratio: 0.1
+  grad_clip: 1.0
+  loss_type: latent_tf
+  amp: true
+  seed: 42
+  num_workers: 2
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs
+  device: auto
+data:
+  split_version: legacy_v1
+  dataset_path: outputs/physics_mpm
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 2000
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true
+medium_model:
+  latent_tf_width: 192
+  latent_tf_layers: 4
+  latent_tf_heads: 6
+  latent_tf_history: 8
+notes: >
+  Training has not been started. Seeds are 42, 43, 44, 45, 46.
+  Legacy validation episodes 1800-1999 are not a test set.
+  Canonical multi-step rollout is autoregressive even when training is one-step.

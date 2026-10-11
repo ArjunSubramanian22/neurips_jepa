@@ -1,0 +1,27 @@
+# Same seeds as configs/seeds/headline_v1.yaml. None of these runs exist yet.
+seed_registry_id: latent_transformer_v1
+seeds: [42, 43, 44, 45, 46]
+minimum_complete_seeds: 5
+split_version: legacy_v1
+same_seeds_as: headline_v1
+headline_role: legacy_validation
+is_test_set: false
+configurations:
+  - id: latent_tf_small
+    objective: latent_tf
+    condition_on_action: true
+    checkpoints:
+      42: null
+      43: null
+      44: null
+      45: null
+      46: null
+  - id: latent_tf_medium
+    objective: latent_tf
+    condition_on_action: true
+    checkpoints:
+      42: null
+      43: null
+      44: null
+      45: null
+      46: null
