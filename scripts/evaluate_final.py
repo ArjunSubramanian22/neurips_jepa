@@ -55,6 +55,12 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=ROOT / "results" / "final_evaluation")
     parser.add_argument("--csv", type=Path, default=ROOT / "results" / "final_checkpoint_results.csv")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--only",
+        nargs="*",
+        default=None,
+        help="Optional checkpoint names to evaluate. Default: all ten no-crop last.pt runs.",
+    )
     args = parser.parse_args()
     repo = args.repo.resolve()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -90,6 +96,12 @@ def main() -> None:
         (f"mse_action_s{seed}", f"results/reviewer_strengthening/06_corrected_objective/mse_action_s{seed}/last.pt")
         for seed in (42, 43)
     ]
+    if args.only:
+        wanted = set(args.only)
+        unknown = wanted.difference(name for name, _rel in paths)
+        if unknown:
+            raise SystemExit(f"Unknown checkpoint names: {sorted(unknown)}")
+        paths = [(name, rel) for name, rel in paths if name in wanted]
     permutations = []
     for t in range(15):
         rng = np.random.default_rng(1009 * t)
