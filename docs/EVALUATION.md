@@ -33,7 +33,7 @@ Action z-scoring uses training episodes only.
 Layer metrics and known-value tests:
 
 ```bash
-python3.13 -m unittest tests.test_cascade_metrics tests.test_splits tests.test_planning_oracle tests.test_bootstrap tests.test_registry tests.test_cascade_protocol tests.test_counterfactual_direction tests.test_future_ranking tests.test_horizon_audit
+python3.13 -m unittest tests.test_cascade_metrics tests.test_splits tests.test_planning_oracle tests.test_bootstrap tests.test_registry tests.test_cascade_protocol tests.test_counterfactual_direction tests.test_future_ranking tests.test_horizon_audit tests.test_visibility_sensitivity
 ```
 
 Reduced-simulator cascade check, then the figure from the saved pairs:
@@ -86,5 +86,13 @@ python3.13 scripts/run_horizon_audit.py
 ```
 
 `scripts/evaluate_final.py --horizon-audit` calls that script and returns before the MSE table. Protocols and rollout modes are defined in `docs/HORIZON_AUDIT.md`.
+
+Visibility cuts, with the primary threshold fit on `cvpr_v1` validation:
+
+```bash
+python3.13 scripts/run_visibility_sensitivity.py
+```
+
+The sensitivity tables are described in `docs/VISIBILITY_SENSITIVITY.md`.
 
 The reduced simulator in the cascade smoke uses `n_grid=16`, `img_size=32`, and `substeps=4`. The historical dump uses `n_grid=32`, `img_size=64`, and `substeps=8`. Those RMS values are not interchangeable.

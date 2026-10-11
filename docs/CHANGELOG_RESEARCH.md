@@ -32,6 +32,10 @@ Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy val
 
 `material_identifiability_v1` probed open-loop force schedules without training a world model. The predeclared validation rule returned NONE because the linear readout of collinear `(mu, lambda)` stayed at 0.667. Mechanical-history and uint8-history linear probes were above the stiffness bar for the stronger open-loop protocols, including `high_bend`. That protocol was not designated after the fact. No encoder-level stiffness-loss claim was added. See `docs/MATERIAL_IDENTIFIABILITY.md`.
 
+## 2026-10-11 visibility sensitivity
+
+`visibility_sensitivity_v1` kept the historical top-third raster-MSE rule and fit its value on `cvpr_v1` validation forks. 146 of 180 validation episodes had zero raster MSE. The nonzero quantile is 3.798e-6. `saw_test` is false, and the cut was not chosen from cosine or retrieval. On the persistent horizon-10 reporting rows, open-loop top-1 for `vicreg_action_s42` stays near one half from the top 10 percent through every nonzero row. Teacher-forced alignment stays high for the no-action checkpoints as well. See `docs/VISIBILITY_SENSITIVITY.md`.
+
 ## 2026-10-11 multi-horizon audit
 
 `horizon_audit_v1` extended the counterfactual audit to horizons 1, 3, 5, and 10 under four labeled interventions. Open-loop recorded rollout error grows with horizon. Teacher-forced error stays at the one-step level. Open-loop counterfactual retrieval stays near one half, including the no-action checkpoints, whose open-loop cosine is undefined. Teacher-forced cosine is high for those same no-action checkpoints because they read the true frame. See `docs/HORIZON_AUDIT.md`.
