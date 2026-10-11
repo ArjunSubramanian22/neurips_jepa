@@ -41,11 +41,11 @@ def plot_future_ranking(rows: Sequence[dict[str, Any]], out_dir: Path) -> None:
     legacy = [row for row in rows if row["environment"] == "mpm_legacy"]
     _lines_by_horizon(legacy, models, horizons, "model_mse_top1", out_dir / "top1_by_horizon.png", "MSE top-1, model predictions, legacy environment")
     _control_bars(legacy, models, horizons, out_dir / "top1_controls.png")
-    _binned(legacy, models, "visibility_bin", "model_mse_top1", out_dir / "top1_by_visibility.png", "MSE top-1 by observation visibility")
-    _binned(legacy, models, "physical_bin", "model_mse_top1", out_dir / "top1_by_displacement.png", "MSE top-1 by physical displacement")
-    _binned(legacy, models, "action_l2_quintile", "model_mse_top1", out_dir / "top1_by_action_distance.png", "MSE top-1 by action-distance quintile")
+    _binned(legacy, models, "visibility_bin", "model_mse_top1", out_dir / "top1_by_visibility.png", "Legacy MSE top-1 by observation visibility")
+    _binned(legacy, models, "physical_bin", "model_mse_top1", out_dir / "top1_by_displacement.png", "Legacy MSE top-1 by physical displacement")
+    _binned(legacy, models, "action_l2_quintile", "model_mse_top1", out_dir / "top1_by_action_distance.png", "Legacy MSE top-1 by action-distance quintile")
     _environment_bars(rows, models, out_dir / "top1_by_environment.png")
-    _margin_boxes(legacy, models, out_dir / "margin_by_model.png")
+    _margin_boxes(rows, models, out_dir / "margin_by_model.png")
 
 
 def _lines_by_horizon(rows, models, horizons, key, path, title) -> None:
@@ -104,6 +104,7 @@ def _control_bars(rows, models, horizons, path) -> None:
         ax.set_ylim(0, 1.05)
     axes[0].set_ylabel("MSE top-1")
     axes[0].legend(fontsize=7)
+    fig.suptitle("Legacy validation. Grey line is chance 1/4.")
     fig.savefig(path, dpi=140)
     plt.close(fig)
 
@@ -163,22 +164,39 @@ def _environment_bars(rows, models, path) -> None:
 
 
 def _margin_boxes(rows, models, path) -> None:
-    series = []
-    labels = []
-    for model in models:
-        taken = _finite(
-            [row for row in rows if row["model"] == model and int(row["horizon"]) == 1 and row.get("model_mse_status") in {"scored", "distance_tie"}],
-            "model_mse_margin",
-        )
-        if taken.size:
-            series.append(taken)
-            labels.append(model.replace("_", "\n") + f"\nn={taken.size}")
-    if not series:
+    environments = ("mpm_legacy", "mpm_medium_excitation")
+    fig, axes = plt.subplots(1, 2, figsize=(14.0, 4.6), constrained_layout=True)
+    drew = False
+    for ax, environment in zip(axes, environments):
+        series = []
+        labels = []
+        for model in models:
+            taken = _finite(
+                [
+                    row
+                    for row in rows
+                    if row["model"] == model
+                    and row["environment"] == environment
+                    and int(row["horizon"]) == 1
+                    and row.get("model_mse_status") in {"scored", "distance_tie"}
+                ],
+                "model_mse_margin",
+            )
+            if taken.size:
+                series.append(taken)
+                labels.append(model.replace("_", "\n") + f"\nn={taken.size}")
+        if not series:
+            ax.set_axis_off()
+            continue
+        drew = True
+        ax.boxplot(series, tick_labels=labels, showfliers=False)
+        ax.axhline(0.0, color="#888888", lw=1)
+        ax.set_title(environment)
+        ax.tick_params(axis="x", labelsize=6)
+    if not drew:
+        plt.close(fig)
         return
-    fig, ax = plt.subplots(figsize=(12.0, 4.6), constrained_layout=True)
-    ax.boxplot(series, tick_labels=labels, showfliers=False)
-    ax.axhline(0.0, color="#888888", lw=1)
-    ax.set_ylabel("MSE margin at horizon 1")
-    ax.set_title("Nearest incorrect minus correct. Positive means the true future is closer.")
+    axes[0].set_ylabel("MSE margin at horizon 1")
+    fig.suptitle("Nearest incorrect minus correct. Positive means the true future is closer.")
     fig.savefig(path, dpi=140)
     plt.close(fig)

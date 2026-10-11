@@ -32,6 +32,10 @@ Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy val
 
 `material_identifiability_v1` probed open-loop force schedules without training a world model. The predeclared validation rule returned NONE because the linear readout of collinear `(mu, lambda)` stayed at 0.667. Mechanical-history and uint8-history linear probes were above the stiffness bar for the stronger open-loop protocols, including `high_bend`. That protocol was not designated after the fact. No encoder-level stiffness-loss claim was added. See `docs/MATERIAL_IDENTIFIABILITY.md`.
 
+## 2026-10-11 future ranking
+
+`future_ranking_v1` failed during the first checkpoint because a status name was not imported. No summary was written. `future_ranking_v2` repeated the same protocol. On medium excitation, where nearly every held-action future is visible, pooled MSE top-1 is 0.25 and matches the shuffled and constant controls. The oracle that copies target embeddings scores 1 on every scored slice. Legacy validation leaves most horizon-1 queries observationally ambiguous even though the particles moved; those rows are counted and are not treated as misses. See `docs/FUTURE_RANKING.md`.
+
 ## 2026-10-11 directional counterfactuals
 
 `counterfactual_direction_v1` scored force reversals for the ten no-crop `last.pt` checkpoints on legacy validation episodes 1800–1999. Each of the 30000 transitions is in the table. Cosine is null when either latent delta is at or below `1e-8`. The four no-action checkpoints have no valid cosine. Episodes 1957 and 1963 are listed in the bootstrap exclusions and are not imputed. These numbers are not a test set. See `docs/COUNTERFACTUAL_DIRECTION.md`.
