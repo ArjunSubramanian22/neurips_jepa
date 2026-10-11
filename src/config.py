@@ -149,6 +149,14 @@ class TrainingConfig:
             frozen. Probe mode requires ``inverse_aux_weight=0``.
         inverse_probe_epochs: Epochs of frozen-encoder inverse fitting. Used
             only when ``inverse_mode`` is ``probe``.
+        cf_lambda_dir: Weight on ``1 - cosine(delta_pred, delta_target)``.
+        cf_lambda_mag: Weight on the log magnitude ratio.
+        cf_lambda_vec: Weight on the unit-vector residual. ``0`` leaves it logged only.
+        cf_intervention: One intervention family. Families are not pooled.
+        cf_batch_fraction: Deterministic fraction of transitions that carry a fork.
+        cf_norm_tau: Target-delta norm below which alignment rows are excluded.
+        cf_eps: Ridge inside the magnitude log and the cosine denominator.
+        cf_cache_path: Paired-future cache. Required when any alignment weight is positive.
     """
 
     batch_size: int = 32
@@ -177,6 +185,20 @@ class TrainingConfig:
     inverse_loss_type: Literal["mse", "smooth_l1"] = "mse"
     inverse_mode: Literal["joint", "probe"] = "joint"
     inverse_probe_epochs: int = 0
+    cf_lambda_dir: float = 0.0
+    cf_lambda_mag: float = 0.0
+    cf_lambda_vec: float = 0.0
+    cf_intervention: Literal[
+        "force_reversal",
+        "force_rotation",
+        "force_scaling",
+        "center_shift",
+        "shuffled_same_time",
+    ] = "force_reversal"
+    cf_batch_fraction: float = 0.25
+    cf_norm_tau: float = 1e-8
+    cf_eps: float = 1e-8
+    cf_cache_path: str | None = None
 
     def __post_init__(self) -> None:
         if self.batch_size < 1:
@@ -202,6 +224,19 @@ class TrainingConfig:
             raise ValueError("probe mode fits the inverse head after representation learning, so inverse_aux_weight must be 0.")
         if self.inverse_mode == "probe" and self.inverse_probe_epochs < 1:
             raise ValueError("probe mode requires inverse_probe_epochs >= 1.")
+        if self.cf_lambda_dir < 0.0 or self.cf_lambda_mag < 0.0 or self.cf_lambda_vec < 0.0:
+            raise ValueError("counterfactual alignment weights must be >= 0.")
+        if not 0.0 <= self.cf_batch_fraction <= 1.0:
+            raise ValueError("cf_batch_fraction must lie in [0, 1].")
+        if self.cf_norm_tau < 0.0 or self.cf_eps <= 0.0:
+            raise ValueError("cf_norm_tau must be >= 0 and cf_eps must be > 0.")
+        alignment = self.cf_lambda_dir > 0.0 or self.cf_lambda_mag > 0.0 or self.cf_lambda_vec > 0.0
+        if alignment and self.cf_batch_fraction == 0.0:
+            raise ValueError("alignment weights require cf_batch_fraction > 0.")
+        if alignment and not self.cf_cache_path:
+            raise ValueError("alignment weights require cf_cache_path.")
+        if alignment and self.loss_type in ("pixel_ae", "gnn"):
+            raise ValueError("counterfactual alignment is a latent predictor objective.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""

@@ -304,17 +304,31 @@ def _cosine_warmup_lambda(
 class _AverageMeter:
     def __init__(self) -> None:
         self.totals: dict[str, float] = defaultdict(float)
+        self.counts: dict[str, int] = defaultdict(int)
         self.count = 0
 
     def update(self, metrics: dict[str, float], batch_size: int = 1) -> None:
         self.count += batch_size
         for key, value in metrics.items():
             self.totals[key] += float(value) * batch_size
+            self.counts[key] += batch_size
 
     def mean(self) -> dict[str, float]:
         if self.count == 0:
             return {}
-        return {key: value / self.count for key, value in self.totals.items()}
+        return {key: self.totals[key] / self.counts[key] for key in self.totals}
+
+
+def _unpack_transition_batch(
+    batch: tuple[torch.Tensor, ...] | list[torch.Tensor],
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor | None, torch.Tensor | None, torch.Tensor | None]:
+    if len(batch) == 3:
+        x_t, a_t, x_tp1 = batch
+        return x_t, a_t, x_tp1, None, None, None
+    if len(batch) != 6:
+        raise ValueError(f"expected 3 or 6 transition tensors, got {len(batch)}.")
+    x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = batch
+    return x_t, a_t, x_tp1, a_prime, x_prime, cf_valid
 
 
 def _transition_subset(dataset: DeformableObjectDataset | DeformablePhysicsDataset, episode_slice: slice) -> Subset:
@@ -328,6 +342,7 @@ def build_dataloaders(
     train_cfg: TrainingConfig,
     *,
     full_dataset: DeformableObjectDataset | DeformablePhysicsDataset | None = None,
+    counterfactual_cache: Any | None = None,
 ) -> tuple[DataLoader, DataLoader | None, DeformableObjectDataset | DeformablePhysicsDataset]:
     """Build train/val loaders from a single simulated or physics episode archive."""
     dataset = full_dataset or build_dataset(data_cfg, split="all")
@@ -353,7 +368,19 @@ def build_dataloaders(
                 **worker_kwargs,
             )
         return train_loader, val_loader, dataset
-    train_set: TorchDataset = _transition_subset(dataset, slice(0, n_train))
+    train_indices = dataset.indices_for_episodes(0, n_train)
+    if counterfactual_cache is not None:
+        from src.action_alignment import PairedCounterfactualDataset
+
+        train_set = PairedCounterfactualDataset(
+            dataset,
+            counterfactual_cache,
+            train_indices,
+            fraction=train_cfg.cf_batch_fraction,
+            seed=train_cfg.seed,
+        )
+    else:
+        train_set = _transition_subset(dataset, slice(0, n_train))
     train_loader = DataLoader(
         train_set,
         batch_size=train_cfg.batch_size,
@@ -404,7 +431,10 @@ class ACJEPATrainer:
         if self.inverse_head is not None:
             trainable.extend(self.inverse_head.parameters())
         self.train_loader, self.val_loader, self.dataset = build_dataloaders(
-            cfg.data, cfg.training, full_dataset=dataset
+            cfg.data,
+            cfg.training,
+            full_dataset=dataset,
+            counterfactual_cache=self._load_counterfactual_cache(),
         )
         self.optimizer = AdamW(
             trainable,
@@ -432,6 +462,25 @@ class ACJEPATrainer:
         self.logger = ExperimentLogger(run_name, self.output_dir, cfg)
         self.history: list[dict[str, Any]] = []
         self.global_step = 0
+
+    def _alignment_enabled(self) -> bool:
+        train_cfg = self.cfg.training
+        return train_cfg.cf_lambda_dir > 0.0 or train_cfg.cf_lambda_mag > 0.0 or train_cfg.cf_lambda_vec > 0.0
+
+    def _load_counterfactual_cache(self) -> Any | None:
+        if not self._alignment_enabled():
+            return None
+        from src.action_alignment import load_counterfactual_cache
+
+        path = Path(str(self.cfg.training.cf_cache_path))
+        if not path.is_file():
+            raise FileNotFoundError(f"counterfactual cache does not exist: {path}")
+        cache = load_counterfactual_cache(path)
+        if cache.family != self.cfg.training.cf_intervention:
+            raise ValueError(
+                f"cache family {cache.family!r} does not match cf_intervention {self.cfg.training.cf_intervention!r}."
+            )
+        return cache
 
     def _objective(self, z_hat: torch.Tensor, z_target: torch.Tensor):
         train_cfg = self.cfg.training
@@ -484,7 +533,13 @@ class ACJEPATrainer:
         return loss, terms
 
     def _forward_loss(
-        self, x_t: torch.Tensor, a_t: torch.Tensor, x_tp1: torch.Tensor
+        self,
+        x_t: torch.Tensor,
+        a_t: torch.Tensor,
+        x_tp1: torch.Tensor,
+        a_prime: torch.Tensor | None = None,
+        x_prime: torch.Tensor | None = None,
+        cf_valid: torch.Tensor | None = None,
     ):
         if self.cfg.training.loss_type == "pixel_ae":
             return self._pixel_ae_objective(x_t, a_t, x_tp1)
@@ -509,6 +564,29 @@ class ACJEPATrainer:
             terms["inverse_force"] = inverse["force"].detach()
             for index, value in enumerate(inverse["per_coordinate"].detach()):
                 terms[f"inverse_coord_{index}"] = value
+        if self._alignment_enabled() and a_prime is not None and x_prime is not None and cf_valid is not None:
+            from src.action_alignment import apply_action_alignment
+
+            train_cfg = self.cfg.training
+            loss, alignment_logs = apply_action_alignment(
+                loss,
+                self.model.predictor,
+                output.z_t,
+                output.z_hat_tp1,
+                output.z_tp1,
+                a_prime,
+                x_prime,
+                self.model.target_encoder,
+                cf_valid,
+                lambda_dir=train_cfg.cf_lambda_dir,
+                lambda_mag=train_cfg.cf_lambda_mag,
+                lambda_vec=train_cfg.cf_lambda_vec,
+                norm_tau=train_cfg.cf_norm_tau,
+                eps=train_cfg.cf_eps,
+            )
+            terms["loss"] = loss
+            for key, value in alignment_logs.items():
+                terms[key] = loss.new_tensor(value)
         return loss, terms
 
     def _step_metrics(self, terms: dict[str, torch.Tensor]) -> dict[str, float]:
@@ -519,20 +597,32 @@ class ACJEPATrainer:
             "covariance": float(terms["covariance"].detach().item()),
         }
         for key, value in terms.items():
-            if key.startswith("inverse"):
+            if key.startswith("inverse") or key.startswith("cf_"):
                 metrics[key] = float(value.detach().item())
         return metrics
 
     def training_step(
-        self, x_t: torch.Tensor, a_t: torch.Tensor, x_tp1: torch.Tensor
+        self,
+        x_t: torch.Tensor,
+        a_t: torch.Tensor,
+        x_tp1: torch.Tensor,
+        a_prime: torch.Tensor | None = None,
+        x_prime: torch.Tensor | None = None,
+        cf_valid: torch.Tensor | None = None,
     ) -> dict[str, float]:
         self.model.train()
         x_t = x_t.to(self.device, non_blocking=True)
         a_t = a_t.to(self.device, non_blocking=True)
         x_tp1 = x_tp1.to(self.device, non_blocking=True)
+        if a_prime is not None:
+            a_prime = a_prime.to(self.device, non_blocking=True)
+        if x_prime is not None:
+            x_prime = x_prime.to(self.device, non_blocking=True)
+        if cf_valid is not None:
+            cf_valid = cf_valid.to(self.device, non_blocking=True)
         self.optimizer.zero_grad(set_to_none=True)
         with _autocast(self.device, self.use_amp):
-            loss, terms = self._forward_loss(x_t, a_t, x_tp1)
+            loss, terms = self._forward_loss(x_t, a_t, x_tp1, a_prime, x_prime, cf_valid)
         self.scaler.scale(loss).backward()
         params = list(self.model.trainable_parameters())
         if self.inverse_head is not None:
@@ -734,8 +824,8 @@ class ACJEPATrainer:
                         metrics = self.gnn_training_step(*batch)
                         batch_n = int(batch[0].shape[0])
                     else:
-                        x_t, a_t, x_tp1 = batch
-                        metrics = self.training_step(x_t, a_t, x_tp1)
+                        x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = _unpack_transition_batch(batch)
+                        metrics = self.training_step(x_t, a_t, x_tp1, a_prime, x_prime, cf_valid)
                         batch_n = int(x_t.shape[0])
                     epoch_meter.update(metrics, batch_size=batch_n)
                     if step % train_cfg.log_interval == 0 or step == 1:
@@ -765,7 +855,7 @@ class ACJEPATrainer:
                     "lr": epoch_stats.get("train_lr", float(self.optimizer.param_groups[0]["lr"])),
                 }
                 for key, value in epoch_stats.items():
-                    if key.startswith("train_inverse"):
+                    if key.startswith("train_inverse") or key.startswith("train_cf_"):
                         epoch_log[key.removeprefix("train_")] = value
                 for key in ("val_loss", "val_invariance", "val_variance", "val_covariance"):
                     if key in epoch_stats:
