@@ -1,0 +1,73 @@
+# Frozen-encoder inverse probe. Not eligible for weight selection.
+experiment_id: inverse_aux_probe_v1
+split_version: cvpr_v1
+selection_role: val
+select_weight_on_test: false
+is_test_set: false
+eligible_for_weight_selection: false
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.05
+  backbone: vit
+  fuse_mode: concat
+  n_action_tokens: 4
+  condition_on_action: true
+training:
+  batch_size: 128
+  epochs: 200
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 20
+  warmup_ratio: 0.1
+  grad_clip: 1.0
+  loss_type: vicreg
+  vicreg_sim_coeff: 25.0
+  vicreg_std_coeff: 25.0
+  vicreg_cov_coeff: 1.0
+  amp: true
+  seed: 42
+  num_workers: 2
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs
+  device: auto
+  ema_sync_every: 1
+  inverse_aux_weight: 0.0
+  inverse_loss_type: mse
+  inverse_mode: probe
+  inverse_probe_epochs: 20
+data:
+  split_version: cvpr_v1
+  dataset_path: outputs/physics_mpm
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 2000
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true
+notes: >
+  Representation learning uses the prediction objective only. The inverse head
+  is fit afterward on detached latents. Its error is a probe score.
