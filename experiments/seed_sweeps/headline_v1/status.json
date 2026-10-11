@@ -1,0 +1,170 @@
+{
+  "recorded_at": "2026-10-11T21:47:12+00:00",
+  "seed_registry_id": "headline_v1",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "minimum_complete_seeds": 5,
+  "split_version": "legacy_v1",
+  "is_test_set": false,
+  "n_slots": 15,
+  "n_complete": 10,
+  "n_failed": 0,
+  "n_not_run": 5,
+  "slots": [
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_action",
+      "objective": "vicreg",
+      "condition_on_action": true,
+      "seed": 42,
+      "status": "COMPLETE",
+      "checkpoint": "outputs/vicreg_nocrop/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_action",
+      "objective": "vicreg",
+      "condition_on_action": true,
+      "seed": 43,
+      "status": "COMPLETE",
+      "checkpoint": "outputs/vicreg_nocrop_seed43/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_action",
+      "objective": "vicreg",
+      "condition_on_action": true,
+      "seed": 44,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_action",
+      "objective": "vicreg",
+      "condition_on_action": true,
+      "seed": 45,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_action",
+      "objective": "vicreg",
+      "condition_on_action": true,
+      "seed": 46,
+      "status": "NOT_RUN",
+      "checkpoint": null,
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_noaction",
+      "objective": "vicreg",
+      "condition_on_action": false,
+      "seed": 42,
+      "status": "COMPLETE",
+      "checkpoint": "outputs/no_action/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_noaction",
+      "objective": "vicreg",
+      "condition_on_action": false,
+      "seed": 43,
+      "status": "COMPLETE",
+      "checkpoint": "outputs/vicreg_nocrop_noaction_seed43/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_noaction",
+      "objective": "vicreg",
+      "condition_on_action": false,
+      "seed": 44,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_noaction",
+      "objective": "vicreg",
+      "condition_on_action": false,
+      "seed": 45,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "vicreg_noaction",
+      "objective": "vicreg",
+      "condition_on_action": false,
+      "seed": 46,
+      "status": "NOT_RUN",
+      "checkpoint": null,
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "mse_action",
+      "objective": "mse",
+      "condition_on_action": true,
+      "seed": 42,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "mse_action",
+      "objective": "mse",
+      "condition_on_action": true,
+      "seed": 43,
+      "status": "COMPLETE",
+      "checkpoint": "results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt",
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "mse_action",
+      "objective": "mse",
+      "condition_on_action": true,
+      "seed": 44,
+      "status": "NOT_RUN",
+      "checkpoint": null,
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "mse_action",
+      "objective": "mse",
+      "condition_on_action": true,
+      "seed": 45,
+      "status": "NOT_RUN",
+      "checkpoint": null,
+      "failure_record": null
+    },
+    {
+      "seed_registry_id": "headline_v1",
+      "configuration": "mse_action",
+      "objective": "mse",
+      "condition_on_action": true,
+      "seed": 46,
+      "status": "NOT_RUN",
+      "checkpoint": null,
+      "failure_record": null
+    }
+  ]
+}

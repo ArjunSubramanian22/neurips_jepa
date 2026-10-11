@@ -1,0 +1,36 @@
+# Deterministic training seeds for headline comparisons.
+# A seed stays in this list when its run fails or has not been started.
+seed_registry_id: headline_v1
+seeds: [42, 43, 44, 45, 46]
+minimum_complete_seeds: 5
+split_version: legacy_v1
+headline_role: legacy_validation
+is_test_set: false
+configurations:
+  - id: vicreg_action
+    objective: vicreg
+    condition_on_action: true
+    checkpoints:
+      42: outputs/vicreg_nocrop/last.pt
+      43: outputs/vicreg_nocrop_seed43/last.pt
+      44: results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt
+      45: results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt
+      46: null
+  - id: vicreg_noaction
+    objective: vicreg
+    condition_on_action: false
+    checkpoints:
+      42: outputs/no_action/last.pt
+      43: outputs/vicreg_nocrop_noaction_seed43/last.pt
+      44: results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt
+      45: results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt
+      46: null
+  - id: mse_action
+    objective: mse
+    condition_on_action: true
+    checkpoints:
+      42: results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt
+      43: results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt
+      44: null
+      45: null
+      46: null
