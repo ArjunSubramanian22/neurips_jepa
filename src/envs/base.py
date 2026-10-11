@@ -37,3 +37,9 @@ class ForkableEnv(Protocol):
 
     def physical_state_distance(self, other: dict[str, Any]) -> dict[str, float]:
         """Distance between the current physical state and a saved state."""
+
+    def tracked_positions(self) -> np.ndarray:
+        """``(N, D)`` points the shared fork evaluator compares."""
+
+    def tracked_velocities(self) -> np.ndarray | None:
+        """Velocities with the same shape as ``tracked_positions``."""

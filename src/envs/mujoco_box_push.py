@@ -144,6 +144,12 @@ class MujocoBoxPush:
     def box_xy(self) -> np.ndarray:
         return np.asarray(self.data.qpos[:2], dtype=np.float64).copy()
 
+    def tracked_positions(self) -> np.ndarray:
+        return np.asarray(self.data.qpos[:3], dtype=np.float64).reshape(1, 3).copy()
+
+    def tracked_velocities(self) -> np.ndarray:
+        return np.asarray(self.data.qvel[:3], dtype=np.float64).reshape(1, 3).copy()
+
     def close(self) -> None:
         if self._renderer is not None:
             self._renderer.close()
