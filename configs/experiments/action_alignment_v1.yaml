@@ -1,0 +1,126 @@
+# Counterfactual action-alignment ablations.
+# One family: force reversal. Selection, when training exists, reads validation
+# cosine and retrieval. A larger action response is not success.
+experiment_id: action_alignment_v1
+split_version: cvpr_v1
+selection_role: val
+select_variant_on_test: false
+is_test_set: false
+primary_family: force_reversal
+primary_batch_fraction: 0.25
+lambda_scale_note: >
+  Direction and unit-vector losses lie in [0, 2]. The magnitude loss is a
+  log ratio. VICReg invariance is multiplied by 25, so lambda 1.0 is an
+  auxiliary. The value was not tuned, and the grid is not adjusted.
+success_rule: >
+  A variant is ahead of base only when validation cosine alignment and
+  validation retrieval both improve. Magnitude response is reported and is
+  not a selector. Control improvement also requires planning success.
+  Neither comparison reads the test split.
+ablations:
+  - name: base
+    cf_lambda_dir: 0.0
+    cf_lambda_mag: 0.0
+    cf_lambda_vec: 0.0
+    eligible_for_selection: true
+  - name: direction
+    cf_lambda_dir: 1.0
+    cf_lambda_mag: 0.0
+    cf_lambda_vec: 0.0
+    eligible_for_selection: true
+  - name: magnitude
+    cf_lambda_dir: 0.0
+    cf_lambda_mag: 1.0
+    cf_lambda_vec: 0.0
+    eligible_for_selection: true
+  - name: direction_magnitude
+    cf_lambda_dir: 1.0
+    cf_lambda_mag: 1.0
+    cf_lambda_vec: 0.0
+    eligible_for_selection: true
+optional_fraction_sweep:
+  fractions: [0.5, 1.0]
+  eligible_for_selection: false
+  note: >
+    Declared so a later run can change how many minibatches carry a fork.
+    Not part of the primary comparison and not chosen from results.
+evaluated_metrics:
+  - rollout_error
+  - effective_rank
+  - magnitude_response
+  - cosine_alignment
+  - retrieval
+  - multi_step_fidelity
+  - planning_success
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.05
+  backbone: vit
+  fuse_mode: concat
+  n_action_tokens: 4
+  condition_on_action: true
+training:
+  batch_size: 128
+  epochs: 200
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 20
+  warmup_ratio: 0.1
+  grad_clip: 1.0
+  loss_type: vicreg
+  vicreg_sim_coeff: 25.0
+  vicreg_std_coeff: 25.0
+  vicreg_cov_coeff: 1.0
+  amp: true
+  seed: 42
+  num_workers: 2
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs
+  device: auto
+  ema_sync_every: 1
+  cf_lambda_dir: 0.0
+  cf_lambda_mag: 0.0
+  cf_lambda_vec: 0.0
+  cf_intervention: force_reversal
+  cf_batch_fraction: 0.25
+  cf_norm_tau: 1.0e-8
+  cf_eps: 1.0e-8
+  cf_cache_path: outputs/counterfactual_pairs/force_reversal_train.npz
+data:
+  split_version: cvpr_v1
+  dataset_path: outputs/physics_mpm
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 2000
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true
+notes: >
+  Shared hyperparameters match configs/workshop_vicreg.yaml with cvpr_v1.
+  The base row builds no alignment term. Positive rows use cached force-reversal
+  forks on 25 percent of transitions. Checkpoint selection during training
+  stays on the base validation prediction loss.
