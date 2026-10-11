@@ -1,0 +1,30 @@
+experiment_id: capacity_sweep_v1
+split_version: legacy_v1
+select_on_test: false
+is_test_set: false
+varied_factor: width
+scales:
+- name: small
+  width: 64
+- name: base
+  width: 128
+- name: large
+  width: 256
+fixed:
+  encoder_depth: 4
+  predictor_depth: 4
+  encoder_num_heads: 4
+  predictor_num_heads: 4
+  mlp_ratio: 2.0
+  action_embed_dim: 64
+  drop_path: 0.05
+training_protocol: configs/workshop_vicreg.yaml
+important_scale: base
+important_scale_seeds_required:
+- 42
+- 43
+- 44
+- 45
+notes: Encoder and predictor width move together. Depth, head count, MLP ratio, action
+  embedding, and the training recipe do not. Base width 128 is the existing vicreg_action
+  checkpoint. Small and large are not trained.
