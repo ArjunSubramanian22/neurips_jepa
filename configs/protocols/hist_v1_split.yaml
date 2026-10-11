@@ -1,0 +1,15 @@
+# Historical validation split. This file records the protocol; it does not
+# allocate a test set from the existing dump.
+protocol_id: hist_v1_last_fraction_val
+n_episodes: 2000
+val_fraction: 0.1
+train: [0, 1800]
+val: [1800, 2000]
+test: null
+test_defined: false
+checkpoint_selection: validation loss on the tail can write best.pt
+paper_eval_episodes: [1800, 2000]
+untouched_test: false
+notes: >
+  Do not describe episodes 1800-1999 as an untouched test set. Do not
+  repartition them after seeing reported metrics.

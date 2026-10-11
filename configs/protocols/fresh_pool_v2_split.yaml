@@ -1,0 +1,19 @@
+# Predeclared split for a newly generated episode pool.
+# Does not repartition outputs/physics_mpm episodes [0, 2000).
+protocol_id: fresh_pool_v2
+requires_n_episodes_multiple_of: 60
+minimum_n_episodes: 60
+fractions:
+  train: 0.8
+  val: 0.1
+  test: 0.1
+index_order: contiguous prefix train, then val, then test suffix
+class_geometry_cycle: 6
+closed_to:
+  - training
+  - checkpoint selection
+  - hyperparameter search
+notes: >
+  Generate the pool with a dump seed other than the historical dump seed 0
+  before any model reads the test suffix. Freeze this file before the first
+  test-set metric is computed.
