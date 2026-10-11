@@ -1,0 +1,90 @@
+{
+  "canonical_baseline": "cls_uniform",
+  "readout_control": "pool_uniform",
+  "replaces_canonical_baseline": false,
+  "action_sensitivity_is_a_selector": false,
+  "selection_role": "val",
+  "select_variant_on_test": false,
+  "selected_variant": null,
+  "selection_status": "not_measured",
+  "counterfactual_correctness_improved": false,
+  "control_improved": false,
+  "rows": [
+    {
+      "name": "cls_uniform",
+      "status": "NOT_RUN",
+      "eligible_for_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "pool_uniform",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "pool_soft",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "pool_topk",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "patch_tokens",
+      "status": "NOT_RUN",
+      "eligible_for_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "local_head",
+      "status": "NOT_RUN",
+      "eligible_for_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "action_sensitivity": "not_measured",
+        "directional_correctness": "not_measured",
+        "retrieval": "not_measured",
+        "planning_success": "not_measured"
+      }
+    }
+  ],
+  "experiment_id": "target_mask_v1",
+  "role": "ablation",
+  "success_rule": "Soft or top-k weighting is ahead of uniform pooling only when validation rollout error is no worse and both directional correctness and retrieval improve. Action sensitivity is not a selector. Planning has to improve before control is called improved. The CLS uniform run remains the canonical baseline either way. The test split is not a selector.\n",
+  "trained": false
+}

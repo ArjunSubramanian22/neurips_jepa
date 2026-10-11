@@ -1,0 +1,132 @@
+# Experimental action-dependent target masks.
+# This is an ablation. The canonical CLS baseline does not depend on it.
+experiment_id: target_mask_v1
+role: ablation
+split_version: cvpr_v1
+selection_role: val
+select_variant_on_test: false
+is_test_set: false
+primary_family: force_reversal
+canonical_baseline: cls_uniform
+readout_control: pool_uniform
+replaces_canonical_baseline: false
+mask_note: >
+  The mask is the mean absolute difference of the two future observations
+  from one force-reversal fork, pooled onto encoder patches. Particle state
+  is not an input. Inference does not read the mask. Soft top-k uses a sigmoid
+  around the 25 percent boundary with temperature 0.05, not a hard cut.
+  Every training row carries a fork so a missing counterfactual is not
+  replaced by a blank frame.
+success_rule: >
+  Soft or top-k weighting is ahead of uniform pooling only when validation
+  rollout error is no worse and both directional correctness and retrieval
+  improve. Action sensitivity is not a selector. Planning has to improve
+  before control is called improved. The CLS uniform run remains the
+  canonical baseline either way. The test split is not a selector.
+variants:
+  - name: cls_uniform
+    target_readout: cls
+    target_mask: uniform
+    eligible_for_selection: false
+    role: canonical_baseline
+  - name: pool_uniform
+    target_readout: weighted_pool
+    target_mask: uniform
+    eligible_for_selection: true
+    role: readout_control
+  - name: pool_soft
+    target_readout: weighted_pool
+    target_mask: soft
+    eligible_for_selection: true
+  - name: pool_topk
+    target_readout: weighted_pool
+    target_mask: topk
+    target_mask_topk_fraction: 0.25
+    target_mask_temperature: 0.05
+    eligible_for_selection: true
+optional_readouts:
+  - name: patch_tokens
+    target_readout: patch_tokens
+    target_mask: soft
+    eligible_for_selection: false
+  - name: local_head
+    target_readout: local_head
+    target_mask: soft
+    eligible_for_selection: false
+evaluated_metrics:
+  - rollout_error
+  - action_sensitivity
+  - directional_correctness
+  - retrieval
+  - planning_success
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.05
+  backbone: vit
+  fuse_mode: concat
+  n_action_tokens: 4
+  condition_on_action: true
+  target_readout: cls
+training:
+  batch_size: 128
+  epochs: 200
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 20
+  warmup_ratio: 0.1
+  grad_clip: 1.0
+  loss_type: vicreg
+  vicreg_sim_coeff: 25.0
+  vicreg_std_coeff: 25.0
+  vicreg_cov_coeff: 1.0
+  amp: true
+  seed: 42
+  num_workers: 2
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs
+  device: auto
+  ema_sync_every: 1
+  target_mask: uniform
+  target_mask_topk_fraction: 0.25
+  target_mask_temperature: 0.05
+  target_mask_aux_weight: 1.0
+  cf_intervention: force_reversal
+  cf_batch_fraction: 1.0
+  cf_cache_path: outputs/counterfactual_pairs/force_reversal_train.npz
+data:
+  split_version: cvpr_v1
+  dataset_path: outputs/physics_mpm
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 2000
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true
+notes: >
+  The file default is the canonical CLS uniform target. Fork-weighted rows
+  are training ablations. Validation checkpointing for those rows still
+  scores the CLS target, because the loader used for validation has no fork.
