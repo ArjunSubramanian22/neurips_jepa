@@ -19,3 +19,7 @@ No paper checkpoint was retrained or re-scored. No test-set protocol was edited 
 `dump_regeneration_hashcheck_v1` regenerated the seed-0 dump with one worker. Observations and actions matched `DATA_MANIFEST.csv`, and the observation tensor was copied to `outputs/physics_mpm/observations.npy`. Episode 1800 of that file matches `replay_episode`.
 
 `heldout_reproduction_v1` then recomputed the ten no-crop checkpoints with `scripts/evaluate_final.py`. MSE and variance-normalized MSE at horizons 1, 5, and 10 matched `results/final_checkpoint_results.csv` with absolute delta 0, inside the predeclared tolerance 0.001. The archive CSV was not overwritten.
+
+## 2026-10-11 split protocol
+
+Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy validation and are excluded from the new train, validation, and test roles. `cvpr_v1` is an exact 80/10/10 split of episodes `[0, 1800)`, with ids saved in `configs/protocols/cvpr_v1_episode_ids.json`. Archived validation numbers were not relabeled as test numbers. Historical checkpoints are refused on the `cvpr_v1` test ids because those checkpoints trained on them.

@@ -62,4 +62,4 @@ Per-episode RNG is `seed + 10007 * episode_index`. The Linux replay tensor is no
 
 ## Splits
 
-Do not select hyperparameters on episodes 1800–1999 and then report those episodes as an untouched test. New pools use `fresh_pool_v2` and must be generated before any test metric is read. See `docs/EVALUATION.md`.
+Do not select hyperparameters on episodes 1800–1999 and then report those episodes as a test set. Future dump experiments declare `split_version: cvpr_v1` and follow `docs/DATA_SPLITS.md`. Historical tables stay `legacy_v1`.

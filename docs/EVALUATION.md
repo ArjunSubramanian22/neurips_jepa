@@ -18,15 +18,13 @@ D = mean_i (u_i - v_i)^2
 
 ## Splits
 
-`hist_v1_last_fraction_val` (`configs/protocols/hist_v1_split.yaml`) is the historical loader rule. For the 2000-episode dump and `val_fraction=0.1` the intervals are train `[0, 1800)` and validation `[1800, 2000)`. There is no test interval. Training can write `best.pt` from validation loss, and the revised paper evaluates that same tail. Do not call it an untouched test set, and do not repartition it after seeing reported metrics.
+`docs/DATA_SPLITS.md` is the split protocol. `legacy_v1` keeps train `[0, 1800)` and validation `[1800, 2000)` and has no test ids. Numbers on that tail stay legacy validation. `cvpr_v1` is the future study split: exact 80/10/10 of episodes `[0, 1800)`, with `[1800, 2000)` excluded. Headline metrics for `cvpr_v1` use the test ids only. Historical checkpoints are not scored on those test ids.
 
-`fresh_pool_v2` (`configs/protocols/fresh_pool_v2_split.yaml`) is an 80/10/10 contiguous split for a newly generated pool whose length is a multiple of 60. The suffix is test and is closed to training, checkpoint selection, and hyperparameter search. `fresh_pool_v2_split(2000)` raises, because this protocol does not carve a test set out of the historical dump.
-
-Action z-scoring for historical evaluations uses training episodes only, as in `scripts/evaluate_final.py`.
+Action z-scoring uses training episodes only.
 
 ## What evaluates the revised-paper checkpoints
 
-`scripts/evaluate_final.py` is the val-only evaluator for the ten `last.pt` checkpoints: rollout MSE, variance-normalized MSE, per-horizon rank, and probes on episodes 1800–1999. It needs `outputs/physics_mpm/observations.npy`.
+`scripts/evaluate_final.py` is the `legacy_v1` evaluator for the ten `last.pt` checkpoints: rollout MSE, variance-normalized MSE, per-horizon rank, and probes on validation episodes 1800–1999. It needs `outputs/physics_mpm/observations.npy`. Its output sets `is_test_set` false.
 
 `src/eval.py:evaluate_model` averages rollout MSE over the episodes it is given and is not the source of the revised-paper tables.
 
