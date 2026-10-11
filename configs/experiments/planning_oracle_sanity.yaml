@@ -1,0 +1,26 @@
+experiment_id: planning_oracle_sanity_v1
+seed: 0
+n_candidates: 8
+latent_dim: 4
+correct_index: 3
+dynamics: linear_residual_identity
+cem:
+  population: 128
+  n_iterations: 8
+  elite_fraction: 0.25
+random_ranking:
+  n_trials: 4000
+  n_candidates: 4
+  seed: 0
+learned_checkpoint: null
+dataset_split:
+  protocol_id: planning_oracle_sanity_v1
+  historical_dump_used: false
+  notes: Synthetic latent targets. No episode split is involved.
+success_criterion:
+  oracle_top1: 1
+  cem_cost_below_initial: true
+  random_top1_abs_error_max: 0.03
+permitted_interpretation: >
+  Planner sanity check on identity residual dynamics and uniform random
+  scores. Not evidence about a learned world model.
