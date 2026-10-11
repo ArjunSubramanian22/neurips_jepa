@@ -55,6 +55,7 @@ if __package__:
     from .models.pixel_ae import PixelSpaceAutoencoder
     from .models.particle_gnn import ParticleGraphWorldModel
     from .models.rssm import CompactRSSM, RSSMWindowDataset
+    from .models.latent_transformer import CausalLatentDynamics
 else:
     _ROOT = Path(__file__).resolve().parent.parent
     if str(_ROOT) not in sys.path:
@@ -82,10 +83,11 @@ else:
     from src.models.pixel_ae import PixelSpaceAutoencoder
     from src.models.particle_gnn import ParticleGraphWorldModel
     from src.models.rssm import CompactRSSM, RSSMWindowDataset
+    from src.models.latent_transformer import CausalLatentDynamics
 
 LOGGER = logging.getLogger("ac_jepa.train")
 RunMode = Literal["train", "eval", "train_and_eval"]
-WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel, CompactRSSM]
+WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel, CompactRSSM, CausalLatentDynamics]
 
 
 class ExperimentLogger:
@@ -237,6 +239,8 @@ def build_world_model(cfg: ExperimentConfig) -> WorldModel:
         return ParticleGraphWorldModel(cfg.model, cfg.data)
     if cfg.training.loss_type == "rssm":
         return CompactRSSM(cfg.model)
+    if cfg.training.loss_type == "latent_tf":
+        return CausalLatentDynamics(cfg.model)
     return ACJEPA(cfg.model)
 
 
@@ -335,12 +339,12 @@ def _unpack_transition_batch(
     return x_t, a_t, x_tp1, a_prime, x_prime, cf_valid
 
 
-def _rssm_loaders(dataset: Any, train_cfg: TrainingConfig) -> tuple[DataLoader, DataLoader | None]:
-    """Sequence windows for the RSSM. JEPA loaders are left unchanged."""
+def _sequence_loaders(dataset: Any, train_cfg: TrainingConfig, window: int) -> tuple[DataLoader, DataLoader | None]:
+    """Sequence windows. JEPA transition loaders are left unchanged."""
     n_train, n_val = dataset.split_sizes()
     worker_kwargs = dataloader_worker_kwargs(dataset.cfg, train_cfg)
     train_loader = DataLoader(
-        RSSMWindowDataset(dataset, range(n_train), train_cfg.rssm_window),
+        RSSMWindowDataset(dataset, range(n_train), window),
         batch_size=train_cfg.batch_size,
         shuffle=True,
         **worker_kwargs,
@@ -348,12 +352,17 @@ def _rssm_loaders(dataset: Any, train_cfg: TrainingConfig) -> tuple[DataLoader, 
     val_loader = None
     if n_val > 0:
         val_loader = DataLoader(
-            RSSMWindowDataset(dataset, range(n_train, n_train + n_val), train_cfg.rssm_window),
+            RSSMWindowDataset(dataset, range(n_train, n_train + n_val), window),
             batch_size=train_cfg.batch_size,
             shuffle=False,
             **worker_kwargs,
         )
     return train_loader, val_loader
+
+
+def _rssm_loaders(dataset: Any, train_cfg: TrainingConfig) -> tuple[DataLoader, DataLoader | None]:
+    """Sequence windows for the RSSM."""
+    return _sequence_loaders(dataset, train_cfg, train_cfg.rssm_window)
 
 
 def _transition_subset(dataset: DeformableObjectDataset | DeformablePhysicsDataset, episode_slice: slice) -> Subset:
@@ -463,6 +472,10 @@ class ACJEPATrainer:
         )
         if cfg.training.loss_type == "rssm":
             self.train_loader, self.val_loader = _rssm_loaders(self.dataset, cfg.training)
+        elif cfg.training.loss_type == "latent_tf":
+            self.train_loader, self.val_loader = _sequence_loaders(
+                self.dataset, cfg.training, cfg.model.latent_tf_history + 1
+            )
         self.optimizer = AdamW(
             trainable,
             lr=cfg.training.lr,
@@ -779,6 +792,47 @@ class ACJEPATrainer:
             )
         return meter.mean()
 
+    @torch.no_grad()
+    def _latent_tf_evaluate_loader(self, loader: DataLoader) -> dict[str, float]:
+        self.model.eval()
+        meter = _AverageMeter()
+        for frames, actions in loader:
+            terms = self.model.loss(frames.to(self.device), actions.to(self.device))
+            meter.update({"loss": float(terms["loss"].detach().item())}, batch_size=int(frames.shape[0]))
+        return meter.mean()
+
+    def latent_tf_training_step(self, frames: torch.Tensor, actions: torch.Tensor) -> dict[str, float]:
+        self.model.train()
+        frames = frames.to(self.device, non_blocking=True)
+        actions = actions.to(self.device, non_blocking=True)
+        self.optimizer.zero_grad(set_to_none=True)
+        with _autocast(self.device, self.use_amp):
+            terms = self.model.loss(frames, actions, record_attention=True)
+        self.scaler.scale(terms["loss"]).backward()
+        action_grad = self.model.action_embedding_grad_norm()
+        params = list(self.model.trainable_parameters())
+        self.scaler.unscale_(self.optimizer)
+        max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
+        grad_norm = torch.nn.utils.clip_grad_norm_(params, max_norm)
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+        self.scheduler.step()
+        if self.global_step % self.cfg.training.ema_sync_every == 0:
+            self.model.update_target_encoder()
+        self.global_step += 1
+        replacement = actions.clone()
+        replacement[:, :, 2] = -replacement[:, :, 2]
+        sensitivity = self.model.action_replacement_sensitivity(frames, actions, replacement)
+        return {
+            "loss": float(terms["loss"].detach().item()),
+            "action_embed_grad_norm": action_grad,
+            "action_attention_mass": float(self.model.last_attention_action_mass or 0.0),
+            "latent_attention_mass": float(self.model.last_attention_latent_mass or 0.0),
+            "action_replacement_sensitivity": sensitivity,
+            "lr": float(self.optimizer.param_groups[0]["lr"]),
+            "grad_norm": float(grad_norm),
+        }
+
     def _fit_inverse_probe(self) -> None:
         """Fit the inverse head on a frozen encoder. Representation weights do not move."""
         from src.models.inverse_dynamics import InverseDynamicsHead, inverse_dynamics_loss
@@ -960,6 +1014,10 @@ class ACJEPATrainer:
                         frames, actions = batch
                         metrics = self.rssm_training_step(frames, actions)
                         batch_n = int(frames.shape[0])
+                    elif train_cfg.loss_type == "latent_tf":
+                        frames, actions = batch
+                        metrics = self.latent_tf_training_step(frames, actions)
+                        batch_n = int(frames.shape[0])
                     else:
                         x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = _unpack_transition_batch(batch)
                         metrics = self.training_step(x_t, a_t, x_tp1, a_prime, x_prime, cf_valid)
@@ -974,6 +1032,8 @@ class ACJEPATrainer:
                         val_stats = self._gnn_evaluate_loader(self.val_loader)
                     elif train_cfg.loss_type == "rssm":
                         val_stats = self._rssm_evaluate_loader(self.val_loader)
+                    elif train_cfg.loss_type == "latent_tf":
+                        val_stats = self._latent_tf_evaluate_loader(self.val_loader)
                     else:
                         val_stats = self.evaluate_loader(self.val_loader)
                     epoch_stats.update({f"val_{k}": v for k, v in val_stats.items()})

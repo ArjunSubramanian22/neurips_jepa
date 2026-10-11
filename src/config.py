@@ -61,6 +61,11 @@ class ModelConfig:
         rssm_channels: Base width of the RSSM convolutional encoder.
         rssm_kl_balance: Weight on the dynamics KL versus the representation KL.
         rssm_free_nats: Per-step KL floor. Only nats above the floor are penalized.
+        latent_tf_width: Width of the causal latent transformer.
+        latent_tf_layers: Number of transformer blocks in that dynamics model.
+        latent_tf_heads: Attention heads. Width must be divisible by this.
+        latent_tf_history: How many past latent/action pairs a prediction may use.
+        latent_tf_train_mode: ``one_step`` is teacher-forced. ``autoregressive`` feeds predictions back.
     """
 
     in_channels: int = 3
@@ -90,6 +95,11 @@ class ModelConfig:
     rssm_channels: int = 32
     rssm_kl_balance: float = 0.8
     rssm_free_nats: float = 1.0
+    latent_tf_width: int = 128
+    latent_tf_layers: int = 2
+    latent_tf_heads: int = 4
+    latent_tf_history: int = 4
+    latent_tf_train_mode: Literal["one_step", "autoregressive"] = "one_step"
 
     def __post_init__(self) -> None:
         if self.img_size <= 0 or self.patch_size <= 0:
@@ -121,6 +131,12 @@ class ModelConfig:
             raise ValueError("rssm_kl_balance must lie in [0, 1].")
         if self.rssm_free_nats < 0.0:
             raise ValueError("rssm_free_nats must be >= 0.")
+        if self.latent_tf_width < 1 or self.latent_tf_layers < 1 or self.latent_tf_heads < 1:
+            raise ValueError("latent transformer width, layers, and heads must be positive.")
+        if self.latent_tf_width % self.latent_tf_heads != 0:
+            raise ValueError("latent_tf_width must be divisible by latent_tf_heads.")
+        if self.latent_tf_history < 1:
+            raise ValueError("latent_tf_history must be >= 1.")
 
     @property
     def num_patches(self) -> int:
@@ -201,7 +217,7 @@ class TrainingConfig:
     grad_clip: float = 1.0
     beta1: float = 0.9
     beta2: float = 0.999
-    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn", "rssm"] = "vicreg"
+    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn", "rssm", "latent_tf"] = "vicreg"
     vicreg_sim_coeff: float = 25.0
     vicreg_std_coeff: float = 25.0
     vicreg_cov_coeff: float = 1.0
@@ -290,6 +306,10 @@ class TrainingConfig:
             self.inverse_aux_weight > 0.0 or self.cf_lambda_dir > 0.0 or self.cf_lambda_mag > 0.0 or self.cf_lambda_vec > 0.0
         ):
             raise ValueError("RSSM training does not combine with JEPA auxiliary losses.")
+        if self.loss_type == "latent_tf" and (
+            self.inverse_aux_weight > 0.0 or self.cf_lambda_dir > 0.0 or self.cf_lambda_mag > 0.0 or self.cf_lambda_vec > 0.0
+        ):
+            raise ValueError("latent transformer training does not combine with JEPA auxiliary losses.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""
