@@ -153,3 +153,55 @@ def _finish(status: str, *, scored: bool, initial: float, success_distance: floa
         "planner_costs": [],
         "error": None,
     }
+
+
+def oracle_sequence_cost(world: Any, sequences: Any, score_fn: Callable[[Any], float]) -> np.ndarray:
+    """Roll each sequence on a clone of ``world`` and restore the live state."""
+    seq = np.asarray(sequences, dtype=np.float64)
+    if seq.ndim != 3:
+        raise ValueError(f"sequences must have shape (P, H, A), got {seq.shape}.")
+    snapshot = world.snapshot()
+    costs = np.empty(seq.shape[0], dtype=np.float64)
+    try:
+        for index in range(seq.shape[0]):
+            world.restore(snapshot)
+            for action in seq[index]:
+                world.step_action(action)
+            costs[index] = float(score_fn(world))
+    finally:
+        world.restore(snapshot)
+    if not np.all(np.isfinite(costs)):
+        raise ValueError("oracle costs must be finite.")
+    return costs
+
+
+def oracle_propose(
+    world: Any,
+    score_fn: Callable[[Any], float],
+    cem: dict[str, Any],
+    rng: np.random.Generator,
+    warm: np.ndarray | None,
+) -> tuple[np.ndarray, np.ndarray, float]:
+    """CEM using true dynamics. ``score_fn`` reads the rolled world."""
+    from src.planning import cem_plan_sequence
+
+    mean = cem["mean"] if warm is None else warm
+
+    def cost(samples: np.ndarray) -> np.ndarray:
+        return oracle_sequence_cost(world, samples, score_fn)
+
+    result = cem_plan_sequence(
+        cost,
+        mean,
+        cem["std"],
+        horizon=int(cem["horizon"]),
+        population=int(cem["population"]),
+        n_iterations=int(cem["n_iterations"]),
+        elite_fraction=float(cem["elite_fraction"]),
+        action_dim=int(cem["action_dim"]),
+        lower=cem["lower"],
+        upper=cem["upper"],
+        temporal_smooth=float(cem["temporal_smooth"]),
+        rng=rng,
+    )
+    return result["action"], result["sequence"], float(result["cost"])
