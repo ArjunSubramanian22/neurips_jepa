@@ -1,0 +1,18 @@
+# Directional counterfactuals on the legacy validation tail.
+# Thresholds were fixed before any cosine was computed.
+experiment_id: counterfactual_direction_v1
+split_version: legacy_v1
+headline_role: legacy_validation
+is_test_set: false
+fork: force_reversed
+hold: 3
+norm_tau: 1.0e-8
+epsilon: 1.0e-12
+high_visibility_affected: 0.05
+invisible_affected_max: 0.0
+bootstrap_resamples: 2000
+bootstrap_seed: 0
+notes: >
+  Episodes 1800-1999 are legacy validation, not a test set. The alternate
+  action negates the raw force channels. Cosine is null when either latent
+  delta is at or below norm_tau.

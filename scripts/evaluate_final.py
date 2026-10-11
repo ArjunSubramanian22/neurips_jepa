@@ -57,6 +57,11 @@ def main() -> None:
     parser.add_argument("--csv", type=Path, default=ROOT / "results" / "final_checkpoint_results.csv")
     parser.add_argument("--force", action="store_true")
     parser.add_argument(
+        "--directional",
+        action="store_true",
+        help="Run legacy-validation directional counterfactuals and return.",
+    )
+    parser.add_argument(
         "--only",
         nargs="*",
         default=None,
@@ -64,8 +69,14 @@ def main() -> None:
     )
     args = parser.parse_args()
     repo = args.repo.resolve()
+    if str(repo) not in sys.path:
+        sys.path.insert(0, str(repo))
+    if args.directional:
+        from scripts.run_counterfactual_direction import main as directional_main
+
+        directional_main()
+        return
     args.out.mkdir(parents=True, exist_ok=True)
-    sys.path.insert(0, str(repo))
     from src.config import ModelConfig
     from src.eval import contact_classes, effective_rank, linear_probe_over_horizon
     from src.eval_protocol import assert_checkpoint_eval_pairing, reporting_slice
