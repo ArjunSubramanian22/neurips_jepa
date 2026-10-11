@@ -1,5 +1,7 @@
 # Reproducibility (internal + blinded)
 
+The evaluation framework added on 2026-10-11 is documented in `docs/REPRODUCIBILITY.md`, `docs/EVALUATION.md`, and `docs/EXPERIMENTS.md`. Registered runs live in `experiments/registry.jsonl`. The sections below still describe the cached reviewer-strengthening package.
+
 This repository's paper-facing analysis can be regenerated from **cached artifacts**
 without retraining. Training and dump generation are explicit, expensive stages.
 
