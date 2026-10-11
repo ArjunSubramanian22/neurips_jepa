@@ -1,0 +1,15 @@
+{
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 0,
+  "epsilon": 1e-12,
+  "experiment_id": "counterfactual_direction_v1",
+  "fork": "force_reversed",
+  "headline_role": "legacy_validation",
+  "high_visibility_affected": 0.05,
+  "hold": 3,
+  "invisible_affected_max": 0.0,
+  "is_test_set": false,
+  "norm_tau": 1e-08,
+  "notes": "Episodes 1800-1999 are legacy validation, not a test set. The alternate action negates the raw force channels. Cosine is null when either latent delta is at or below norm_tau.\n",
+  "split_version": "legacy_v1"
+}

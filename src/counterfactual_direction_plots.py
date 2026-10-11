@@ -32,11 +32,12 @@ def plot_directional(rows: Sequence[dict[str, Any]], out_dir: Path) -> None:
     ]
     if valid:
         cosines = np.asarray([float(row["cosine"]) for row in valid], dtype=np.float64)
+        n_excluded = len(rows) - len(valid)
         fig, ax = plt.subplots(figsize=(6.2, 3.8), constrained_layout=True)
         ax.hist(cosines, bins=40, range=(-1.0, 1.0), color="#2c5f8a")
         ax.set_xlabel("Counterfactual cosine")
         ax.set_ylabel("Valid transitions")
-        ax.set_title(f"Valid directional contrasts (n={cosines.size})")
+        ax.set_title(f"Valid directional contrasts (n={cosines.size}; excluded {n_excluded})")
         fig.savefig(out_dir / "cosine_histogram.png", dpi=140)
         plt.close(fig)
 
@@ -78,22 +79,31 @@ def plot_directional(rows: Sequence[dict[str, Any]], out_dir: Path) -> None:
         )
         ax.set_xlabel("Cosine")
         ax.set_ylabel("Magnitude ratio")
-        ax.set_title("Direction and magnitude")
+        ax.set_yscale("log")
+        ax.set_title("Direction and magnitude (valid cosine only)")
         fig.savefig(out_dir / "magnitude_vs_direction.png", dpi=140)
         plt.close(fig)
 
     models = list(dict.fromkeys(row["model"] for row in rows))
     series = []
-    labels = []
-    for model in models:
+    positions = []
+    for index, model in enumerate(models, start=1):
         taken = _valid_cosine([row for row in rows if row["model"] == model])
         if taken.size:
             series.append(taken)
-            labels.append(model.replace("_", "\n"))
-    if series:
-        fig, ax = plt.subplots(figsize=(12.0, 4.6), constrained_layout=True)
-        ax.boxplot(series, tick_labels=labels, showfliers=False)
+            positions.append(index)
+    if models:
+        fig, ax = plt.subplots(figsize=(12.0, 4.8), constrained_layout=True)
+        if series:
+            ax.boxplot(series, positions=positions, showfliers=False)
+        labels = []
+        for index, model in enumerate(models, start=1):
+            taken = _valid_cosine([row for row in rows if row["model"] == model])
+            labels.append(model.replace("_", "\n") + f"\nn={taken.size}")
+            if taken.size == 0:
+                ax.text(index, 0.0, "no valid\ncosine", ha="center", va="center", fontsize=7, color="#8a2c2c")
+        ax.set_xticks(range(1, len(models) + 1), labels)
         ax.set_ylabel("Valid cosine")
-        ax.set_title("Per-model valid directional cosine")
+        ax.set_title("Per-model valid cosine. Models with none are marked, not imputed.")
         fig.savefig(out_dir / "cosine_by_model.png", dpi=140)
         plt.close(fig)

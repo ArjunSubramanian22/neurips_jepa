@@ -32,6 +32,10 @@ Added `cvpr_v1` without moving `legacy_v1`. Episodes 1800–1999 stay legacy val
 
 `material_identifiability_v1` probed open-loop force schedules without training a world model. The predeclared validation rule returned NONE because the linear readout of collinear `(mu, lambda)` stayed at 0.667. Mechanical-history and uint8-history linear probes were above the stiffness bar for the stronger open-loop protocols, including `high_bend`. That protocol was not designated after the fact. No encoder-level stiffness-loss claim was added. See `docs/MATERIAL_IDENTIFIABILITY.md`.
 
+## 2026-10-11 directional counterfactuals
+
+`counterfactual_direction_v1` scored force reversals for the ten no-crop `last.pt` checkpoints on legacy validation episodes 1800–1999. Each of the 30000 transitions is in the table. Cosine is null when either latent delta is at or below `1e-8`. The four no-action checkpoints have no valid cosine. Episodes 1957 and 1963 are listed in the bootstrap exclusions and are not imputed. These numbers are not a test set. See `docs/COUNTERFACTUAL_DIRECTION.md`.
+
 ## 2026-10-11 RGB observations
 
 Added `rgb_v1` beside the density/velocity raster. `rgb_visibility_v1` compared force-reversal visibility on legacy and high excitation at RGB 64, 128, and 256. LPIPS was left unavailable. No world model was trained. See `docs/RGB_OBSERVATIONS.md`.

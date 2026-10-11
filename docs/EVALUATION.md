@@ -33,7 +33,7 @@ Action z-scoring uses training episodes only.
 Layer metrics and known-value tests:
 
 ```bash
-python3.13 -m unittest tests.test_cascade_metrics tests.test_splits tests.test_planning_oracle tests.test_bootstrap tests.test_registry tests.test_cascade_protocol
+python3.13 -m unittest tests.test_cascade_metrics tests.test_splits tests.test_planning_oracle tests.test_bootstrap tests.test_registry tests.test_cascade_protocol tests.test_counterfactual_direction
 ```
 
 Reduced-simulator cascade check, then the figure from the saved pairs:
@@ -62,5 +62,13 @@ python3.13 scripts/run_heldout_reproduction.py
 ```
 
 `heldout_reproduction_v1` already occupies that experiment id. A further reproduction needs a new id.
+
+Directional counterfactuals on the same ten checkpoints, still on legacy validation:
+
+```bash
+python3.13 scripts/run_counterfactual_direction.py
+```
+
+`scripts/evaluate_final.py --directional` calls that script and returns before the MSE table. The default MSE path is unchanged. Definitions and the `counterfactual_direction_v1` counts are in `docs/COUNTERFACTUAL_DIRECTION.md`.
 
 The reduced simulator in the cascade smoke uses `n_grid=16`, `img_size=32`, and `substeps=4`. The historical dump uses `n_grid=32`, `img_size=64`, and `substeps=8`. Those RMS values are not interchangeable.
