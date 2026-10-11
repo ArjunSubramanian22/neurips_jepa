@@ -1,0 +1,1529 @@
+{
+  "name": "mse_action_s42",
+  "checkpoint": "results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt",
+  "checkpoint_sha256": "f32f436bbb3bcc5daf69aa9deb2b972d10b93c8bb26224c092e01163ce680ef8",
+  "epoch": 200,
+  "config": {
+    "model": {
+      "in_channels": 3,
+      "img_size": 64,
+      "patch_size": 8,
+      "embed_dim": 128,
+      "encoder_depth": 4,
+      "encoder_num_heads": 4,
+      "mlp_ratio": 2.0,
+      "action_dim": 4,
+      "action_embed_dim": 64,
+      "predictor_embed_dim": 128,
+      "predictor_depth": 4,
+      "predictor_num_heads": 4,
+      "latent_dim": 0,
+      "ema_momentum": 0.996,
+      "dropout": 0.0,
+      "drop_path": 0.05,
+      "backbone": "vit",
+      "fuse_mode": "concat",
+      "condition_on_action": true
+    },
+    "training": {
+      "batch_size": 128,
+      "epochs": 200,
+      "lr": 0.0002,
+      "min_lr": 1e-06,
+      "weight_decay": 0.05,
+      "warmup_epochs": 20,
+      "warmup_ratio": 0.1,
+      "grad_clip": 1.0,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "loss_type": "mse",
+      "vicreg_sim_coeff": 25.0,
+      "vicreg_std_coeff": 25.0,
+      "vicreg_cov_coeff": 1.0,
+      "amp": true,
+      "seed": 42,
+      "num_workers": 0,
+      "log_interval": 20,
+      "ckpt_interval": 25,
+      "output_dir": "results/reviewer_strengthening/06_corrected_objective",
+      "device": "mps",
+      "ema_sync_every": 1
+    },
+    "data": {
+      "dataset_path": "outputs/physics_mpm",
+      "spatial_dims": 2,
+      "img_size": 64,
+      "in_channels": 3,
+      "action_dim": 4,
+      "n_episodes": 2000,
+      "episode_length": 16,
+      "n_grid": 8,
+      "dt": 0.02,
+      "substeps": 4,
+      "stiffness": 40.0,
+      "damping": 0.12,
+      "mass": 1.0,
+      "gravity": 0.0,
+      "contact_radius": 0.12,
+      "action_gain": 8.0,
+      "gaussian_sigma": 1.75,
+      "seed": 0,
+      "val_fraction": 0.1,
+      "pin_memory": true,
+      "n_stiffness_classes": 3,
+      "chunk_length": 16,
+      "chunk_stride": 1,
+      "augment": true,
+      "crop_scale_min": 1.0,
+      "color_jitter": 0.4,
+      "blur_prob": 0.25,
+      "blur_sigma_max": 2.0,
+      "normalize_actions": true,
+      "prefetch_factor": 2
+    }
+  },
+  "evaluation_scope": "original dump observations; held-out episodes 1800:2000",
+  "rollout_mse": [
+    0.007065806537866592,
+    0.021065078675746918,
+    0.03941306471824646,
+    0.057078875601291656,
+    0.07420534640550613,
+    0.08989229798316956,
+    0.10471708327531815,
+    0.11962741613388062,
+    0.13426493108272552,
+    0.14783352613449097
+  ],
+  "vn_mse": [
+    0.0340363010764122,
+    0.10144586861133575,
+    0.18873713910579681,
+    0.2733333110809326,
+    0.3557806611061096,
+    0.4322620630264282,
+    0.5032106637954712,
+    0.5779613852500916,
+    0.6478589177131653,
+    0.7131819725036621
+  ],
+  "target_variance": [
+    0.20759619772434235,
+    0.20764845609664917,
+    0.20882517099380493,
+    0.20882517099380493,
+    0.2085704803466797,
+    0.20795786380767822,
+    0.208097904920578,
+    0.20698167383670807,
+    0.20724409818649292,
+    0.2072872519493103
+  ],
+  "effective_rank": {
+    "pred": {
+      "participation_ratio": 4.30946637691216,
+      "n_vectors": 2000,
+      "latent_dim": 128,
+      "eig_sum": 22.381610870361328,
+      "eig_sumsq": 116.24095916748047,
+      "eig_max": 10.143325805664062,
+      "eig_frac_top1": 0.4531990956511661,
+      "split": "val"
+    },
+    "target": {
+      "participation_ratio": 4.488266561152306,
+      "n_vectors": 2000,
+      "latent_dim": 128,
+      "eig_sum": 26.625720977783203,
+      "eig_sumsq": 157.95162963867188,
+      "eig_max": 11.771047592163086,
+      "eig_frac_top1": 0.44209310245476463,
+      "split": "val"
+    }
+  },
+  "per_horizon_rank": {
+    "1": {
+      "pred": {
+        "participation_ratio": 4.303363208602976,
+        "eig_frac_top1": 0.45309291670545526,
+        "n_vectors": 200,
+        "latent_dim": 128
+      },
+      "target": {
+        "participation_ratio": 4.497920376961686,
+        "eig_frac_top1": 0.4413574694178567,
+        "n_vectors": 200,
+        "latent_dim": 128
+      }
+    },
+    "3": {
+      "pred": {
+        "participation_ratio": 4.076422615190293,
+        "eig_frac_top1": 0.46701252691561096,
+        "n_vectors": 200,
+        "latent_dim": 128
+      },
+      "target": {
+        "participation_ratio": 4.564982225972965,
+        "eig_frac_top1": 0.43706367636005744,
+        "n_vectors": 200,
+        "latent_dim": 128
+      }
+    },
+    "5": {
+      "pred": {
+        "participation_ratio": 3.89191643472083,
+        "eig_frac_top1": 0.4790018174004906,
+        "n_vectors": 200,
+        "latent_dim": 128
+      },
+      "target": {
+        "participation_ratio": 4.5281371922694955,
+        "eig_frac_top1": 0.43940052032854143,
+        "n_vectors": 200,
+        "latent_dim": 128
+      }
+    },
+    "10": {
+      "pred": {
+        "participation_ratio": 3.5404004436573597,
+        "eig_frac_top1": 0.505910358902697,
+        "n_vectors": 200,
+        "latent_dim": 128
+      },
+      "target": {
+        "participation_ratio": 4.418777533126654,
+        "eig_frac_top1": 0.4463619745941481,
+        "n_vectors": 200,
+        "latent_dim": 128
+      }
+    }
+  },
+  "counterfactual": {
+    "all": {
+      "n_episodes": 200,
+      "n_transitions": 3000,
+      "true_mse": 0.0076914462694743025,
+      "shuffled_mse": 0.007692628992100557,
+      "shuffle_error_change_pct": 0.01537711614716386,
+      "pred_mse_mean": 1.30105581774842e-06,
+      "pred_mse_median": 8.032720870687626e-07,
+      "neutral_error_change_pct": -0.0006956805636559871
+    },
+    "change": {
+      "n_episodes": 200,
+      "n_transitions": 800,
+      "true_mse": 0.007451076088764239,
+      "shuffled_mse": 0.007452438981563319,
+      "shuffle_error_change_pct": 0.018291221064492547,
+      "pred_mse_mean": 1.2815725085602026e-06,
+      "pred_mse_median": 8.090188430287526e-07,
+      "neutral_error_change_pct": -0.0055293900871111745
+    },
+    "t0": {
+      "n_episodes": 200,
+      "n_transitions": 200,
+      "true_mse": 0.007065806300379336,
+      "shuffled_mse": 0.007069610626203939,
+      "shuffle_error_change_pct": 0.05384135458679218,
+      "pred_mse_mean": 1.2899321291115484e-06,
+      "pred_mse_median": 7.388007361441851e-07,
+      "neutral_error_change_pct": 0.0185811921384893
+    }
+  },
+  "probes": {
+    "geometry": {
+      "val_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "train_acc": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "per_horizon": [
+        {
+          "horizon": 1,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 2,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 3,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 4,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 5,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 6,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 7,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 8,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 9,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 10,
+          "train_acc": 1.0,
+          "val_acc": 1.0,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              900,
+              900
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 2,
+            "class_ids": [
+              0,
+              1
+            ],
+            "counts": [
+              101,
+              99
+            ],
+            "n_classes_configured": 2,
+            "missing_class_ids": []
+          }
+        }
+      ],
+      "train_coverage": {
+        "n_examples": 1800,
+        "n_distinct": 2,
+        "class_ids": [
+          0,
+          1
+        ],
+        "counts": [
+          900,
+          900
+        ],
+        "n_classes_configured": 2,
+        "missing_class_ids": []
+      },
+      "val_coverage": {
+        "n_examples": 200,
+        "n_distinct": 2,
+        "class_ids": [
+          0,
+          1
+        ],
+        "counts": [
+          101,
+          99
+        ],
+        "n_classes_configured": 2,
+        "missing_class_ids": []
+      }
+    },
+    "stiffness": {
+      "val_acc": [
+        0.3400000035762787,
+        0.3149999976158142,
+        0.32499998807907104,
+        0.36000001430511475,
+        0.3499999940395355,
+        0.3449999988079071,
+        0.33000001311302185,
+        0.33500000834465027,
+        0.3149999976158142,
+        0.3100000023841858
+      ],
+      "train_acc": [
+        0.4144444465637207,
+        0.4033333361148834,
+        0.4188888967037201,
+        0.4166666567325592,
+        0.41777777671813965,
+        0.426111102104187,
+        0.41111111640930176,
+        0.4211111068725586,
+        0.4183333218097687,
+        0.4216666519641876
+      ],
+      "per_horizon": [
+        {
+          "horizon": 1,
+          "train_acc": 0.4144444465637207,
+          "val_acc": 0.3400000035762787,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 2,
+          "train_acc": 0.4033333361148834,
+          "val_acc": 0.3149999976158142,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 3,
+          "train_acc": 0.4188888967037201,
+          "val_acc": 0.32499998807907104,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 4,
+          "train_acc": 0.4166666567325592,
+          "val_acc": 0.36000001430511475,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 5,
+          "train_acc": 0.41777777671813965,
+          "val_acc": 0.3499999940395355,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 6,
+          "train_acc": 0.426111102104187,
+          "val_acc": 0.3449999988079071,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 7,
+          "train_acc": 0.41111111640930176,
+          "val_acc": 0.33000001311302185,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 8,
+          "train_acc": 0.4211111068725586,
+          "val_acc": 0.33500000834465027,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 9,
+          "train_acc": 0.4183333218097687,
+          "val_acc": 0.3149999976158142,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 10,
+          "train_acc": 0.4216666519641876,
+          "val_acc": 0.3100000023841858,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              600,
+              600,
+              600
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 3,
+            "class_ids": [
+              0,
+              1,
+              2
+            ],
+            "counts": [
+              67,
+              67,
+              66
+            ],
+            "n_classes_configured": 3,
+            "missing_class_ids": []
+          }
+        }
+      ],
+      "train_coverage": {
+        "n_examples": 1800,
+        "n_distinct": 3,
+        "class_ids": [
+          0,
+          1,
+          2
+        ],
+        "counts": [
+          600,
+          600,
+          600
+        ],
+        "n_classes_configured": 3,
+        "missing_class_ids": []
+      },
+      "val_coverage": {
+        "n_examples": 200,
+        "n_distinct": 3,
+        "class_ids": [
+          0,
+          1,
+          2
+        ],
+        "counts": [
+          67,
+          67,
+          66
+        ],
+        "n_classes_configured": 3,
+        "missing_class_ids": []
+      }
+    },
+    "contact": {
+      "val_acc": [
+        0.36500000953674316,
+        0.3400000035762787,
+        0.3400000035762787,
+        0.4099999964237213,
+        0.4000000059604645,
+        0.41499999165534973,
+        0.42500001192092896,
+        0.4399999976158142,
+        0.42500001192092896,
+        0.38999998569488525
+      ],
+      "train_acc": [
+        0.4744444489479065,
+        0.47777777910232544,
+        0.48944443464279175,
+        0.4699999988079071,
+        0.4772222340106964,
+        0.4772222340106964,
+        0.4611110985279083,
+        0.46666666865348816,
+        0.46833333373069763,
+        0.4672222137451172
+      ],
+      "per_horizon": [
+        {
+          "horizon": 1,
+          "train_acc": 0.4744444489479065,
+          "val_acc": 0.36500000953674316,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              747,
+              780,
+              144,
+              129
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              92,
+              73,
+              15,
+              20
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 2,
+          "train_acc": 0.47777777910232544,
+          "val_acc": 0.3400000035762787,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              747,
+              780,
+              144,
+              129
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              92,
+              73,
+              15,
+              20
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 3,
+          "train_acc": 0.48944443464279175,
+          "val_acc": 0.3400000035762787,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              747,
+              780,
+              144,
+              129
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              92,
+              73,
+              15,
+              20
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 4,
+          "train_acc": 0.4699999988079071,
+          "val_acc": 0.4099999964237213,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              753,
+              753,
+              150,
+              144
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              91,
+              11,
+              16
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 5,
+          "train_acc": 0.4772222340106964,
+          "val_acc": 0.4000000059604645,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              753,
+              753,
+              150,
+              144
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              91,
+              11,
+              16
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 6,
+          "train_acc": 0.4772222340106964,
+          "val_acc": 0.41499999165534973,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              753,
+              753,
+              150,
+              144
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              91,
+              11,
+              16
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 7,
+          "train_acc": 0.4611110985279083,
+          "val_acc": 0.42500001192092896,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              736,
+              767,
+              147,
+              150
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              85,
+              18,
+              15
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 8,
+          "train_acc": 0.46666666865348816,
+          "val_acc": 0.4399999976158142,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              736,
+              767,
+              147,
+              150
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              85,
+              18,
+              15
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 9,
+          "train_acc": 0.46833333373069763,
+          "val_acc": 0.42500001192092896,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              736,
+              767,
+              147,
+              150
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              82,
+              85,
+              18,
+              15
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        },
+        {
+          "horizon": 10,
+          "train_acc": 0.4672222137451172,
+          "val_acc": 0.38999998569488525,
+          "train_coverage": {
+            "n_examples": 1800,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              719,
+              793,
+              132,
+              156
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          },
+          "val_coverage": {
+            "n_examples": 200,
+            "n_distinct": 4,
+            "class_ids": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "counts": [
+              85,
+              82,
+              19,
+              14
+            ],
+            "n_classes_configured": 4,
+            "missing_class_ids": []
+          }
+        }
+      ],
+      "train_coverage": {
+        "n_examples": 18000,
+        "n_distinct": 4,
+        "class_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "counts": [
+          7427,
+          7693,
+          1455,
+          1425
+        ],
+        "n_classes_configured": 4,
+        "missing_class_ids": []
+      },
+      "val_coverage": {
+        "n_examples": 2000,
+        "n_distinct": 4,
+        "class_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "counts": [
+          853,
+          829,
+          151,
+          167
+        ],
+        "n_classes_configured": 4,
+        "missing_class_ids": []
+      }
+    }
+  },
+  "seconds": 4.701898097991943,
+  "torch": "2.12.1",
+  "numpy": "2.5.2"
+}

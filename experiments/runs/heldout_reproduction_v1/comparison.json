@@ -1,0 +1,440 @@
+{
+  "n_scheduled": 10,
+  "n_missing": 0,
+  "missing": [],
+  "absolute_tolerance": 0.001,
+  "rows": [
+    {
+      "model": "vicreg_action_s42",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.07550955563783646,
+          "archived": 0.07550955563783646,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.6198976635932922,
+          "archived": 0.6198976635932922,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.211034893989563,
+          "archived": 1.211034893989563,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.2772449254989624,
+          "archived": 0.2772449254989624,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 2.2817487716674805,
+          "archived": 2.2817487716674805,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 4.4471845626831055,
+          "archived": 4.4471845626831055,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_action_s43",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.06967872381210327,
+          "archived": 0.06967872381210327,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.6164067983627319,
+          "archived": 0.6164067983627319,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.1006358861923218,
+          "archived": 1.1006358861923218,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.44974374771118164,
+          "archived": 0.44974374771118164,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 3.985978841781616,
+          "archived": 3.985978841781616,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 7.152132987976074,
+          "archived": 7.152132987976074,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_noaction_s42",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.07474204152822495,
+          "archived": 0.07474204152822495,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.5949946641921997,
+          "archived": 0.5949946641921997,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.145927906036377,
+          "archived": 1.145927906036377,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.2778380513191223,
+          "archived": 0.2778380513191223,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 2.2118372917175293,
+          "archived": 2.2118372917175293,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 4.2821455001831055,
+          "archived": 4.2821455001831055,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_noaction_s43",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.09870756417512894,
+          "archived": 0.09870756417512894,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.7114854454994202,
+          "archived": 0.7114854454994202,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.270553469657898,
+          "archived": 1.270553469657898,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.3462102711200714,
+          "archived": 0.3462102711200714,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 2.502485990524292,
+          "archived": 2.502485990524292,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 4.465685844421387,
+          "archived": 4.465685844421387,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_action_s44",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.07080326974391937,
+          "archived": 0.07080326974391937,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.5084802508354187,
+          "archived": 0.5084802508354187,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.063937783241272,
+          "archived": 1.063937783241272,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.3220352530479431,
+          "archived": 0.3220352530479431,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 2.301299810409546,
+          "archived": 2.301299810409546,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 4.820027828216553,
+          "archived": 4.820027828216553,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_action_s45",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.08054740726947784,
+          "archived": 0.08054740726947784,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.5521712303161621,
+          "archived": 0.5521712303161621,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.0882697105407715,
+          "archived": 1.0882697105407715,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.27259135246276855,
+          "archived": 0.27259135246276855,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 1.8689712285995483,
+          "archived": 1.8689712285995483,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 3.7033188343048096,
+          "archived": 3.7033188343048096,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_noaction_s44",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.07524523138999939,
+          "archived": 0.07524523138999939,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.5449862480163574,
+          "archived": 0.5449862480163574,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.0622786283493042,
+          "archived": 1.0622786283493042,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.3042883276939392,
+          "archived": 0.3042883276939392,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 2.2070655822753906,
+          "archived": 2.2070655822753906,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 4.317351818084717,
+          "archived": 4.317351818084717,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "vicreg_noaction_s45",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.07421112805604935,
+          "archived": 0.07421112805604935,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.5504964590072632,
+          "archived": 0.5504964590072632,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 1.167637825012207,
+          "archived": 1.167637825012207,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.23592914640903473,
+          "archived": 0.23592914640903473,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 1.7567592859268188,
+          "archived": 1.7567592859268188,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 3.723569393157959,
+          "archived": 3.723569393157959,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "mse_action_s42",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.007065806537866592,
+          "archived": 0.007065806537866592,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.07420534640550613,
+          "archived": 0.07420534640550613,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 0.14783352613449097,
+          "archived": 0.14783352613449097,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.0340363010764122,
+          "archived": 0.0340363010764122,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 0.3557806611061096,
+          "archived": 0.3557806611061096,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 0.7131819725036621,
+          "archived": 0.7131819725036621,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    },
+    {
+      "model": "mse_action_s43",
+      "status": "COMPARED",
+      "within_tolerance": true,
+      "columns": {
+        "MSE@1": {
+          "recomputed": 0.005492832511663437,
+          "archived": 0.005492832511663437,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@5": {
+          "recomputed": 0.06330189853906631,
+          "archived": 0.06330189853906631,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "MSE@10": {
+          "recomputed": 0.12866120040416718,
+          "archived": 0.12866120040416718,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@1": {
+          "recomputed": 0.021995510905981064,
+          "archived": 0.021995510905981064,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@5": {
+          "recomputed": 0.25436046719551086,
+          "archived": 0.25436046719551086,
+          "delta": 0.0,
+          "within_tolerance": true
+        },
+        "VN-MSE@10": {
+          "recomputed": 0.5184730291366577,
+          "archived": 0.5184730291366577,
+          "delta": 0.0,
+          "within_tolerance": true
+        }
+      }
+    }
+  ],
+  "success_criterion_met": true,
+  "models_evaluated": true
+}

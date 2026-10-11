@@ -1,0 +1,27 @@
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/Arjun/.cache/fontconfig
+	/Users/Arjun/.fontconfig
+Matplotlib is building the font cache; this may take a moment.
+Evaluating vicreg_action_s42
+vicreg_action_s42 MSE [0.07551, 0.619898, 1.211035] rank@10 9.907 CF% 0.01702613457277291 seconds 5.5
+Evaluating vicreg_action_s43
+vicreg_action_s43 MSE [0.069679, 0.616407, 1.100636] rank@10 4.493 CF% 0.011316230855751286 seconds 4.7
+Evaluating vicreg_noaction_s42
+vicreg_noaction_s42 MSE [0.074742, 0.594995, 1.145928] rank@10 8.11 CF% 0.0 seconds 4.8
+Evaluating vicreg_noaction_s43
+vicreg_noaction_s43 MSE [0.098708, 0.711485, 1.270553] rank@10 11.169 CF% 0.0 seconds 5.1
+Evaluating vicreg_action_s44
+vicreg_action_s44 MSE [0.070803, 0.50848, 1.063938] rank@10 10.076 CF% 0.03911905924038894 seconds 4.6
+Evaluating vicreg_noaction_s44
+vicreg_noaction_s44 MSE [0.075245, 0.544986, 1.062279] rank@10 8.978 CF% 0.0 seconds 4.4
+Evaluating vicreg_action_s45
+vicreg_action_s45 MSE [0.080547, 0.552171, 1.08827] rank@10 10.85 CF% -0.009824367473820761 seconds 4.4
+Evaluating vicreg_noaction_s45
+vicreg_noaction_s45 MSE [0.074211, 0.550496, 1.167638] rank@10 9.2 CF% 0.0 seconds 4.4
+Evaluating mse_action_s42
+mse_action_s42 MSE [0.007066, 0.074205, 0.147834] rank@10 3.54 CF% 0.018291221064492547 seconds 4.7
+Evaluating mse_action_s43
+mse_action_s43 MSE [0.005493, 0.063302, 0.128661] rank@10 2.942 CF% 0.001759893916308819 seconds 5.5
+wrote /Users/Arjun/cursor/neurips_jepa/experiments/runs/heldout_reproduction_v1/recomputed.csv

@@ -1,0 +1,33 @@
+{
+  "absolute_tolerance": 0.001,
+  "archive_csv": "results/final_checkpoint_results.csv",
+  "checkpoint_rule": "last.pt, epoch 200, crop_scale_min 1.0",
+  "compare_columns": [
+    "MSE@1",
+    "MSE@5",
+    "MSE@10",
+    "VN-MSE@1",
+    "VN-MSE@5",
+    "VN-MSE@10"
+  ],
+  "eval_episodes": [
+    1800,
+    2000
+  ],
+  "experiment_id": "heldout_reproduction_v1",
+  "permitted_interpretation": "A match says this worktree reproduces the archived val-only numbers under the historical split. It does not create an untouched test set.\n",
+  "protocol_id": "hist_v1_last_fraction_val",
+  "scheduled_checkpoints": [
+    "vicreg_action_s42",
+    "vicreg_action_s43",
+    "vicreg_noaction_s42",
+    "vicreg_noaction_s43",
+    "vicreg_action_s44",
+    "vicreg_action_s45",
+    "vicreg_noaction_s44",
+    "vicreg_noaction_s45",
+    "mse_action_s42",
+    "mse_action_s43"
+  ],
+  "success_criterion": "Every scheduled checkpoint finishes, and each compared column is within 0.001 absolute of the archived CSV. A larger difference is reported; it is not deleted and the tolerance is not edited afterward.\n"
+}
