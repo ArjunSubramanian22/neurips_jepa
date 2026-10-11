@@ -54,6 +54,7 @@ if __package__:
     from .models.ac_jepa import ACJEPA
     from .models.pixel_ae import PixelSpaceAutoencoder
     from .models.particle_gnn import ParticleGraphWorldModel
+    from .models.rssm import CompactRSSM, RSSMWindowDataset
 else:
     _ROOT = Path(__file__).resolve().parent.parent
     if str(_ROOT) not in sys.path:
@@ -80,10 +81,11 @@ else:
     from src.models.ac_jepa import ACJEPA
     from src.models.pixel_ae import PixelSpaceAutoencoder
     from src.models.particle_gnn import ParticleGraphWorldModel
+    from src.models.rssm import CompactRSSM, RSSMWindowDataset
 
 LOGGER = logging.getLogger("ac_jepa.train")
 RunMode = Literal["train", "eval", "train_and_eval"]
-WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel]
+WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel, CompactRSSM]
 
 
 class ExperimentLogger:
@@ -233,6 +235,8 @@ def build_world_model(cfg: ExperimentConfig) -> WorldModel:
         return PixelSpaceAutoencoder(cfg.model)
     if cfg.training.loss_type == "gnn":
         return ParticleGraphWorldModel(cfg.model, cfg.data)
+    if cfg.training.loss_type == "rssm":
+        return CompactRSSM(cfg.model)
     return ACJEPA(cfg.model)
 
 
@@ -329,6 +333,27 @@ def _unpack_transition_batch(
         raise ValueError(f"expected 3 or 6 transition tensors, got {len(batch)}.")
     x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = batch
     return x_t, a_t, x_tp1, a_prime, x_prime, cf_valid
+
+
+def _rssm_loaders(dataset: Any, train_cfg: TrainingConfig) -> tuple[DataLoader, DataLoader | None]:
+    """Sequence windows for the RSSM. JEPA loaders are left unchanged."""
+    n_train, n_val = dataset.split_sizes()
+    worker_kwargs = dataloader_worker_kwargs(dataset.cfg, train_cfg)
+    train_loader = DataLoader(
+        RSSMWindowDataset(dataset, range(n_train), train_cfg.rssm_window),
+        batch_size=train_cfg.batch_size,
+        shuffle=True,
+        **worker_kwargs,
+    )
+    val_loader = None
+    if n_val > 0:
+        val_loader = DataLoader(
+            RSSMWindowDataset(dataset, range(n_train, n_train + n_val), train_cfg.rssm_window),
+            batch_size=train_cfg.batch_size,
+            shuffle=False,
+            **worker_kwargs,
+        )
+    return train_loader, val_loader
 
 
 def _transition_subset(dataset: DeformableObjectDataset | DeformablePhysicsDataset, episode_slice: slice) -> Subset:
@@ -436,6 +461,8 @@ class ACJEPATrainer:
             full_dataset=dataset,
             counterfactual_cache=self._load_counterfactual_cache(),
         )
+        if cfg.training.loss_type == "rssm":
+            self.train_loader, self.val_loader = _rssm_loaders(self.dataset, cfg.training)
         self.optimizer = AdamW(
             trainable,
             lr=cfg.training.lr,
@@ -710,6 +737,48 @@ class ACJEPATrainer:
         metrics["ema_param_l2"] = self._ema_param_l2()
         return metrics
 
+    def rssm_training_step(self, frames: torch.Tensor, actions: torch.Tensor) -> dict[str, float]:
+        self.model.train()
+        frames = frames.to(self.device, non_blocking=True)
+        actions = actions.to(self.device, non_blocking=True)
+        self.optimizer.zero_grad(set_to_none=True)
+        with _autocast(self.device, self.use_amp):
+            terms = self.model.loss(frames, actions)
+        self.scaler.scale(terms["loss"]).backward()
+        params = list(self.model.parameters())
+        self.scaler.unscale_(self.optimizer)
+        max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
+        grad_norm = torch.nn.utils.clip_grad_norm_(params, max_norm)
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+        self.scheduler.step()
+        self.global_step += 1
+        return {
+            "loss": float(terms["loss"].detach().item()),
+            "recon": float(terms["recon"].detach().item()),
+            "kl": float(terms["kl"].detach().item()),
+            "lr": float(self.optimizer.param_groups[0]["lr"]),
+            "grad_norm": float(grad_norm),
+        }
+
+    @torch.no_grad()
+    def _rssm_evaluate_loader(self, loader: DataLoader) -> dict[str, float]:
+        self.model.eval()
+        meter = _AverageMeter()
+        for frames, actions in loader:
+            frames = frames.to(self.device)
+            actions = actions.to(self.device)
+            terms = self.model.loss(frames, actions)
+            meter.update(
+                {
+                    "loss": float(terms["loss"].detach().item()),
+                    "recon": float(terms["recon"].detach().item()),
+                    "kl": float(terms["kl"].detach().item()),
+                },
+                batch_size=int(frames.shape[0]),
+            )
+        return meter.mean()
+
     def _fit_inverse_probe(self) -> None:
         """Fit the inverse head on a frozen encoder. Representation weights do not move."""
         from src.models.inverse_dynamics import InverseDynamicsHead, inverse_dynamics_loss
@@ -887,6 +956,10 @@ class ACJEPATrainer:
                     if train_cfg.loss_type == "gnn":
                         metrics = self.gnn_training_step(*batch)
                         batch_n = int(batch[0].shape[0])
+                    elif train_cfg.loss_type == "rssm":
+                        frames, actions = batch
+                        metrics = self.rssm_training_step(frames, actions)
+                        batch_n = int(frames.shape[0])
                     else:
                         x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = _unpack_transition_batch(batch)
                         metrics = self.training_step(x_t, a_t, x_tp1, a_prime, x_prime, cf_valid)
@@ -899,6 +972,8 @@ class ACJEPATrainer:
                 if self.val_loader is not None:
                     if train_cfg.loss_type == "gnn":
                         val_stats = self._gnn_evaluate_loader(self.val_loader)
+                    elif train_cfg.loss_type == "rssm":
+                        val_stats = self._rssm_evaluate_loader(self.val_loader)
                     else:
                         val_stats = self.evaluate_loader(self.val_loader)
                     epoch_stats.update({f"val_{k}": v for k, v in val_stats.items()})

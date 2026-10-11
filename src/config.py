@@ -55,6 +55,12 @@ class ModelConfig:
         target_readout: ``cls`` is the canonical baseline. ``weighted_pool``,
             ``patch_tokens``, and ``local_head`` are optional spatial
             experiments and are not constructed into the baseline.
+        rssm_deter: Deterministic recurrent width of the RSSM baseline.
+        rssm_stoch: Stochastic latent width. The evaluated state is their concatenation.
+        rssm_embed: Visual embedding width before the posterior.
+        rssm_channels: Base width of the RSSM convolutional encoder.
+        rssm_kl_balance: Weight on the dynamics KL versus the representation KL.
+        rssm_free_nats: Per-step KL floor. Only nats above the floor are penalized.
     """
 
     in_channels: int = 3
@@ -78,6 +84,12 @@ class ModelConfig:
     n_action_tokens: int = 4
     condition_on_action: bool = True
     target_readout: Literal["cls", "weighted_pool", "patch_tokens", "local_head"] = "cls"
+    rssm_deter: int = 128
+    rssm_stoch: int = 32
+    rssm_embed: int = 128
+    rssm_channels: int = 32
+    rssm_kl_balance: float = 0.8
+    rssm_free_nats: float = 1.0
 
     def __post_init__(self) -> None:
         if self.img_size <= 0 or self.patch_size <= 0:
@@ -103,6 +115,12 @@ class ModelConfig:
             raise ValueError("n_action_tokens must be >= 1.")
         if self.target_readout != "cls" and self.backbone != "vit":
             raise ValueError("spatial target readouts require the ViT backbone.")
+        if self.rssm_deter < 1 or self.rssm_stoch < 1 or self.rssm_embed < 1 or self.rssm_channels < 1:
+            raise ValueError("RSSM widths must be positive.")
+        if not 0.0 <= self.rssm_kl_balance <= 1.0:
+            raise ValueError("rssm_kl_balance must lie in [0, 1].")
+        if self.rssm_free_nats < 0.0:
+            raise ValueError("rssm_free_nats must be >= 0.")
 
     @property
     def num_patches(self) -> int:
@@ -170,6 +188,7 @@ class TrainingConfig:
         target_mask_temperature: Sigmoid temperature of the soft top-k gate.
         target_mask_aux_weight: Weight of the optional patch auxiliary. The CLS
             term stays in that readout. Unused by weighted pooling.
+        rssm_window: Observation window for RSSM training. Ignored by JEPA.
     """
 
     batch_size: int = 32
@@ -182,7 +201,7 @@ class TrainingConfig:
     grad_clip: float = 1.0
     beta1: float = 0.9
     beta2: float = 0.999
-    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn"] = "vicreg"
+    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn", "rssm"] = "vicreg"
     vicreg_sim_coeff: float = 25.0
     vicreg_std_coeff: float = 25.0
     vicreg_cov_coeff: float = 1.0
@@ -216,6 +235,7 @@ class TrainingConfig:
     target_mask_topk_fraction: float = 0.25
     target_mask_temperature: float = 0.05
     target_mask_aux_weight: float = 1.0
+    rssm_window: int = 8
 
     def __post_init__(self) -> None:
         if self.batch_size < 1:
@@ -264,6 +284,12 @@ class TrainingConfig:
             raise ValueError("soft and top-k target masks require a counterfactual observation cache.")
         if self.target_mask in ("soft", "topk") and self.loss_type in ("pixel_ae", "gnn"):
             raise ValueError("target masks are a latent prediction experiment.")
+        if self.loss_type == "rssm" and self.rssm_window < 2:
+            raise ValueError("rssm_window must be at least 2.")
+        if self.loss_type == "rssm" and (
+            self.inverse_aux_weight > 0.0 or self.cf_lambda_dir > 0.0 or self.cf_lambda_mag > 0.0 or self.cf_lambda_vec > 0.0
+        ):
+            raise ValueError("RSSM training does not combine with JEPA auxiliary losses.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""
