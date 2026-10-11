@@ -16,6 +16,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 
 SCHEMA_VERSION = 1
 TERMINAL_STATUSES = frozenset({"COMPLETE", "FAILED"})
@@ -98,6 +100,26 @@ def capture_git(repo_root: Path) -> dict[str, Any]:
         "dirty_count": len(lines),
         "status": "measured",
     }
+
+
+def to_jsonable(value: Any) -> Any:
+    """Convert NumPy values to JSON types. Non-finite floats raise."""
+    if isinstance(value, dict):
+        return {str(key): to_jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [to_jsonable(item) for item in value]
+    if isinstance(value, np.ndarray):
+        return to_jsonable(value.tolist())
+    if isinstance(value, np.floating):
+        number = float(value)
+        if not np.isfinite(number):
+            raise ValueError("refusing to store a non-finite float.")
+        return number
+    if isinstance(value, np.integer):
+        return int(value)
+    if isinstance(value, float) and not np.isfinite(value):
+        raise ValueError("refusing to store a non-finite float.")
+    return value
 
 
 def _json_ready(payload: Any) -> None:

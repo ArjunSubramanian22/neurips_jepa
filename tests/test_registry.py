@@ -12,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.registry import RunRecorder
+import numpy as np
+
+from src.registry import RunRecorder, to_jsonable
 
 
 GIT = {"commit": "abc123", "dirty": False, "dirty_count": 0, "status": "measured"}
@@ -62,6 +64,11 @@ class RegistryTests(unittest.TestCase):
             self.assertIsNone(record["metrics"])
             lines = (root / "experiments" / "registry.jsonl").read_text().splitlines()
             self.assertEqual(json.loads(lines[0])["status"], "FAILED")
+
+    def test_to_jsonable_rejects_non_finite(self) -> None:
+        self.assertEqual(to_jsonable(np.float64(1.5)), 1.5)
+        with self.assertRaises(ValueError):
+            to_jsonable(float("nan"))
 
     def test_existing_id_is_not_overwritten(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
