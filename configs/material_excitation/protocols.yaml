@@ -1,0 +1,59 @@
+# Material-identifiability search. Selection reads validation linear probes only.
+experiment_id: material_identifiability_v1
+split_version: fresh_pool_v2
+n_episodes: 120
+episode_length: 24
+dump_seed: 0
+save_times: [0, 4, 8, 12, 16, 20, 23]
+history_lengths: [1, 2, 4, 6]
+max_particles: 64
+raster_projection_dim: 48
+projection_seed: 0
+probe_seed: 0
+chance_stiffness: 0.3333333333333333
+margin_above_chance: 0.20
+privileged_min: 0.99
+geometry_min: 0.90
+period: 8
+bend_offset: 0.12
+notes: >
+  Open-loop schedules use the rest centroid and a time-only waveform.
+  legacy_random resamples from the deformed state and is not selectable.
+  fresh_pool_v2 on each 120-episode pool is train 96, validation 12, test 12.
+  Test accuracy is stored and is not an input to selection.
+protocols:
+  - id: legacy_random
+    environment: configs/environments/mpm_legacy.yaml
+    schedule: legacy_random
+    amplitude: 0.40
+    selectable: false
+  - id: legacy_orbit
+    environment: configs/environments/mpm_legacy.yaml
+    schedule: orbit
+    amplitude: 0.40
+    selectable: true
+  - id: medium_orbit
+    environment: configs/environments/mpm_medium_excitation.yaml
+    schedule: orbit
+    amplitude: 0.40
+    selectable: true
+  - id: high_orbit
+    environment: configs/environments/mpm_high_excitation.yaml
+    schedule: orbit
+    amplitude: 0.25
+    selectable: true
+  - id: high_push_release
+    environment: configs/environments/mpm_high_excitation.yaml
+    schedule: push_release
+    amplitude: 0.25
+    selectable: true
+  - id: high_bend
+    environment: configs/environments/mpm_high_excitation.yaml
+    schedule: bend
+    amplitude: 0.25
+    selectable: true
+  - id: persistent_compression
+    environment: configs/environments/mpm_persistent_excitation.yaml
+    schedule: compression
+    amplitude: 0.25
+    selectable: true

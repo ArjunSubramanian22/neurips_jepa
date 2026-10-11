@@ -21,6 +21,7 @@ from scripts.generate_trajectories import (
     sample_action,
     sample_geometry,
 )
+from scripts.run_stiffness_positive_controls import render_float
 from src.environments import EnvironmentSpec
 from src.excitation import stability_report
 
@@ -86,6 +87,7 @@ def simulate_episode(
     bend_offset: float,
     max_particles: int,
     youngs_override: float | None = None,
+    projector: Any | None = None,
 ) -> dict[str, Any]:
     """Roll one episode and keep raster plus mechanical features at ``save_times``."""
     if episode_length < 2:
@@ -104,11 +106,15 @@ def simulate_episode(
     actions = np.zeros((episode_length - 1, 4), dtype=np.float32)
     saved_mech: list[np.ndarray] = []
     saved_uint8: list[np.ndarray] = []
+    saved_float: list[np.ndarray] = []
     finite = True
     for step in range(episode_length):
         if step in save_times:
             saved_mech.append(_pack_mech(sim, order, max_particles))
-            saved_uint8.append(render_rgb(sim.x, sim.v, sim.cfg.img_size, sim.cfg.render_sigma))
+            uint8 = render_rgb(sim.x, sim.v, sim.cfg.img_size, sim.cfg.render_sigma)
+            floats = render_float(sim.x, sim.v, sim.cfg.img_size, sim.cfg.render_sigma)
+            saved_uint8.append(uint8 if projector is None else projector.apply(uint8.astype(np.float32) / 255.0))
+            saved_float.append(floats if projector is None else projector.apply(floats))
             if not np.all(np.isfinite(sim.x)):
                 finite = False
         if step == episode_length - 1:
@@ -139,6 +145,7 @@ def simulate_episode(
         "actions": actions,
         "mech": np.stack(saved_mech, axis=0),
         "uint8": np.stack(saved_uint8, axis=0),
+        "float_raster": np.stack(saved_float, axis=0),
         "stable": stable,
         "n_particles": int(points.shape[0]),
     }
