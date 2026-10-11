@@ -1,0 +1,91 @@
+# RSSM baseline. Same legacy split, observations, and action normalization
+# as the headline JEPA checkpoints. Seeds match configs/seeds/headline_v1.yaml.
+# No RSSM checkpoint has been trained. Metrics are not filled here.
+experiment_id: rssm_v1
+split_version: legacy_v1
+selection_role: val
+select_on_test: false
+is_test_set: false
+seed_registry: configs/seeds/rssm_v1.yaml
+primary_scale: small
+parameter_counts:
+  small: 702771
+  medium: 2798179
+  jepa_workshop_reference: 874368
+scale_note: >
+  The small RSSM is the comparison scale, near the workshop JEPA parameter
+  count. The medium RSSM is the higher-fidelity recurrent model. Raw latent
+  MSE is not compared with JEPA MSE. Variance-normalized error is the
+  cross-architecture summary.
+provenance: >
+  Original implementation of the PlaNet/Dreamer RSSM. Not copied from
+  dreamerv3. See the notice at the top of src/models/rssm.py.
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.0
+  backbone: vit
+  fuse_mode: concat
+  condition_on_action: true
+  rssm_deter: 64
+  rssm_stoch: 16
+  rssm_embed: 64
+  rssm_channels: 16
+  rssm_kl_balance: 0.8
+  rssm_free_nats: 1.0
+training:
+  batch_size: 32
+  epochs: 200
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 20
+  warmup_ratio: 0.1
+  grad_clip: 1.0
+  loss_type: rssm
+  amp: true
+  seed: 42
+  num_workers: 2
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs
+  device: auto
+  rssm_window: 8
+data:
+  split_version: legacy_v1
+  dataset_path: outputs/physics_mpm
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 2000
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true
+medium_model:
+  rssm_deter: 128
+  rssm_stoch: 32
+  rssm_embed: 128
+  rssm_channels: 32
+notes: >
+  Training has not been started. The seed list is 42, 43, 44, 45, 46.
+  Legacy validation episodes 1800-1999 are not a test set.
