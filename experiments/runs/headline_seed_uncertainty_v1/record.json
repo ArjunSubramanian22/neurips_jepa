@@ -1,0 +1,91 @@
+{
+  "checkpoint": {
+    "note": "existing checkpoints only",
+    "path": "experiments/runs/horizon_audit_v1/queries.parquet"
+  },
+  "command": "python3.13 scripts/aggregate_headline_seeds.py",
+  "config": {
+    "horizon": 10,
+    "is_test_set": false,
+    "protocol": "persistent_alternative",
+    "seed_registry_id": "headline_v1",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "split_version": "legacy_v1"
+  },
+  "dataset_split": {
+    "headline_role": "legacy_validation",
+    "is_test_set": false,
+    "split_version": "legacy_v1"
+  },
+  "ended_at": "2026-10-11T21:53:42+00:00",
+  "environment": {
+    "id": "mpm_legacy"
+  },
+  "experiment_id": "headline_seed_uncertainty_v1",
+  "failure_reason": null,
+  "git_commit": "2651423703187d2bd21694ebc74be3f74992f16d",
+  "git_dirty": true,
+  "git_dirty_count": 5,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "is_test_set": false,
+    "n_not_run": 5,
+    "not_run": [
+      {
+        "configuration": "vicreg_action",
+        "seed": 46
+      },
+      {
+        "configuration": "vicreg_noaction",
+        "seed": 46
+      },
+      {
+        "configuration": "mse_action",
+        "seed": 44
+      },
+      {
+        "configuration": "mse_action",
+        "seed": 45
+      },
+      {
+        "configuration": "mse_action",
+        "seed": 46
+      }
+    ],
+    "training_seed_intervals_reported": false
+  },
+  "model": {
+    "configurations": [
+      "vicreg_action",
+      "vicreg_noaction",
+      "mse_action"
+    ]
+  },
+  "output_dir": "experiments/runs/headline_seed_uncertainty_v1",
+  "schema_version": 1,
+  "seed": "headline_v1",
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T21:53:42+00:00",
+  "status": "COMPLETE"
+}

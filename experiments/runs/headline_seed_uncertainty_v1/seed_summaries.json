@@ -1,0 +1,2373 @@
+{
+  "blocks": [
+    {
+      "metric": "ranking_top1",
+      "rollout_mode": "open_loop",
+      "protocol": "persistent_alternative",
+      "horizon": 10,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "configurations": [
+        {
+          "id": "vicreg_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.5277777777777778
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.45
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.5
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.4388888888888889
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.4791666666666667,
+            "median": 0.475,
+            "std": 0.04191285295465287,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.4791666666666667,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.5277777777777778,
+                "ci_low": 0.45555555555555555,
+                "ci_high": 0.6055555555555555,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.45,
+                "ci_low": 0.37777777777777777,
+                "ci_high": 0.5222222222222223,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.5,
+                "ci_low": 0.42777777777777776,
+                "ci_high": 0.5722222222222222,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.4388888888888889,
+                "ci_low": 0.36666666666666664,
+                "ci_high": 0.5111111111111111,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "vicreg_noaction",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.4444444444444444
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.4111111111111111
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.5
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.48333333333333334
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.45972222222222225,
+            "median": 0.4638888888888889,
+            "std": 0.03990085449336157,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.45972222222222225,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.4444444444444444,
+                "ci_low": 0.37222222222222223,
+                "ci_high": 0.5166666666666667,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.4111111111111111,
+                "ci_low": 0.3388888888888889,
+                "ci_high": 0.48333333333333334,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.5,
+                "ci_low": 0.42777777777777776,
+                "ci_high": 0.5722222222222222,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.48333333333333334,
+                "ci_low": 0.4111111111111111,
+                "ci_high": 0.5555555555555556,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "mse_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.45555555555555555
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.43333333333333335
+              },
+              {
+                "seed": 44,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 45,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 2,
+            "n_failed": 0,
+            "n_not_run": 3,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              44,
+              45,
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.4444444444444444,
+            "median": 0.4444444444444444,
+            "std": 0.015713484026367706,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.4444444444444444,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                44,
+                45,
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 2,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.45555555555555555,
+                "ci_low": 0.38333333333333336,
+                "ci_high": 0.5333333333333333,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.43333333333333335,
+                "ci_low": 0.3611111111111111,
+                "ci_high": 0.5055555555555555,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "paired": {
+        "action_minus_noaction": {
+          "required_seeds": [
+            42,
+            43,
+            44,
+            45,
+            46
+          ],
+          "paired_seeds": [
+            42,
+            43,
+            44,
+            45
+          ],
+          "unpaired_seeds": [
+            46
+          ],
+          "n_paired": 4,
+          "differences": [
+            {
+              "seed": 42,
+              "difference": 0.08333333333333337
+            },
+            {
+              "seed": 43,
+              "difference": 0.03888888888888892
+            },
+            {
+              "seed": 44,
+              "difference": 0.0
+            },
+            {
+              "seed": 45,
+              "difference": -0.04444444444444445
+            }
+          ],
+          "effect_size": {
+            "cohens_d": 0.35659869567594543,
+            "mean_difference": 0.01944444444444446,
+            "status": "descriptive"
+          },
+          "training_seed_ci": null,
+          "training_seed_ci_status": "insufficient_training_seeds",
+          "half_range_is_confidence_interval": false
+        },
+        "vicreg_minus_mse": {
+          "required_seeds": [
+            42,
+            43,
+            44,
+            45,
+            46
+          ],
+          "paired_seeds": [
+            42,
+            43
+          ],
+          "unpaired_seeds": [
+            44,
+            45,
+            46
+          ],
+          "n_paired": 2,
+          "differences": [
+            {
+              "seed": 42,
+              "difference": 0.07222222222222224
+            },
+            {
+              "seed": 43,
+              "difference": 0.016666666666666663
+            }
+          ],
+          "effect_size": {
+            "cohens_d": 1.1313708498984758,
+            "mean_difference": 0.04444444444444445,
+            "status": "descriptive"
+          },
+          "training_seed_ci": null,
+          "training_seed_ci_status": "insufficient_training_seeds",
+          "half_range_is_confidence_interval": false
+        }
+      }
+    },
+    {
+      "metric": "cosine",
+      "rollout_mode": "open_loop",
+      "protocol": "persistent_alternative",
+      "horizon": 10,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "configurations": [
+        {
+          "id": "vicreg_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.02763119396645944
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": -0.010275306138647857
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.015637725952480305
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.012306008672268913
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.011324905613140201,
+            "median": 0.013971867312374608,
+            "std": 0.015832742130110572,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.011324905613140201,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.02763119396645944,
+                "ci_low": 0.0047976944109528906,
+                "ci_high": 0.04995318061339849,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": -0.010275306138647857,
+                "ci_low": -0.03416448049571277,
+                "ci_high": 0.013751249876591086,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.015637725952480305,
+                "ci_low": -0.012443591164401756,
+                "ci_high": 0.0431151811941403,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.012306008672268913,
+                "ci_low": -0.006996815270272761,
+                "ci_high": 0.030456585180098913,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "vicreg_noaction",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "UNDEFINED",
+                "value": null
+              },
+              {
+                "seed": 43,
+                "status": "UNDEFINED",
+                "value": null
+              },
+              {
+                "seed": 44,
+                "status": "UNDEFINED",
+                "value": null
+              },
+              {
+                "seed": 45,
+                "status": "UNDEFINED",
+                "value": null
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 0,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 4,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [
+              42,
+              43,
+              44,
+              45
+            ],
+            "mean": null,
+            "median": null,
+            "std": null,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": null,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [
+                42,
+                43,
+                44,
+                45
+              ],
+              "n_complete": 0,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {}
+          }
+        },
+        {
+          "id": "mse_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.04787483385757686
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.04980954491876558
+              },
+              {
+                "seed": 44,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 45,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 2,
+            "n_failed": 0,
+            "n_not_run": 3,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              44,
+              45,
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.048842189388171225,
+            "median": 0.048842189388171225,
+            "std": 0.0013680473110031651,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.048842189388171225,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                44,
+                45,
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 2,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.04787483385757686,
+                "ci_low": 0.010197918290218657,
+                "ci_high": 0.08453792452845241,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.04980954491876558,
+                "ci_low": 0.014691393203703221,
+                "ci_high": 0.08328361543582387,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "paired": null
+    },
+    {
+      "metric": "ranking_top1",
+      "rollout_mode": "teacher_forced",
+      "protocol": "persistent_alternative",
+      "horizon": 10,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "configurations": [
+        {
+          "id": "vicreg_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.8388888888888889
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.7555555555555555
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.8444444444444444
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.8333333333333334
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8180555555555556,
+            "median": 0.8361111111111111,
+            "std": 0.041912852954652885,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8180555555555556,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.8388888888888889,
+                "ci_low": 0.7833333333333333,
+                "ci_high": 0.8888888888888888,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.7555555555555555,
+                "ci_low": 0.6944444444444444,
+                "ci_high": 0.8166666666666667,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.8444444444444444,
+                "ci_low": 0.7888888888888889,
+                "ci_high": 0.8944444444444445,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.8333333333333334,
+                "ci_low": 0.7777777777777778,
+                "ci_high": 0.8833333333333333,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "vicreg_noaction",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.8277777777777777
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.8222222222222222
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.8277777777777777
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.8388888888888889
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8291666666666667,
+            "median": 0.8277777777777777,
+            "std": 0.006990587440065536,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8291666666666667,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.8277777777777777,
+                "ci_low": 0.7722222222222223,
+                "ci_high": 0.8833333333333333,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.8222222222222222,
+                "ci_low": 0.7666666666666667,
+                "ci_high": 0.8777777777777778,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.8277777777777777,
+                "ci_low": 0.7722222222222223,
+                "ci_high": 0.8833333333333333,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.8388888888888889,
+                "ci_low": 0.7833333333333333,
+                "ci_high": 0.8888888888888888,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "mse_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.8444444444444444
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.8666666666666667
+              },
+              {
+                "seed": 44,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 45,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 2,
+            "n_failed": 0,
+            "n_not_run": 3,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              44,
+              45,
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8555555555555556,
+            "median": 0.8555555555555556,
+            "std": 0.015713484026367745,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8555555555555556,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                44,
+                45,
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 2,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.8444444444444444,
+                "ci_low": 0.7888888888888889,
+                "ci_high": 0.8944444444444445,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.8666666666666667,
+                "ci_low": 0.8166666666666667,
+                "ci_high": 0.9166666666666666,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "paired": null
+    },
+    {
+      "metric": "cosine",
+      "rollout_mode": "teacher_forced",
+      "protocol": "persistent_alternative",
+      "horizon": 10,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "configurations": [
+        {
+          "id": "vicreg_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.7982329777398927
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.7996157377319673
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.8185138808380076
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.80212584071388
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8046221092559369,
+            "median": 0.8008707892229237,
+            "std": 0.009400309067397963,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8046221092559369,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.7982329777398927,
+                "ci_low": 0.7452883844263366,
+                "ci_high": 0.8482659372340855,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.7996157377319673,
+                "ci_low": 0.7470397888087883,
+                "ci_high": 0.8486320470854332,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.8185138808380076,
+                "ci_low": 0.7653812944127779,
+                "ci_high": 0.8684708617994581,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.80212584071388,
+                "ci_low": 0.7495978797114049,
+                "ci_high": 0.849374158297284,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "vicreg_noaction",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.7987008165567501
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.8331745690435225
+              },
+              {
+                "seed": 44,
+                "status": "COMPLETE",
+                "value": 0.8387505973660366
+              },
+              {
+                "seed": 45,
+                "status": "COMPLETE",
+                "value": 0.8393802186205767
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 4,
+            "n_failed": 0,
+            "n_not_run": 1,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8275015503967215,
+            "median": 0.8359625832047796,
+            "std": 0.019401969202275243,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8275015503967215,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 4,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.7987008165567501,
+                "ci_low": 0.7417504625816027,
+                "ci_high": 0.8497926005967765,
+                "alpha": 0.05,
+                "n_episodes": 177,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 23,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1840,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1894,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1930,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.8331745690435225,
+                "ci_low": 0.7834760665993714,
+                "ci_high": 0.8806760526175436,
+                "alpha": 0.05,
+                "n_episodes": 177,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 23,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1840,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1894,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1930,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "44": {
+                "mean": 0.8387505973660366,
+                "ci_low": 0.7955666422207285,
+                "ci_high": 0.8817898853863306,
+                "alpha": 0.05,
+                "n_episodes": 177,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 23,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1840,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1894,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1930,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "45": {
+                "mean": 0.8393802186205767,
+                "ci_low": 0.7908654644303227,
+                "ci_high": 0.880972208056177,
+                "alpha": 0.05,
+                "n_episodes": 177,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 23,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1840,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1894,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1930,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "mse_action",
+          "aggregate": {
+            "seeds": [
+              {
+                "seed": 42,
+                "status": "COMPLETE",
+                "value": 0.8502002895649563
+              },
+              {
+                "seed": 43,
+                "status": "COMPLETE",
+                "value": 0.8628877188978159
+              },
+              {
+                "seed": 44,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 45,
+                "status": "NOT_RUN",
+                "value": null
+              },
+              {
+                "seed": 46,
+                "status": "NOT_RUN",
+                "value": null
+              }
+            ],
+            "n_required": 5,
+            "n_complete": 2,
+            "n_failed": 0,
+            "n_not_run": 3,
+            "n_undefined": 0,
+            "failed_seeds": [],
+            "not_run_seeds": [
+              44,
+              45,
+              46
+            ],
+            "undefined_seeds": [],
+            "mean": 0.8565440042313861,
+            "median": 0.8565440042313861,
+            "std": 0.008971367317090138,
+            "std_ddof": 1,
+            "training_seed_ci": null,
+            "training_seed_ci_status": "not_computed_here",
+            "half_range_is_confidence_interval": false
+          },
+          "hierarchical": {
+            "training_seed_interval": {
+              "status": "insufficient_training_seeds",
+              "interval_kind": null,
+              "ci_low": null,
+              "ci_high": null,
+              "mean": 0.8565440042313861,
+              "alpha": 0.05,
+              "n_resamples": 2000,
+              "weighting": "equal_seed_then_equal_episode",
+              "failed_seeds": [],
+              "not_run_seeds": [
+                44,
+                45,
+                46
+              ],
+              "undefined_seeds": [],
+              "n_complete": 2,
+              "n_required": 5
+            },
+            "conditional_on_checkpoint": {
+              "42": {
+                "mean": 0.8502002895649563,
+                "ci_low": 0.8025638589959291,
+                "ci_high": 0.8921314261580378,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              },
+              "43": {
+                "mean": 0.8628877188978159,
+                "ci_low": 0.8193107417493674,
+                "ci_high": 0.9032622649454727,
+                "alpha": 0.05,
+                "n_episodes": 180,
+                "n_observations_per_episode": 1,
+                "n_resamples": 2000,
+                "weighting": "equal_episode",
+                "n_undefined_dropped": 0,
+                "interval_kind": "conditional_on_checkpoint",
+                "n_episodes_excluded": 20,
+                "excluded_episode_ids": [
+                  1801,
+                  1831,
+                  1835,
+                  1838,
+                  1842,
+                  1882,
+                  1888,
+                  1891,
+                  1897,
+                  1898,
+                  1899,
+                  1900,
+                  1908,
+                  1933,
+                  1943,
+                  1951,
+                  1952,
+                  1980,
+                  1990,
+                  1999
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "paired": null
+    }
+  ],
+  "paired": {
+    "action_minus_noaction": {
+      "required_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "paired_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "unpaired_seeds": [
+        46
+      ],
+      "n_paired": 4,
+      "differences": [
+        {
+          "seed": 42,
+          "difference": 0.08333333333333337
+        },
+        {
+          "seed": 43,
+          "difference": 0.03888888888888892
+        },
+        {
+          "seed": 44,
+          "difference": 0.0
+        },
+        {
+          "seed": 45,
+          "difference": -0.04444444444444445
+        }
+      ],
+      "effect_size": {
+        "cohens_d": 0.35659869567594543,
+        "mean_difference": 0.01944444444444446,
+        "status": "descriptive"
+      },
+      "training_seed_ci": null,
+      "training_seed_ci_status": "insufficient_training_seeds",
+      "half_range_is_confidence_interval": false
+    },
+    "vicreg_minus_mse": {
+      "required_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "paired_seeds": [
+        42,
+        43
+      ],
+      "unpaired_seeds": [
+        44,
+        45,
+        46
+      ],
+      "n_paired": 2,
+      "differences": [
+        {
+          "seed": 42,
+          "difference": 0.07222222222222224
+        },
+        {
+          "seed": 43,
+          "difference": 0.016666666666666663
+        }
+      ],
+      "effect_size": {
+        "cohens_d": 1.1313708498984758,
+        "mean_difference": 0.04444444444444445,
+        "status": "descriptive"
+      },
+      "training_seed_ci": null,
+      "training_seed_ci_status": "insufficient_training_seeds",
+      "half_range_is_confidence_interval": false
+    }
+  },
+  "is_test_set": false
+}

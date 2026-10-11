@@ -13,7 +13,7 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from src.stats import episode_bootstrap_mean
-from stats.seed_aggregation import COMPLETE, FAILED, MIN_TRAINING_SEEDS, NOT_RUN
+from stats.seed_aggregation import COMPLETE, FAILED, MIN_TRAINING_SEEDS, NOT_RUN, UNDEFINED
 
 
 def hierarchical_bootstrap_mean(
@@ -38,8 +38,9 @@ def hierarchical_bootstrap_mean(
     status = {int(seed): str(seed_status.get(seed, NOT_RUN)) for seed in required}
     failed = [seed for seed in required if status[seed] == FAILED]
     not_run = [seed for seed in required if status[seed] == NOT_RUN]
+    undefined = [seed for seed in required if status[seed] == UNDEFINED]
     complete = [seed for seed in required if status[seed] == COMPLETE]
-    unknown = [seed for seed in required if status[seed] not in {COMPLETE, FAILED, NOT_RUN}]
+    unknown = [seed for seed in required if status[seed] not in {COMPLETE, FAILED, NOT_RUN, UNDEFINED}]
     if unknown:
         raise ValueError(f"unknown seed status for {unknown}.")
     usable: dict[int, np.ndarray] = {}
@@ -70,6 +71,7 @@ def hierarchical_bootstrap_mean(
         "weighting": "equal_seed_then_equal_episode",
         "failed_seeds": failed,
         "not_run_seeds": not_run,
+        "undefined_seeds": undefined,
         "n_complete": len(complete),
         "n_required": len(required),
     }

@@ -14,6 +14,7 @@ import numpy as np
 COMPLETE = "COMPLETE"
 FAILED = "FAILED"
 NOT_RUN = "NOT_RUN"
+UNDEFINED = "UNDEFINED"
 MIN_TRAINING_SEEDS = 5
 
 
@@ -35,7 +36,7 @@ def _index(records: Sequence[Mapping[str, Any]], required: Sequence[int]) -> dic
         if seed in indexed:
             raise ValueError(f"seed {seed} is duplicated.")
         status = str(record["status"])
-        if status not in {COMPLETE, FAILED, NOT_RUN}:
+        if status not in {COMPLETE, FAILED, NOT_RUN, UNDEFINED}:
             raise ValueError(f"unknown seed status {status!r}.")
         indexed[seed] = record
     for seed in required:
@@ -68,6 +69,7 @@ def aggregate_seeds(records: Sequence[Mapping[str, Any]], required_seeds: Sequen
     array = np.asarray(values, dtype=np.float64)
     failed = [seed for seed in required if indexed[seed]["status"] == FAILED]
     not_run = [seed for seed in required if indexed[seed]["status"] == NOT_RUN]
+    undefined = [seed for seed in required if indexed[seed]["status"] == UNDEFINED]
     complete = [seed for seed in required if indexed[seed]["status"] == COMPLETE]
     std = None
     if array.size >= 2:
@@ -85,8 +87,10 @@ def aggregate_seeds(records: Sequence[Mapping[str, Any]], required_seeds: Sequen
         "n_complete": len(complete),
         "n_failed": len(failed),
         "n_not_run": len(not_run),
+        "n_undefined": len(undefined),
         "failed_seeds": failed,
         "not_run_seeds": not_run,
+        "undefined_seeds": undefined,
         "mean": None if array.size == 0 else float(array.mean()),
         "median": None if array.size == 0 else float(np.median(array)),
         "std": std,

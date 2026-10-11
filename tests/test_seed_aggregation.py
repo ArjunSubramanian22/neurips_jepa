@@ -57,6 +57,15 @@ class SeedAggregationTests(unittest.TestCase):
         self.assertIsNone(compared["training_seed_ci"])
         self.assertEqual(compared["training_seed_ci_status"], "insufficient_training_seeds")
 
+    def test_undefined_metric_is_listed_and_left_out_of_the_mean(self) -> None:
+        records = [_complete(seed, 1.0) for seed in (42, 43, 44)]
+        records.append({"seed": 45, "status": "UNDEFINED", "value": None})
+        summary = aggregate_seeds(records, SEEDS)
+        self.assertEqual(summary["undefined_seeds"], [45])
+        self.assertEqual(summary["n_not_run"], 1)
+        self.assertAlmostEqual(summary["mean"], 1.0)
+        self.assertIsNone(summary["training_seed_ci"])
+
 
 if __name__ == "__main__":
     unittest.main()

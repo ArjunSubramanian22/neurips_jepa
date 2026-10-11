@@ -1,0 +1,14 @@
+{
+  "horizon": 10,
+  "is_test_set": false,
+  "protocol": "persistent_alternative",
+  "seed_registry_id": "headline_v1",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "split_version": "legacy_v1"
+}
