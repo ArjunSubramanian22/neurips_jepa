@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.eval_protocol import assert_legacy_reproduction_config
 from src.registry import RunRecorder, to_jsonable
 
 
@@ -31,6 +32,7 @@ def _read_csv(path: Path) -> dict[str, dict[str, str]]:
 def main() -> None:
     config_path = ROOT / "configs" / "experiments" / "heldout_reproduction_v1.yaml"
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    assert_legacy_reproduction_config(config)
     command = "python3.13 scripts/run_heldout_reproduction.py"
     with RunRecorder(
         config["experiment_id"],

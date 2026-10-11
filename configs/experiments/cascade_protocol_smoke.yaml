@@ -1,4 +1,8 @@
 experiment_id: cascade_protocol_smoke_v1
+split_version: not_applicable
+split_version_reason: >
+  One reduced-resolution fork, not the canonical 2000-episode dump.
+  Do not report these measurements as legacy_v1 or cvpr_v1 numbers.
 seed: 0
 n_frames: 2
 youngs: 70.0

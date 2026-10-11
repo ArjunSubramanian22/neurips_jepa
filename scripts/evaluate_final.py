@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Canonical held-out evaluator matching the revised-paper zip script.
+"""Canonical legacy-validation evaluator matching the revised-paper zip script.
 
 Differences from the zip `evaluate_completed_runs.py`, all documented:
 - Default data root is `outputs/physics_mpm` (original dump), not a Linux replay.
@@ -8,8 +8,9 @@ Differences from the zip `evaluate_completed_runs.py`, all documented:
 - `replay_provenance.json` is optional; local dump hashes are recorded.
 - Loads checkpoints with `weights_only=False` so config dicts survive.
 
-Probes train on episodes 0:1800. Rollout MSE / VN-MSE / ranks use 1800:2000.
-No training.
+This script is ``legacy_v1``. Probes train on episodes 0:1800. Rollout MSE /
+VN-MSE / ranks use episodes 1800:2000. Those episodes are legacy validation,
+not a ``cvpr_v1`` test set. No training.
 """
 
 from __future__ import annotations
@@ -67,14 +68,25 @@ def main() -> None:
     sys.path.insert(0, str(repo))
     from src.config import ModelConfig
     from src.eval import contact_classes, effective_rank, linear_probe_over_horizon
+    from src.eval_protocol import assert_checkpoint_eval_pairing, reporting_slice
     from src.models.ac_jepa import ACJEPA
+    from src.splits import get_split
+
+    assert_checkpoint_eval_pairing("legacy_v1", "legacy_v1")
+    legacy = get_split("legacy_v1")
+    report = reporting_slice(legacy)
+    if report["is_test_set"] or report["role"] != "legacy_validation":
+        raise RuntimeError("evaluate_final.py must not label legacy validation as a test set.")
+    n_train = len(legacy.train_ids)
+    if legacy.train_ids != tuple(range(n_train)) or legacy.val_ids != tuple(range(n_train, legacy.n_episodes)):
+        raise RuntimeError("legacy_v1 ids are no longer the contiguous tail this script slices.")
 
     torch.set_num_threads(2)
     torch.set_num_interop_threads(1)
     obs = np.load(args.data / "observations.npy", mmap_mode="r")
     raw = torch.from_numpy(np.load(args.data / "actions.npy"))
-    mean = raw[:1800].reshape(-1, 4).mean(0)
-    std = raw[:1800].reshape(-1, 4).std(0, unbiased=False).clamp_min(1e-6)
+    mean = raw[:n_train].reshape(-1, 4).mean(0)
+    std = raw[:n_train].reshape(-1, 4).std(0, unbiased=False).clamp_min(1e-6)
     actions = (raw - mean) / std
     label = {
         name: torch.from_numpy(np.load(args.data / f"{name}_labels.npy"))
@@ -125,7 +137,7 @@ def main() -> None:
     provenance_path = args.data / "replay_provenance.json"
     if provenance_path.is_file():
         provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
-        scope = "recorded-action replay; held-out episodes 1800:2000"
+        scope = "recorded-action replay; legacy_v1 validation episodes 1800:2000; not a test set"
     else:
         provenance = {
             "method": "Original dump observations.npy (not the Linux replay tensor).",
@@ -134,7 +146,7 @@ def main() -> None:
                 for path in sorted(args.data.glob("*.npy"))
             },
         }
-        scope = "original dump observations; held-out episodes 1800:2000"
+        scope = "original dump observations; legacy_v1 validation episodes 1800:2000; not a test set"
 
     rows = []
     csv_rows = []
@@ -154,18 +166,18 @@ def main() -> None:
         model.eval()
         print("Evaluating", name, flush=True)
         z0 = encode(model, obs[:, 0])
-        zv = encode(model, obs[1800:, :15].reshape(-1, 3, 64, 64)).reshape(200, 15, 128)
-        zt = encode(model, obs[1800:, 1:].reshape(-1, 3, 64, 64), True).reshape(200, 15, 128)
+        zv = encode(model, obs[n_train:, :15].reshape(-1, 3, 64, 64)).reshape(200, 15, 128)
+        zt = encode(model, obs[n_train:, 1:].reshape(-1, 3, 64, 64), True).reshape(200, 15, 128)
         with torch.no_grad():
             pred = model.rollout(z0, actions[:, :10])
-            pv = pred[1800:]
+            pv = pred[n_train:]
             tv = zt[:, :10]
             err = (pv - tv).square().mean(-1)
             per = err.mean(0).tolist()
             var = tv.var(0, unbiased=False).mean(-1)
             vn = err.mean(0) / var
-            true = model.predictor(zv.reshape(-1, 128), actions[1800:].reshape(-1, 4)).reshape(200, 15, 128)
-            alt_a = torch.stack([actions[1800:][perm, t] for t, perm in enumerate(permutations)], 1)
+            true = model.predictor(zv.reshape(-1, 128), actions[n_train:].reshape(-1, 4)).reshape(200, 15, 128)
+            alt_a = torch.stack([actions[n_train:][perm, t] for t, perm in enumerate(permutations)], 1)
             alt = model.predictor(zv.reshape(-1, 128), alt_a.reshape(-1, 4)).reshape(200, 15, 128)
             neut = model.predictor(zv.reshape(-1, 128), torch.zeros_like(alt_a).reshape(-1, 4)).reshape(200, 15, 128)
             err_true = (true - zt).square().mean(-1)
@@ -197,10 +209,10 @@ def main() -> None:
         for probe_name, n_classes in (("geometry", 2), ("stiffness", 3), ("contact", 4)):
             torch.manual_seed(0)
             probes[probe_name] = linear_probe_over_horizon(
-                pred[:1800],
-                pred[1800:],
-                label[probe_name][:1800],
-                label[probe_name][1800:],
+                pred[:n_train],
+                pred[n_train:],
+                label[probe_name][:n_train],
+                label[probe_name][n_train:],
                 n_classes,
                 epochs=80,
                 lr=0.01,
@@ -218,6 +230,9 @@ def main() -> None:
             "name": name,
             "checkpoint": rel,
             "checkpoint_sha256": _sha256(ckpt),
+            "split_version": "legacy_v1",
+            "headline_role": "legacy_validation",
+            "is_test_set": False,
             "epoch": 200,
             "config": cfg,
             "evaluation_scope": scope,

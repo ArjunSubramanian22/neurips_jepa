@@ -47,6 +47,7 @@ training:
   ema_sync_every: 1
 
 data:
+  split_version: legacy_v1
   dataset_path: outputs/physics_mpm
   spatial_dims: 2
   img_size: 64

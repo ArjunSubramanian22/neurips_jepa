@@ -239,6 +239,10 @@ class DataConfig:
         blur_sigma_max: Max Gaussian sigma in pixels.
         normalize_actions: Zero-mean / unit-std actions using train-split stats.
         prefetch_factor: ``DataLoader`` batches prefetched per worker.
+        split_version: ``None`` keeps the contiguous ``val_fraction`` tail.
+            ``legacy_v1`` is that tail on the 2000-episode dump. ``cvpr_v1``
+            uses the saved study ids. Headline numbers under ``legacy_v1``
+            are validation, not test.
     """
 
     dataset_path: str | None = None
@@ -271,6 +275,7 @@ class DataConfig:
     blur_sigma_max: float = 2.0
     normalize_actions: bool = True
     prefetch_factor: int = 2
+    split_version: str | None = None
 
     def __post_init__(self) -> None:
         if self.spatial_dims not in (2, 3):

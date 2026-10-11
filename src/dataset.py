@@ -36,12 +36,16 @@ from torch.utils.data import DataLoader, Dataset
 
 if __package__:
     from .config import DataConfig, TrainingConfig
+    from .eval_protocol import ProtocolError
+    from .splits import cvpr_v1_split, legacy_v1_split
 else:
     from config import DataConfig, TrainingConfig
+    from eval_protocol import ProtocolError
+    from splits import cvpr_v1_split, legacy_v1_split
 
 FloatArray = npt.NDArray[np.float32]
 IntArray = npt.NDArray[np.int64]
-Split = Literal["train", "val", "all"]
+Split = Literal["train", "val", "test", "all"]
 Transition = tuple[torch.Tensor, torch.Tensor, torch.Tensor]
 
 
@@ -990,32 +994,69 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             labels, source=cfg.dataset_path, codebook=_stiffness_levels(cfg)
         )
         geometry = _load_optional_geometry_labels(cfg.dataset_path, n_episodes=int(observations.shape[0]))
-        n_train, n_val = _episode_split_counts(int(observations.shape[0]), cfg.val_fraction)
-        scaler_src = actions[: max(1, n_train)]
-        action_mean = scaler_src.reshape(-1, actions.shape[-1]).mean(dim=0)
-        action_std = scaler_src.reshape(-1, actions.shape[-1]).std(dim=0, unbiased=False).clamp_min(1e-6)
-        if split == "train":
-            observations, actions, labels, values, geometry = (
-                observations[:n_train],
-                actions[:n_train],
-                labels[:n_train],
-                values[:n_train],
-                None if geometry is None else geometry[:n_train],
+        self.split_version = cfg.split_version
+        if cfg.split_version == "cvpr_v1":
+            observations, actions, labels, values, geometry, n_train = self._take_cvpr_v1(
+                observations, actions, labels, values, geometry, split
             )
-            self._global_episode_offset = 0
-        elif split == "val":
-            if n_val == 0:
-                raise ValueError("val split is empty; increase n_episodes or val_fraction.")
-            observations, actions, labels, values, geometry = (
-                observations[n_train:],
-                actions[n_train:],
-                labels[n_train:],
-                values[n_train:],
-                None if geometry is None else geometry[n_train:],
-            )
-            self._global_episode_offset = n_train
         else:
-            self._global_episode_offset = 0
+            if cfg.split_version in ("legacy_v1", "hist_v1_last_fraction_val"):
+                spec = legacy_v1_split()
+                if int(observations.shape[0]) != spec.n_episodes:
+                    raise ValueError(
+                        f"legacy_v1 requires {spec.n_episodes} episodes, got {int(observations.shape[0])}."
+                    )
+                n_check, n_val_check = _episode_split_counts(spec.n_episodes, cfg.val_fraction)
+                if (n_check, n_val_check) != (len(spec.train_ids), len(spec.val_ids)):
+                    raise ValueError(
+                        "legacy_v1 is the val_fraction=0.1 tail on 2000 episodes. "
+                        "Do not pair it with a different val_fraction."
+                    )
+                if split == "test":
+                    raise ProtocolError(
+                        "legacy_v1 has no test split. Episodes 1800-1999 are legacy validation."
+                    )
+                self.split_version = "legacy_v1"
+            elif cfg.split_version not in (None,):
+                raise ValueError(f"Unknown split_version {cfg.split_version!r}.")
+            n_train, n_val = _episode_split_counts(int(observations.shape[0]), cfg.val_fraction)
+            scaler_src = actions[: max(1, n_train)]
+            action_mean = scaler_src.reshape(-1, actions.shape[-1]).mean(dim=0)
+            action_std = scaler_src.reshape(-1, actions.shape[-1]).std(dim=0, unbiased=False).clamp_min(1e-6)
+            self.normalization_provenance = {
+                "split_version": self.split_version,
+                "source_role": "train",
+                "n_episodes": int(n_train),
+                "uses_validation": False,
+                "uses_test": False,
+            }
+            if split == "train":
+                observations, actions, labels, values, geometry = (
+                    observations[:n_train],
+                    actions[:n_train],
+                    labels[:n_train],
+                    values[:n_train],
+                    None if geometry is None else geometry[:n_train],
+                )
+                self._global_episode_offset = 0
+                self.global_episode_ids = tuple(range(n_train))
+            elif split == "val":
+                if n_val == 0:
+                    raise ValueError("val split is empty; increase n_episodes or val_fraction.")
+                observations, actions, labels, values, geometry = (
+                    observations[n_train:],
+                    actions[n_train:],
+                    labels[n_train:],
+                    values[n_train:],
+                    None if geometry is None else geometry[n_train:],
+                )
+                self._global_episode_offset = n_train
+                self.global_episode_ids = tuple(range(n_train, n_train + n_val))
+            else:
+                self._global_episode_offset = 0
+                self.global_episode_ids = tuple(range(int(observations.shape[0])))
+            self.action_mean = action_mean
+            self.action_std = action_std
         self.observations = observations.contiguous()
         self.actions = actions.contiguous()
         self.stiffness_labels = labels.long().contiguous()
@@ -1023,8 +1064,6 @@ class DeformablePhysicsDataset(Dataset[Transition]):
         self.geometry_labels = None if geometry is None else geometry.long().contiguous()
         self.n_episodes = int(self.observations.shape[0])
         self.pairs_per_episode = int(self.observations.shape[1] - 1)
-        self.action_mean = action_mean
-        self.action_std = action_std
         self.augmentor = ConsistentFrameAugment(cfg)
         self._pair_index = self._build_pair_index()
         self._n_train_episodes = n_train if split == "all" else (self.n_episodes if split == "train" else 0)
@@ -1050,7 +1089,51 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             raise ValueError("No trajectory chunks produced; check chunk_length vs episode length.")
         return index
 
+    def _take_cvpr_v1(
+        self,
+        observations: torch.Tensor,
+        actions: torch.Tensor,
+        labels: torch.Tensor,
+        values: torch.Tensor,
+        geometry: torch.Tensor | None,
+        split: str,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor | None, int]:
+        """Slice one cvpr_v1 role. Action moments use every training episode."""
+        if int(observations.shape[0]) != 2000:
+            raise ValueError(f"cvpr_v1 requires 2000 episodes, got {int(observations.shape[0])}.")
+        if split not in ("train", "val", "test"):
+            raise ProtocolError("cvpr_v1 requires split 'train', 'val', or 'test'.")
+        spec = cvpr_v1_split()
+        ids = spec.ids(split)
+        train_index = torch.tensor(spec.train_ids, dtype=torch.long)
+        flat = actions.index_select(0, train_index).reshape(-1, actions.shape[-1])
+        self.action_mean = flat.mean(dim=0)
+        self.action_std = flat.std(dim=0, unbiased=False).clamp_min(1e-6)
+        self.normalization_provenance = {
+            "split_version": "cvpr_v1",
+            "source_role": "train",
+            "n_episodes": len(spec.train_ids),
+            "uses_validation": False,
+            "uses_test": False,
+        }
+        index = torch.tensor(ids, dtype=torch.long)
+        self.global_episode_ids = ids
+        self._global_episode_offset = 0
+        return (
+            observations.index_select(0, index),
+            actions.index_select(0, index),
+            labels.index_select(0, index),
+            values.index_select(0, index),
+            None if geometry is None else geometry.index_select(0, index),
+            len(spec.train_ids),
+        )
+
     def split_sizes(self) -> tuple[int, int]:
+        if self.split_version == "cvpr_v1" and self.split == "test":
+            raise ProtocolError(
+                "cvpr_v1 test episodes are the headline slice, not validation. "
+                "Use global_episode_ids."
+            )
         if self.split == "train":
             return self.n_episodes, 0
         if self.split == "val":
@@ -1072,7 +1155,7 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             return False
         if self.split == "train":
             return True
-        if self.split == "val":
+        if self.split in ("val", "test"):
             return False
         return episode < self._n_train_episodes
 

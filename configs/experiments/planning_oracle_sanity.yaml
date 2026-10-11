@@ -1,4 +1,8 @@
 experiment_id: planning_oracle_sanity_v1
+split_version: not_applicable
+split_version_reason: >
+  Synthetic latent targets. No dump episodes are read, so this is neither
+  legacy_v1 nor cvpr_v1.
 seed: 0
 n_candidates: 8
 latent_dim: 4

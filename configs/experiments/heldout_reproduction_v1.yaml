@@ -1,6 +1,9 @@
 # Reproduce the archived val-only table without overwriting it.
 # Tolerance was chosen before this run. Differences are stored either way.
 experiment_id: heldout_reproduction_v1
+split_version: legacy_v1
+headline_role: legacy_validation
+is_test_set: false
 protocol_id: hist_v1_last_fraction_val
 eval_episodes: [1800, 2000]
 checkpoint_rule: last.pt, epoch 200, crop_scale_min 1.0
@@ -29,5 +32,5 @@ success_criterion: >
   0.001 absolute of the archived CSV. A larger difference is reported; it
   is not deleted and the tolerance is not edited afterward.
 permitted_interpretation: >
-  A match says this worktree reproduces the archived val-only numbers under
-  the historical split. It does not create an untouched test set.
+  A match says this worktree reproduces the archived legacy validation
+  numbers. Those numbers are not cvpr_v1 test-set numbers.
