@@ -195,7 +195,7 @@ class ACJEPAModelTests(unittest.TestCase):
 
     def test_predictor_fuse_modes(self) -> None:
         x_t, a_t, x_tp1 = _dummy_batch(3, _tiny_cfg())
-        for fuse in ("concat", "film", "token"):
+        for fuse in ("concat", "film", "gate", "cross_attn", "token"):
             model = ACJEPA(_tiny_cfg(fuse_mode=fuse))
             out = model(x_t, a_t, x_tp1)
             self.assertEqual(tuple(out.z_hat_tp1.shape), (3, 64), msg=fuse)

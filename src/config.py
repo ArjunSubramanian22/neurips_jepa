@@ -45,8 +45,11 @@ class ModelConfig:
         drop_path: Stochastic-depth rate in encoder blocks.
         backbone: Encoder family. ``"vit"`` is the default JEPA backbone;
             ``"cnn"`` is a lightweight convolutional alternative.
-        fuse_mode: How actions enter the predictor (additive token, FiLM, or
-            concatenated to the CLS / pooled state).
+        fuse_mode: How actions enter the predictor. ``concat`` is the baseline.
+            ``film`` is feature-wise linear modulation. ``gate`` is a gated
+            residual. ``cross_attn`` attends from the latent to action tokens.
+            ``token`` appends the action as a second transformer token.
+        n_action_tokens: Number of action tokens for ``cross_attn``.
         condition_on_action: If ``False``, the predictor maps ``z_t`` alone
             (no-action ablation). Isolates the contribution of ``fuse_mode``.
     """
@@ -68,7 +71,8 @@ class ModelConfig:
     dropout: float = 0.0
     drop_path: float = 0.1
     backbone: Literal["vit", "cnn"] = "vit"
-    fuse_mode: Literal["token", "film", "concat"] = "concat"
+    fuse_mode: Literal["token", "film", "concat", "gate", "cross_attn"] = "concat"
+    n_action_tokens: int = 4
     condition_on_action: bool = True
 
     def __post_init__(self) -> None:
@@ -91,6 +95,8 @@ class ModelConfig:
             raise ValueError("in_channels must be >= 1.")
         if self.action_dim < 1:
             raise ValueError("action_dim must be >= 1.")
+        if self.n_action_tokens < 1:
+            raise ValueError("n_action_tokens must be >= 1.")
 
     @property
     def num_patches(self) -> int:

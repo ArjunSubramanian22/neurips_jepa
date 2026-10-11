@@ -20,6 +20,7 @@ import torch.nn.functional as F
 from torch import Tensor
 
 from ..config import ModelConfig
+from .action_conditioning import CrossAttentionFuser, GatedResidualFuser
 
 
 class DropPath(nn.Module):
@@ -296,9 +297,10 @@ class ActionPredictor(nn.Module):
     """Action-conditioned dynamics head: ``[z_t, a_t] -> ẑ_{t+1}``.
 
     ``fuse_mode="concat"`` (default) embeds the action, concatenates it with
-    ``z_t``, and mixes the pair with residual MLP blocks. ``"token"`` feeds
-    ``(z, a)`` as a two-token transformer sequence. ``"film"`` modulates
-    ``z_t`` with a feature-wise affine transform predicted from ``a_t``.
+    ``z_t``, and mixes the pair with residual MLP blocks. ``"film"`` modulates
+    ``z_t`` with a feature-wise affine transform. ``"gate"`` adds a
+    sigmoid-gated action residual. ``"cross_attn"`` attends from the latent
+    to action tokens. ``"token"`` feeds ``(z, a)`` as a two-token sequence.
     """
 
     def __init__(self, cfg: ModelConfig) -> None:
@@ -340,6 +342,28 @@ class ActionPredictor(nn.Module):
         elif cfg.fuse_mode == "film":
             self.film = nn.Linear(cfg.action_embed_dim, 2 * latent_dim)
             self.fuse_proj = nn.Linear(latent_dim, pred_dim)
+            self.mixer = nn.Sequential(
+                *[
+                    ResidualMLPBlock(pred_dim, cfg.mlp_ratio, cfg.dropout)
+                    for _ in range(cfg.predictor_depth)
+                ]
+            )
+        elif cfg.fuse_mode == "gate":
+            self.fuser = GatedResidualFuser(latent_dim, cfg.action_embed_dim, pred_dim)
+            self.mixer = nn.Sequential(
+                *[
+                    ResidualMLPBlock(pred_dim, cfg.mlp_ratio, cfg.dropout)
+                    for _ in range(cfg.predictor_depth)
+                ]
+            )
+        elif cfg.fuse_mode == "cross_attn":
+            self.fuser = CrossAttentionFuser(
+                latent_dim,
+                cfg.action_embed_dim,
+                pred_dim,
+                cfg.predictor_num_heads,
+                cfg.n_action_tokens,
+            )
             self.mixer = nn.Sequential(
                 *[
                     ResidualMLPBlock(pred_dim, cfg.mlp_ratio, cfg.dropout)
@@ -389,12 +413,51 @@ class ActionPredictor(nn.Module):
         elif self.fuse_mode == "film":
             gamma, beta = self.film(a_embed).chunk(2, dim=-1)
             hidden = self.mixer(self.fuse_proj((1.0 + gamma) * z_t + beta))
+        elif self.fuse_mode == "gate":
+            hidden = self.mixer(self.fuser(z_t, a_embed))
+        elif self.fuse_mode == "cross_attn":
+            hidden = self.mixer(self.fuser(z_t, a_embed))
         else:
             tokens = torch.stack([self.z_proj(z_t), self.a_proj(a_embed)], dim=1)
             for block in self.mixer:
                 tokens = block(tokens)
             hidden = self.mixer_norm(tokens)[:, 0]
         return self.head(hidden)
+
+    def action_path_parameters(self) -> Iterator[tuple[str, nn.Parameter]]:
+        """Weights that read the action. Shared latent mixers are excluded."""
+        if not self.condition_on_action:
+            return
+        for name, param in self.action_embed.named_parameters():
+            yield f"action_embed.{name}", param
+        if self.fuse_mode == "concat":
+            for name, param in self.fuse_proj.named_parameters():
+                yield f"fuse_proj.{name}", param
+        elif self.fuse_mode == "film":
+            for name, param in self.film.named_parameters():
+                yield f"film.{name}", param
+        elif self.fuse_mode == "token":
+            for name, param in self.a_proj.named_parameters():
+                yield f"a_proj.{name}", param
+        elif self.fuse_mode == "gate":
+            for name, param in self.fuser.action_parameters():
+                yield f"fuser.{name}", param
+        elif self.fuse_mode == "cross_attn":
+            for name, param in self.fuser.action_parameters():
+                yield f"fuser.{name}", param
+
+
+def action_conditioning_grad_norm(predictor: ActionPredictor) -> float:
+    """L2 norm of gradients in the action path. Zero when the path is absent."""
+    total = None
+    for _name, param in predictor.action_path_parameters():
+        if param.grad is None:
+            continue
+        square = param.grad.detach().float().pow(2).sum()
+        total = square if total is None else total + square
+    if total is None:
+        return 0.0
+    return float(torch.sqrt(total).item())
 
 
 @dataclass
