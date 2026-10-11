@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.rgb_figures import save_counterfactual_figure
 from src.rgb_metrics import difference_maps, frame_visibility, ssim
 
 
@@ -45,6 +47,15 @@ class RGBMetricTests(unittest.TestCase):
         absolute, amplified = difference_maps(left, right, amplify=8.0)
         np.testing.assert_allclose(absolute, 0.2)
         np.testing.assert_allclose(amplified, 1.0)
+
+    def test_counterfactual_figure_writes_png(self) -> None:
+        left = np.zeros((3, 24, 24), dtype=np.float32)
+        right = left.copy()
+        right[:, 6:12, 6:12] = 0.8
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "diff.png"
+            save_counterfactual_figure(left, right, path, "test fork")
+            self.assertGreater(path.stat().st_size, 1000)
 
 
 if __name__ == "__main__":
