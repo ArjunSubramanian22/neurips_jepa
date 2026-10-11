@@ -199,7 +199,7 @@ class VisionTransformerEncoder(nn.Module):
         nn.init.trunc_normal_(self.pos_embed, std=0.02)
         self.apply(_init_transformer_weights)
 
-    def forward(self, x: Tensor) -> Tensor:
+    def _tokens(self, x: Tensor) -> Tensor:
         batch = x.shape[0]
         tokens = self.patch_embed(x)
         cls = self.cls_token.expand(batch, -1, -1)
@@ -207,8 +207,17 @@ class VisionTransformerEncoder(nn.Module):
         tokens = self.pos_drop(tokens + self.pos_embed)
         for block in self.blocks:
             tokens = block(tokens)
-        pooled = self.norm(tokens)[:, 0]
+        return self.norm(tokens)
+
+    def forward(self, x: Tensor) -> Tensor:
+        """CLS latent. This is the canonical encoder output."""
+        pooled = self._tokens(x)[:, 0]
         return self.latent_norm(self.latent_proj(pooled))
+
+    def forward_patches(self, x: Tensor) -> Tensor:
+        """Patch tokens, excluding CLS. Optional. ``forward`` does not call this."""
+        patches = self._tokens(x)[:, 1:]
+        return self.latent_norm(self.latent_proj(patches))
 
 
 class _BasicBlock(nn.Module):
@@ -484,6 +493,20 @@ class ACJEPA(nn.Module):
         self.encoder = build_encoder(self.cfg)
         self.predictor = ActionPredictor(self.cfg)
         self.target_encoder = build_encoder(self.cfg)
+        self.patch_predictor = None
+        self.local_head = None
+        if self.cfg.target_readout == "patch_tokens":
+            from .patch_targets import PatchTokenPredictor
+
+            self.patch_predictor = PatchTokenPredictor(
+                self.latent_dim, self.cfg.action_dim, self.cfg.num_patches
+            )
+        elif self.cfg.target_readout == "local_head":
+            from .patch_targets import LocalPatchHead
+
+            self.local_head = LocalPatchHead(self.latent_dim, self.cfg.action_dim)
+        elif self.cfg.target_readout not in ("cls", "weighted_pool"):
+            raise ValueError(f"unknown target_readout {self.cfg.target_readout!r}.")
         self.tau = float(self.cfg.ema_momentum)
         self._copy_online_to_target()
         self._freeze_target_encoder()
@@ -506,6 +529,10 @@ class ACJEPA(nn.Module):
         """Parameters that should receive gradients (encoder + predictor)."""
         yield from self.encoder.parameters()
         yield from self.predictor.parameters()
+        if self.patch_predictor is not None:
+            yield from self.patch_predictor.parameters()
+        if self.local_head is not None:
+            yield from self.local_head.parameters()
 
     @torch.no_grad()
     def update_target_encoder(self, tau: float | None = None) -> None:
@@ -532,6 +559,17 @@ class ACJEPA(nn.Module):
             with torch.no_grad():
                 return self.target_encoder(x)
         return self.encoder(x)
+
+    def encode_patches(self, x: Tensor, *, target: bool = False) -> Tensor:
+        """Patch tokens. The target branch is stop-gradient. CLS ``encode`` is unchanged."""
+        encoder = self.target_encoder if target else self.encoder
+        forward_patches = getattr(encoder, "forward_patches", None)
+        if forward_patches is None:
+            raise TypeError("patch tokens require a ViT encoder.")
+        if target:
+            with torch.no_grad():
+                return forward_patches(x)
+        return forward_patches(x)
 
     def forward(self, x_t: Tensor, a_t: Tensor, x_tp1: Tensor | None = None) -> ACJEPAOutput:
         """Predict ``ẑ_{t+1}`` and optionally encode the EMA target.

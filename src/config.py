@@ -52,6 +52,9 @@ class ModelConfig:
         n_action_tokens: Number of action tokens for ``cross_attn``.
         condition_on_action: If ``False``, the predictor maps ``z_t`` alone
             (no-action ablation). Isolates the contribution of ``fuse_mode``.
+        target_readout: ``cls`` is the canonical baseline. ``weighted_pool``,
+            ``patch_tokens``, and ``local_head`` are optional spatial
+            experiments and are not constructed into the baseline.
     """
 
     in_channels: int = 3
@@ -74,6 +77,7 @@ class ModelConfig:
     fuse_mode: Literal["token", "film", "concat", "gate", "cross_attn"] = "concat"
     n_action_tokens: int = 4
     condition_on_action: bool = True
+    target_readout: Literal["cls", "weighted_pool", "patch_tokens", "local_head"] = "cls"
 
     def __post_init__(self) -> None:
         if self.img_size <= 0 or self.patch_size <= 0:
@@ -97,6 +101,8 @@ class ModelConfig:
             raise ValueError("action_dim must be >= 1.")
         if self.n_action_tokens < 1:
             raise ValueError("n_action_tokens must be >= 1.")
+        if self.target_readout != "cls" and self.backbone != "vit":
+            raise ValueError("spatial target readouts require the ViT backbone.")
 
     @property
     def num_patches(self) -> int:
@@ -157,6 +163,13 @@ class TrainingConfig:
         cf_norm_tau: Target-delta norm below which alignment rows are excluded.
         cf_eps: Ridge inside the magnitude log and the cosine denominator.
         cf_cache_path: Paired-future cache. Required when any alignment weight is positive.
+        target_mask: ``uniform`` is the canonical target. ``soft`` and ``topk``
+            are experimental weightings of a spatial readout. They are not
+            required infrastructure.
+        target_mask_topk_fraction: Fraction of patches the soft top-k gate centers on.
+        target_mask_temperature: Sigmoid temperature of the soft top-k gate.
+        target_mask_aux_weight: Weight of the optional patch auxiliary. The CLS
+            term stays in that readout. Unused by weighted pooling.
     """
 
     batch_size: int = 32
@@ -199,6 +212,10 @@ class TrainingConfig:
     cf_norm_tau: float = 1e-8
     cf_eps: float = 1e-8
     cf_cache_path: str | None = None
+    target_mask: Literal["uniform", "soft", "topk"] = "uniform"
+    target_mask_topk_fraction: float = 0.25
+    target_mask_temperature: float = 0.05
+    target_mask_aux_weight: float = 1.0
 
     def __post_init__(self) -> None:
         if self.batch_size < 1:
@@ -237,6 +254,16 @@ class TrainingConfig:
             raise ValueError("alignment weights require cf_cache_path.")
         if alignment and self.loss_type in ("pixel_ae", "gnn"):
             raise ValueError("counterfactual alignment is a latent predictor objective.")
+        if self.target_mask_topk_fraction <= 0.0 or self.target_mask_topk_fraction > 1.0:
+            raise ValueError("target_mask_topk_fraction must lie in (0, 1].")
+        if self.target_mask_temperature <= 0.0:
+            raise ValueError("target_mask_temperature must be positive.")
+        if self.target_mask_aux_weight < 0.0:
+            raise ValueError("target_mask_aux_weight must be >= 0.")
+        if self.target_mask in ("soft", "topk") and not self.cf_cache_path:
+            raise ValueError("soft and top-k target masks require a counterfactual observation cache.")
+        if self.target_mask in ("soft", "topk") and self.loss_type in ("pixel_ae", "gnn"):
+            raise ValueError("target masks are a latent prediction experiment.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""
@@ -524,6 +551,8 @@ def validate_experiment(cfg: ExperimentConfig) -> None:
         mismatches.append(
             f"action_dim: model={cfg.model.action_dim} vs data={cfg.data.action_dim}"
         )
+    if cfg.training.target_mask in ("soft", "topk") and cfg.model.target_readout == "cls":
+        mismatches.append("soft and top-k masks need a spatial readout; cls is the uniform baseline.")
     if mismatches:
         raise ValueError(
             "ExperimentConfig fields are inconsistent:\n  - " + "\n  - ".join(mismatches)

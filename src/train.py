@@ -468,7 +468,8 @@ class ACJEPATrainer:
         return train_cfg.cf_lambda_dir > 0.0 or train_cfg.cf_lambda_mag > 0.0 or train_cfg.cf_lambda_vec > 0.0
 
     def _load_counterfactual_cache(self) -> Any | None:
-        if not self._alignment_enabled():
+        needs_fork = self._alignment_enabled() or self.cfg.training.target_mask in ("soft", "topk")
+        if not needs_fork:
             return None
         from src.action_alignment import load_counterfactual_cache
 
@@ -545,7 +546,10 @@ class ACJEPATrainer:
             return self._pixel_ae_objective(x_t, a_t, x_tp1)
         output = self.model(x_t, a_t, x_tp1)
         assert output.z_tp1 is not None
-        loss, terms = self._objective(output.z_hat_tp1, output.z_tp1)
+        if self._uses_experimental_target(x_prime):
+            loss, terms = self._experimental_target_loss(output, x_t, a_t, x_tp1, x_prime, cf_valid)
+        else:
+            loss, terms = self._objective(output.z_hat_tp1, output.z_tp1)
         weight = float(self.cfg.training.inverse_aux_weight)
         if self.inverse_head is not None and weight > 0.0:
             from src.models.inverse_dynamics import combine_prediction_and_inverse, inverse_dynamics_loss
@@ -589,6 +593,66 @@ class ACJEPATrainer:
                 terms[key] = loss.new_tensor(value)
         return loss, terms
 
+    def _uses_experimental_target(self, x_prime: torch.Tensor | None) -> bool:
+        """Canonical CLS training never enters the spatial target."""
+        if self.cfg.model.target_readout == "cls":
+            return False
+        if self.cfg.training.target_mask == "uniform":
+            return True
+        return x_prime is not None
+
+    def _experimental_target_loss(
+        self,
+        output: Any,
+        x_t: torch.Tensor,
+        a_t: torch.Tensor,
+        x_tp1: torch.Tensor,
+        x_prime: torch.Tensor | None,
+        cf_valid: torch.Tensor | None,
+    ):
+        from src.target_mask import mask_weights, weighted_patch_pool
+
+        train_cfg = self.cfg.training
+        readout = self.cfg.model.target_readout
+        counterfactual = None
+        if train_cfg.target_mask != "uniform":
+            if x_prime is None or cf_valid is None:
+                raise RuntimeError("a fork mask requires the counterfactual future frame.")
+            valid = cf_valid.reshape(-1) > 0.5
+            counterfactual = torch.where(valid.view(-1, 1, 1, 1), x_prime, x_tp1)
+        tokens = self.model.encode_patches(x_tp1, target=True)
+        weights, degenerate = mask_weights(
+            x_tp1,
+            counterfactual,
+            mode=train_cfg.target_mask,
+            patch_size=self.cfg.model.patch_size,
+            n_patches=int(tokens.shape[1]),
+            topk_fraction=train_cfg.target_mask_topk_fraction,
+            temperature=train_cfg.target_mask_temperature,
+        )
+        weights = weights.detach()
+        if readout == "weighted_pool":
+            loss, terms = self._objective(output.z_hat_tp1, weighted_patch_pool(tokens, weights))
+        elif readout == "local_head":
+            loss, terms = self._objective(output.z_hat_tp1, output.z_tp1)
+            predicted = self.model.local_head(self.model.encode_patches(x_t), a_t)
+            aux = ((predicted - tokens).pow(2).mean(dim=-1) * weights).sum(dim=-1).mean()
+            loss = loss + loss.new_tensor(float(train_cfg.target_mask_aux_weight)) * aux
+            terms["loss"] = loss
+            terms["mask_aux"] = aux.detach()
+        elif readout == "patch_tokens":
+            loss, terms = self._objective(output.z_hat_tp1, output.z_tp1)
+            predicted = self.model.patch_predictor(output.z_hat_tp1, a_t)
+            aux = ((predicted - tokens).pow(2).mean(dim=-1) * weights).sum(dim=-1).mean()
+            loss = loss + loss.new_tensor(float(train_cfg.target_mask_aux_weight)) * aux
+            terms["loss"] = loss
+            terms["mask_aux"] = aux.detach()
+        else:
+            raise ValueError(f"unknown target_readout {readout!r}.")
+        terms["mask_degenerate"] = degenerate.float().mean().detach()
+        terms["mask_applied"] = loss.new_ones(())
+        return loss, terms
+
     def _step_metrics(self, terms: dict[str, torch.Tensor]) -> dict[str, float]:
         metrics = {
             "loss": float(terms["loss"].detach().item()),
@@ -597,7 +661,7 @@ class ACJEPATrainer:
             "covariance": float(terms["covariance"].detach().item()),
         }
         for key, value in terms.items():
-            if key.startswith("inverse") or key.startswith("cf_"):
+            if key.startswith("inverse") or key.startswith("cf_") or key.startswith("mask_"):
                 metrics[key] = float(value.detach().item())
         return metrics
 
@@ -855,7 +919,7 @@ class ACJEPATrainer:
                     "lr": epoch_stats.get("train_lr", float(self.optimizer.param_groups[0]["lr"])),
                 }
                 for key, value in epoch_stats.items():
-                    if key.startswith("train_inverse") or key.startswith("train_cf_"):
+                    if key.startswith("train_inverse") or key.startswith("train_cf_") or key.startswith("train_mask_"):
                         epoch_log[key.removeprefix("train_")] = value
                 for key in ("val_loss", "val_invariance", "val_variance", "val_covariance"):
                     if key in epoch_stats:
