@@ -3,6 +3,7 @@
 outputs/physics_mpm/observations.npy
 outputs/_regen_seed0/
 outputs/.mplconfig/
+experiments/caches/
 results/reviewer_strengthening/.mplconfig/
 
 __pycache__/

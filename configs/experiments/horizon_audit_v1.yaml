@@ -1,0 +1,25 @@
+# Multi-horizon counterfactual audit on the legacy validation tail.
+# Protocols and rollout modes are scored separately and are not pooled.
+experiment_id: horizon_audit_v1
+split_version: legacy_v1
+headline_role: legacy_validation
+is_test_set: false
+environment: configs/environments/mpm_legacy.yaml
+start_time: 0
+horizons: [1, 3, 5, 10]
+protocols:
+  - one_step_replacement
+  - command_block_replacement
+  - persistent_alternative
+  - alternative_then_recorded
+rollout_modes: [open_loop, teacher_forced]
+rgb_config: configs/rgb/rgb_v1_64.yaml
+norm_tau: 1.0e-8
+epsilon: 1.0e-12
+shuffle_seed: 0
+bootstrap_resamples: 2000
+bootstrap_seed: 0
+notes: >
+  Branch A follows the recorded legacy action sequence. Branch B is one labeled
+  intervention. open_loop recurses on predicted latents. teacher_forced reads
+  the true frame at each step. Episodes 1800-1999 are not a test set.

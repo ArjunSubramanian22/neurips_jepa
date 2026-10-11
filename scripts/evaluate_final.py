@@ -67,6 +67,11 @@ def main() -> None:
         help="Run legacy-validation future ranking and return.",
     )
     parser.add_argument(
+        "--horizon-audit",
+        action="store_true",
+        help="Run the multi-horizon counterfactual audit and return.",
+    )
+    parser.add_argument(
         "--only",
         nargs="*",
         default=None,
@@ -85,6 +90,11 @@ def main() -> None:
         from scripts.run_future_ranking import main as ranking_main
 
         ranking_main()
+        return
+    if args.horizon_audit:
+        from scripts.run_horizon_audit import main as horizon_main
+
+        horizon_main()
         return
     args.out.mkdir(parents=True, exist_ok=True)
     from src.config import ModelConfig
