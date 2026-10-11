@@ -1,0 +1,1028 @@
+{
+  "experiment_id": "planning_benchmark_v1",
+  "split_version": "not_applicable",
+  "is_test_set": false,
+  "select_on_test": false,
+  "same_config_for_every_model": true,
+  "planning_config_status": "predeclared_not_validation_swept",
+  "active_config": "predeclared_v1",
+  "selected_config": null,
+  "cem": {
+    "horizon": 4,
+    "population": 24,
+    "elite_fraction": 0.25,
+    "n_iterations": 3,
+    "temporal_smooth": 0.5,
+    "action_dim": 4,
+    "lower": [
+      0.08,
+      0.08,
+      -1.2,
+      -1.2
+    ],
+    "upper": [
+      0.92,
+      0.92,
+      1.2,
+      1.2
+    ],
+    "mean": [
+      0.5,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "std": [
+      0.2,
+      0.2,
+      0.4,
+      0.4
+    ]
+  },
+  "action_moments": {
+    "n_train_episodes": 1800,
+    "mean": [
+      0.5038278661668301,
+      0.4293104119863775,
+      0.006848387117073899,
+      -0.0067688049028616255
+    ],
+    "std": [
+      0.08210279107939593,
+      0.05712604211102843,
+      0.40156627453867283,
+      0.3979532502235233
+    ],
+    "uses_validation_tail": false
+  },
+  "highlight": {
+    "highlight": "vicreg_action_s44",
+    "status": "selected_on_validation",
+    "candidates": [
+      {
+        "name": "vicreg_action_s44",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00015547140962347776,
+        "n_scored": 8
+      },
+      {
+        "name": "vicreg_action_s43",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00021748237487531548,
+        "n_scored": 8
+      },
+      {
+        "name": "vicreg_action_s42",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00027734349741489344,
+        "n_scored": 8
+      },
+      {
+        "name": "mse_action_s42",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00029830054086164414,
+        "n_scored": 8
+      },
+      {
+        "name": "vicreg_action_s45",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00031763093994413425,
+        "n_scored": 8
+      },
+      {
+        "name": "mse_action_s43",
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0003990914243368204,
+        "n_scored": 8
+      }
+    ]
+  },
+  "report_seeds": {
+    "heuristic": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 5,
+      "success_rate": 1.0,
+      "final_distance_mean": 2.354645726918255e-08,
+      "final_distance_median": 2.5101300547760025e-08,
+      "cumulative_cost_mean": 9.533035570630544e-05,
+      "actions_to_success_mean": 3.8,
+      "planning_runtime_s_mean": 0.00027740022633224724,
+      "failure_counts": {
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "mean_action": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 5.0682449666393266e-05,
+      "final_distance_median": 6.574406469219104e-05,
+      "cumulative_cost_mean": 0.00020272979866557306,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 2.632539253681898e-05,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "mse_action_s42": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0004330537572126071,
+      "final_distance_median": 0.0002349787903613354,
+      "cumulative_cost_mean": 0.0009688831858910045,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.044413675600662825,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "mse_action_s43": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00022604064636575126,
+      "final_distance_median": 0.0001681685922989345,
+      "cumulative_cost_mean": 0.0005808516146977538,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.04789413339458406,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "oracle": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 1,
+      "success_rate": 0.2,
+      "final_distance_mean": 2.1278721924818593e-05,
+      "final_distance_median": 2.470659751751826e-05,
+      "cumulative_cost_mean": 0.0001292072572386063,
+      "actions_to_success_mean": 1.0,
+      "planning_runtime_s_mean": 7.982854574616067,
+      "failure_counts": {
+        "timeout": 4,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "random": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00016209176585722638,
+      "final_distance_median": 0.0001750892856708316,
+      "cumulative_cost_mean": 0.00040959923439682494,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.00015608284156769513,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_action_s42": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00017263466278409303,
+      "final_distance_median": 0.00011131674033617797,
+      "cumulative_cost_mean": 0.0004104634103823114,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.05388344193343073,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_action_s43": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00033228451402253257,
+      "final_distance_median": 0.00015261146273280935,
+      "cumulative_cost_mean": 0.0007161955180350838,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.04406885004136711,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_action_s44": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00013876519911485953,
+      "final_distance_median": 0.00013353896975855844,
+      "cumulative_cost_mean": 0.00035959880284556497,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.04194872519001365,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_action_s45": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0003390481030353867,
+      "final_distance_median": 0.0002564543482965405,
+      "cumulative_cost_mean": 0.0006836378132602224,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.05679825018160045,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_noaction_s42": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0001081564904902147,
+      "final_distance_median": 7.427749567464266e-05,
+      "cumulative_cost_mean": 0.0003100933982212602,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.036103866435587405,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_noaction_s43": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0001081564904902147,
+      "final_distance_median": 7.427749567464266e-05,
+      "cumulative_cost_mean": 0.0003100933982212602,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.0356173331849277,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_noaction_s44": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0001081564904902147,
+      "final_distance_median": 7.427749567464266e-05,
+      "cumulative_cost_mean": 0.0003100933982212602,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03448270002845675,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    },
+    "vicreg_noaction_s45": {
+      "n_episodes": 8,
+      "n_scored": 5,
+      "n_unscored": 3,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0001081564904902147,
+      "final_distance_median": 7.427749567464266e-05,
+      "cumulative_cost_mean": 0.0003100933982212602,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03738404179457575,
+      "failure_counts": {
+        "timeout": 5,
+        "observationally_ambiguous": 3
+      },
+      "unscored_statuses": {
+        "observationally_ambiguous": 3
+      }
+    }
+  },
+  "validation_seeds": {
+    "heuristic": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 8,
+      "success_rate": 1.0,
+      "final_distance_mean": 2.0717910213336605e-08,
+      "final_distance_median": 1.472706880931663e-08,
+      "cumulative_cost_mean": 0.0001175660434223621,
+      "actions_to_success_mean": 4.0,
+      "planning_runtime_s_mean": 0.00020302597840782255,
+      "failure_counts": {},
+      "unscored_statuses": {}
+    },
+    "mean_action": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 6.264225030045454e-05,
+      "final_distance_median": 7.888712416091232e-05,
+      "cumulative_cost_mean": 0.0002505690012018182,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 2.8031281544826925e-05,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "mse_action_s42": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00029830054086164414,
+      "final_distance_median": 0.0001683170490899107,
+      "cumulative_cost_mean": 0.0006881162898394736,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.037258578071487136,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "mse_action_s43": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.0003990914243368204,
+      "final_distance_median": 0.00021596277395914763,
+      "cumulative_cost_mean": 0.0008896865902724511,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03531702574400697,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "oracle": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 3.278018500564634e-05,
+      "final_distance_median": 3.232468870110806e-05,
+      "cumulative_cost_mean": 0.0001728289511796801,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 9.29026860423619,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "random": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 8.733531891303384e-05,
+      "final_distance_median": 7.754950313050636e-05,
+      "cumulative_cost_mean": 0.00032433534401585007,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.00016033297288231552,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_action_s42": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00027734349741489344,
+      "final_distance_median": 0.00015047082820012235,
+      "cumulative_cost_mean": 0.0006793913350864388,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.04225516674341634,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_action_s43": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00021748237487531548,
+      "final_distance_median": 0.00017072918178808705,
+      "cumulative_cost_mean": 0.000607686345450009,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03652263515687082,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_action_s44": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00015547140962347776,
+      "final_distance_median": 0.0001303396939740367,
+      "cumulative_cost_mean": 0.00038268756773752663,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03613347919599619,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_action_s45": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 0.00031763093994413425,
+      "final_distance_median": 0.00013816447639590024,
+      "cumulative_cost_mean": 0.0006733385385232532,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03504027635790408,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_noaction_s42": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 9.722961052742802e-05,
+      "final_distance_median": 0.00010697423899015942,
+      "cumulative_cost_mean": 0.00033983903557987616,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03180420826538466,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_noaction_s43": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 9.722961052742802e-05,
+      "final_distance_median": 0.00010697423899015942,
+      "cumulative_cost_mean": 0.00033983903557987616,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.034540156717412174,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_noaction_s44": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 9.722961052742802e-05,
+      "final_distance_median": 0.00010697423899015942,
+      "cumulative_cost_mean": 0.00033983903557987616,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03541485978348646,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    },
+    "vicreg_noaction_s45": {
+      "n_episodes": 8,
+      "n_scored": 8,
+      "n_unscored": 0,
+      "n_success": 0,
+      "success_rate": 0.0,
+      "final_distance_mean": 9.722961052742802e-05,
+      "final_distance_median": 0.00010697423899015942,
+      "cumulative_cost_mean": 0.00033983903557987616,
+      "actions_to_success_mean": null,
+      "planning_runtime_s_mean": 0.03644609889306594,
+      "failure_counts": {
+        "timeout": 8
+      },
+      "unscored_statuses": {}
+    }
+  },
+  "checkpoints": [
+    {
+      "name": "vicreg_action_s42",
+      "family": "vicreg_action",
+      "path": "outputs/vicreg_nocrop/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00017263466278409303,
+        "final_distance_median": 0.00011131674033617797,
+        "cumulative_cost_mean": 0.0004104634103823114,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.05388344193343073,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00027734349741489344,
+        "final_distance_median": 0.00015047082820012235,
+        "cumulative_cost_mean": 0.0006793913350864388,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.04225516674341634,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_action_s43",
+      "family": "vicreg_action",
+      "path": "outputs/vicreg_nocrop_seed43/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00033228451402253257,
+        "final_distance_median": 0.00015261146273280935,
+        "cumulative_cost_mean": 0.0007161955180350838,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.04406885004136711,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00021748237487531548,
+        "final_distance_median": 0.00017072918178808705,
+        "cumulative_cost_mean": 0.000607686345450009,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03652263515687082,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_action_s44",
+      "family": "vicreg_action",
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00013876519911485953,
+        "final_distance_median": 0.00013353896975855844,
+        "cumulative_cost_mean": 0.00035959880284556497,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.04194872519001365,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00015547140962347776,
+        "final_distance_median": 0.0001303396939740367,
+        "cumulative_cost_mean": 0.00038268756773752663,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03613347919599619,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_action_s45",
+      "family": "vicreg_action",
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0003390481030353867,
+        "final_distance_median": 0.0002564543482965405,
+        "cumulative_cost_mean": 0.0006836378132602224,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.05679825018160045,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00031763093994413425,
+        "final_distance_median": 0.00013816447639590024,
+        "cumulative_cost_mean": 0.0006733385385232532,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03504027635790408,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_noaction_s42",
+      "family": "vicreg_noaction",
+      "path": "outputs/no_action/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": true,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0001081564904902147,
+        "final_distance_median": 7.427749567464266e-05,
+        "cumulative_cost_mean": 0.0003100933982212602,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.036103866435587405,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 9.722961052742802e-05,
+        "final_distance_median": 0.00010697423899015942,
+        "cumulative_cost_mean": 0.00033983903557987616,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03180420826538466,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_noaction_s43",
+      "family": "vicreg_noaction",
+      "path": "outputs/vicreg_nocrop_noaction_seed43/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": true,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0001081564904902147,
+        "final_distance_median": 7.427749567464266e-05,
+        "cumulative_cost_mean": 0.0003100933982212602,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.0356173331849277,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 9.722961052742802e-05,
+        "final_distance_median": 0.00010697423899015942,
+        "cumulative_cost_mean": 0.00033983903557987616,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.034540156717412174,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_noaction_s44",
+      "family": "vicreg_noaction",
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s44/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": true,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0001081564904902147,
+        "final_distance_median": 7.427749567464266e-05,
+        "cumulative_cost_mean": 0.0003100933982212602,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03448270002845675,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 9.722961052742802e-05,
+        "final_distance_median": 0.00010697423899015942,
+        "cumulative_cost_mean": 0.00033983903557987616,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03541485978348646,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "vicreg_noaction_s45",
+      "family": "vicreg_noaction",
+      "path": "results/reviewer_strengthening/05_more_seeds/vicreg_noaction_s45/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": true,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0001081564904902147,
+        "final_distance_median": 7.427749567464266e-05,
+        "cumulative_cost_mean": 0.0003100933982212602,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03738404179457575,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 9.722961052742802e-05,
+        "final_distance_median": 0.00010697423899015942,
+        "cumulative_cost_mean": 0.00033983903557987616,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03644609889306594,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "mse_action_s42",
+      "family": "mse_action",
+      "path": "results/reviewer_strengthening/06_corrected_objective/mse_action_s42/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0004330537572126071,
+        "final_distance_median": 0.0002349787903613354,
+        "cumulative_cost_mean": 0.0009688831858910045,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.044413675600662825,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00029830054086164414,
+        "final_distance_median": 0.0001683170490899107,
+        "cumulative_cost_mean": 0.0006881162898394736,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.037258578071487136,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    },
+    {
+      "name": "mse_action_s43",
+      "family": "mse_action",
+      "path": "results/reviewer_strengthening/06_corrected_objective/mse_action_s43/last.pt",
+      "checkpoint_present": true,
+      "poor_action_control": false,
+      "report": {
+        "n_episodes": 8,
+        "n_scored": 5,
+        "n_unscored": 3,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.00022604064636575126,
+        "final_distance_median": 0.0001681685922989345,
+        "cumulative_cost_mean": 0.0005808516146977538,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.04789413339458406,
+        "failure_counts": {
+          "timeout": 5,
+          "observationally_ambiguous": 3
+        },
+        "unscored_statuses": {
+          "observationally_ambiguous": 3
+        }
+      },
+      "validation": {
+        "n_episodes": 8,
+        "n_scored": 8,
+        "n_unscored": 0,
+        "n_success": 0,
+        "success_rate": 0.0,
+        "final_distance_mean": 0.0003990914243368204,
+        "final_distance_median": 0.00021596277395914763,
+        "cumulative_cost_mean": 0.0008896865902724511,
+        "actions_to_success_mean": null,
+        "planning_runtime_s_mean": 0.03531702574400697,
+        "failure_counts": {
+          "timeout": 8
+        },
+        "unscored_statuses": {}
+      }
+    }
+  ],
+  "nonlearned_controllers": [
+    "random",
+    "mean_action",
+    "heuristic",
+    "oracle"
+  ],
+  "qualitative_comparison": {
+    "task": "center_target",
+    "seed": 2,
+    "oracle": "oracle",
+    "highlight": "vicreg_action_s44",
+    "poor_action_model": "vicreg_noaction_s42",
+    "random": "random",
+    "selection_uses_this_seed": false
+  }
+}

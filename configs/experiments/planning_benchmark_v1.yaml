@@ -1,0 +1,51 @@
+# Closed-loop planning benchmark.
+# One predeclared CEM configuration is applied to every controller and model.
+# It has not been selected on learned-model outcomes or on a test split.
+experiment_id: planning_benchmark_v1
+split_version: not_applicable
+split_version_reason: >
+  Goals are fresh simulator episodes, not dump episodes. This is neither
+  legacy validation nor cvpr_v1 test.
+select_on_test: false
+same_config_for_every_model: true
+planning_config_status: predeclared_not_validation_swept
+active_config: predeclared_v1
+poor_action_family: vicreg_noaction
+success_fraction_of_initial: 0.25
+tasks: [center_target, region_target, configuration, bar_orientation]
+seeds: [0, 1, 2, 3]
+validation_seeds: [0, 1]
+report_seeds: [2, 3]
+qualitative:
+  task: center_target
+  seed: 2
+highlight_rule: >
+  The highlighted learned model is the action-conditioned checkpoint with the
+  highest mean success on the validation seeds, breaking ties by lower mean
+  final distance. The no-action family is not eligible. Report seeds, including
+  the qualitative episode, are not used for that choice. If the validation
+  scores tie, there is no highlight.
+max_env_steps: 4
+cem:
+  horizon: 4
+  population: 24
+  elite_fraction: 0.25
+  n_iterations: 3
+  temporal_smooth: 0.5
+  action_dim: 4
+  lower: [0.08, 0.08, -1.2, -1.2]
+  upper: [0.92, 0.92, 1.2, 1.2]
+  mean: [0.5, 0.5, 0.0, 0.0]
+  std: [0.2, 0.2, 0.4, 0.4]
+bounds_note: >
+  Contact bounds match the simulator sampler. Force bounds are three times
+  the sampler's 0.40 standard deviation. Elite fraction matches the existing
+  linear-dynamics CEM check. The population and iteration counts are a
+  shorter predeclared setting, not a fit to any learned model.
+controllers: [random, mean_action, heuristic, oracle, learned]
+notes: >
+  Oracle MPC rolls the true simulator. Learned MPC rolls the world model in
+  latent space toward an encoded goal image and executes the first action in
+  the simulator. The no-action family is the predeclared weak action-sensitivity
+  control. Checkpoint metrics in the aggregation file are unmeasured until
+  the benchmark is executed.

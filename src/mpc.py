@@ -205,3 +205,70 @@ def oracle_propose(
         rng=rng,
     )
     return result["action"], result["sequence"], float(result["cost"])
+
+
+def latent_plan_cost(
+    sequences: Any,
+    rollout_fn: Callable[[np.ndarray, np.ndarray], np.ndarray],
+    latent: Any,
+    goal_latent: Any,
+    action_mean: Any,
+    action_std: Any,
+) -> np.ndarray:
+    """Score sequences by the final latent's mean squared error to the goal.
+
+    Actions are mapped into the model's normalized coordinates before the
+    rollout. The goal latent is an encoded goal image, not particle state.
+    """
+    seq = np.asarray(sequences, dtype=np.float64)
+    if seq.ndim != 3:
+        raise ValueError(f"sequences must have shape (P, H, A), got {seq.shape}.")
+    mean = np.asarray(action_mean, dtype=np.float64).reshape(1, 1, -1)
+    std = np.maximum(np.asarray(action_std, dtype=np.float64).reshape(1, 1, -1), 1e-6)
+    if mean.shape[-1] != seq.shape[-1] or std.shape[-1] != seq.shape[-1]:
+        raise ValueError("action moments must match action_dim.")
+    predicted = np.asarray(rollout_fn(np.asarray(latent, dtype=np.float64), (seq - mean) / std), dtype=np.float64)
+    if predicted.shape[0] != seq.shape[0] or predicted.ndim != 3:
+        raise ValueError("rollout must return (population, horizon, latent_dim).")
+    goal = np.asarray(goal_latent, dtype=np.float64).reshape(1, -1)
+    if predicted.shape[-1] != goal.shape[-1]:
+        raise ValueError("goal latent dimension does not match the rollout.")
+    if not np.all(np.isfinite(predicted)):
+        raise ValueError("rollout predictions must be finite.")
+    return np.mean((predicted[:, -1, :] - goal) ** 2, axis=-1)
+
+
+def learned_propose(
+    latent: Any,
+    goal_latent: Any,
+    rollout_fn: Callable[[np.ndarray, np.ndarray], np.ndarray],
+    cem: dict[str, Any],
+    rng: np.random.Generator,
+    warm: np.ndarray | None,
+    *,
+    action_mean: Any,
+    action_std: Any,
+) -> tuple[np.ndarray, np.ndarray, float]:
+    """CEM in the learned model's latent rollout. One config for every model."""
+    from src.planning import cem_plan_sequence
+
+    mean = cem["mean"] if warm is None else warm
+
+    def cost(samples: np.ndarray) -> np.ndarray:
+        return latent_plan_cost(samples, rollout_fn, latent, goal_latent, action_mean, action_std)
+
+    result = cem_plan_sequence(
+        cost,
+        mean,
+        cem["std"],
+        horizon=int(cem["horizon"]),
+        population=int(cem["population"]),
+        n_iterations=int(cem["n_iterations"]),
+        elite_fraction=float(cem["elite_fraction"]),
+        action_dim=int(cem["action_dim"]),
+        lower=cem["lower"],
+        upper=cem["upper"],
+        temporal_smooth=float(cem["temporal_smooth"]),
+        rng=rng,
+    )
+    return result["action"], result["sequence"], float(result["cost"])

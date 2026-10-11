@@ -1,0 +1,16 @@
+{
+  "random": "timeout",
+  "mean_action": "timeout",
+  "heuristic": "success",
+  "oracle": "timeout",
+  "vicreg_action_s42": "timeout",
+  "vicreg_action_s43": "timeout",
+  "vicreg_action_s44": "timeout",
+  "vicreg_action_s45": "timeout",
+  "vicreg_noaction_s42": "timeout",
+  "vicreg_noaction_s43": "timeout",
+  "vicreg_noaction_s44": "timeout",
+  "vicreg_noaction_s45": "timeout",
+  "mse_action_s42": "timeout",
+  "mse_action_s43": "timeout"
+}
