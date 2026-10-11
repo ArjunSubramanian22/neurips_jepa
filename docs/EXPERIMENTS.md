@@ -49,6 +49,18 @@ Output: `experiments/runs/cascade_protocol_smoke_v1/cascade_layers.png`.
 - **Bookkeeping gap, not a new measurement.** `EXPERIMENT_MANIFEST.csv` still marks `stiffness_particle_state_probe` and `state_perturbation_control` as `not_run` with an empty path. The files `results/audit_phase2/stiffness_positive_controls.csv`, `results/audit_phase2/vn_state_perturbation.csv`, and `results/final_checkpoint_results.csv` are present. This baseline did not recompute those analyses.
 - **Permitted interpretation.** The twelve paper checkpoints on disk match the manifest. The original observation tensor is not in the worktree, so `scripts/evaluate_final.py` cannot be rerun until that tensor is restored or regenerated and its hash is checked against `ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f`.
 
+## dump_regeneration_hashcheck_v1
+
+- **Status.** COMPLETE. Failure reason: none. No model was evaluated.
+- **Research question.** Does a local regeneration with dump seed 0, 2000 episodes, length 16, and one worker reproduce the manifest hashes for the observation tensor and the recorded actions?
+- **Hypothesis.** Per-episode RNG `seed + 10007 * episode_index` makes the dump independent of worker count, so `--workers 1` matches `DATA_MANIFEST.csv`.
+- **Implementation.** `python3.13 scripts/generate_trajectories.py --n-episodes 2000 --episode-length 16 --img-size 64 --output outputs/_regen_seed0 --seed 0 --workers 1`, then `python3.13 scripts/check_regenerated_dump.py`. Code commit of the checker: `7b342c9ffe8e`. The checker started from a clean tree.
+- **Controls.** Actions, stiffness labels, stiffness values, and geometry labels are hashed as well as observations. The copy into `outputs/physics_mpm/observations.npy` runs only if observations and actions both match. Existing action and label files are not overwritten.
+- **Confounds.** The manifest hash is the local canonical dump, not the Linux replay tensor named in `DATA_MANIFEST.csv`. Metadata JSON is not required to match, because it records wall-clock seconds and the worker count.
+- **Success criterion.** Regenerated observations and actions match the manifest hashes.
+- **Recorded outcome.** `experiments/runs/dump_regeneration_hashcheck_v1/hashcheck.json`: observations, actions, stiffness labels, stiffness values, and geometry labels all match. Observations SHA-256 begins `ee3fe0fedfc6`, the manifest value. The checker copied `observations.npy` into `outputs/physics_mpm/`. `tests.test_counterfactual_fork.SnapshotForkTests.test_dump_replay_matches_stored_episode_if_present` then passed for episode 1800.
+- **Permitted interpretation.** This machine can regenerate the manifest observation tensor. That does not establish byte identity with the Linux replay file, and it does not re-score any checkpoint.
+
 ## Historical dump and revised-paper evaluations
 
 These were not rerun in this pass. Their protocol and caveats are in `AUDIT.md`, `REPRODUCIBILITY_MATRIX.md`, and `configs/protocols/hist_v1_split.yaml`. Do not mix cropped `outputs/vicreg/last.pt` and `outputs/mse/last.pt` (`crop_scale_min=0.75`) with the no-crop `last.pt` checkpoints.

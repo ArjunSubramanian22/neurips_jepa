@@ -15,3 +15,5 @@ Registered and completed, at code commit `949564e`:
 No paper checkpoint was retrained or re-scored. No test-set protocol was edited after looking at test metrics. `fresh_pool_v2` was defined and not applied to the historical 2000 episodes.
 
 `EXPERIMENT_MANIFEST.csv` was left unchanged. It still says the stiffness and state-perturbation controls were not run, while later files under `results/audit_phase2/` are present. That discrepancy is recorded in `docs/EXPERIMENTS.md` rather than silently rewritten.
+
+`dump_regeneration_hashcheck_v1` regenerated the seed-0 dump with one worker. Observations and actions matched `DATA_MANIFEST.csv`, and the observation tensor was copied to `outputs/physics_mpm/observations.npy`. Episode 1800 of that file matches `replay_episode`. Checkpoints were not re-scored.

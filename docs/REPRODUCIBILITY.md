@@ -48,7 +48,7 @@ The figure is redrawn from `experiments/runs/cascade_protocol_smoke_v1/pairs.jso
 
 `python3.13 reproduce_paper_results.py` still regenerates the cached reviewer-strengthening analysis described in the root `REPRODUCIBILITY.md`. It does not train.
 
-`scripts/evaluate_final.py` is the val-only evaluator for the ten no-crop `last.pt` checkpoints. It requires `outputs/physics_mpm/observations.npy`. That file is gitignored (about 375 MB) and was absent when `reproducibility_baseline_v1` ran. The recorded SHA-256 in `DATA_MANIFEST.csv` is `ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f`. Do not substitute another dump without recording a new experiment id and a hash comparison.
+`scripts/evaluate_final.py` is the val-only evaluator for the ten no-crop `last.pt` checkpoints. It requires `outputs/physics_mpm/observations.npy`. That file is gitignored (about 375 MB) and was absent when `reproducibility_baseline_v1` ran. `dump_regeneration_hashcheck_v1` later regenerated it with `--workers 1` and `--seed 0`. The observations and actions matched `DATA_MANIFEST.csv` (`ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f` for observations), and the tensor was copied into place. Do not substitute a dump that fails that comparison.
 
 Regeneration command, written beside the canonical dump only after the hashes match the manifest:
 
