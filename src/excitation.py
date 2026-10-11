@@ -310,13 +310,19 @@ def _eligible(row: Mapping[str, Any], limits: Mapping[str, float]) -> bool:
     return bool(row["stable"]) and float(row["median_rms_pos"]) <= float(limits["max_median_rms_pos"])
 
 
-def _closest(rows: list[dict[str, Any]], target: float, used: set[str]) -> dict[str, Any] | None:
+def _target_axis(band: Mapping[str, Any]) -> tuple[float, str]:
+    if "target_pixel_rms" in band:
+        return float(band["target_pixel_rms"]), "median_pixel_rms"
+    return float(band["target_raster_change"]), "median_raster_change"
+
+
+def _closest(rows: list[dict[str, Any]], target: float, axis: str, used: set[str]) -> dict[str, Any] | None:
     pool = [row for row in rows if row["environment_id"] not in used]
     if not pool:
         return None
     pool.sort(
         key=lambda row: (
-            abs(float(row["median_raster_change"]) - target),
+            abs(float(row[axis]) - target),
             float(row["action_gain"]),
             int(row["command_hold"]),
             str(row["environment_id"]),
@@ -348,7 +354,8 @@ def select_regimes(
         used.add(legacy_rows[0]["environment_id"])
     else:
         low_pool = [row for row in rows if _within_band(row, low_band, upper_only=True)]
-        choice = _closest(low_pool, float(low_band.get("target_raster_change", 0.05)), used)
+        low_target, low_axis = _target_axis(low_band)
+        choice = _closest(low_pool, low_target, low_axis, used)
         selected["low"] = (
             {"status": "UNFILLED", "environment_id": None, "source": None}
             if choice is None
@@ -358,15 +365,23 @@ def select_regimes(
             used.add(choice["environment_id"])
 
     persistent_band = criteria["persistent"]
-    persistent_pool = [
-        row
-        for row in rows
-        if int(row["command_hold"]) >= int(persistent_band["min_command_hold"])
-        and float(row["damping"]) <= float(persistent_band["max_damping"])
-        and float(row["median_raster_change"]) >= float(persistent_band["min_raster_change"])
-        and float(row["median_pixel_rms"]) <= float(persistent_band["max_pixel_rms"])
-    ]
-    persistent = _closest(persistent_pool, float(persistent_band["target_raster_change"]), used)
+    persistent_pool = []
+    for row in rows:
+        if int(row["command_hold"]) < int(persistent_band["min_command_hold"]):
+            continue
+        if float(row["damping"]) > float(persistent_band["max_damping"]):
+            continue
+        if "min_raster_change" in persistent_band and float(row["median_raster_change"]) < float(
+            persistent_band["min_raster_change"]
+        ):
+            continue
+        if "min_pixel_rms" in persistent_band and float(row["median_pixel_rms"]) < float(persistent_band["min_pixel_rms"]):
+            continue
+        if float(row["median_pixel_rms"]) > float(persistent_band["max_pixel_rms"]):
+            continue
+        persistent_pool.append(row)
+    persistent_target, persistent_axis = _target_axis(persistent_band)
+    persistent = _closest(persistent_pool, persistent_target, persistent_axis, used)
     selected["persistent"] = (
         {"status": "UNFILLED", "environment_id": None}
         if persistent is None
@@ -378,7 +393,8 @@ def select_regimes(
     for name in ("high", "medium"):
         band = criteria[name]
         pool = [row for row in rows if _within_band(row, band)]
-        choice = _closest(pool, float(band["target_raster_change"]), used)
+        target, axis = _target_axis(band)
+        choice = _closest(pool, target, axis, used)
         selected[name] = (
             {"status": "UNFILLED", "environment_id": None}
             if choice is None

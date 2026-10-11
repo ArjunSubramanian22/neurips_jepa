@@ -66,6 +66,52 @@ def environment_from_dict(payload: dict[str, Any]) -> EnvironmentSpec:
     )
 
 
+def candidate_id(params: dict[str, Any]) -> str:
+    """Stable id for one sweep point. Not used for ``mpm_legacy``."""
+    return (
+        f"cand_d{float(params['damping']):g}"
+        f"_g{float(params['action_gain']):g}"
+        f"_r{float(params['contact_radius']):g}"
+        f"_h{int(params['command_hold'])}"
+        f"_w{params['contact_weight_mode']}"
+        f"_c{float(params['center_influence']):g}"
+        f"_f{float(params['force_influence']):g}"
+    )
+
+
+def calibration_candidates(config: dict[str, Any]) -> list[EnvironmentSpec]:
+    """Legacy baseline plus the predeclared grid. Duplicate legacy physics is skipped."""
+    legacy = mpm_legacy()
+    specs = [legacy]
+    seen = {legacy.environment_id}
+    grid = config["grid"]
+    keys = (
+        "damping",
+        "action_gain",
+        "contact_radius",
+        "command_hold",
+        "contact_weight_mode",
+        "center_influence",
+        "force_influence",
+    )
+    points: list[dict[str, Any]] = []
+    axes = [list(grid[key]) for key in keys]
+    from itertools import product
+
+    for combo in product(*axes):
+        points.append(dict(zip(keys, combo, strict=True)))
+    points.extend(dict(item) for item in config.get("extra", []))
+    for params in points:
+        spec = with_overrides(legacy, candidate_id(params), role="candidate", **params)
+        if spec.environment_id in seen:
+            continue
+        if spec.mpm == legacy.mpm and spec.command_hold == legacy.command_hold:
+            continue
+        seen.add(spec.environment_id)
+        specs.append(spec)
+    return specs
+
+
 def with_overrides(base: EnvironmentSpec, environment_id: str, **overrides: Any) -> EnvironmentSpec:
     """Copy ``base`` and replace MPM or hold fields. ``command_hold`` is not an MPM field."""
     hold = int(overrides.pop("command_hold", base.command_hold))

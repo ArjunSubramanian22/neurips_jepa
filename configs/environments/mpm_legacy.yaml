@@ -1,0 +1,21 @@
+environment_id: mpm_legacy
+role: baseline
+command_hold: 3
+n_grid: 32
+dt: 0.001
+gravity: 0.0
+particle_spacing: 0.026
+p_rho: 1.0
+action_gain: 55.0
+contact_radius: 0.10
+damping: 0.08
+img_size: 64
+in_channels: 3
+action_dim: 4
+render_sigma: 1.35
+substeps: 8
+contact_weight_mode: normalized
+force_influence: 1.0
+center_influence: 1.0
+notes: >
+  Historical dump settings. This file does not depend on the excitation sweep.
