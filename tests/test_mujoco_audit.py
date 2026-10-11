@@ -15,7 +15,8 @@ from src.envs.mujoco_audit import audit_task
 
 class MujocoAuditTests(unittest.TestCase):
     def test_each_task_separates_contact_from_a_miss(self) -> None:
-        for task in ("slide_x", "slide_y", "hit_or_miss"):
+        reports = {}
+        for task in ("slide_x", "slide_y", "glance_x"):
             report = audit_task(task, seed=0)
             pair = report["along_vs_hold"]
             self.assertGreater(pair["physical"]["rms_pos"], 0.02, task)
@@ -31,6 +32,12 @@ class MujocoAuditTests(unittest.TestCase):
             self.assertLess(report["retrieval"]["constant_ignores_action"]["top1"], 1.0)
             self.assertEqual(report["planning"]["oracle_chosen"], "along")
             self.assertEqual(report["planning"]["learned"]["status"], "not_measured")
+            self.assertEqual(len(pair["observation"]["mse_per_channel"]), 3)
+            reports[task] = report
+        self.assertLess(
+            reports["glance_x"]["box_xy"]["along"][0],
+            reports["slide_x"]["box_xy"]["along"][0] - 0.2,
+        )
 
 
 if __name__ == "__main__":

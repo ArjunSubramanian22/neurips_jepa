@@ -45,11 +45,12 @@ def _roll(env: MujocoBoxPush, state: dict[str, Any], action: np.ndarray) -> dict
     env.set_state(state)
     for _ in range(HORIZON):
         env.step(action)
+    image = np.transpose(env.render(), (2, 0, 1))
     return {
         "qpos": env.data.qpos.copy(),
         "qvel": env.data.qvel.copy(),
         "box_xy": env.box_xy(),
-        "image": env.render(),
+        "image": image,
     }
 
 

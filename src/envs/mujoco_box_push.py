@@ -33,11 +33,12 @@ XML = """
 </mujoco>
 """
 
-# Pusher starts just outside the box on one axis. The other axis is a miss.
+# Pusher starts just outside the box. ``glance_x`` is off center, so the same
+# x push rotates the box instead of driving it across the floor.
 TASKS = {
     "slide_x": {"pusher_xy": (-0.16, 0.0), "axis": 0},
     "slide_y": {"pusher_xy": (0.0, -0.16), "axis": 1},
-    "hit_or_miss": {"pusher_xy": (-0.16, 0.0), "axis": 0},
+    "glance_x": {"pusher_xy": (-0.16, 0.06), "axis": 0},
 }
 ACTION_LIMIT = 0.01
 SUBSTEPS = 8
