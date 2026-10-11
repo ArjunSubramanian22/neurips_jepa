@@ -52,7 +52,7 @@ def mpm_legacy() -> EnvironmentSpec:
 def environment_from_dict(payload: dict[str, Any]) -> EnvironmentSpec:
     """Rebuild a spec from a flat dict. Unknown keys are rejected."""
     mpm_fields = set(MPMConfig.__dataclass_fields__)
-    extra = {"environment_id", "role", "command_hold", "notes"}
+    extra = {"environment_id", "role", "command_hold", "notes", "calibration", "source_candidate"}
     unknown = set(payload) - mpm_fields - extra
     if unknown:
         raise ValueError(f"Unknown environment fields: {sorted(unknown)}")

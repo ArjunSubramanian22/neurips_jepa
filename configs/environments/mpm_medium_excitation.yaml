@@ -1,0 +1,33 @@
+environment_id: mpm_medium_excitation
+source_candidate: cand_d0.03_g800_r0.1_h8_wnormalized_c1_f1
+role: medium
+command_hold: 8
+damping: 0.03
+action_gain: 800.0
+contact_radius: 0.1
+contact_weight_mode: normalized
+center_influence: 1.0
+force_influence: 1.0
+n_grid: 32
+dt: 0.001
+substeps: 8
+img_size: 64
+particle_spacing: 0.026
+p_rho: 1.0
+gravity: 0.0
+in_channels: 3
+action_dim: 4
+render_sigma: 1.35
+calibration:
+  selection_fork: force_reversed
+  median_rms_pos: 0.0024837880489251367
+  median_rms_vel: 0.12870759784822267
+  median_pixel_rms: 0.1564786470822836
+  median_raster_mse: 0.00035383088335415867
+  median_fraction_identical: 0.8416748046875
+  median_raster_change: 0.1583251953125
+  median_density_change_rate: 0.1163330078125
+  median_velocity_change_rate: 0.1903076171875
+  action_rms_pearson: 0.9495824273882375
+  action_rms_spearman: 0.8699690402476781
+  stable: true

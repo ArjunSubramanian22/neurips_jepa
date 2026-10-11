@@ -44,6 +44,17 @@ class ExcitationGridTests(unittest.TestCase):
         ]
         self.assertEqual(legacy_copies, [])
 
+    def test_selected_regime_files_load(self) -> None:
+        legacy = mpm_legacy().mpm
+        for name in ("mpm_medium_excitation", "mpm_high_excitation", "mpm_persistent_excitation"):
+            path = ROOT / "configs" / "environments" / f"{name}.yaml"
+            self.assertTrue(path.is_file(), name)
+            spec = environment_from_dict(yaml.safe_load(path.read_text(encoding="utf-8")))
+            self.assertEqual(spec.environment_id, name)
+            self.assertNotEqual(spec.mpm, legacy)
+            self.assertGreater(spec.mpm.action_gain, legacy.action_gain)
+            self.assertLess(spec.mpm.damping, legacy.damping)
+
     def test_plot_writes_png(self) -> None:
         rows = [
             {
