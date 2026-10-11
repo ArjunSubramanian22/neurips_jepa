@@ -1,0 +1,31 @@
+# Visibility sensitivity. The primary cut is fixed here, before outcome metrics.
+# Quantile 0.67 of nonzero raster MSE is the historical top-third rule.
+# It is fit on cvpr_v1 validation visibility only. It is not chosen by cosine
+# or retrieval, and it is not fit on the legacy reporting tail.
+experiment_id: visibility_sensitivity_v1
+split_version: cvpr_v1
+fit_role: val
+reporting_split_version: legacy_v1
+reporting_is_test_set: false
+primary:
+  visibility_metric: raster_mse
+  population: nonzero
+  quantile: 0.67
+  top_fraction: 0.33
+  intervention: one_step_force_reversal
+  horizon: 1
+  start_time: 0
+  uses_predictor: false
+top_fractions: [0.10, 0.20, 0.25, 0.33, 0.50, 0.75, 1.0]
+absolute_thresholds:
+  raster_mse: [1.0e-6, 1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2]
+  rgb_mse: [1.0e-6, 1.0e-5, 1.0e-4, 1.0e-3, 1.0e-2]
+  fraction_affected_pixels: [0.01, 0.02, 0.05, 0.10, 0.20]
+n_visibility_bins: 10
+reporting_table: experiments/runs/horizon_audit_v1/queries.parquet
+focus_protocol: persistent_alternative
+focus_horizon: 10
+notes: >
+  Sensitivity percentiles describe the legacy reporting table. They do not
+  replace the primary threshold. State/action ratio is reported only when
+  that column is present.
