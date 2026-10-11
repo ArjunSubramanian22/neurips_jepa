@@ -1,0 +1,13 @@
+{
+  "experiment_id": "rssm_v1",
+  "trained": false,
+  "is_test_set": false,
+  "split_version": "legacy_v1",
+  "rollout_metrics": "not_measured",
+  "counterfactual_magnitude": "not_measured",
+  "directional_cosine": "not_measured",
+  "retrieval": "not_measured",
+  "planning": "not_measured",
+  "raw_mse_comparable_across_architectures": false,
+  "reason": "configs/seeds/rssm_v1.yaml has no checkpoints. An untrained initialization is not an evaluation."
+}

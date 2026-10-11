@@ -114,6 +114,18 @@ def rollout_predictions(
             k_max,
             batch_size=batch_size,
         )
+    if getattr(model, "architecture", None) == "rssm":
+        from src.rssm_eval import rssm_rollout_predictions
+
+        return rssm_rollout_predictions(
+            model,
+            observations,
+            actions,
+            max_horizon,
+            device,
+            batch_size=batch_size,
+            start_frame=start_frame,
+        )
     latent_dim = model.latent_dim
     z_hat = torch.empty(n_episodes, k_max, latent_dim, device=device)
     z_tgt = torch.empty(n_episodes, k_max, latent_dim, device=device)
