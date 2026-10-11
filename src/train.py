@@ -56,6 +56,7 @@ if __package__:
     from .models.particle_gnn import ParticleGraphWorldModel
     from .models.rssm import CompactRSSM, RSSMWindowDataset
     from .models.latent_transformer import CausalLatentDynamics
+    from .models.obs_pred import ActionConditionedUNet
 else:
     _ROOT = Path(__file__).resolve().parent.parent
     if str(_ROOT) not in sys.path:
@@ -84,10 +85,11 @@ else:
     from src.models.particle_gnn import ParticleGraphWorldModel
     from src.models.rssm import CompactRSSM, RSSMWindowDataset
     from src.models.latent_transformer import CausalLatentDynamics
+    from src.models.obs_pred import ActionConditionedUNet
 
 LOGGER = logging.getLogger("ac_jepa.train")
 RunMode = Literal["train", "eval", "train_and_eval"]
-WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel, CompactRSSM, CausalLatentDynamics]
+WorldModel = Union[ACJEPA, PixelSpaceAutoencoder, ParticleGraphWorldModel, CompactRSSM, CausalLatentDynamics, ActionConditionedUNet]
 
 
 class ExperimentLogger:
@@ -241,6 +243,8 @@ def build_world_model(cfg: ExperimentConfig) -> WorldModel:
         return CompactRSSM(cfg.model)
     if cfg.training.loss_type == "latent_tf":
         return CausalLatentDynamics(cfg.model)
+    if cfg.training.loss_type == "obs_pred":
+        return ActionConditionedUNet(cfg.model)
     return ACJEPA(cfg.model)
 
 
@@ -475,6 +479,10 @@ class ACJEPATrainer:
         elif cfg.training.loss_type == "latent_tf":
             self.train_loader, self.val_loader = _sequence_loaders(
                 self.dataset, cfg.training, cfg.model.latent_tf_history + 1
+            )
+        elif cfg.training.loss_type == "obs_pred" and cfg.training.obs_pred_horizon > 1:
+            self.train_loader, self.val_loader = _sequence_loaders(
+                self.dataset, cfg.training, cfg.training.obs_pred_horizon + 1
             )
         self.optimizer = AdamW(
             trainable,
@@ -833,6 +841,72 @@ class ACJEPATrainer:
             "grad_norm": float(grad_norm),
         }
 
+    def _require_raster_batch(self) -> None:
+        if self.cfg.training.observation_space == "rgb":
+            raise RuntimeError(
+                "RGB training needs particle positions to render rgb_v1. "
+                "The image dump is the physical raster, so observation_space must be raster."
+            )
+
+    def obs_pred_training_step(self, frames: torch.Tensor, actions: torch.Tensor) -> dict[str, float]:
+        self._require_raster_batch()
+        self.model.train()
+        frames = frames.to(self.device, non_blocking=True)
+        actions = actions.to(self.device, non_blocking=True)
+        self.optimizer.zero_grad(set_to_none=True)
+        with _autocast(self.device, self.use_amp):
+            terms = self.model.prediction_loss(
+                frames,
+                actions,
+                horizon=self.cfg.training.obs_pred_horizon,
+                teacher_force=self.cfg.training.obs_pred_teacher_force,
+            )
+        self.scaler.scale(terms["loss"]).backward()
+        action_grad = self.model.action_path_grad_norm()
+        self.scaler.unscale_(self.optimizer)
+        max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
+        grad_norm = torch.nn.utils.clip_grad_norm_(list(self.model.parameters()), max_norm)
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+        self.scheduler.step()
+        self.global_step += 1
+        return {
+            "loss": float(terms["loss"].detach().item()),
+            "action_path_grad_norm": action_grad,
+            "lr": float(self.optimizer.param_groups[0]["lr"]),
+            "grad_norm": float(grad_norm),
+        }
+
+    @torch.no_grad()
+    def _obs_pred_evaluate_loader(self, loader: DataLoader) -> dict[str, float]:
+        self.model.eval()
+        meter = _AverageMeter()
+        for frames, actions in loader:
+            terms = self.model.prediction_loss(
+                frames.to(self.device),
+                actions.to(self.device),
+                horizon=self.cfg.training.obs_pred_horizon,
+                teacher_force=True,
+            )
+            meter.update({"loss": float(terms["loss"].detach().item())}, batch_size=int(frames.shape[0]))
+        return meter.mean()
+
+    @torch.no_grad()
+    def _obs_pred_evaluate_transitions(self, loader: DataLoader) -> dict[str, float]:
+        self.model.eval()
+        meter = _AverageMeter()
+        for batch in loader:
+            x_t, a_t, x_tp1, _a_prime, _x_prime, _cf_valid = _unpack_transition_batch(batch)
+            frames = torch.stack([x_t, x_tp1], dim=1).to(self.device)
+            terms = self.model.prediction_loss(
+                frames,
+                a_t.unsqueeze(1).to(self.device),
+                horizon=1,
+                teacher_force=True,
+            )
+            meter.update({"loss": float(terms["loss"].detach().item())}, batch_size=int(x_t.shape[0]))
+        return meter.mean()
+
     def _fit_inverse_probe(self) -> None:
         """Fit the inverse head on a frozen encoder. Representation weights do not move."""
         from src.models.inverse_dynamics import InverseDynamicsHead, inverse_dynamics_loss
@@ -1018,6 +1092,15 @@ class ACJEPATrainer:
                         frames, actions = batch
                         metrics = self.latent_tf_training_step(frames, actions)
                         batch_n = int(frames.shape[0])
+                    elif train_cfg.loss_type == "obs_pred" and train_cfg.obs_pred_horizon > 1:
+                        frames, actions = batch
+                        metrics = self.obs_pred_training_step(frames, actions)
+                        batch_n = int(frames.shape[0])
+                    elif train_cfg.loss_type == "obs_pred":
+                        x_t, a_t, x_tp1, _a_prime, _x_prime, _cf_valid = _unpack_transition_batch(batch)
+                        frames = torch.stack([x_t, x_tp1], dim=1)
+                        metrics = self.obs_pred_training_step(frames, a_t.unsqueeze(1))
+                        batch_n = int(x_t.shape[0])
                     else:
                         x_t, a_t, x_tp1, a_prime, x_prime, cf_valid = _unpack_transition_batch(batch)
                         metrics = self.training_step(x_t, a_t, x_tp1, a_prime, x_prime, cf_valid)
@@ -1034,6 +1117,10 @@ class ACJEPATrainer:
                         val_stats = self._rssm_evaluate_loader(self.val_loader)
                     elif train_cfg.loss_type == "latent_tf":
                         val_stats = self._latent_tf_evaluate_loader(self.val_loader)
+                    elif train_cfg.loss_type == "obs_pred" and train_cfg.obs_pred_horizon > 1:
+                        val_stats = self._obs_pred_evaluate_loader(self.val_loader)
+                    elif train_cfg.loss_type == "obs_pred":
+                        val_stats = self._obs_pred_evaluate_transitions(self.val_loader)
                     else:
                         val_stats = self.evaluate_loader(self.val_loader)
                     epoch_stats.update({f"val_{k}": v for k, v in val_stats.items()})

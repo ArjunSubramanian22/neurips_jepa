@@ -66,6 +66,7 @@ class ModelConfig:
         latent_tf_heads: Attention heads. Width must be divisible by this.
         latent_tf_history: How many past latent/action pairs a prediction may use.
         latent_tf_train_mode: ``one_step`` is teacher-forced. ``autoregressive`` feeds predictions back.
+        obs_pred_width: Base channel width of the observation-space U-Net.
     """
 
     in_channels: int = 3
@@ -100,6 +101,7 @@ class ModelConfig:
     latent_tf_heads: int = 4
     latent_tf_history: int = 4
     latent_tf_train_mode: Literal["one_step", "autoregressive"] = "one_step"
+    obs_pred_width: int = 32
 
     def __post_init__(self) -> None:
         if self.img_size <= 0 or self.patch_size <= 0:
@@ -137,6 +139,8 @@ class ModelConfig:
             raise ValueError("latent_tf_width must be divisible by latent_tf_heads.")
         if self.latent_tf_history < 1:
             raise ValueError("latent_tf_history must be >= 1.")
+        if self.obs_pred_width < 1:
+            raise ValueError("obs_pred_width must be positive.")
 
     @property
     def num_patches(self) -> int:
@@ -205,6 +209,11 @@ class TrainingConfig:
         target_mask_aux_weight: Weight of the optional patch auxiliary. The CLS
             term stays in that readout. Unused by weighted pooling.
         rssm_window: Observation window for RSSM training. Ignored by JEPA.
+        obs_pred_horizon: Future frames the observation model is trained to predict.
+        obs_pred_teacher_force: When the horizon is longer than one, feed true frames
+            rather than the model's own predictions.
+        observation_space: ``raster`` is the physical training image. ``rgb`` is
+            the separate rgb_v1 appearance image and needs particle positions.
     """
 
     batch_size: int = 32
@@ -217,7 +226,7 @@ class TrainingConfig:
     grad_clip: float = 1.0
     beta1: float = 0.9
     beta2: float = 0.999
-    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn", "rssm", "latent_tf"] = "vicreg"
+    loss_type: Literal["smooth_l1", "mse", "cosine", "vicreg", "vicreg_no_cov", "pixel_ae", "gnn", "rssm", "latent_tf", "obs_pred"] = "vicreg"
     vicreg_sim_coeff: float = 25.0
     vicreg_std_coeff: float = 25.0
     vicreg_cov_coeff: float = 1.0
@@ -252,6 +261,9 @@ class TrainingConfig:
     target_mask_temperature: float = 0.05
     target_mask_aux_weight: float = 1.0
     rssm_window: int = 8
+    obs_pred_horizon: int = 1
+    obs_pred_teacher_force: bool = True
+    observation_space: Literal["raster", "rgb"] = "raster"
 
     def __post_init__(self) -> None:
         if self.batch_size < 1:
@@ -310,6 +322,8 @@ class TrainingConfig:
             self.inverse_aux_weight > 0.0 or self.cf_lambda_dir > 0.0 or self.cf_lambda_mag > 0.0 or self.cf_lambda_vec > 0.0
         ):
             raise ValueError("latent transformer training does not combine with JEPA auxiliary losses.")
+        if self.obs_pred_horizon < 1:
+            raise ValueError("obs_pred_horizon must be >= 1.")
 
     def resolve_device(self) -> torch.device:
         """Map ``device`` to a concrete ``torch.device``."""
