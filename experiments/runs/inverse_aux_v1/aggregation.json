@@ -1,0 +1,99 @@
+{
+  "weights": [
+    0.0,
+    0.01,
+    0.1,
+    1.0
+  ],
+  "selection_metric": "val_rollout_mse",
+  "selection_role": "val",
+  "select_weight_on_test": false,
+  "selected_weight": null,
+  "selection_status": "not_measured",
+  "probe_eligible_for_weight_selection": false,
+  "rows": [
+    {
+      "weight": 0.0,
+      "role": "joint",
+      "status": "NOT_RUN",
+      "eligible_for_weight_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "latent_geometry": "not_measured",
+        "action_magnitude_response": "not_measured",
+        "directional_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "planning": "not_measured"
+      },
+      "val_rollout_mse": null,
+      "key": "w0"
+    },
+    {
+      "weight": 0.01,
+      "role": "joint",
+      "status": "NOT_RUN",
+      "eligible_for_weight_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "latent_geometry": "not_measured",
+        "action_magnitude_response": "not_measured",
+        "directional_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "planning": "not_measured"
+      },
+      "val_rollout_mse": null,
+      "key": "w0.01"
+    },
+    {
+      "weight": 0.1,
+      "role": "joint",
+      "status": "NOT_RUN",
+      "eligible_for_weight_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "latent_geometry": "not_measured",
+        "action_magnitude_response": "not_measured",
+        "directional_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "planning": "not_measured"
+      },
+      "val_rollout_mse": null,
+      "key": "w0.1"
+    },
+    {
+      "weight": 1.0,
+      "role": "joint",
+      "status": "NOT_RUN",
+      "eligible_for_weight_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "latent_geometry": "not_measured",
+        "action_magnitude_response": "not_measured",
+        "directional_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "planning": "not_measured"
+      },
+      "val_rollout_mse": null,
+      "key": "w1"
+    },
+    {
+      "weight": null,
+      "role": "probe",
+      "status": "NOT_RUN",
+      "eligible_for_weight_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "latent_geometry": "not_measured",
+        "action_magnitude_response": "not_measured",
+        "directional_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "planning": "not_measured"
+      },
+      "val_rollout_mse": null,
+      "key": "probe"
+    }
+  ],
+  "experiment_id": "inverse_aux_v1",
+  "weight_scale_note": "Actions are z-scored on the training split, so each coordinate is O(1). The VICReg invariance term is multiplied by 25. A weight of 1.0 is therefore a moderate auxiliary, not a rescaling of raw Newton forces. The grid is not adjusted.\n",
+  "trained": false
+}
