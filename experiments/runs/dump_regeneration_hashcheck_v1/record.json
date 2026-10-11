@@ -1,0 +1,97 @@
+{
+  "checkpoint": {
+    "note": "no checkpoint",
+    "path": null
+  },
+  "command": "python3.13 scripts/check_regenerated_dump.py",
+  "config": {
+    "copy_observations_if_actions_match": true,
+    "manifest": "DATA_MANIFEST.csv",
+    "regen_dir": "outputs/_regen_seed0"
+  },
+  "dataset_split": {
+    "evaluated": false,
+    "protocol_id": "hist_v1_last_fraction_val"
+  },
+  "ended_at": "2026-10-11T19:34:41+00:00",
+  "environment": {
+    "dump_seed": 0,
+    "n_episodes": 2000,
+    "simulator": "MLSMPM2D"
+  },
+  "experiment_id": "dump_regeneration_hashcheck_v1",
+  "failure_reason": null,
+  "git_commit": "7b342c9ffe8edffd27424a3666ae83926dd78f69",
+  "git_dirty": false,
+  "git_dirty_count": 0,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": true
+  },
+  "metrics": {
+    "actions_match": true,
+    "comparisons": [
+      {
+        "matches_manifest": true,
+        "measured_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+        "path": "outputs/physics_mpm/observations.npy",
+        "recorded_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+        "regen_exists": true
+      },
+      {
+        "matches_manifest": true,
+        "measured_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+        "path": "outputs/physics_mpm/actions.npy",
+        "recorded_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+        "regen_exists": true
+      },
+      {
+        "matches_manifest": true,
+        "measured_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+        "path": "outputs/physics_mpm/stiffness_labels.npy",
+        "recorded_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+        "regen_exists": true
+      },
+      {
+        "matches_manifest": true,
+        "measured_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+        "path": "outputs/physics_mpm/stiffness_values.npy",
+        "recorded_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+        "regen_exists": true
+      },
+      {
+        "matches_manifest": true,
+        "measured_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+        "path": "outputs/physics_mpm/geometry_labels.npy",
+        "recorded_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+        "regen_exists": true
+      }
+    ],
+    "copy_note": "copied regenerated observations.npy into outputs/physics_mpm/",
+    "models_evaluated": false,
+    "observations_copied": true,
+    "observations_match": true
+  },
+  "model": {
+    "name": null,
+    "note": "simulator regeneration hash check"
+  },
+  "output_dir": "experiments/runs/dump_regeneration_hashcheck_v1",
+  "schema_version": 1,
+  "seed": 0,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-11T19:34:40+00:00",
+  "status": "COMPLETE"
+}

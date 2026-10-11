@@ -1,0 +1,44 @@
+{
+  "comparisons": [
+    {
+      "path": "outputs/physics_mpm/observations.npy",
+      "regen_exists": true,
+      "measured_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+      "recorded_sha256": "ee3fe0fedfc65b690c5de5526a4a434a5dc3a44ee9f9064da7317b5f4cb0759f",
+      "matches_manifest": true
+    },
+    {
+      "path": "outputs/physics_mpm/actions.npy",
+      "regen_exists": true,
+      "measured_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+      "recorded_sha256": "cde17f18b4c123086297a59eea465ed75730f2ea7751fe7e6c1d6ef5ea70f9d1",
+      "matches_manifest": true
+    },
+    {
+      "path": "outputs/physics_mpm/stiffness_labels.npy",
+      "regen_exists": true,
+      "measured_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+      "recorded_sha256": "758264ceeea89af0da8ad76ec5f3c18e6958c27ed7ae6d97a39493f971673835",
+      "matches_manifest": true
+    },
+    {
+      "path": "outputs/physics_mpm/stiffness_values.npy",
+      "regen_exists": true,
+      "measured_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+      "recorded_sha256": "3adab68bd3e12bf4bfa0ecd4680185c62e1f889f70184dfc271f95e0ae92447f",
+      "matches_manifest": true
+    },
+    {
+      "path": "outputs/physics_mpm/geometry_labels.npy",
+      "regen_exists": true,
+      "measured_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+      "recorded_sha256": "39f397803dbefbad161a5d7d1915944c8d1656aafde0860f62c71096079fddff",
+      "matches_manifest": true
+    }
+  ],
+  "observations_match": true,
+  "actions_match": true,
+  "observations_copied": true,
+  "copy_note": "copied regenerated observations.npy into outputs/physics_mpm/",
+  "models_evaluated": false
+}

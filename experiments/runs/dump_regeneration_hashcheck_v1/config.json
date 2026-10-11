@@ -1,0 +1,5 @@
+{
+  "copy_observations_if_actions_match": true,
+  "manifest": "DATA_MANIFEST.csv",
+  "regen_dir": "outputs/_regen_seed0"
+}
