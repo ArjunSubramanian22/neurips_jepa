@@ -1,6 +1,7 @@
 # Physics dump frames exceed GitHub's 100 MB blob limit; regenerate with
 # scripts/generate_trajectories.py (see MAPPING.md / scripts/reproduce_all.sh).
 outputs/physics_mpm/observations.npy
+outputs/_regen_seed0/
 outputs/.mplconfig/
 results/reviewer_strengthening/.mplconfig/
 
