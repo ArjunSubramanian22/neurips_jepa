@@ -1,0 +1,111 @@
+{
+  "primary_family": "force_reversal",
+  "primary_variants": [
+    "base",
+    "direction",
+    "magnitude",
+    "direction_magnitude"
+  ],
+  "selection_role": "val",
+  "selection_metrics": [
+    "cosine_alignment",
+    "retrieval"
+  ],
+  "magnitude_response_is_a_selector": false,
+  "sensitivity_is_success": false,
+  "select_variant_on_test": false,
+  "selected_variant": null,
+  "selection_status": "not_measured",
+  "counterfactual_correctness_improved": false,
+  "control_improved": false,
+  "rows": [
+    {
+      "name": "base",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "direction",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "magnitude",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "direction_magnitude",
+      "status": "NOT_RUN",
+      "eligible_for_selection": true,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "fraction_0.5",
+      "status": "NOT_RUN",
+      "eligible_for_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    },
+    {
+      "name": "fraction_1",
+      "status": "NOT_RUN",
+      "eligible_for_selection": false,
+      "metrics": {
+        "rollout_error": "not_measured",
+        "effective_rank": "not_measured",
+        "magnitude_response": "not_measured",
+        "cosine_alignment": "not_measured",
+        "retrieval": "not_measured",
+        "multi_step_fidelity": "not_measured",
+        "planning_success": "not_measured"
+      }
+    }
+  ],
+  "experiment_id": "action_alignment_v1",
+  "lambda_scale_note": "Direction and unit-vector losses lie in [0, 2]. The magnitude loss is a log ratio. VICReg invariance is multiplied by 25, so lambda 1.0 is an auxiliary. The value was not tuned, and the grid is not adjusted.\n",
+  "success_rule": "A variant is ahead of base only when validation cosine alignment and validation retrieval both improve. Magnitude response is reported and is not a selector. Control improvement also requires planning success. Neither comparison reads the test split.\n",
+  "trained": false
+}
