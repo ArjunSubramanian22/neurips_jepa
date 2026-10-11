@@ -1,0 +1,34 @@
+# CVPR study split for the canonical 2000-episode dump (seed 0).
+# Exact ids: configs/protocols/cvpr_v1_episode_ids.json
+# Narrative: docs/DATA_SPLITS.md
+split_version: cvpr_v1
+dump_seed: 0
+n_episodes: 2000
+eligible_episodes: [0, 1800]
+excluded_episodes: [1800, 2000]
+exclusion_reason: >
+  Episodes 1800-1999 are the legacy validation and reporting set.
+  cvpr_v1 does not use them as train, validation, or test.
+assignment:
+  block: episode // 6
+  validation: block % 10 == 8
+  test: block % 10 == 9
+  train: otherwise
+counts:
+  train: 1440
+  validation: 180
+  test: 180
+  excluded: 200
+fractions_of_eligible_1800:
+  train: 0.8
+  validation: 0.1
+  test: 0.1
+fractions_of_full_dump:
+  train: 0.72
+  validation: 0.09
+  test: 0.09
+  excluded: 0.10
+normalization_role: train
+selection_role: validation
+headline_role: test
+historical_checkpoints: legacy_v1 only
