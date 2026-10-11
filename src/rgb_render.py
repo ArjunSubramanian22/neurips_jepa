@@ -52,6 +52,21 @@ class RGBRenderConfig:
             raise ValueError("colors must have three channels.")
 
 
+def load_rgb_config(path: Path) -> RGBRenderConfig:
+    """Load a versioned YAML appearance file."""
+    import yaml
+
+    payload = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    if payload.get("version") != RENDERER_VERSION:
+        raise ValueError(f"Unsupported renderer version {payload.get('version')!r}.")
+    fields = set(RGBRenderConfig.__dataclass_fields__)
+    kwargs = {key: payload[key] for key in fields if key in payload}
+    for name in ("object_color", "background_color", "camera_center", "light_dir"):
+        if name in kwargs:
+            kwargs[name] = tuple(kwargs[name])
+    return RGBRenderConfig(**kwargs)
+
+
 def preset(resolution: int, **overrides: Any) -> RGBRenderConfig:
     """Named resolution with the shared rgb_v1 appearance."""
     return RGBRenderConfig(resolution=int(resolution), **overrides)

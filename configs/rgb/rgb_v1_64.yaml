@@ -1,0 +1,13 @@
+version: rgb_v1
+resolution: 64
+object_color: [0.82, 0.32, 0.18]
+background_color: [0.94, 0.93, 0.90]
+camera_center: [0.5, 0.5]
+camera_scale: 1.0
+shading: true
+light_dir: [0.35, -0.45, 0.82]
+texture: false
+distractors: false
+splat_sigma_at_64: 1.35
+coverage_gain: 1.6
+notes: Mandatory comparison resolution. Camera matches the physical raster framing.

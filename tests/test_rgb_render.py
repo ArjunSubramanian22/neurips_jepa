@@ -23,6 +23,7 @@ from scripts.generate_trajectories import (
 )
 from src.rgb_render import (
     RENDERER_VERSION,
+    load_rgb_config,
     preset,
     render_rgb_cached,
     render_rgb_image,
@@ -95,6 +96,13 @@ class RGBRenderTests(unittest.TestCase):
         np.testing.assert_array_equal(physical_recorded, physical_again)
         self.assertEqual(physical_recorded.dtype, np.uint8)
         self.assertEqual(physical_recorded.shape, (3, 64, 64))
+
+    def test_resolution_configs_share_appearance(self) -> None:
+        loaded = [load_rgb_config(ROOT / "configs" / "rgb" / f"rgb_v1_{size}.yaml") for size in (64, 128, 256)]
+        self.assertEqual([cfg.resolution for cfg in loaded], [64, 128, 256])
+        self.assertEqual({cfg.object_color for cfg in loaded}, {loaded[0].object_color})
+        self.assertEqual({cfg.version for cfg in loaded}, {RENDERER_VERSION})
+        self.assertEqual([splat_sigma_px(cfg) for cfg in loaded], [1.35, 2.7, 5.4])
 
     def test_cache_reuses_the_file(self) -> None:
         cfg = preset(64)
