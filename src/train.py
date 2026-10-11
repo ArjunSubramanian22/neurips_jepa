@@ -499,6 +499,9 @@ class ACJEPATrainer:
         self.scaler.scale(loss).backward()
         params = list(self.model.trainable_parameters())
         self.scaler.unscale_(self.optimizer)
+        from src.models.ac_jepa import action_conditioning_grad_norm
+
+        action_grad = action_conditioning_grad_norm(self.model.predictor)
         max_norm = self.cfg.training.grad_clip if self.cfg.training.grad_clip > 0 else float("inf")
         grad_norm = torch.nn.utils.clip_grad_norm_(params, max_norm)
         self.scaler.step(self.optimizer)
@@ -510,6 +513,7 @@ class ACJEPATrainer:
         metrics = self._step_metrics(terms)
         metrics["lr"] = float(self.optimizer.param_groups[0]["lr"])
         metrics["grad_norm"] = float(grad_norm)
+        metrics["action_cond_grad_norm"] = action_grad
         metrics["ema_param_l2"] = self._ema_param_l2()
         return metrics
 
@@ -594,7 +598,7 @@ class ACJEPATrainer:
             **metrics,
         }
         LOGGER.info(
-            "[%s] epoch %d step %d  loss=%.4f  inv=%.4f  var=%.4f  cov=%.4f  ema_l2=%.4f  gn=%.3f  lr=%.2e",
+            "[%s] epoch %d step %d  loss=%.4f  inv=%.4f  var=%.4f  cov=%.4f  ema_l2=%.4f  gn=%.3f  action_gn=%.3f  lr=%.2e",
             self.run_name,
             epoch,
             step,
@@ -604,6 +608,7 @@ class ACJEPATrainer:
             metrics.get("covariance", float("nan")),
             metrics.get("ema_param_l2", float("nan")),
             metrics.get("grad_norm", float("nan")),
+            metrics.get("action_cond_grad_norm", float("nan")),
             metrics.get("lr", self.optimizer.param_groups[0]["lr"]),
         )
         self.logger.log(payload, step=step)
@@ -669,6 +674,7 @@ class ACJEPATrainer:
                     "variance": epoch_stats.get("train_variance", float("nan")),
                     "covariance": epoch_stats.get("train_covariance", float("nan")),
                     "grad_norm": epoch_stats.get("train_grad_norm", float("nan")),
+                    "action_cond_grad_norm": epoch_stats.get("train_action_cond_grad_norm", float("nan")),
                     "ema_param_l2": epoch_stats["ema_param_l2"],
                     "lr": epoch_stats.get("train_lr", float(self.optimizer.param_groups[0]["lr"])),
                 }
