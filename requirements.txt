@@ -11,6 +11,7 @@ pillow==12.3.0
 # wandb: enabled only when WANDB_API_KEY is set (src/train.py ExperimentLogger).
 # scikit-learn: t-SNE in src/utils/export_paper_artifacts.py; NumPy fallback otherwise.
 # taichi: Prompt-1 simulator uses the in-repo NumPy MLS-MPM backend; taichi is not installed here.
+# mujoco==3.3.7: optional box-push environment, Apache-2.0. See configs/environments/mujoco_box_push.yaml.
 wandb==0.23.0
 scikit-learn==1.9.0
 

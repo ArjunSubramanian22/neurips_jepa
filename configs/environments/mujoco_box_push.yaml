@@ -1,0 +1,23 @@
+# Second simulator. Not a replacement for the MLS-MPM dump.
+environment_id: mujoco_box_push
+package: mujoco
+version: "3.3.7"
+license: Apache-2.0
+license_source: "mujoco-3.3.7.dist-info METADATA License-Expression"
+python: "3.13"
+tasks:
+  - slide_x
+  - slide_y
+  - glance_x
+selection:
+  inspected_and_absent:
+    - mani_skill
+    - genesis
+    - gymnasium
+    - pybullet
+    - dm_control
+  chosen_because: >
+    MuJoCo was the installed simulator with mj_getState/mj_setState,
+    a continuous mocap action, contact, an offscreen renderer, and an
+    Apache-2.0 license. One box and one pusher is cheap enough to fork.
+learned_checkpoint: not_trained

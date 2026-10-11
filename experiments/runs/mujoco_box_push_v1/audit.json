@@ -1,0 +1,534 @@
+{
+  "experiment_id": "mujoco_box_push_v1",
+  "environment_id": "mujoco_box_push",
+  "dependency": {
+    "package": "mujoco",
+    "version": "3.3.7",
+    "license": "Apache-2.0"
+  },
+  "learned_model": {
+    "status": "not_measured",
+    "reason": "no checkpoint was trained on mujoco_box_push observations"
+  },
+  "tasks": [
+    {
+      "environment_id": "mujoco_box_push",
+      "task": "slide_x",
+      "seed": 0,
+      "horizon": 12,
+      "restoration_exact": true,
+      "box_xy": {
+        "along": [
+          0.6491812201478596,
+          1.0041006974294572e-14
+        ],
+        "miss": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ],
+        "hold": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ]
+      },
+      "along_vs_hold": {
+        "physical": {
+          "rms_pos": 0.6491818301303601,
+          "mean_pos": 0.6491818301303601,
+          "max_pos": 0.6491818301303601,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 1.471327486534701
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 10037,
+          "fraction_identical": 0.8168131510416666,
+          "mse": 0.05095987846221004,
+          "status": "measured",
+          "mse_per_channel": [
+            0.03207226487408688,
+            0.060883832240003814,
+            0.059923538272539364
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.6491812201478596
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.6491812201478596,
+            "norm_b": 0.6491812201478596
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.6491812201478596
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "along_vs_miss": {
+        "physical": {
+          "rms_pos": 0.6491818301303601,
+          "mean_pos": 0.6491818301303601,
+          "max_pos": 0.6491818301303601,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 1.471327486534701
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 10641,
+          "fraction_identical": 0.865966796875,
+          "mse": 0.040215823691609,
+          "status": "measured",
+          "mse_per_channel": [
+            0.017201587129950038,
+            0.0494374421796905,
+            0.05400844176518641
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.6491812201478596
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.6491812201478596,
+            "norm_b": 0.6491812201478596
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.6491812201478596
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "retrieval": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "space": "rendered_rgb",
+        "oracle_copies_target": {
+          "top1": 1.0,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "constant_ignores_action": {
+          "top1": 0.3333333333333333,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "privileged_box_xy": {
+          "oracle_copies_target": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 2,
+            "status": "measured"
+          },
+          "note": "A miss that does not move the box can share coordinates with hold, so this space can be ambiguous."
+        }
+      },
+      "planning": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "oracle_goal_coordinate": 1.0,
+        "oracle_costs": {
+          "along": 0.3508187798521404,
+          "miss": 1.0,
+          "hold": 1.0
+        },
+        "oracle_chosen": "along",
+        "status": "measured"
+      }
+    },
+    {
+      "environment_id": "mujoco_box_push",
+      "task": "slide_y",
+      "seed": 0,
+      "horizon": 12,
+      "restoration_exact": true,
+      "box_xy": {
+        "along": [
+          -4.230358544098576e-15,
+          0.6491812201478572
+        ],
+        "miss": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ],
+        "hold": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ]
+      },
+      "along_vs_hold": {
+        "physical": {
+          "rms_pos": 0.6491818301303577,
+          "mean_pos": 0.6491818301303577,
+          "max_pos": 0.6491818301303577,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 1.471327486534818
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 9773,
+          "fraction_identical": 0.7953287760416666,
+          "mse": 0.05877042108203575,
+          "status": "measured",
+          "mse_per_channel": [
+            0.04611658902225112,
+            0.0702137924716456,
+            0.0599808817522107
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.6491812201478572
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.6491812201478572,
+            "norm_b": 0.6491812201478572
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.6491812201478572
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "along_vs_miss": {
+        "physical": {
+          "rms_pos": 0.6491818301303577,
+          "mean_pos": 0.6491818301303577,
+          "max_pos": 0.6491818301303577,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 1.471327486534818
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 10641,
+          "fraction_identical": 0.865966796875,
+          "mse": 0.040215823691609,
+          "status": "measured",
+          "mse_per_channel": [
+            0.017201587129950038,
+            0.0494374421796905,
+            0.05400844176518641
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.6491812201478572
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.6491812201478572,
+            "norm_b": 0.6491812201478572
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.6491812201478572
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "retrieval": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "space": "rendered_rgb",
+        "oracle_copies_target": {
+          "top1": 1.0,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "constant_ignores_action": {
+          "top1": 0.3333333333333333,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "privileged_box_xy": {
+          "oracle_copies_target": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 2,
+            "status": "measured"
+          },
+          "note": "A miss that does not move the box can share coordinates with hold, so this space can be ambiguous."
+        }
+      },
+      "planning": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "oracle_goal_coordinate": 1.0,
+        "oracle_costs": {
+          "along": 0.3508187798521428,
+          "miss": 1.0,
+          "hold": 1.0
+        },
+        "oracle_chosen": "along",
+        "status": "measured"
+      }
+    },
+    {
+      "environment_id": "mujoco_box_push",
+      "task": "glance_x",
+      "seed": 0,
+      "horizon": 12,
+      "restoration_exact": true,
+      "box_xy": {
+        "along": [
+          0.015684540502515557,
+          -0.031555196879499856
+        ],
+        "miss": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ],
+        "hold": [
+          2.120232635452136e-20,
+          -1.0780483562446398e-18
+        ]
+      },
+      "along_vs_hold": {
+        "physical": {
+          "rms_pos": 0.035238264158178434,
+          "mean_pos": 0.035238264158178434,
+          "max_pos": 0.035238264158178434,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 2.335175394782401e-06
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 9949,
+          "fraction_identical": 0.8096516927083334,
+          "mse": 0.03743117130430604,
+          "status": "measured",
+          "mse_per_channel": [
+            0.03362326088523652,
+            0.04027175170006723,
+            0.03839850132761431
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.035238264158142754
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.035238264158142754,
+            "norm_b": 0.035238264158142754
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.035238264158142754
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "along_vs_miss": {
+        "physical": {
+          "rms_pos": 0.035238264158178434,
+          "mean_pos": 0.035238264158178434,
+          "max_pos": 0.035238264158178434,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 2.335175394782401e-06
+        },
+        "observation": {
+          "n_values": 12288,
+          "n_identical": 10444,
+          "fraction_identical": 0.8499348958333334,
+          "mse": 0.028975032389385494,
+          "status": "measured",
+          "mse_per_channel": [
+            0.021974578587562466,
+            0.031297622909457916,
+            0.03365289567113616
+          ]
+        },
+        "target_latent": {
+          "status": "measured",
+          "source": "privileged_box_xy",
+          "delta_l2": 0.035238264158142754
+        },
+        "predictor": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_copies_target": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.035238264158142754,
+            "norm_b": 0.035238264158142754
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.035238264158142754
+          }
+        },
+        "direction": {
+          "learned": {
+            "status": "not_measured",
+            "reason": "no checkpoint was trained on mujoco_box_push observations"
+          },
+          "oracle_cosine": 1.0,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector"
+        }
+      },
+      "retrieval": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "space": "rendered_rgb",
+        "oracle_copies_target": {
+          "top1": 1.0,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "constant_ignores_action": {
+          "top1": 0.3333333333333333,
+          "n": 3,
+          "n_ties": 0,
+          "status": "measured"
+        },
+        "privileged_box_xy": {
+          "oracle_copies_target": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 2,
+            "status": "measured"
+          },
+          "note": "A miss that does not move the box can share coordinates with hold, so this space can be ambiguous."
+        }
+      },
+      "planning": {
+        "learned": {
+          "status": "not_measured",
+          "reason": "no checkpoint was trained on mujoco_box_push observations"
+        },
+        "oracle_goal_coordinate": 1.0,
+        "oracle_costs": {
+          "along": 0.9843154594974844,
+          "miss": 1.0,
+          "hold": 1.0
+        },
+        "oracle_chosen": "along",
+        "status": "measured"
+      }
+    }
+  ]
+}
