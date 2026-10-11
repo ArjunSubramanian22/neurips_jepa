@@ -1,0 +1,33 @@
+environment_id: mpm_persistent_excitation
+source_candidate: cand_d0.03_g3200_r0.16_h8_wnormalized_c1_f1
+role: persistent
+command_hold: 8
+damping: 0.03
+action_gain: 3200.0
+contact_radius: 0.16
+contact_weight_mode: normalized
+center_influence: 1.0
+force_influence: 1.0
+n_grid: 32
+dt: 0.001
+substeps: 8
+img_size: 64
+particle_spacing: 0.026
+p_rho: 1.0
+gravity: 0.0
+in_channels: 3
+action_dim: 4
+render_sigma: 1.35
+calibration:
+  selection_fork: force_reversed
+  median_rms_pos: 0.009370362659197152
+  median_rms_vel: 0.49045098880338467
+  median_pixel_rms: 0.5903328475294205
+  median_raster_mse: 0.004065837808775471
+  median_fraction_identical: 0.8273111979166667
+  median_raster_change: 0.17268880208333331
+  median_density_change_rate: 0.1309814453125
+  median_velocity_change_rate: 0.196044921875
+  action_rms_pearson: 0.96427425877123
+  action_rms_spearman: 0.8968008255933952
+  stable: true

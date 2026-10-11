@@ -1,0 +1,43 @@
+{
+  "n_environments": 58,
+  "n_fork_rows": 1392,
+  "n_stable": 58,
+  "selection": {
+    "low": {
+      "status": "SELECTED",
+      "environment_id": "mpm_legacy",
+      "source": "baseline"
+    },
+    "persistent": {
+      "status": "SELECTED",
+      "environment_id": "cand_d0.03_g3200_r0.16_h8_wnormalized_c1_f1"
+    },
+    "high": {
+      "status": "SELECTED",
+      "environment_id": "cand_d0.01_g3200_r0.1_h8_wnormalized_c1_f1"
+    },
+    "medium": {
+      "status": "SELECTED",
+      "environment_id": "cand_d0.03_g800_r0.1_h8_wnormalized_c1_f1"
+    }
+  },
+  "selected_files": {
+    "persistent": "mpm_persistent_excitation",
+    "high": "mpm_high_excitation",
+    "medium": "mpm_medium_excitation"
+  },
+  "legacy_environment_id": "mpm_legacy",
+  "tables": {
+    "forks": {
+      "csv": "experiments/runs/excitation_calibration_v1/forks.csv",
+      "parquet": "experiments/runs/excitation_calibration_v1/forks.parquet",
+      "parquet_status": "written"
+    },
+    "candidates": {
+      "csv": "experiments/runs/excitation_calibration_v1/candidates.csv",
+      "parquet": "experiments/runs/excitation_calibration_v1/candidates.parquet",
+      "parquet_status": "written"
+    }
+  },
+  "learned_model_evaluated": false
+}
