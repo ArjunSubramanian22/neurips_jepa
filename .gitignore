@@ -10,6 +10,7 @@ outputs/.mplconfig/
 experiments/caches/
 results/reviewer_strengthening/.mplconfig/
 
+MUJOCO_LOG.TXT
 __pycache__/
 *.py[cod]
 .DS_Store

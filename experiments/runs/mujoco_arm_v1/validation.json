@@ -1,0 +1,19 @@
+{
+  "environment_id": "mujoco_arm",
+  "n_episodes": 32,
+  "episode_length": 8,
+  "n_train": 24,
+  "n_val": 8,
+  "is_test_set": false,
+  "split_note": "the contiguous tail is validation, not a test set",
+  "push_object_displacement_min": 0.3685665803387791,
+  "fold_object_displacement_max": 1.6517709337054932e-17,
+  "push_image_mse_min": 0.05047504890947393,
+  "fold_image_mse_min": 0.023811434704600797,
+  "replay_exact": true,
+  "oracle_push": "push",
+  "oracle_fold": "fold",
+  "oracle_cover": "fold",
+  "learned_model": "not_measured",
+  "status": "passed"
+}

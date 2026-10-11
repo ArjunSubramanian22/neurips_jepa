@@ -1,0 +1,60 @@
+{
+  "environment_id": "mujoco_arm",
+  "package": "mujoco",
+  "version": "3.3.7",
+  "license": "Apache-2.0",
+  "n_episodes": 32,
+  "episode_length": 8,
+  "action_dim": 2,
+  "image": [
+    64,
+    64,
+    3
+  ],
+  "kinds": [
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold",
+    "random",
+    "push",
+    "fold"
+  ],
+  "val_fraction": 0.25,
+  "split": "contiguous tail is validation, not a test set",
+  "commands": {
+    "push": [
+      -1.2,
+      1.8
+    ],
+    "fold": [
+      -1.2,
+      -1.0
+    ]
+  }
+}

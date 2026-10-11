@@ -1,0 +1,14 @@
+# Articulated arm. Not a replacement for the box push or the MLS-MPM dump.
+environment_id: mujoco_arm
+package: mujoco
+version: "3.3.7"
+license: Apache-2.0
+license_source: "mujoco-3.3.7.dist-info METADATA License-Expression"
+structure: two revolute joints, one free object, one static post
+visual: side camera, distinct link colors, partial post occlusion
+tasks:
+  - push_object
+  - fold_clear
+  - cover_post
+learned_checkpoint: not_trained
+split: contiguous val_fraction tail is validation, not a test set
