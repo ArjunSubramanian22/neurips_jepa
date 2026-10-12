@@ -126,6 +126,12 @@ training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,mag
 training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,direction_magnitude,status,,NOT_RUN,0,,not_in_source,not_computed,False
 training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,fraction_0.5,status,,NOT_RUN,0,,not_in_source,not_computed,False
 training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,fraction_1,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,cls_uniform,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,pool_uniform,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,pool_soft,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,pool_topk,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,patch_tokens,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/target_mask_v1/aggregation.json,local_head,status,,NOT_RUN,0,,not_in_source,not_computed,False
 environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:physical_raster,median_fraction_affected_pixels,0.19189453125,ok,6,,not_in_source,not_computed,False
 environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:rgb_64,median_fraction_affected_pixels,0.1243896484375,ok,6,,not_in_source,not_computed,False
 environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:rgb_128,median_fraction_affected_pixels,0.118072509765625,ok,6,,not_in_source,not_computed,False

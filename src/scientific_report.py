@@ -21,6 +21,7 @@ SOURCES = {
     "capacity": "analysis/capacity_sweep_headline.json",
     "inverse": "experiments/runs/inverse_aux_v1/aggregation.json",
     "alignment": "experiments/runs/action_alignment_v1/aggregation.json",
+    "target_mask": "experiments/runs/target_mask_v1/aggregation.json",
     "ledger": "experiments/ablations/v1/ledger.jsonl",
 }
 
@@ -346,7 +347,15 @@ def _benchmark_rows(path: Path, payload: Mapping[str, Any]) -> list[dict[str, An
                 is_test_set=bool(payload.get("is_test_set")),
             )
         )
-        chosen = result.get("layers", {}).get("planning", {}).get("learned", {}).get("chosen")
+        learned = result.get("layers", {}).get("planning", {}).get("learned", {})
+        chosen = learned.get("chosen")
+        plan_status = learned.get("status")
+        if plan_status in {"not_measured", "ambiguous_tie"}:
+            value_status = str(plan_status)
+        elif chosen:
+            value_status = "ok"
+        else:
+            value_status = "missing"
         rows.append(
             _row(
                 table="planning",
@@ -354,7 +363,7 @@ def _benchmark_rows(path: Path, payload: Mapping[str, Any]) -> list[dict[str, An
                 name=f"{payload.get('model')}:{result.get('task')}",
                 metric="learned_chosen_action",
                 value=chosen,
-                value_status="ok" if chosen else "missing",
+                value_status=value_status,
                 n=1,
                 seed=payload.get("seed"),
                 is_test_set=bool(payload.get("is_test_set")),
@@ -436,6 +445,8 @@ def build_report(root: Path) -> dict[str, Any]:
         losses.extend(_loss_rows(_load_json(root / SOURCES["inverse"]), SOURCES["inverse"]))
     if (root / SOURCES["alignment"]).is_file():
         losses.extend(_loss_rows(_load_json(root / SOURCES["alignment"]), SOURCES["alignment"]))
+    if (root / SOURCES["target_mask"]).is_file():
+        losses.extend(_loss_rows(_load_json(root / SOURCES["target_mask"]), SOURCES["target_mask"]))
     ledger_rows = []
     ledger_path = root / SOURCES["ledger"]
     if ledger_path.is_file():
@@ -564,6 +575,8 @@ def write_markdown(report: Mapping[str, Any], path: Path) -> None:
         "# Results",
         "",
         "Generated from saved experiment files. No significance test was added.",
+        "",
+        "Regenerate: `python3.13 scripts/generate_scientific_report.py`",
         "",
         f"Rows: {report['n_rows']}. Flags: {report['n_flags']}.",
         "",

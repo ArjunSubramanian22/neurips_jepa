@@ -2,7 +2,9 @@
 
 Generated from saved experiment files. No significance test was added.
 
-Rows: 138. Flags: 36.
+Regenerate: `python3.13 scripts/generate_scientific_report.py`
+
+Rows: 144. Flags: 42.
 
 ## Flags
 
@@ -37,6 +39,12 @@ Rows: 138. Flags: 36.
 - not_run: direction_magnitude
 - not_run: fraction_0.5
 - not_run: fraction_1
+- not_run: cls_uniform
+- not_run: pool_uniform
+- not_run: pool_soft
+- not_run: pool_topk
+- not_run: patch_tokens
+- not_run: local_head
 - not_run: small
 - not_run: large
 - unequal_sample_count: ranking_top1 [4, 4, 2]
@@ -127,7 +135,7 @@ Queue status is not a trained metric. An unrun conditioning or baseline has no a
 
 OBSERVED RESULT
 
-training_loss_ablation has 11 rows. Sample sizes present: 0. NaN values kept: 0. Undefined cosines kept: 0.
+training_loss_ablation has 17 rows. Sample sizes present: 0. NaN values kept: 0. Undefined cosines kept: 0.
 
 POSSIBLE INTERPRETATION
 

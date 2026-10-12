@@ -125,6 +125,11 @@ def _fixture(root: Path) -> None:
         json.dumps({"select_variant_on_test": False, "rows": [{"name": "direction", "status": "FAILED"}]}),
         encoding="utf-8",
     )
+    (root / "experiments/runs/target_mask_v1").mkdir(parents=True)
+    (root / "experiments/runs/target_mask_v1/aggregation.json").write_text(
+        json.dumps({"select_variant_on_test": False, "rows": [{"name": "pool_soft", "status": "NOT_RUN"}]}),
+        encoding="utf-8",
+    )
     (root / "experiments/ablations/v1").mkdir(parents=True)
     (root / "experiments/ablations/v1/ledger.jsonl").write_text(
         json.dumps({"jobs": [{"template": "model_rssm", "seed": 42, "status": "NOT_RUN"}]}) + "\n",
@@ -155,7 +160,9 @@ class ReportTests(unittest.TestCase):
             self.assertIn("train_test_contamination", flags)
             write_report(root, root / "reports" / "latest")
             text = (root / "reports" / "latest" / "RESULTS.md").read_text(encoding="utf-8")
-            self.assertIn("OBSERVED RESULT", text)
+            self.assertIn("Regenerate:", text)
+            losses = report["tables"]["training_loss_ablation"]
+            self.assertTrue(any(row["name"] == "pool_soft" and row["value_status"] == "NOT_RUN" for row in losses))
             self.assertIn("POSSIBLE INTERPRETATION", text)
             self.assertNotIn("statistically significant", text)
             with (root / "reports" / "latest" / "paper_tables.csv").open(encoding="utf-8") as handle:
