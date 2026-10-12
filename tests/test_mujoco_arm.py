@@ -70,6 +70,29 @@ class MujocoArmTests(unittest.TestCase):
         self.assertEqual(cover["planning"]["oracle"]["chosen"], "fold")
         self.assertGreater(push["positions"]["push"][0], push["positions"]["hold"][0] + 0.05)
 
+    def test_a_copied_future_uses_the_shared_learned_metrics(self) -> None:
+        def represent(action: np.ndarray, frames: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+            del action
+            last = np.asarray(frames[-1], dtype=np.float64).reshape(-1)
+            return last, last
+
+        report = audit_task("push_object", seed=0, represent=represent)
+        learned = report["positive_vs_baseline"]["direction"]["learned"]
+        self.assertEqual(learned["status"], "ok")
+        self.assertAlmostEqual(learned["cosine"], 1.0)
+        self.assertEqual(report["retrieval"]["learned"]["top1"], 1.0)
+        self.assertEqual(report["planning"]["learned"]["chosen"], "push")
+
+        def ignore(action: np.ndarray, frames: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+            del action
+            start = np.asarray(frames[0], dtype=np.float64).reshape(-1)
+            last = np.asarray(frames[-1], dtype=np.float64).reshape(-1)
+            return start, last
+
+        blind = audit_task("push_object", seed=0, represent=ignore)
+        self.assertEqual(blind["planning"]["learned"]["status"], "ambiguous_tie")
+        self.assertIsNone(blind["planning"]["learned"]["chosen"])
+
 
 if __name__ == "__main__":
     unittest.main()

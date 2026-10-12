@@ -20,8 +20,7 @@ from src.metrics.cascade import (
     physical_response,
 )
 
-Predict = Callable[[np.ndarray, np.ndarray], np.ndarray]
-Encode = Callable[[np.ndarray], np.ndarray]
+Represent = Callable[[np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]]
 GoalCost = Callable[[str, Mapping[str, Any]], float]
 
 
@@ -32,16 +31,27 @@ def _as_image(env) -> np.ndarray:
     return np.ascontiguousarray(image)
 
 
+def _capture(env) -> np.ndarray:
+    """Render and put the physics state back so the next step is unchanged."""
+    snap = env.get_state()
+    image = _as_image(env)
+    env.set_state(snap)
+    return image
+
+
 def _roll(env, state: dict[str, Any], action: np.ndarray, horizon: int) -> dict[str, Any]:
     env.set_state(state)
+    frames = [_capture(env)]
     for _ in range(horizon):
         env.step(action)
+        frames.append(_capture(env))
     future: dict[str, Any] = {
         "positions": np.asarray(env.tracked_positions(), dtype=np.float64).copy(),
         "velocities": None
         if env.tracked_velocities() is None
         else np.asarray(env.tracked_velocities(), dtype=np.float64).copy(),
-        "image": _as_image(env),
+        "image": frames[-1],
+        "frames": np.stack(frames, axis=0),
     }
     if hasattr(env, "control_state"):
         future["control"] = np.asarray(env.control_state(), dtype=np.float64).copy()
@@ -141,15 +151,13 @@ def audit_forks(
     goal_cost: GoalCost,
     learned_reason: str,
     seed: int | None = None,
-    predict: Predict | None = None,
-    encode: Encode | None = None,
+    represent: Represent | None = None,
 ) -> dict[str, Any]:
     """Fork ``actions`` from one state and keep each diagnostic layer separate."""
     if seed is not None:
         env.reset(int(seed))
     origin = env.get_state()
-    start_image = _as_image(env)
-    env.set_state(origin)
+    _capture(env)
     restored = env.get_state()
     if not np.array_equal(restored["vector"], origin["vector"]):
         raise RuntimeError("set_state did not restore the fork origin.")
@@ -186,14 +194,17 @@ def audit_forks(
             "oracle": _choose({name: goal_cost(name, futures[name]) for name in futures}),
         },
     }
-    if predict is None or encode is None:
+    if represent is None:
         return report
-    start = _float_image(start_image)
-    predicted = {
-        name: np.asarray(predict(start, np.asarray(actions[name], dtype=np.float64)), dtype=np.float64)
-        for name in futures
-    }
-    encoded = {name: np.asarray(encode(images[name]), dtype=np.float64) for name in futures}
+    predicted = {}
+    encoded = {}
+    for name in futures:
+        pred, target = represent(
+            np.asarray(actions[name], dtype=np.float64),
+            _float_image(futures[name]["frames"]),
+        )
+        predicted[name] = np.asarray(pred, dtype=np.float64)
+        encoded[name] = np.asarray(target, dtype=np.float64)
     alignment = counterfactual_alignment(
         predicted[baseline],
         predicted[positive],

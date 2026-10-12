@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 
@@ -28,7 +28,11 @@ def _goal(task: str):
     return cost
 
 
-def audit_task(task: str, seed: int = 0, **callbacks: Any) -> dict[str, Any]:
+def audit_task(
+    task: str,
+    seed: int = 0,
+    represent: Callable[[np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]] | None = None,
+) -> dict[str, Any]:
     """Fork push, fold, and hold. The task only changes which outcome is the goal."""
     spec = TASK_ACTIONS[task]
     env = MujocoArm(task)
@@ -43,8 +47,7 @@ def audit_task(task: str, seed: int = 0, **callbacks: Any) -> dict[str, Any]:
             goal_cost=_goal(task),
             learned_reason=_UNTRAINED,
             seed=seed,
-            predict=callbacks.get("predict"),
-            encode=callbacks.get("encode"),
+            represent=represent,
         )
         report["task"] = task
         return report
