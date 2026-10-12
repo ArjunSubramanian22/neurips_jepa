@@ -1,0 +1,397 @@
+{
+  "schema_version": "counterfactual_benchmark_v1",
+  "command": "audit",
+  "env": "mujoco_arm",
+  "model": "latent_tf",
+  "checkpoint": "outputs/mujoco_arm_runs/latent_tf/last.pt",
+  "split": "val",
+  "split_role": "validation",
+  "is_test_set": false,
+  "seed": 0,
+  "results": [
+    {
+      "task": "push_object",
+      "horizon": 5,
+      "restoration_exact": true,
+      "positive": "push",
+      "layers": {
+        "physical_response": {
+          "rms_pos": 0.2777561304705221,
+          "mean_pos": 0.2777561304705221,
+          "max_pos": 0.2777561304705221,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 1.028567384838351
+        },
+        "observation_visibility": {
+          "n_values": 12288,
+          "n_identical": 9879,
+          "fraction_identical": 0.803955078125,
+          "mse": 0.036011517505286424,
+          "status": "measured",
+          "mse_per_channel": [
+            0.044063183330930414,
+            0.026589765655036526,
+            0.03738160352989235
+          ]
+        },
+        "target_response": {
+          "status": "measured",
+          "source": "tracked_positions",
+          "delta_l2": 0.2777561304705221
+        },
+        "predictor_response": {
+          "learned": {
+            "mse": 0.021661486360540983,
+            "l2": 1.1774273340952395,
+            "n_dims": 64,
+            "status": "measured"
+          },
+          "oracle_copies_target": {
+            "cosine": 0.9999999999999998,
+            "status": "ok",
+            "norm_a": 0.2777561304705221,
+            "norm_b": 0.2777561304705221
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.2777561304705221
+          },
+          "status": "ok"
+        },
+        "direction_metrics": {
+          "learned": {
+            "cosine": -0.2212535694205473,
+            "status": "ok",
+            "norm_a": 1.1774273340952395,
+            "norm_b": 0.013848885990265016
+          },
+          "oracle_cosine": 0.9999999999999998,
+          "oracle_status": "ok",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector",
+          "status": "ok"
+        },
+        "ranking_metrics": {
+          "learned": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "space": "rendered_rgb",
+          "oracle_copies_target": {
+            "top1": 1.0,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "constant_ignores_action": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "privileged_positions": {
+            "oracle_copies_target": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 2,
+              "status": "measured"
+            },
+            "note": "Tracked coordinates can tie when an action does not move them."
+          },
+          "status": "measured"
+        },
+        "multi_step_metrics": {
+          "status": "measured",
+          "horizon": 5,
+          "final_physical_rms": 0.2777561304705221,
+          "final_observation_mse": 0.036011517505286424,
+          "per_step": "not_measured",
+          "per_step_reason": "the fork records the horizon outcome, not a curve"
+        },
+        "planning": {
+          "learned": {
+            "chosen": "push",
+            "costs": {
+              "push": 0.005221511738663495,
+              "fold": 0.005441153007693829,
+              "hold": 0.019526145904923013
+            },
+            "status": "measured"
+          },
+          "oracle": {
+            "chosen": "push",
+            "costs": {
+              "push": 0.07425723444569493,
+              "fold": 0.35000000000000003,
+              "hold": 0.35000000000000003
+            },
+            "status": "measured"
+          },
+          "learned_goal": "push",
+          "status": "measured"
+        }
+      }
+    },
+    {
+      "task": "fold_clear",
+      "horizon": 5,
+      "restoration_exact": true,
+      "positive": "fold",
+      "layers": {
+        "physical_response": {
+          "rms_pos": 0.0,
+          "mean_pos": 0.0,
+          "max_pos": 0.0,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 0.0
+        },
+        "observation_visibility": {
+          "n_values": 12288,
+          "n_identical": 9859,
+          "fraction_identical": 0.8023274739583334,
+          "mse": 0.036245843695934254,
+          "status": "measured",
+          "mse_per_channel": [
+            0.03393549055651672,
+            0.03351073280108612,
+            0.04129130773019992
+          ]
+        },
+        "target_response": {
+          "status": "measured",
+          "source": "tracked_positions",
+          "delta_l2": 0.0
+        },
+        "predictor_response": {
+          "learned": {
+            "mse": 0.01910351566171896,
+            "l2": 1.1057237459465241,
+            "n_dims": 64,
+            "status": "measured"
+          },
+          "oracle_copies_target": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "status": "undefined_zero_vector"
+        },
+        "direction_metrics": {
+          "learned": {
+            "cosine": 0.02762441891658431,
+            "status": "ok",
+            "norm_a": 1.1057237459465241,
+            "norm_b": 0.02326030444248855
+          },
+          "oracle_cosine": null,
+          "oracle_status": "undefined_zero_vector",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector",
+          "status": "undefined_zero_vector"
+        },
+        "ranking_metrics": {
+          "learned": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "space": "rendered_rgb",
+          "oracle_copies_target": {
+            "top1": 1.0,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "constant_ignores_action": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "privileged_positions": {
+            "oracle_copies_target": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 2,
+              "status": "measured"
+            },
+            "note": "Tracked coordinates can tie when an action does not move them."
+          },
+          "status": "measured"
+        },
+        "multi_step_metrics": {
+          "status": "measured",
+          "horizon": 5,
+          "final_physical_rms": 0.0,
+          "final_observation_mse": 0.036245843695934254,
+          "per_step": "not_measured",
+          "per_step_reason": "the fork records the horizon outcome, not a curve"
+        },
+        "planning": {
+          "learned": {
+            "chosen": "push",
+            "costs": {
+              "push": 0.005174275937928975,
+              "fold": 0.005390596779324361,
+              "hold": 0.019532768399057262
+            },
+            "status": "measured"
+          },
+          "oracle": {
+            "chosen": "fold",
+            "costs": {
+              "push": 1.7259461719781806,
+              "fold": 0.8720168384846442,
+              "hold": 2.08806130178211
+            },
+            "status": "measured"
+          },
+          "learned_goal": "fold",
+          "status": "measured"
+        }
+      }
+    },
+    {
+      "task": "cover_post",
+      "horizon": 5,
+      "restoration_exact": true,
+      "positive": "fold",
+      "layers": {
+        "physical_response": {
+          "rms_pos": 0.0,
+          "mean_pos": 0.0,
+          "max_pos": 0.0,
+          "n_particles": 1,
+          "status": "measured",
+          "rms_vel": 0.0
+        },
+        "observation_visibility": {
+          "n_values": 12288,
+          "n_identical": 9859,
+          "fraction_identical": 0.8023274739583334,
+          "mse": 0.036245843695934254,
+          "status": "measured",
+          "mse_per_channel": [
+            0.03393549055651672,
+            0.03351073280108612,
+            0.04129130773019992
+          ]
+        },
+        "target_response": {
+          "status": "measured",
+          "source": "tracked_positions",
+          "delta_l2": 0.0
+        },
+        "predictor_response": {
+          "learned": {
+            "mse": 0.01910351566171896,
+            "l2": 1.1057237459465241,
+            "n_dims": 64,
+            "status": "measured"
+          },
+          "oracle_copies_target": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "constant_ignores_action": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "status": "undefined_zero_vector"
+        },
+        "direction_metrics": {
+          "learned": {
+            "cosine": 0.02762441891658431,
+            "status": "ok",
+            "norm_a": 1.1057237459465241,
+            "norm_b": 0.02326030444248855
+          },
+          "oracle_cosine": null,
+          "oracle_status": "undefined_zero_vector",
+          "constant_cosine": null,
+          "constant_status": "undefined_zero_vector",
+          "status": "undefined_zero_vector"
+        },
+        "ranking_metrics": {
+          "learned": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "space": "rendered_rgb",
+          "oracle_copies_target": {
+            "top1": 1.0,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "constant_ignores_action": {
+            "top1": 0.3333333333333333,
+            "n": 3,
+            "n_ties": 0,
+            "status": "measured"
+          },
+          "privileged_positions": {
+            "oracle_copies_target": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 2,
+              "status": "measured"
+            },
+            "note": "Tracked coordinates can tie when an action does not move them."
+          },
+          "status": "measured"
+        },
+        "multi_step_metrics": {
+          "status": "measured",
+          "horizon": 5,
+          "final_physical_rms": 0.0,
+          "final_observation_mse": 0.036245843695934254,
+          "per_step": "not_measured",
+          "per_step_reason": "the fork records the horizon outcome, not a curve"
+        },
+        "planning": {
+          "learned": {
+            "chosen": "push",
+            "costs": {
+              "push": 0.005174275937928975,
+              "fold": 0.005390596779324361,
+              "hold": 0.019532768399057262
+            },
+            "status": "measured"
+          },
+          "oracle": {
+            "chosen": "fold",
+            "costs": {
+              "push": 0.033447265625,
+              "fold": 0.019775390625,
+              "hold": 0.03369140625
+            },
+            "status": "measured"
+          },
+          "learned_goal": "fold",
+          "status": "measured"
+        }
+      }
+    }
+  ]
+}

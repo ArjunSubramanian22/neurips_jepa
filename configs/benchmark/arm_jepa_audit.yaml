@@ -1,0 +1,8 @@
+env: mujoco_arm
+model: jepa
+checkpoint: outputs/mujoco_arm_runs/jepa/last.pt
+split: val
+task: push_object
+seed: 0
+output: experiments/runs/mujoco_arm_v1/benchmark_jepa_push.json
+device: cpu
