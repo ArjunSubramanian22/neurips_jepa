@@ -123,6 +123,10 @@ def build_rows() -> list[dict[str, str]]:
                     "outputs/mpm_high_runs/jepa_s42/last.pt",
                     "experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json",
                 ),
+                ("vicreg_action", 43): (
+                    "outputs/mpm_high_runs/jepa_s43/last.pt",
+                    "experiments/runs/mpm_high_jepa_s43_val_screen_v1/screen.json",
+                ),
                 ("vicreg_noaction", 42): (
                     "outputs/mpm_high_runs/noaction_s42/last.pt",
                     "experiments/runs/mpm_high_noaction_s42_val_screen_v1/screen.json",

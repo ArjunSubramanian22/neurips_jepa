@@ -1,0 +1,7 @@
+{
+  "checkpoint": "outputs/mpm_high_runs/jepa_s43/last.pt",
+  "experiment_id": "mpm_high_jepa_s43_val_screen_v1",
+  "is_test_set": false,
+  "n_episodes": 24,
+  "split_version": "fresh_pool_v2"
+}

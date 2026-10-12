@@ -21,6 +21,8 @@ Validation screen, not the test suffix: 24 episodes, open-loop one-step force re
 
 No-action seed 42 on the same dump finished in 8223 seconds. Its validation screen has cosine undefined on all 24 episodes and one-step MSE median 0.577, against 0.098 and cosine median 0.769 for the action model. The physical fork is identical across the two screens. Planning and the test suffix are still not run.
 
+JEPA seed 43 finished in 8492 seconds despite MPS cache warnings when the disk was nearly full. Epoch 200 validation loss 25.12. The same 24-episode validation screen has cosine median 0.782, defined on all 24 rows, and one-step MSE median 0.093.
+
 ## Already spent, first wave
 
 Ten no-crop legacy checkpoints exist (VICReg action and no-action seeds 42–45,
