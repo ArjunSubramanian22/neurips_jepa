@@ -1,4 +1,6 @@
 # Example queue. Dry-run this file; it does not train a model.
+split_version: not_applicable
+split_version_reason: This file queues a command. It has no episode split.
 max_parallel: 1
 jobs:
   - id: hello

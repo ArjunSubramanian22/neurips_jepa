@@ -167,6 +167,30 @@ class DatasetProvenanceTests(unittest.TestCase):
             with self.assertRaises(ProtocolError):
                 DeformablePhysicsDataset(labeled, split="test")
 
+    def test_arm_tail_is_validation_and_has_no_test_split(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            observations = np.zeros((4, 2, 8, 8, 3), dtype=np.float32)
+            actions = np.zeros((4, 1, 4), dtype=np.float32)
+            actions[2:] = 1.0
+            np.save(root / "observations.npy", observations)
+            np.save(root / "actions.npy", actions)
+            cfg = DataConfig(
+                dataset_path=str(root),
+                img_size=8,
+                augment=False,
+                val_fraction=0.5,
+                split_version="arm_tail_v1",
+                normalize_actions=True,
+            )
+            train = DeformablePhysicsDataset(cfg, split="train")
+            self.assertEqual(train.split_version, "arm_tail_v1")
+            self.assertFalse(train.normalization_provenance["uses_test"])
+            self.assertFalse(train.normalization_provenance["uses_validation"])
+            self.assertTrue(np.allclose(train.action_mean.numpy(), 0.0))
+            with self.assertRaises(ProtocolError):
+                DeformablePhysicsDataset(cfg, split="test")
+
 
 if __name__ == "__main__":
     unittest.main()

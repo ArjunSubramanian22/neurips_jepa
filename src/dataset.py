@@ -1017,6 +1017,11 @@ class DeformablePhysicsDataset(Dataset[Transition]):
                         "legacy_v1 has no test split. Episodes 1800-1999 are legacy validation."
                     )
                 self.split_version = "legacy_v1"
+            elif cfg.split_version == "arm_tail_v1":
+                if split == "test":
+                    raise ProtocolError(
+                        "arm_tail_v1 has no test split. The episode tail is validation."
+                    )
             elif cfg.split_version not in (None,):
                 raise ValueError(f"Unknown split_version {cfg.split_version!r}.")
             n_train, n_val = _episode_split_counts(int(observations.shape[0]), cfg.val_fraction)

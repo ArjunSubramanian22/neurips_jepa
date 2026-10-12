@@ -1,4 +1,6 @@
 # Latent-transformer baseline on the same arm dataset, seed, and epoch budget.
+# The 0.25 episode tail is validation, not legacy_v1 and not a test set.
+split_version: arm_tail_v1
 model:
   in_channels: 3
   img_size: 64
@@ -54,5 +56,6 @@ data:
   color_jitter: 0.0
   blur_prob: 0.0
   normalize_actions: true
+  split_version: arm_tail_v1
   n_stiffness_classes: 1
   pin_memory: false
