@@ -1,0 +1,299 @@
+{
+  "seed": 0,
+  "n_frames": 2,
+  "youngs": 70.0,
+  "geometry": "disk",
+  "n_particles": 48,
+  "simulator": {
+    "n_grid": 16,
+    "img_size": 32,
+    "particle_spacing": 0.04,
+    "substeps": 4,
+    "dt": 0.001,
+    "damping": 0.08,
+    "comparable_to_paper_dump": false
+  },
+  "pairs": [
+    {
+      "intervention": "identical",
+      "cascade": {
+        "schema": "cascade_v1",
+        "action": {
+          "l2": 0.0,
+          "linf": 0.0,
+          "n_dims": 4,
+          "status": "measured"
+        },
+        "layers": {
+          "physical": {
+            "rms_pos": 0.0,
+            "mean_pos": 0.0,
+            "max_pos": 0.0,
+            "n_particles": 48,
+            "status": "measured",
+            "rms_vel": 0.0
+          },
+          "observation": {
+            "n_values": 3072,
+            "n_identical": 3072,
+            "fraction_identical": 1.0,
+            "mse": 0.0,
+            "status": "measured",
+            "mse_per_channel": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "representation": {
+            "status": "not_measured",
+            "reason": "no encoder checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "predictor": {
+            "status": "not_measured",
+            "reason": "no predictor checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "decision": {
+            "status": "not_measured",
+            "reason": "decision utility is measured in planning_oracle_sanity_v1, not on these forks"
+          }
+        }
+      },
+      "controls": {
+        "privileged_particle_coordinates": {
+          "family": "privileged_particle_coordinates",
+          "contrast": {
+            "mse": 0.0,
+            "l2": 0.0,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "note": "Particle coordinates are simulator state, not a learned encoder."
+        },
+        "constant_predictor_standin": {
+          "family": "constant_predictor_standin",
+          "contrast": {
+            "mse": 0.0,
+            "l2": 0.0,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "note": "Emits the factual embedding for every action."
+        },
+        "oracle_privileged_standin": {
+          "family": "oracle_privileged_standin",
+          "contrast": {
+            "mse": 0.0,
+            "l2": 0.0,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.0
+          },
+          "note": "Emits the privileged embedding of the rolled future."
+        }
+      }
+    },
+    {
+      "intervention": "force_reversed",
+      "cascade": {
+        "schema": "cascade_v1",
+        "action": {
+          "l2": 0.8694835462362778,
+          "linf": 0.8594918847084045,
+          "n_dims": 4,
+          "status": "measured"
+        },
+        "layers": {
+          "physical": {
+            "rms_pos": 3.264588857076061e-05,
+            "mean_pos": 2.7518547582698518e-05,
+            "max_pos": 6.228765231629077e-05,
+            "n_particles": 48,
+            "status": "measured",
+            "rms_vel": 0.006539244460662436
+          },
+          "observation": {
+            "n_values": 3072,
+            "n_identical": 2913,
+            "fraction_identical": 0.9482421875,
+            "mse": 1.06629661668589e-06,
+            "status": "measured",
+            "mse_per_channel": [
+              0.0,
+              0.0,
+              3.198889850057669e-06
+            ]
+          },
+          "representation": {
+            "status": "not_measured",
+            "reason": "no encoder checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "predictor": {
+            "status": "not_measured",
+            "reason": "no predictor checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "decision": {
+            "status": "not_measured",
+            "reason": "decision utility is measured in planning_oracle_sanity_v1, not on these forks"
+          }
+        }
+      },
+      "controls": {
+        "privileged_particle_coordinates": {
+          "family": "privileged_particle_coordinates",
+          "contrast": {
+            "mse": 5.32877020287259e-10,
+            "l2": 0.00022617735065115797,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "note": "Particle coordinates are simulator state, not a learned encoder."
+        },
+        "constant_predictor_standin": {
+          "family": "constant_predictor_standin",
+          "contrast": {
+            "mse": 0.0,
+            "l2": 0.0,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.00022617735065115797
+          },
+          "note": "Emits the factual embedding for every action."
+        },
+        "oracle_privileged_standin": {
+          "family": "oracle_privileged_standin",
+          "contrast": {
+            "mse": 5.32877020287259e-10,
+            "l2": 0.00022617735065115797,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.00022617735065115797,
+            "norm_b": 0.00022617735065115797
+          },
+          "note": "Emits the privileged embedding of the rolled future."
+        }
+      }
+    },
+    {
+      "intervention": "zero_force",
+      "cascade": {
+        "schema": "cascade_v1",
+        "action": {
+          "l2": 0.4347417731181389,
+          "linf": 0.42974594235420227,
+          "n_dims": 4,
+          "status": "measured"
+        },
+        "layers": {
+          "physical": {
+            "rms_pos": 1.6324154076941647e-05,
+            "mean_pos": 1.3764089102393379e-05,
+            "max_pos": 3.111436676733274e-05,
+            "n_particles": 48,
+            "status": "measured",
+            "rms_vel": 0.0032696315251038678
+          },
+          "observation": {
+            "n_values": 3072,
+            "n_identical": 2913,
+            "fraction_identical": 0.9482421875,
+            "mse": 7.959678969627067e-07,
+            "status": "measured",
+            "mse_per_channel": [
+              0.0,
+              0.0,
+              2.3879036908881196e-06
+            ]
+          },
+          "representation": {
+            "status": "not_measured",
+            "reason": "no encoder checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "predictor": {
+            "status": "not_measured",
+            "reason": "no predictor checkpoint is evaluated in cascade_protocol_smoke_v1"
+          },
+          "decision": {
+            "status": "not_measured",
+            "reason": "decision utility is measured in planning_oracle_sanity_v1, not on these forks"
+          }
+        }
+      },
+      "controls": {
+        "privileged_particle_coordinates": {
+          "family": "privileged_particle_coordinates",
+          "contrast": {
+            "mse": 1.3323900316386528e-10,
+            "l2": 0.00011309705700738223,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "note": "Particle coordinates are simulator state, not a learned encoder."
+        },
+        "constant_predictor_standin": {
+          "family": "constant_predictor_standin",
+          "contrast": {
+            "mse": 0.0,
+            "l2": 0.0,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": null,
+            "status": "undefined_zero_vector",
+            "norm_a": 0.0,
+            "norm_b": 0.00011309705700738223
+          },
+          "note": "Emits the factual embedding for every action."
+        },
+        "oracle_privileged_standin": {
+          "family": "oracle_privileged_standin",
+          "contrast": {
+            "mse": 1.3323900316386528e-10,
+            "l2": 0.00011309705700738223,
+            "n_dims": 96,
+            "status": "measured"
+          },
+          "alignment": {
+            "cosine": 1.0,
+            "status": "ok",
+            "norm_a": 0.00011309705700738223,
+            "norm_b": 0.00011309705700738223
+          },
+          "note": "Emits the privileged embedding of the rolled future."
+        }
+      }
+    }
+  ],
+  "synthetic_controls": {
+    "identical_action_l2": 0.0,
+    "identical_latent_mse": 0.0,
+    "aligned_cosine": 1.0,
+    "opposite_cosine": -1.0,
+    "random_ranking_top1": 0.25025,
+    "random_ranking_chance": 0.25,
+    "random_ranking_n_trials": 4000,
+    "random_ranking_n_hits": 1001,
+    "chance_top1_four": 0.25
+  }
+}

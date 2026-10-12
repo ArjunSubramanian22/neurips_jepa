@@ -1,0 +1,4 @@
+intervention,action_l2,rms_pos,rms_vel,fraction_identical,observation_mse,privileged_mse,constant_predictor_mse,oracle_predictor_mse,oracle_cosine,oracle_cosine_status,learned_representation_status,learned_predictor_status,decision_status
+identical,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,,undefined_zero_vector,not_measured,not_measured,not_measured
+force_reversed,0.8694835462362778,3.264588857076061e-05,0.006539244460662436,0.9482421875,1.06629661668589e-06,5.32877020287259e-10,0.0,5.32877020287259e-10,1.0,ok,not_measured,not_measured,not_measured
+zero_force,0.4347417731181389,1.6324154076941647e-05,0.0032696315251038678,0.9482421875,7.959678969627067e-07,1.3323900316386528e-10,0.0,1.3323900316386528e-10,1.0,ok,not_measured,not_measured,not_measured
