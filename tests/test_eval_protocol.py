@@ -191,6 +191,32 @@ class DatasetProvenanceTests(unittest.TestCase):
             with self.assertRaises(ProtocolError):
                 DeformablePhysicsDataset(cfg, split="test")
 
+    def test_fresh_pool_training_view_drops_the_test_suffix(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            observations = np.zeros((60, 2, 8, 8, 3), dtype=np.float32)
+            actions = np.zeros((60, 1, 4), dtype=np.float32)
+            actions[48:] = 1.0
+            np.save(root / "observations.npy", observations)
+            np.save(root / "actions.npy", actions)
+            cfg = DataConfig(
+                dataset_path=str(root),
+                img_size=8,
+                augment=False,
+                split_version="fresh_pool_v2",
+                normalize_actions=True,
+            )
+            pooled = DeformablePhysicsDataset(cfg, split="all")
+            self.assertEqual(pooled.n_episodes, 54)
+            self.assertEqual(pooled.split_sizes(), (48, 6))
+            self.assertTrue(np.allclose(pooled.action_mean.numpy(), 0.0))
+            self.assertFalse(pooled.normalization_provenance["uses_test"])
+            self.assertTrue(set(pooled.global_episode_ids).isdisjoint(range(54, 60)))
+            heldout = DeformablePhysicsDataset(cfg, split="test")
+            self.assertEqual(heldout.global_episode_ids, tuple(range(54, 60)))
+            with self.assertRaises(ProtocolError):
+                heldout.split_sizes()
+
 
 if __name__ == "__main__":
     unittest.main()

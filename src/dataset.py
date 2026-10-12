@@ -37,11 +37,11 @@ from torch.utils.data import DataLoader, Dataset
 if __package__:
     from .config import DataConfig, TrainingConfig
     from .eval_protocol import ProtocolError
-    from .splits import cvpr_v1_split, legacy_v1_split
+    from .splits import cvpr_v1_split, fresh_pool_v2_split, legacy_v1_split
 else:
     from config import DataConfig, TrainingConfig
     from eval_protocol import ProtocolError
-    from splits import cvpr_v1_split, legacy_v1_split
+    from splits import cvpr_v1_split, fresh_pool_v2_split, legacy_v1_split
 
 FloatArray = npt.NDArray[np.float32]
 IntArray = npt.NDArray[np.int64]
@@ -999,6 +999,10 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             observations, actions, labels, values, geometry, n_train = self._take_cvpr_v1(
                 observations, actions, labels, values, geometry, split
             )
+        elif cfg.split_version == "fresh_pool_v2":
+            observations, actions, labels, values, geometry, n_train = self._take_fresh_pool_v2(
+                observations, actions, labels, values, geometry, split
+            )
         else:
             if cfg.split_version in ("legacy_v1", "hist_v1_last_fraction_val"):
                 spec = legacy_v1_split()
@@ -1133,12 +1137,64 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             len(spec.train_ids),
         )
 
+    def _take_fresh_pool_v2(
+        self,
+        observations: torch.Tensor,
+        actions: torch.Tensor,
+        labels: torch.Tensor,
+        values: torch.Tensor,
+        geometry: torch.Tensor | None,
+        split: str,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor | None, int]:
+        """80/10/10 prefix split. ``all`` drops the test suffix before training."""
+        spec = fresh_pool_v2_split(int(observations.shape[0]))
+        if split not in ("train", "val", "test", "all"):
+            raise ProtocolError("fresh_pool_v2 requires split 'train', 'val', 'test', or 'all'.")
+        n_train = spec.train[1] - spec.train[0]
+        n_val = spec.val[1] - spec.val[0]
+        self._fresh_counts = (n_train, n_val)
+        train_index = torch.arange(spec.train[0], spec.train[1])
+        flat = actions.index_select(0, train_index).reshape(-1, actions.shape[-1])
+        self.action_mean = flat.mean(dim=0)
+        self.action_std = flat.std(dim=0, unbiased=False).clamp_min(1e-6)
+        self.normalization_provenance = {
+            "split_version": "fresh_pool_v2",
+            "source_role": "train",
+            "n_episodes": n_train,
+            "uses_validation": False,
+            "uses_test": False,
+        }
+        spans = {
+            "train": spec.train,
+            "val": spec.val,
+            "test": spec.test,
+            "all": (spec.train[0], spec.val[1]),
+        }
+        start, stop = spans[split]
+        index = torch.arange(start, stop)
+        self.global_episode_ids = tuple(range(start, stop))
+        self._global_episode_offset = 0
+        return (
+            observations.index_select(0, index),
+            actions.index_select(0, index),
+            labels.index_select(0, index),
+            values.index_select(0, index),
+            None if geometry is None else geometry.index_select(0, index),
+            n_train,
+        )
+
     def split_sizes(self) -> tuple[int, int]:
         if self.split_version == "cvpr_v1" and self.split == "test":
             raise ProtocolError(
                 "cvpr_v1 test episodes are the headline slice, not validation. "
                 "Use global_episode_ids."
             )
+        if self.split_version == "fresh_pool_v2" and self.split == "test":
+            raise ProtocolError(
+                "fresh_pool_v2 test episodes are closed to training and validation."
+            )
+        if self.split_version == "fresh_pool_v2" and self.split == "all":
+            return self._fresh_counts
         if self.split == "train":
             return self.n_episodes, 0
         if self.split == "val":

@@ -486,10 +486,14 @@ def replay_episode(
 
 
 def _simulate_index(
-    item: tuple[int, int, int, int, int, dict[str, Any]],
+    item: tuple[Any, ...],
 ) -> tuple[int, npt.NDArray[np.uint8], FloatArr, int, int]:
     """Worker entry: one episode (picklable for ProcessPoolExecutor)."""
-    ep, seed, geom_id, class_id, episode_length, cfg_kwargs = item
+    hold = 3
+    if len(item) == 7:
+        ep, seed, geom_id, class_id, episode_length, cfg_kwargs, hold = item
+    else:
+        ep, seed, geom_id, class_id, episode_length, cfg_kwargs = item
     rng = np.random.default_rng(seed)
     sim = MLSMPM2D(MPMConfig(**cfg_kwargs))
     frames, acts = generate_episode(
@@ -498,6 +502,7 @@ def _simulate_index(
         youngs=STIFFNESS_E[class_id],
         episode_length=episode_length,
         rng=rng,
+        hold=int(hold),
     )
     return ep, frames, acts, class_id, geom_id
 
@@ -511,12 +516,15 @@ def generate_dataset(
     img_size: int = 64,
     mpm: MPMConfig | None = None,
     workers: int | None = None,
+    command_hold: int = 3,
 ) -> dict[str, Any]:
     """Simulate ``n_episodes`` and write an NPY dump :class:`DeformablePhysicsDataset` can load."""
     if n_episodes < 1:
         raise ValueError("n_episodes must be >= 1.")
     if episode_length < 2:
         raise ValueError("episode_length must be >= 2.")
+    if int(command_hold) < 1:
+        raise ValueError("command_hold must be >= 1.")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     cfg = mpm if mpm is not None else MPMConfig(img_size=img_size)
@@ -529,7 +537,9 @@ def generate_dataset(
     for ep in range(n_episodes):
         class_id = int(ep % n_class)
         geom_id = int((ep // n_class) % n_geom)
-        jobs.append((ep, int(seed) + 10007 * ep, geom_id, class_id, episode_length, cfg_kwargs))
+        jobs.append(
+            (ep, int(seed) + 10007 * ep, geom_id, class_id, episode_length, cfg_kwargs, int(command_hold))
+        )
 
     observations = np.empty(
         (n_episodes, episode_length, cfg.in_channels, cfg.img_size, cfg.img_size),
@@ -587,6 +597,7 @@ def generate_dataset(
         "stiffness_E": list(STIFFNESS_E),
         "n_stiffness_classes": n_class,
         "seed": int(seed),
+        "command_hold": int(command_hold),
         "workers": int(workers),
         "seconds": float(time.perf_counter() - started),
     }
