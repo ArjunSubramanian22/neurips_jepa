@@ -1,0 +1,35 @@
+# Primary regimes for the second-wave campaign.
+# Chosen from physics calibration only. Model scores were not an input.
+version: confirmatory_environments_v1
+regimes:
+  - id: mpm_legacy
+    role: weak_subpixel
+    config: configs/environments/mpm_legacy.yaml
+    dump: outputs/physics_mpm
+    split_version: legacy_v1
+    has_untouched_test: false
+    reason: >
+      Historical actuator. Force-reversal raster change is about 0.006.
+      Completed checkpoints already live on this dump. Episodes 1800-1999
+      are legacy validation, not a test set.
+  - id: mpm_high
+    role: observable_deformable
+    config: configs/environments/mpm_high_excitation.yaml
+    dump: outputs/physics_mpm_high
+    split_version: fresh_pool_v2
+    n_episodes: 1800
+    command_hold: 8
+    has_untouched_test: true
+    reason: >
+      Calibration selected this stable high-gain regime. Median raster change
+      is about 0.175 and position RMS is about 0.012, versus about 0.006 and
+      9.7e-5 on the legacy actuator. The fresh-pool test suffix stays closed.
+  - id: mujoco_arm
+    role: contact_rgb
+    config: configs/environments/mujoco_arm.yaml
+    dump: outputs/mujoco_arm
+    split_version: arm_tail_v1
+    has_untouched_test: false
+    reason: >
+      Articulated contact with RGB frames. The episode tail is validation.
+      There is no untouched test split on the 32-episode arm dump.
