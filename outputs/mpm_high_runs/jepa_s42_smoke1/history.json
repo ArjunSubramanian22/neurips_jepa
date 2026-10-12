@@ -1,0 +1,27 @@
+{
+  "run_name": "jepa_s42_smoke1",
+  "epochs": 1,
+  "device": "mps",
+  "amp": true,
+  "seconds": 42.59286629105918,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 50.86135643287941,
+      "train_invariance": 0.3710736966243497,
+      "train_variance": 1.6545967296317772,
+      "train_covariance": 0.21959571420042603,
+      "train_lr": 0.00010073817225509534,
+      "train_grad_norm": 58.89608848289207,
+      "train_action_cond_grad_norm": 44.3074739018193,
+      "train_ema_param_l2": 0.45413218600234545,
+      "ema_param_l2": 0.826318777197273,
+      "val_loss": 45.256890835232205,
+      "val_invariance": 0.070605829347063,
+      "val_variance": 1.7336098702748617,
+      "val_covariance": 0.15149915759184363
+    }
+  ],
+  "best_val": 45.256890835232205,
+  "checkpoint": "outputs/mpm_high_runs/jepa_s42_smoke1/last.pt"
+}
