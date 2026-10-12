@@ -118,14 +118,19 @@ def build_rows() -> list[dict[str, str]]:
         ("latent_tf", "latent_tf"),
     ):
         for seed in (42, 43, 44, 45, 46):
-            trained = (
-                model == "vicreg_action"
-                and seed == 42
-                and _exists("outputs/mpm_high_runs/jepa_s42/last.pt")
-            )
-            screened = trained and _exists(
-                "experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json"
-            )
+            high_paths = {
+                ("vicreg_action", 42): (
+                    "outputs/mpm_high_runs/jepa_s42/last.pt",
+                    "experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json",
+                ),
+                ("vicreg_noaction", 42): (
+                    "outputs/mpm_high_runs/noaction_s42/last.pt",
+                    "experiments/runs/mpm_high_noaction_s42_val_screen_v1/screen.json",
+                ),
+            }
+            ckpt, screen = high_paths.get((model, seed), (None, None))
+            trained = _exists(ckpt)
+            screened = trained and _exists(screen)
             rows.append(
                 _row(
                     environment="mpm_high",

@@ -19,9 +19,7 @@ None. The high-excitation JEPA seed 42 run finished.
 
 Validation screen, not the test suffix: 24 episodes, open-loop one-step force reversal. Cosine median 0.769 on 24/24 defined rows. Median raster fraction identical 0.855. Median position RMS 0.00135. See `experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json`.
 
-## Next
-
-No-action seed 42 on the same dump. If its cosine is undefined or near zero while this checkpoint stays high, the action path is doing the work. If the no-action cosine is also high, the screen is not measuring action use.
+No-action seed 42 on the same dump finished in 8223 seconds. Its validation screen has cosine undefined on all 24 episodes and one-step MSE median 0.577, against 0.098 and cosine median 0.769 for the action model. The physical fork is identical across the two screens. Planning and the test suffix are still not run.
 
 ## Already spent, first wave
 

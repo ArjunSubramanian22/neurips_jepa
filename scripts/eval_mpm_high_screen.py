@@ -36,15 +36,24 @@ from src.train import load_model_from_checkpoint
 
 EXPERIMENT_ID = "mpm_high_jepa_s42_val_screen_v1"
 CHECKPOINT = "outputs/mpm_high_runs/jepa_s42/last.pt"
+MODEL_NAME = "vicreg_action"
 N_EPISODES = 24
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Validation force-reversal screen. Does not touch the test suffix.")
+    parser.add_argument("--checkpoint", default=CHECKPOINT)
+    parser.add_argument("--experiment-id", default=EXPERIMENT_ID)
+    parser.add_argument("--model-name", default=MODEL_NAME)
+    parser.add_argument("--n-episodes", type=int, default=N_EPISODES)
+    args = parser.parse_args(argv)
     spec = environment_from_dict(
         yaml.safe_load((ROOT / "configs/environments/mpm_high_excitation.yaml").read_text(encoding="utf-8"))
     )
     split = fresh_pool_v2_split(1800)
-    val_ids = list(range(split.val[0], split.val[0] + N_EPISODES))
+    val_ids = list(range(split.val[0], split.val[0] + int(args.n_episodes)))
     if val_ids[-1] >= split.test[0] or val_ids[0] < split.val[0]:
         raise RuntimeError("screen episodes are not inside the validation block.")
     cfg = DataConfig(
@@ -58,7 +67,7 @@ def main() -> None:
     mean = train.action_mean.numpy().astype(np.float32)
     std = train.action_std.numpy().astype(np.float32)
     device = torch.device("cpu")
-    model, _loaded = load_model_from_checkpoint(ROOT / CHECKPOINT, device)
+    model, _loaded = load_model_from_checkpoint(ROOT / args.checkpoint, device)
     model.eval()
     dump = np.load(ROOT / "outputs/physics_mpm_high/observations.npy", mmap_mode="r")
     rows = []
@@ -125,7 +134,7 @@ def main() -> None:
     cosines = np.asarray(contrast["cosine"], dtype=np.float64)
     defined = cosines[ok]
     summary = {
-        "checkpoint": CHECKPOINT,
+        "checkpoint": args.checkpoint,
         "environment_id": spec.environment_id,
         "split_version": "fresh_pool_v2",
         "split_role": "validation",
@@ -147,19 +156,19 @@ def main() -> None:
         "saw_test": False,
     }
     config = {
-        "experiment_id": EXPERIMENT_ID,
-        "checkpoint": CHECKPOINT,
-        "n_episodes": N_EPISODES,
+        "experiment_id": args.experiment_id,
+        "checkpoint": args.checkpoint,
+        "n_episodes": int(args.n_episodes),
         "split_version": "fresh_pool_v2",
         "is_test_set": False,
     }
     with RunRecorder(
-        EXPERIMENT_ID,
+        args.experiment_id,
         repo_root=ROOT,
         config=config,
         command="python3.13 scripts/eval_mpm_high_screen.py",
         seed=42,
-        model={"name": "vicreg_action", "checkpoint": CHECKPOINT},
+        model={"name": args.model_name, "checkpoint": args.checkpoint},
         environment={"id": spec.environment_id, "dump": "outputs/physics_mpm_high"},
         dataset_split={
             "split_version": "fresh_pool_v2",
@@ -167,7 +176,7 @@ def main() -> None:
             "episodes": [int(val_ids[0]), int(val_ids[-1] + 1)],
             "is_test_set": False,
         },
-        checkpoint={"path": CHECKPOINT, "epoch": 200},
+        checkpoint={"path": args.checkpoint, "epoch": 200},
     ) as run:
         payload = {"summary": summary, "rows": rows}
         (run.run_dir / "screen.json").write_text(
