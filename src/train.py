@@ -829,7 +829,10 @@ class ACJEPATrainer:
             self.model.update_target_encoder()
         self.global_step += 1
         replacement = actions.clone()
-        replacement[:, :, 2] = -replacement[:, :, 2]
+        # Historical dumps flip force_x, which is coordinate 2. Shorter actions
+        # flip their last coordinate instead of indexing past the vector.
+        channel = 2 if replacement.shape[-1] > 2 else replacement.shape[-1] - 1
+        replacement[:, :, channel] = -replacement[:, :, channel]
         sensitivity = self.model.action_replacement_sensitivity(frames, actions, replacement)
         return {
             "loss": float(terms["loss"].detach().item()),
