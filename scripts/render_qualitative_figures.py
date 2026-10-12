@@ -203,6 +203,7 @@ def main() -> None:
             {
                 "threshold": threshold,
                 "threshold_source": str(THRESHOLD.relative_to(ROOT)),
+                "regeneration_command": "MPLCONFIGDIR=outputs/.mplconfig python3.13 scripts/render_qualitative_figures.py",
                 "reasons": chosen["reasons"],
                 "n_pool": chosen["n_pool"],
                 "n_visible": chosen["n_visible"],

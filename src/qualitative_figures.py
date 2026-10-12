@@ -63,6 +63,10 @@ def save_figure(figure: plt.Figure, stem: Path, metadata: dict[str, Any]) -> dic
     figure.savefig(stem.with_suffix(".png"), dpi=160)
     plt.close(figure)
     payload = to_jsonable(metadata)
+    payload.setdefault(
+        "regeneration_command",
+        "MPLCONFIGDIR=outputs/.mplconfig python3.13 scripts/render_qualitative_figures.py",
+    )
     stem.with_suffix(".json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return {
         "pdf": str(stem.with_suffix(".pdf")),

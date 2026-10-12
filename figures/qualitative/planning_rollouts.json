@@ -37,5 +37,6 @@
       "median_cosine": -0.014829199734041544,
       "frames_present": true
     }
-  ]
+  ],
+  "regeneration_command": "MPLCONFIGDIR=outputs/.mplconfig python3.13 scripts/render_qualitative_figures.py"
 }
