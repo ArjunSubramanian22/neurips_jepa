@@ -3,6 +3,8 @@
 outputs/physics_mpm/observations.npy
 outputs/physics_mpm_high/*.npy
 outputs/mpm_high_runs/**/*.pt
+outputs/confirmatory/**/*.pt
+outputs/mujoco_arm_runs/**/*.pt
 
 # Horizon-audit fork frames exceed GitHub's 100 MB blob limit; regenerate with
 # scripts/run_horizon_audit.py (see docs/HORIZON_AUDIT.md).
