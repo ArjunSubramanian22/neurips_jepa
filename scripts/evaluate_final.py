@@ -100,6 +100,7 @@ def main() -> None:
     from src.config import ModelConfig
     from src.eval import contact_classes, effective_rank, linear_probe_over_horizon
     from src.eval_protocol import assert_checkpoint_eval_pairing, reporting_slice
+    from src.metrics.canonical_rollout import horizon_rollout_metrics
     from src.models.ac_jepa import ACJEPA
     from src.splits import get_split
 
@@ -203,10 +204,10 @@ def main() -> None:
             pred = model.rollout(z0, actions[:, :10])
             pv = pred[n_train:]
             tv = zt[:, :10]
-            err = (pv - tv).square().mean(-1)
-            per = err.mean(0).tolist()
-            var = tv.var(0, unbiased=False).mean(-1)
-            vn = err.mean(0) / var
+            rollout = horizon_rollout_metrics(pv, tv)
+            per = rollout["rollout_mse"].tolist()
+            var = rollout["target_variance"]
+            vn = rollout["vn_mse"]
             true = model.predictor(zv.reshape(-1, 128), actions[n_train:].reshape(-1, 4)).reshape(200, 15, 128)
             alt_a = torch.stack([actions[n_train:][perm, t] for t, perm in enumerate(permutations)], 1)
             alt = model.predictor(zv.reshape(-1, 128), alt_a.reshape(-1, 4)).reshape(200, 15, 128)

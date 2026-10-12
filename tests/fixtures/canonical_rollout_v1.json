@@ -1,0 +1,11 @@
+{
+  "name": "canonical_rollout_v1",
+  "description": "Hand-derived one-horizon reduction. Not a trained checkpoint and not a measured table.",
+  "predicted": [[[0.0, 0.0]], [[1.0, 1.0]]],
+  "target": [[[0.0, 0.0]], [[1.0, 3.0]]],
+  "rollout_mse": [1.0],
+  "target_variance": [1.25],
+  "vn_mse": [0.8],
+  "absolute_tolerance": 1e-6,
+  "derivation": "Episode squared errors are 0 and 2, so the horizon mean is 1. Population variances of the two target coordinates are 0.25 and 2.25, so their mean is 1.25. Variance-normalized MSE is 1/1.25."
+}
