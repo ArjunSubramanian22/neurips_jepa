@@ -38,7 +38,7 @@ def _goal(axis: int):
     return cost
 
 
-def audit_task(task: str, seed: int = 0) -> dict[str, Any]:
+def audit_task(task: str, seed: int = 0, represent=None) -> dict[str, Any]:
     """Fork three actions from one reset and keep each diagnostic layer separate."""
     env = MujocoBoxPush(task)
     try:
@@ -53,6 +53,7 @@ def audit_task(task: str, seed: int = 0) -> dict[str, Any]:
             goal_cost=_goal(int(TASKS[task]["axis"])),
             learned_reason=_UNTRAINED,
             seed=seed,
+            represent=represent,
         )
         oracle = report["planning"]["oracle"]
         return {
