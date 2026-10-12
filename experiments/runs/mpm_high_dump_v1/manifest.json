@@ -1,0 +1,16 @@
+{
+  "environment_id": "mpm_high_excitation",
+  "split_version": "fresh_pool_v2",
+  "n_episodes": 1800,
+  "command_hold": 8,
+  "seed": 0,
+  "is_test_set": false,
+  "sha256": {
+    "observations.npy": "148f17265c7292c498eca0cf45a40c235e34f85dfd9b8e9ff4ef406670baa0e3",
+    "actions.npy": "b0472bed4a3d1ef020fd9528a9ac724af037cc58cda858723c52fceb9632a14a",
+    "stiffness_labels.npy": "86e1c13ef25d20b406cb51d18adce55e1dd1a91653d7f8be56d534679e115212",
+    "stiffness_values.npy": "5a2596a40e6c109456f071c1f044967b1afa37cf10317d84da5983509fa46c05",
+    "geometry_labels.npy": "a1cadf04bb94a6e85fb1a0765fa0933aff779bc60484cf365569f5c35d193415",
+    "metadata.json": "cc20830dfc2df4fafa2f54064f90fd22ef3383ce2f202c1a74cda9e8b48bffc5"
+  }
+}

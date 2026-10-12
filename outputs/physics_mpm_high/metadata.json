@@ -1,0 +1,36 @@
+{
+  "simulator": "taichi_mls_mpm_2d",
+  "backend": "numpy",
+  "constitutive": "MLS-MPM neo-Hookean (Hu et al. 2018 / Taichi 88-line)",
+  "n_episodes": 1800,
+  "episode_length": 16,
+  "img_size": 64,
+  "in_channels": 3,
+  "action_dim": 4,
+  "action_layout": [
+    "contact_x",
+    "contact_y",
+    "force_x",
+    "force_y"
+  ],
+  "geometries": [
+    "disk",
+    "bar"
+  ],
+  "stiffness_E": [
+    18.0,
+    70.0,
+    220.0
+  ],
+  "n_stiffness_classes": 3,
+  "seed": 0,
+  "command_hold": 8,
+  "workers": 7,
+  "seconds": 58.24915741593577,
+  "environment_id": "mpm_high_excitation",
+  "environment_role": "high",
+  "split_version": "fresh_pool_v2",
+  "source_config": "configs/environments/mpm_high_excitation.yaml",
+  "is_test_set": false,
+  "notes": "Physics dump only. Model selection must use the train and validation blocks of split_version. The test block stays closed."
+}
