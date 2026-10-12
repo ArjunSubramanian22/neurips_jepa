@@ -1,0 +1,12 @@
+table,source,name,metric,value,value_status,n,uncertainty,uncertainty_status,significance_test,is_test_set
+training_loss_ablation,experiments/runs/inverse_aux_v1/aggregation.json,w0,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/inverse_aux_v1/aggregation.json,w0.01,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/inverse_aux_v1/aggregation.json,w0.1,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/inverse_aux_v1/aggregation.json,w1,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/inverse_aux_v1/aggregation.json,probe,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,base,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,direction,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,magnitude,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,direction_magnitude,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,fraction_0.5,status,,NOT_RUN,0,,not_in_source,not_computed,False
+training_loss_ablation,experiments/runs/action_alignment_v1/aggregation.json,fraction_1,status,,NOT_RUN,0,,not_in_source,not_computed,False

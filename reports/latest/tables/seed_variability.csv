@@ -1,0 +1,7 @@
+table,source,name,metric,value,value_status,n,uncertainty,uncertainty_status,significance_test,is_test_set
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,vicreg_action,ranking_top1,0.4791666666666667,ok,4,0.04191285295465287,insufficient_training_seeds,not_computed,False
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,vicreg_noaction,ranking_top1,0.45972222222222225,ok,4,0.03990085449336157,insufficient_training_seeds,not_computed,False
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,mse_action,ranking_top1,0.4444444444444444,ok,2,0.015713484026367706,insufficient_training_seeds,not_computed,False
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,vicreg_action,cosine,0.011324905613140201,ok,4,0.015832742130110572,insufficient_training_seeds,not_computed,False
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,vicreg_noaction,cosine,,missing,0,,insufficient_training_seeds,not_computed,False
+seed_variability,experiments/runs/headline_seed_uncertainty_v1/seed_summaries.json,mse_action,cosine,0.048842189388171225,ok,2,0.0013680473110031651,insufficient_training_seeds,not_computed,False

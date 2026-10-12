@@ -1,0 +1,12 @@
+table,source,name,metric,value,value_status,n,uncertainty,uncertainty_status,significance_test,is_test_set
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:physical_raster,median_fraction_affected_pixels,0.19189453125,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:rgb_64,median_fraction_affected_pixels,0.1243896484375,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:rgb_128,median_fraction_affected_pixels,0.118072509765625,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_high_excitation:rgb_256,median_fraction_affected_pixels,0.119598388671875,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_legacy:physical_raster,median_fraction_affected_pixels,0.0,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_legacy:rgb_64,median_fraction_affected_pixels,0.0,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_legacy:rgb_128,median_fraction_affected_pixels,0.0,ok,6,,not_in_source,not_computed,False
+environment_visibility,experiments/runs/rgb_visibility_v1/visibility_summary.json,mpm_legacy:rgb_256,median_fraction_affected_pixels,0.0,ok,6,,not_in_source,not_computed,False
+resolution_scale,analysis/capacity_sweep_headline.json,small,directional_alignment,,not_trained,0,,not_in_source,not_computed,False
+resolution_scale,analysis/capacity_sweep_headline.json,base,directional_alignment,0.0067907880320867585,ok,4,,not_in_source,not_computed,False
+resolution_scale,analysis/capacity_sweep_headline.json,large,directional_alignment,,not_trained,0,,not_in_source,not_computed,False

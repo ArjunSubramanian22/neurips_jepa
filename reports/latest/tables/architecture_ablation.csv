@@ -1,0 +1,7 @@
+table,source,name,metric,value,value_status,n,uncertainty,uncertainty_status,significance_test,is_test_set
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,conditioning_film@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,conditioning_gate@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,conditioning_cross_attn@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,model_rssm@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,model_transformer@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
+architecture_ablation,experiments/ablations/v1/ledger.jsonl,model_pixel@42,queue_status,,NOT_RUN,0,,not_in_source,not_computed,False
