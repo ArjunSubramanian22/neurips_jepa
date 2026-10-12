@@ -1,0 +1,1790 @@
+{
+  "models": [
+    {
+      "model": "jepa",
+      "architecture": "ACJEPA",
+      "checkpoint": "outputs/mujoco_arm_runs/jepa/last.pt",
+      "status": "measured",
+      "loss": {
+        "epoch": 20,
+        "train_loss": 51.96000017438616,
+        "val_loss": 52.02179064069475
+      },
+      "tasks": {
+        "push_object": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "push",
+            "baseline": "hold",
+            "alternate": "fold"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9879,
+              "fraction_identical": 0.803955078125,
+              "mse": 0.036011517505286424,
+              "status": "measured",
+              "mse_per_channel": [
+                0.044063183330930414,
+                0.026589765655036526,
+                0.03738160352989235
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "mse": 1.3329602471556812,
+                "l2": 9.236311808182073,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": -0.008827956595360753,
+                "status": "ok",
+                "norm_a": 9.236311808182073,
+                "norm_b": 0.21957936269904701
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.36191589401218116,
+                "fold": 0.2914263075132861,
+                "hold": 2.0278418453969227
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.07425723444569493,
+                "fold": 0.35000000000000003,
+                "hold": 0.35000000000000003
+              },
+              "status": "measured"
+            },
+            "learned_goal": "push"
+          },
+          "task": "push_object"
+        },
+        "fold_clear": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 1.3512742897767258,
+                "l2": 9.299545932232952,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": -0.08895869123917384,
+                "status": "ok",
+                "norm_a": 9.299545932232952,
+                "norm_b": 0.11986668245753282
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.3624385731808132,
+                "fold": 0.29101228212691965,
+                "hold": 2.0269746776981012
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 1.7259461719781806,
+                "fold": 0.8720168384846442,
+                "hold": 2.08806130178211
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "fold_clear"
+        },
+        "cover_post": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 1.3512742897767258,
+                "l2": 9.299545932232952,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": -0.08895869123917384,
+                "status": "ok",
+                "norm_a": 9.299545932232952,
+                "norm_b": 0.11986668245753282
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.3624385731808132,
+                "fold": 0.29101228212691965,
+                "hold": 2.0269746776981012
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.033447265625,
+                "fold": 0.019775390625,
+                "hold": 0.03369140625
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "cover_post"
+        }
+      }
+    },
+    {
+      "model": "rssm",
+      "architecture": "CompactRSSM",
+      "checkpoint": "outputs/mujoco_arm_runs/rssm/last.pt",
+      "status": "measured",
+      "loss": {
+        "epoch": 20,
+        "train_loss": 0.07448154439528783,
+        "val_loss": 0.07365581244230271
+      },
+      "tasks": {
+        "push_object": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "push",
+            "baseline": "hold",
+            "alternate": "fold"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9879,
+              "fraction_identical": 0.803955078125,
+              "mse": 0.036011517505286424,
+              "status": "measured",
+              "mse_per_channel": [
+                0.044063183330930414,
+                0.026589765655036526,
+                0.03738160352989235
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.11681585760012951,
+                "l2": 3.0570032070657627,
+                "n_dims": 80,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": 0.9589887274632319,
+                "status": "ok",
+                "norm_a": 3.0570032070657627,
+                "norm_b": 2.977220258954421
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.005948890245343105,
+                "fold": 0.028797090930021134,
+                "hold": 0.12367931593464716
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.07425723444569493,
+                "fold": 0.35000000000000003,
+                "hold": 0.35000000000000003
+              },
+              "status": "measured"
+            },
+            "learned_goal": "push"
+          },
+          "task": "push_object"
+        },
+        "fold_clear": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.07936937848637042,
+                "l2": 2.5198313989054175,
+                "n_dims": 80,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": 0.9688431188550695,
+                "status": "ok",
+                "norm_a": 2.5198313989054175,
+                "norm_b": 2.4565209586864025
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.028784397166900722,
+                "fold": 0.005698060906700018,
+                "hold": 0.0887482990368823
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 1.7259461719781806,
+                "fold": 0.8720168384846442,
+                "hold": 2.08806130178211
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "fold_clear"
+        },
+        "cover_post": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.07936937848637042,
+                "l2": 2.5198313989054175,
+                "n_dims": 80,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": 0.9688431188550695,
+                "status": "ok",
+                "norm_a": 2.5198313989054175,
+                "norm_b": 2.4565209586864025
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.028784397166900722,
+                "fold": 0.005698060906700018,
+                "hold": 0.0887482990368823
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.033447265625,
+                "fold": 0.019775390625,
+                "hold": 0.03369140625
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "cover_post"
+        }
+      }
+    },
+    {
+      "model": "latent_tf",
+      "architecture": "CausalLatentDynamics",
+      "checkpoint": "outputs/mujoco_arm_runs/latent_tf/last.pt",
+      "status": "measured",
+      "loss": {
+        "epoch": 20,
+        "train_loss": 0.004488250344163842,
+        "val_loss": 0.004493120281646649
+      },
+      "tasks": {
+        "push_object": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "push",
+            "baseline": "hold",
+            "alternate": "fold"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9879,
+              "fraction_identical": 0.803955078125,
+              "mse": 0.036011517505286424,
+              "status": "measured",
+              "mse_per_channel": [
+                0.044063183330930414,
+                0.026589765655036526,
+                0.03738160352989235
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.021661486360540983,
+                "l2": 1.1774273340952395,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": -0.2212535694205473,
+                "status": "ok",
+                "norm_a": 1.1774273340952395,
+                "norm_b": 0.013848885990265016
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.005221511738663495,
+                "fold": 0.005441153007693829,
+                "hold": 0.019526145904923013
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.07425723444569493,
+                "fold": 0.35000000000000003,
+                "hold": 0.35000000000000003
+              },
+              "status": "measured"
+            },
+            "learned_goal": "push"
+          },
+          "task": "push_object"
+        },
+        "fold_clear": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.01910351566171896,
+                "l2": 1.1057237459465241,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": 0.02762441891658431,
+                "status": "ok",
+                "norm_a": 1.1057237459465241,
+                "norm_b": 0.02326030444248855
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.005174275937928975,
+                "fold": 0.005390596779324361,
+                "hold": 0.019532768399057262
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 1.7259461719781806,
+                "fold": 0.8720168384846442,
+                "hold": 2.08806130178211
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "fold_clear"
+        },
+        "cover_post": {
+          "environment_id": "mujoco_arm",
+          "seed": 0,
+          "horizon": 5,
+          "restoration_exact": true,
+          "names": {
+            "positive": "fold",
+            "baseline": "hold",
+            "alternate": "push"
+          },
+          "positions": {
+            "push": [
+              0.4757427655543051,
+              0.0004665202830831037,
+              0.07323578922845893
+            ],
+            "fold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ],
+            "hold": [
+              0.2,
+              -1.7205102763097802e-17,
+              0.03985648999605012
+            ]
+          },
+          "positive_vs_baseline": {
+            "physical": {
+              "rms_pos": 0.0,
+              "mean_pos": 0.0,
+              "max_pos": 0.0,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 0.0
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9859,
+              "fraction_identical": 0.8023274739583334,
+              "mse": 0.036245843695934254,
+              "status": "measured",
+              "mse_per_channel": [
+                0.03393549055651672,
+                0.03351073280108612,
+                0.04129130773019992
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.0
+            },
+            "predictor": {
+              "learned": {
+                "mse": 0.01910351566171896,
+                "l2": 1.1057237459465241,
+                "n_dims": 64,
+                "status": "measured"
+              },
+              "oracle_copies_target": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.0
+              }
+            },
+            "direction": {
+              "learned": {
+                "cosine": 0.02762441891658431,
+                "status": "ok",
+                "norm_a": 1.1057237459465241,
+                "norm_b": 0.02326030444248855
+              },
+              "oracle_cosine": null,
+              "oracle_status": "undefined_zero_vector",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "positive_vs_alternate": {
+            "physical": {
+              "rms_pos": 0.2777561304705221,
+              "mean_pos": 0.2777561304705221,
+              "max_pos": 0.2777561304705221,
+              "n_particles": 1,
+              "status": "measured",
+              "rms_vel": 1.028567384838351
+            },
+            "observation": {
+              "n_values": 12288,
+              "n_identical": 9505,
+              "fraction_identical": 0.7735188802083334,
+              "mse": 0.041789975360037805,
+              "status": "measured",
+              "mse_per_channel": [
+                0.052884182165513265,
+                0.03322434955906382,
+                0.03926139435553633
+              ]
+            },
+            "target_latent": {
+              "status": "measured",
+              "source": "tracked_positions",
+              "delta_l2": 0.2777561304705221
+            },
+            "predictor": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_copies_target": {
+                "cosine": 0.9999999999999998,
+                "status": "ok",
+                "norm_a": 0.2777561304705221,
+                "norm_b": 0.2777561304705221
+              },
+              "constant_ignores_action": {
+                "cosine": null,
+                "status": "undefined_zero_vector",
+                "norm_a": 0.0,
+                "norm_b": 0.2777561304705221
+              }
+            },
+            "direction": {
+              "learned": {
+                "status": "not_measured",
+                "reason": "no checkpoint was trained on mujoco_arm observations"
+              },
+              "oracle_cosine": 0.9999999999999998,
+              "oracle_status": "ok",
+              "constant_cosine": null,
+              "constant_status": "undefined_zero_vector"
+            }
+          },
+          "retrieval": {
+            "learned": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "space": "rendered_rgb",
+            "oracle_copies_target": {
+              "top1": 1.0,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "constant_ignores_action": {
+              "top1": 0.3333333333333333,
+              "n": 3,
+              "n_ties": 0,
+              "status": "measured"
+            },
+            "privileged_positions": {
+              "oracle_copies_target": {
+                "top1": 0.3333333333333333,
+                "n": 3,
+                "n_ties": 2,
+                "status": "measured"
+              },
+              "note": "Tracked coordinates can tie when an action does not move them."
+            }
+          },
+          "planning": {
+            "learned": {
+              "chosen": "push",
+              "costs": {
+                "push": 0.005174275937928975,
+                "fold": 0.005390596779324361,
+                "hold": 0.019532768399057262
+              },
+              "status": "measured"
+            },
+            "oracle": {
+              "chosen": "fold",
+              "costs": {
+                "push": 0.033447265625,
+                "fold": 0.019775390625,
+                "hold": 0.03369140625
+              },
+              "status": "measured"
+            },
+            "learned_goal": "fold"
+          },
+          "task": "cover_post"
+        }
+      }
+    }
+  ],
+  "is_test_set": false
+}
