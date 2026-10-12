@@ -1,0 +1,303 @@
+# Declared ablation catalog. This is not a Cartesian product.
+# Optional rows are not crossed with the five-seed registry or with each other.
+version: v1
+seed_registry: configs/seeds/headline_v1.yaml
+is_test_set: false
+cost:
+  measured_histories:
+    - outputs/vicreg_nocrop/history.json
+    - outputs/vicreg_nocrop_seed43/history.json
+    - results/reviewer_strengthening/05_more_seeds/vicreg_action_s44/history.json
+    - results/reviewer_strengthening/05_more_seeds/vicreg_action_s45/history.json
+  multipliers:
+    jepa: 1.0
+    noaction: 1.0
+    mse: 1.0
+    rssm: 1.5
+    transformer: 1.5
+    pixel: 1.2
+    film: 1.0
+    gate: 1.0
+    cross_attn: 1.05
+    resolution_128: 4.0
+    resolution_256: 16.0
+  multiplier_note: >
+    The JEPA legacy wall clock is the mean of the measured histories.
+    Every other multiplier is a planning factor, not a measurement.
+jobs:
+  - id: arm_audit
+    tier: 1
+    required: true
+    environment: contact_arm
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [0]
+    epochs: 20
+    dataset: outputs/mujoco_arm
+    satisfied_by:
+      0: experiments/runs/mujoco_arm_v1/benchmark_jepa.json
+    command_kind: audit
+    audit_config: configs/benchmark/arm_jepa_audit.yaml
+    estimated_seconds: 15
+  - id: headline_jepa
+    tier: 2
+    required: true
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: registry
+    epochs: 200
+    dataset: outputs/physics_mpm
+    registry_configuration: vicreg_action
+    command_kind: reviewer_seed
+    objective: vicreg
+    action: action
+  - id: headline_noaction
+    tier: 2
+    required: true
+    environment: legacy
+    model: noaction
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: registry
+    epochs: 200
+    dataset: outputs/physics_mpm
+    registry_configuration: vicreg_noaction
+    command_kind: reviewer_seed
+    objective: vicreg
+    action: noaction
+  - id: headline_mse
+    tier: 2
+    required: true
+    environment: legacy
+    model: mse
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: registry
+    epochs: 200
+    dataset: outputs/physics_mpm
+    registry_configuration: mse_action
+    command_kind: reviewer_seed
+    objective: mse
+    action: action
+  - id: conditioning_film
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: film
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/workshop_vicreg.yaml
+    overrides:
+      model:
+        fuse_mode: film
+  - id: conditioning_gate
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: gate
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/workshop_vicreg.yaml
+    overrides:
+      model:
+        fuse_mode: gate
+  - id: conditioning_cross_attn
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: cross_attn
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/workshop_vicreg.yaml
+    overrides:
+      model:
+        fuse_mode: cross_attn
+  - id: loss_inverse
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: inverse
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/workshop_vicreg.yaml
+    overrides:
+      training:
+        inverse_aux_weight: 1.0
+        inverse_mode: joint
+  - id: loss_direction
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: direction
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    requires_file: outputs/counterfactual_pairs/force_reversal_train.npz
+    blocked_reason: counterfactual pair cache is not on disk
+    command_kind: train_config
+    base_config: configs/experiments/action_alignment_v1.yaml
+  - id: loss_magnitude
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: magnitude
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    requires_file: outputs/counterfactual_pairs/force_reversal_train.npz
+    blocked_reason: counterfactual pair cache is not on disk
+    command_kind: train_config
+    base_config: configs/experiments/action_alignment_v1.yaml
+  - id: loss_combined
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: combined
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [loss_direction@42, loss_magnitude@42]
+    requires_file: outputs/counterfactual_pairs/force_reversal_train.npz
+    blocked_reason: counterfactual pair cache is not on disk
+    command_kind: train_config
+    base_config: configs/experiments/action_alignment_v1.yaml
+  - id: model_rssm
+    tier: 3
+    required: false
+    environment: legacy
+    model: rssm
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/experiments/rssm_v1.yaml
+  - id: model_transformer
+    tier: 3
+    required: false
+    environment: legacy
+    model: transformer
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/experiments/latent_transformer_v1.yaml
+  - id: model_pixel
+    tier: 3
+    required: false
+    environment: legacy
+    model: pixel
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    depends_on: [headline_jepa@42]
+    command_kind: train_config
+    base_config: configs/experiments/obs_pred_v1.yaml
+  - id: env_medium
+    tier: 3
+    required: false
+    environment: medium_excitation
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: null
+    feasible: false
+    blocked_reason: no trajectory dump is registered for medium excitation
+    command_kind: none
+  - id: env_high
+    tier: 3
+    required: false
+    environment: high_excitation
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 64
+    seeds: [42]
+    epochs: 200
+    dataset: null
+    feasible: false
+    blocked_reason: no trajectory dump is registered for high excitation
+    command_kind: none
+  - id: resolution_128
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 128
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    feasible: false
+    blocked_reason: RGB training needs particle positions, which the dump does not store
+    command_kind: none
+  - id: resolution_256
+    tier: 3
+    required: false
+    environment: legacy
+    model: jepa
+    conditioning: concat
+    loss: baseline
+    resolution: 256
+    seeds: [42]
+    epochs: 200
+    dataset: outputs/physics_mpm
+    feasible: false
+    blocked_reason: RGB training needs particle positions, which the dump does not store
+    command_kind: none
