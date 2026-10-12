@@ -17,31 +17,31 @@ mpm_legacy,physical_raster,64,mse_action,concat,mse,46,NOT_RUN,MISSING,NOT_RUN,N
 mpm_legacy,physical_raster,64,rssm,concat,rssm,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_APPLICABLE,stage-2 screen on the legacy dump; not a fifth headline seed
 mpm_legacy,physical_raster,64,latent_tf,concat,latent_tf,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_APPLICABLE,stage-2 screen on the legacy dump; not a fifth headline seed
 mpm_legacy,physical_raster,64,obs_pred,concat,obs_pred,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_APPLICABLE,stage-2 screen on the legacy dump; not a fifth headline seed
-mpm_high,physical_raster,64,vicreg_action,concat,vicreg,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_action,concat,vicreg,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_action,concat,vicreg,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_action,concat,vicreg,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_action,concat,vicreg,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,mse_action,concat,mse,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,mse_action,concat,mse,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,mse_action,concat,mse,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,mse_action,concat,mse,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,mse_action,concat,mse,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,rssm,concat,rssm,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,rssm,concat,rssm,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,rssm,concat,rssm,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,rssm,concat,rssm,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,rssm,concat,rssm,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,latent_tf,concat,latent_tf,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,latent_tf,concat,latent_tf,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,latent_tf,concat,latent_tf,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,latent_tf,concat,latent_tf,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
-mpm_high,physical_raster,64,latent_tf,concat,latent_tf,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass
+mpm_high,physical_raster,64,vicreg_action,concat,vicreg,42,COMPLETE,PRESENT,COMPLETE_N24_VAL,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_action,concat,vicreg,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_action,concat,vicreg,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_action,concat,vicreg,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_action,concat,vicreg,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,vicreg_noaction,concat,vicreg,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,mse_action,concat,mse,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,mse_action,concat,mse,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,mse_action,concat,mse,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,mse_action,concat,mse,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,mse_action,concat,mse,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,rssm,concat,rssm,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,rssm,concat,rssm,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,rssm,concat,rssm,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,rssm,concat,rssm,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,rssm,concat,rssm,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,latent_tf,concat,latent_tf,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,latent_tf,concat,latent_tf,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,latent_tf,concat,latent_tf,44,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,latent_tf,concat,latent_tf,45,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
+mpm_high,physical_raster,64,latent_tf,concat,latent_tf,46,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_RUN,"fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop"
 mujoco_arm,rgb,64,jepa,concat,vicreg,0,COMPLETE,PRESENT,COMPLETE,COMPLETE_SMALL_N,NOT_APPLICABLE,arm_tail_v1; 24 train episodes; validation tail; one seed is not a five-seed claim
 mujoco_arm,rgb,64,jepa,concat,vicreg,42,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_APPLICABLE,five-seed arm replication; cheap relative to the MPM dump
 mujoco_arm,rgb,64,jepa,concat,vicreg,43,NOT_RUN,MISSING,NOT_RUN,NOT_RUN,NOT_APPLICABLE,five-seed arm replication; cheap relative to the MPM dump

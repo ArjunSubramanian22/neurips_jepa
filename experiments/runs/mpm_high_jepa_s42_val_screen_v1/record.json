@@ -1,0 +1,81 @@
+{
+  "checkpoint": {
+    "epoch": 200,
+    "path": "outputs/mpm_high_runs/jepa_s42/last.pt"
+  },
+  "command": "python3.13 scripts/eval_mpm_high_screen.py",
+  "config": {
+    "checkpoint": "outputs/mpm_high_runs/jepa_s42/last.pt",
+    "experiment_id": "mpm_high_jepa_s42_val_screen_v1",
+    "is_test_set": false,
+    "n_episodes": 24,
+    "split_version": "fresh_pool_v2"
+  },
+  "dataset_split": {
+    "episodes": [
+      1440,
+      1464
+    ],
+    "is_test_set": false,
+    "role": "validation",
+    "split_version": "fresh_pool_v2"
+  },
+  "ended_at": "2026-10-12T03:33:14+00:00",
+  "environment": {
+    "dump": "outputs/physics_mpm_high",
+    "id": "mpm_high_excitation"
+  },
+  "experiment_id": "mpm_high_jepa_s42_val_screen_v1",
+  "failure_reason": null,
+  "git_commit": "4a5c56ed779f2953ca560e6663a4267d8a3ead17",
+  "git_dirty": true,
+  "git_dirty_count": 3,
+  "git_status": "measured",
+  "hardware": {
+    "cpu_count": 8,
+    "machine": "arm64",
+    "physical_memory_bytes": 8589934592,
+    "processor": "arm",
+    "torch_cuda": false,
+    "torch_mps": false
+  },
+  "metrics": {
+    "checkpoint": "outputs/mpm_high_runs/jepa_s42/last.pt",
+    "cosine_median": 0.7686335446369292,
+    "environment_id": "mpm_high_excitation",
+    "episode_start": 1440,
+    "episode_stop": 1464,
+    "fraction_identical_median": 0.8551025390625,
+    "horizon": 1,
+    "intervention": "force_reversal",
+    "is_test_set": false,
+    "n_cosine_defined": 24,
+    "n_cosine_undefined": 0,
+    "n_episodes": 24,
+    "observation_mse_median": 0.0011233547493752403,
+    "one_step_mse_median": 0.0977611392736435,
+    "rms_pos_median": 0.001346473912776044,
+    "rollout_mode": "open_loop",
+    "saw_test": false,
+    "split_role": "validation",
+    "split_version": "fresh_pool_v2",
+    "test_start": 1620
+  },
+  "model": {
+    "checkpoint": "outputs/mpm_high_runs/jepa_s42/last.pt",
+    "name": "vicreg_action"
+  },
+  "output_dir": "experiments/runs/mpm_high_jepa_s42_val_screen_v1",
+  "schema_version": 1,
+  "seed": 42,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.12.1",
+    "yaml": "6.0.3"
+  },
+  "started_at": "2026-10-12T03:33:14+00:00",
+  "status": "COMPLETE"
+}

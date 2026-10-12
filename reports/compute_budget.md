@@ -9,13 +9,19 @@ Device for the in-progress dump model: Apple MPS. No CUDA.
 
 ## In progress
 
-| model | environment | seed | epochs | device | status |
-| --- | --- | --- | --- | --- | --- |
-| vicreg_action | mpm_high | 42 | 200 | mps | running |
+None. The high-excitation JEPA seed 42 run finished.
 
-The one-epoch gate `outputs/mpm_high_runs/jepa_s42_smoke1` finished in 42.6s
-with finite train loss 50.86, validation loss 45.26, and a nonzero action
-gradient. That checkpoint is not a confirmatory result.
+## Completed this wave
+
+| model | environment | seed | epochs | device | seconds | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| vicreg_action | mpm_high | 42 | 200 | mps | 7701.1 | last.pt; val loss 25.65; action grad norm about 11 |
+
+Validation screen, not the test suffix: 24 episodes, open-loop one-step force reversal. Cosine median 0.769 on 24/24 defined rows. Median raster fraction identical 0.855. Median position RMS 0.00135. See `experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json`.
+
+## Next
+
+No-action seed 42 on the same dump. If its cosine is undefined or near zero while this checkpoint stays high, the action path is doing the work. If the no-action cosine is also high, the screen is not measuring action use.
 
 ## Already spent, first wave
 

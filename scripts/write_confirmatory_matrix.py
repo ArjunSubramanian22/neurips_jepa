@@ -118,6 +118,14 @@ def build_rows() -> list[dict[str, str]]:
         ("latent_tf", "latent_tf"),
     ):
         for seed in (42, 43, 44, 45, 46):
+            trained = (
+                model == "vicreg_action"
+                and seed == 42
+                and _exists("outputs/mpm_high_runs/jepa_s42/last.pt")
+            )
+            screened = trained and _exists(
+                "experiments/runs/mpm_high_jepa_s42_val_screen_v1/screen.json"
+            )
             rows.append(
                 _row(
                     environment="mpm_high",
@@ -127,12 +135,12 @@ def build_rows() -> list[dict[str, str]]:
                     conditioning="concat",
                     loss=loss,
                     seed=seed,
-                    training_status="NOT_RUN",
-                    checkpoint_status="MISSING",
-                    counterfactual_eval_status="NOT_RUN",
+                    training_status="COMPLETE" if trained else "NOT_RUN",
+                    checkpoint_status="PRESENT" if trained else "MISSING",
+                    counterfactual_eval_status="COMPLETE_N24_VAL" if screened else "NOT_RUN",
                     planning_eval_status="NOT_RUN",
                     test_eval_status="NOT_RUN",
-                    notes="fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed until the frozen pass",
+                    notes="fresh_pool_v2 on outputs/physics_mpm_high; test suffix closed; seed 42 screen is 24 validation episodes, horizon 1, open loop",
                 )
             )
     for model in ("jepa", "rssm", "latent_tf"):
