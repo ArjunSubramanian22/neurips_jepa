@@ -14,9 +14,41 @@ import torch
 
 ARCHITECTURES = {
     "jepa": "ACJEPA",
+    "mse": "ACJEPA",
+    "noaction": "ACJEPA",
     "rssm": "CompactRSSM",
     "latent_tf": "CausalLatentDynamics",
 }
+
+# loss_type, and whether the checkpoint must condition on the action.
+# None skips the conditioning check. obs_pred is refused below: it predicts pixels.
+_LOSS = {
+    "jepa": ("vicreg", True),
+    "mse": ("mse", True),
+    "noaction": ("vicreg", False),
+    "rssm": ("rssm", None),
+    "latent_tf": ("latent_tf", None),
+}
+
+
+def assert_adapter_identity(name: str, class_name: str, loss_type: str, condition_on_action: bool) -> None:
+    """Refuse a checkpoint whose class, loss, or action switch does not match ``name``."""
+    if name == "obs_pred" or loss_type == "obs_pred":
+        raise ValueError(
+            "obs_pred predicts pixels. The latent fork adapter does not score it."
+        )
+    if name not in ARCHITECTURES:
+        raise KeyError(f"unknown model {name!r}. Known models: {sorted(ARCHITECTURES)}.")
+    expected = ARCHITECTURES[name]
+    if class_name != expected:
+        raise ValueError(f"checkpoint architecture is {class_name}, not {expected} ({name}).")
+    loss, action = _LOSS[name]
+    if loss_type != loss:
+        raise ValueError(f"{name} requires loss_type {loss}, got {loss_type}.")
+    if action is not None and bool(condition_on_action) != action:
+        raise ValueError(
+            f"{name} requires condition_on_action={action}, got {bool(condition_on_action)}."
+        )
 
 
 def _as_frame(obs: np.ndarray, device: torch.device) -> torch.Tensor:
@@ -96,13 +128,18 @@ def load_adapter(name: str, checkpoint: str, device: str = "cpu") -> CheckpointA
     from src.dataset import build_dataset
     from src.train import load_model_from_checkpoint
 
+    if name == "obs_pred":
+        raise ValueError("obs_pred predicts pixels. The latent fork adapter does not score it.")
     if name not in ARCHITECTURES:
         raise KeyError(f"unknown model {name!r}. Known models: {sorted(ARCHITECTURES)}.")
     torch_device = torch.device(device)
     model, cfg = load_model_from_checkpoint(checkpoint, torch_device)
-    found = type(model).__name__
-    if found != ARCHITECTURES[name]:
-        raise ValueError(f"checkpoint architecture is {found}, not {ARCHITECTURES[name]} ({name}).")
+    assert_adapter_identity(
+        name,
+        type(model).__name__,
+        str(cfg.training.loss_type),
+        bool(cfg.model.condition_on_action),
+    )
     dataset = build_dataset(cfg.data, split="train")
     mean = dataset.action_mean.to(torch_device).float()
     std = dataset.action_std.to(torch_device).float()

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from benchmark.adapters import assert_adapter_identity
 from benchmark.environments import ForkableEnvironment, register_env, register_task_spec, resolve_split
 from benchmark.evaluator import CounterfactualEvaluator
 from benchmark.planner import Planner
@@ -123,6 +124,9 @@ class EvaluatorTests(unittest.TestCase):
         self.assertGreater(layer["observation_visibility"]["mse"], 0.0)
         self.assertEqual(layer["planning"]["oracle"]["chosen"], "along")
         self.assertEqual(layer["planning"]["learned"]["status"], "not_measured")
+        self.assertEqual(layer["planning"]["status"], "not_measured")
+        self.assertEqual(layer["predictor_response"]["status"], "not_measured")
+        self.assertEqual(layer["predictor_response"]["oracle_copies_target"]["status"], "ok")
         self.assertEqual(layer["multi_step_metrics"]["horizon"], 2)
 
     def test_an_undeclared_test_split_is_refused(self) -> None:
@@ -133,6 +137,17 @@ class EvaluatorTests(unittest.TestCase):
         choice = Planner().plan({"push": 1.0, "fold": 1.0})
         self.assertEqual(choice["status"], "ambiguous_tie")
         self.assertIsNone(choice["chosen"])
+
+    def test_adapter_names_follow_loss_and_action_conditioning(self) -> None:
+        assert_adapter_identity("jepa", "ACJEPA", "vicreg", True)
+        assert_adapter_identity("mse", "ACJEPA", "mse", True)
+        assert_adapter_identity("noaction", "ACJEPA", "vicreg", False)
+        with self.assertRaises(ValueError):
+            assert_adapter_identity("jepa", "ACJEPA", "mse", True)
+        with self.assertRaises(ValueError):
+            assert_adapter_identity("jepa", "ACJEPA", "vicreg", False)
+        with self.assertRaises(ValueError):
+            assert_adapter_identity("obs_pred", "ActionConditionedUNet", "obs_pred", True)
 
 
 if __name__ == "__main__":

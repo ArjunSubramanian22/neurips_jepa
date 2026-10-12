@@ -118,6 +118,18 @@ def _layer_status(layer: Mapping[str, Any], default: str = "measured") -> dict[s
     return out
 
 
+def _learned_layer_status(layer: Mapping[str, Any]) -> str:
+    """The layer status is the learned record when one exists.
+
+    An oracle cosine of 1 is not evidence that a predictor was measured.
+    """
+    learned = layer.get("learned")
+    if isinstance(learned, dict) and learned.get("status"):
+        return str(learned["status"])
+    status = layer.get("status")
+    return str(status) if status else "not_measured"
+
+
 def _schema(
     report: dict[str, Any],
     *,
@@ -132,13 +144,13 @@ def _schema(
     physical = pair["physical"]
     observation = pair["observation"]
     predictor = dict(pair["predictor"])
-    predictor["status"] = pair["predictor"]["oracle_copies_target"]["status"]
+    predictor["status"] = _learned_layer_status(predictor)
     direction = dict(pair["direction"])
-    direction["status"] = direction.get("oracle_status", "not_measured")
+    direction["status"] = _learned_layer_status(direction)
     ranking = dict(report["retrieval"])
-    ranking["status"] = report["retrieval"]["oracle_copies_target"]["status"]
+    ranking["status"] = _learned_layer_status(ranking)
     planning = dict(report["planning"])
-    planning["status"] = planning["oracle"]["status"]
+    planning["status"] = _learned_layer_status(planning)
     horizon = int(report["horizon"])
     return {
         "schema_version": SCHEMA_VERSION,

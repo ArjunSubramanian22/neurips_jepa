@@ -55,6 +55,11 @@ class CommandTests(unittest.TestCase):
         validate_result(payload)
         self.assertEqual(payload["command"], "audit")
         self.assertEqual(payload["results"][0]["layers"]["planning"]["oracle"]["chosen"], "along")
+        self.assertEqual(payload["results"][0]["layers"]["predictor_response"]["status"], "not_measured")
+        self.assertEqual(payload["results"][0]["layers"]["planning"]["status"], "not_measured")
+        self.assertIn("git_commit", payload)
+        self.assertIn("config", payload)
+        self.assertIsNone(payload["config"])
 
     def test_plan_uses_the_same_schema(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

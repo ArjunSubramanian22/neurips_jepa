@@ -32,6 +32,7 @@ def load_options(argv: list[str] | None) -> dict[str, Any]:
         "seed": args.seed if args.seed is not None else int(payload.get("seed", 0)),
         "output": args.output if args.output is not None else payload.get("output"),
         "device": args.device if args.device is not None else payload.get("device", "cpu"),
+        "config": args.config,
     }
     missing = [key for key in ("env", "split", "output") if not options[key]]
     if missing:
@@ -87,4 +88,10 @@ def execute(options: dict[str, Any], command: str) -> dict[str, Any]:
     combined = dict(records[0])
     combined["results"] = [item for record in records for item in record["results"]]
     combined["command"] = command
+    from src.registry import capture_git
+
+    git = capture_git(Path(__file__).resolve().parents[1])
+    combined["git_commit"] = git.get("commit")
+    combined["git_dirty"] = bool(git.get("dirty"))
+    combined["config"] = options.get("config")
     return combined
