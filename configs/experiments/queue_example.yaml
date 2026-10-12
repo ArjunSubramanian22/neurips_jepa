@@ -1,0 +1,9 @@
+# Example queue. Dry-run this file; it does not train a model.
+max_parallel: 1
+jobs:
+  - id: hello
+    command: ["python3.13", "-c", "print('queue-ok')"]
+    device: cpu
+    exclusive: false
+    max_transient_retries: 1
+    adaptive_batch: false
