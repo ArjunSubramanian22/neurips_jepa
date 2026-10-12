@@ -140,6 +140,8 @@ def bottleneck_figure(
     if particles is not None and displacement is not None:
         magnitude = np.linalg.norm(np.asarray(displacement), axis=-1)
         axes[0].scatter(particles[:, 0], particles[:, 1], c=magnitude, s=8, cmap="gray")
+        axes[0].set_xlim(0.0, 1.0)
+        axes[0].set_ylim(0.0, 1.0)
         axes[0].set_aspect("equal")
         axes[0].set_xticks([])
         axes[0].set_yticks([])
@@ -187,8 +189,7 @@ def example_grid(
         absolute, amplified = _pair(recorded, alternative)
         for column, image in enumerate((recorded, alternative, absolute, amplified)):
             _show(axes[row_index, column], image, headers[column] if row_index == 0 else "")
-        axes[row_index, 0].set_ylabel(label, fontsize=7)
-        axes[row_index, 0].text(0.0, -0.18, note, transform=axes[row_index, 0].transAxes, fontsize=6, clip_on=False)
+        axes[row_index, 0].set_ylabel(f"{label}\n{note}", fontsize=7)
     figure.suptitle("Selected forks")
     return figure
 
