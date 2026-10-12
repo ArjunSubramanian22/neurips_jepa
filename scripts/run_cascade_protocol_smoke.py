@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import sys
@@ -82,9 +83,20 @@ def _write_csv(path: Path, pairs: list[dict]) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Reduced-simulator cascade protocol check.")
+    parser.add_argument(
+        "--experiment-id",
+        default=None,
+        help="Registry id. The default in the config is refused once that record exists.",
+    )
+    args = parser.parse_args(argv)
     config_path = ROOT / "configs" / "experiments" / "cascade_protocol_smoke.yaml"
-    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    config = dict(yaml.safe_load(config_path.read_text(encoding="utf-8")))
+    if args.experiment_id:
+        config["experiment_id"] = str(args.experiment_id)
     command = "python3.13 scripts/run_cascade_protocol_smoke.py"
+    if args.experiment_id:
+        command = f"{command} --experiment-id {args.experiment_id}"
     with RunRecorder(
         config["experiment_id"],
         repo_root=ROOT,
