@@ -1,0 +1,48 @@
+{
+  "figure": "resolution",
+  "showcase_rule": "max rgb_128 affected fraction, then latest frame",
+  "panels": [
+    {
+      "environment": "mpm_high_excitation",
+      "episode": null,
+      "time": 2,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "pipeline": "rgb_64",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 0.00018322875257581472,
+      "archived_mse": 0.00018322875257581472,
+      "matches_artifact": true
+    },
+    {
+      "environment": "mpm_high_excitation",
+      "episode": null,
+      "time": 2,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "pipeline": "rgb_128",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 6.127874803496525e-05,
+      "archived_mse": 6.127874803496525e-05,
+      "matches_artifact": true
+    },
+    {
+      "environment": "mpm_high_excitation",
+      "episode": null,
+      "time": 2,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "pipeline": "rgb_256",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 4.370171154732816e-05,
+      "archived_mse": 4.370171154732816e-05,
+      "matches_artifact": true
+    }
+  ]
+}

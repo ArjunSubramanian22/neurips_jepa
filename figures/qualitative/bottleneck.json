@@ -1,0 +1,49 @@
+{
+  "figure": "bottleneck",
+  "panels": [
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "replay_rms": 3.5345245799744824e-05,
+      "matches_artifact": true,
+      "column": "particle_displacement"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "replay_rms": 3.5345245799744824e-05,
+      "matches_artifact": true,
+      "column": "observation_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "replay_rms": 3.5345245799744824e-05,
+      "matches_artifact": true,
+      "column": "target_latent"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "replay_rms": 3.5345245799744824e-05,
+      "matches_artifact": true,
+      "column": "predicted_latent"
+    }
+  ]
+}

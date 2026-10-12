@@ -1,0 +1,50 @@
+{
+  "figure": "excitation",
+  "panels": [
+    {
+      "environment": "mpm_legacy",
+      "episode": null,
+      "time": 0,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "regime": "weak",
+      "selected_environment_id": "mpm_legacy",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 0.0,
+      "archived_mse": 0.0,
+      "matches_artifact": true
+    },
+    {
+      "environment": "mpm_medium_excitation",
+      "episode": null,
+      "time": 0,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "regime": "medium",
+      "selected_environment_id": "cand_d0.03_g800_r0.1_h8_wnormalized_c1_f1",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 1.044521286530653e-05,
+      "archived_mse": null,
+      "matches_artifact": null
+    },
+    {
+      "environment": "mpm_high_excitation",
+      "episode": null,
+      "time": 0,
+      "seed": 0,
+      "checkpoint": null,
+      "intervention": "force_reversal",
+      "regime": "strong",
+      "selected_environment_id": "cand_d0.01_g3200_r0.1_h8_wnormalized_c1_f1",
+      "geometry": "disk",
+      "youngs": 70.0,
+      "rendered_mse": 0.00013782513269688934,
+      "archived_mse": 0.00013782513269688934,
+      "matches_artifact": true
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "figure": "fork_sequence",
+  "panels": [
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "physical_raster",
+      "column": "current"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "physical_raster",
+      "column": "recorded_future"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "physical_raster",
+      "column": "alternative"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "physical_raster",
+      "column": "absolute_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "physical_raster",
+      "column": "amplified_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "rgb",
+      "column": "current"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "rgb",
+      "column": "recorded_future"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "rgb",
+      "column": "alternative"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "rgb",
+      "column": "absolute_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "rgb",
+      "column": "amplified_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "row": "model_prediction",
+      "status": "not_measured",
+      "reason": "predicted RGB frames were not stored"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "figure": "planning_rollouts",
+  "panels": [
+    {
+      "environment": "mpm_legacy",
+      "episode": null,
+      "time": 0,
+      "seed": 2,
+      "checkpoint": null,
+      "intervention": "closed_loop",
+      "role": "oracle",
+      "task": "center_target",
+      "median_cosine": null,
+      "frames_present": true
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": null,
+      "time": 0,
+      "seed": 2,
+      "checkpoint": "mse_action_s43",
+      "intervention": "closed_loop",
+      "role": "strong",
+      "task": "center_target",
+      "median_cosine": 0.08070464761002485,
+      "frames_present": true
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": null,
+      "time": 0,
+      "seed": 2,
+      "checkpoint": "vicreg_action_s43",
+      "intervention": "closed_loop",
+      "role": "poor",
+      "task": "center_target",
+      "median_cosine": -0.014829199734041544,
+      "frames_present": true
+    }
+  ]
+}

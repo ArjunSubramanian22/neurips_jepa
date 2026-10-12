@@ -1,0 +1,125 @@
+{
+  "figure": "selected_examples",
+  "panels": [
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_good_alignment",
+      "column": "recorded_future"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_good_alignment",
+      "column": "alternative"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_good_alignment",
+      "column": "absolute_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1821,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_good_alignment",
+      "column": "amplified_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1889,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_poor_alignment",
+      "column": "recorded_future"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1889,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_poor_alignment",
+      "column": "alternative"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1889,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_poor_alignment",
+      "column": "absolute_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1889,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "high_visibility_poor_alignment",
+      "column": "amplified_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1989,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "physical_but_invisible",
+      "column": "recorded_future"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1989,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "physical_but_invisible",
+      "column": "alternative"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1989,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "physical_but_invisible",
+      "column": "absolute_difference"
+    },
+    {
+      "environment": "mpm_legacy",
+      "episode": 1989,
+      "time": 0,
+      "seed": 42,
+      "checkpoint": "vicreg_action_s42",
+      "intervention": "force_reversal",
+      "role": "physical_but_invisible",
+      "column": "amplified_difference"
+    }
+  ]
+}

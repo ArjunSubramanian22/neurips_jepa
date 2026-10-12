@@ -1,0 +1,49 @@
+{
+  "threshold": 3.7984814534473923e-06,
+  "threshold_source": "experiments/runs/visibility_sensitivity_v1/primary_threshold.json",
+  "reasons": {},
+  "n_pool": 200,
+  "n_visible": 25,
+  "examples": {
+    "high_visibility_good_alignment": {
+      "episode": 1821,
+      "time": 0,
+      "cosine": "0.39887171484931677",
+      "raster_mse": "4.974799356016916e-06",
+      "rms_pos": "3.5345245799744824e-05",
+      "model": "vicreg_action_s42",
+      "seed": "42"
+    },
+    "high_visibility_poor_alignment": {
+      "episode": 1889,
+      "time": 0,
+      "cosine": "-0.3716593568470845",
+      "raster_mse": "4.286462338203255e-06",
+      "rms_pos": "7.790396558181114e-06",
+      "model": "vicreg_action_s42",
+      "seed": "42"
+    },
+    "physical_but_invisible": {
+      "episode": 1989,
+      "time": 0,
+      "cosine": "",
+      "raster_mse": "0.0",
+      "rms_pos": "2.859034096649084e-05",
+      "model": "vicreg_action_s42",
+      "seed": "42"
+    }
+  },
+  "models": {
+    "strong": {
+      "model": "mse_action_s43",
+      "median_cosine": 0.08070464761002485,
+      "n": 180
+    },
+    "poor": {
+      "model": "vicreg_action_s43",
+      "median_cosine": -0.014829199734041544,
+      "n": 180
+    },
+    "reason": null
+  }
+}
