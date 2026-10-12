@@ -25,6 +25,7 @@ class Planner:
         split: str,
         model: str | None = None,
         checkpoint: str | None = None,
+        device: str = "cpu",
     ) -> dict[str, Any]:
         from benchmark.evaluator import CounterfactualEvaluator
 
@@ -36,5 +37,6 @@ class Planner:
             model=model,
             checkpoint=checkpoint,
             command="plan",
+            device=device,
         )
         return record

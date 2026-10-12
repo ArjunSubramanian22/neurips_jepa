@@ -68,6 +68,7 @@ class CounterfactualEvaluator:
         checkpoint: str | None = None,
         command: str = "audit",
         represent: Callable | None = None,
+        device: str = "cpu",
     ) -> dict[str, Any]:
         """Audit one task and return a schema record. Does not write a file."""
         split_info = resolve_split(env_name, split)
@@ -76,7 +77,7 @@ class CounterfactualEvaluator:
         if represent is None and model is not None and checkpoint is not None:
             from benchmark.adapters import load_adapter
 
-            represent = load_adapter(model, checkpoint).represent_fork
+            represent = load_adapter(model, checkpoint, device=device).represent_fork
         report = _fork(env_name, task, seed, represent)
         return _schema(
             report,
