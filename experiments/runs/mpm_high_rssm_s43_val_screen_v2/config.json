@@ -1,0 +1,9 @@
+{
+  "checkpoint": "outputs/mpm_high_runs/rssm_s43/last.pt",
+  "environment_config": "configs/environments/mpm_high_excitation.yaml",
+  "experiment_id": "mpm_high_rssm_s43_val_screen_v2",
+  "is_test_set": false,
+  "metric_version": "mpm_high_h1_v2",
+  "n_episodes": 24,
+  "split_version": "fresh_pool_v2"
+}
