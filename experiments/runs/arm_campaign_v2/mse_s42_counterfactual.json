@@ -1,0 +1,305 @@
+{
+  "episodes": [
+    480,
+    481,
+    482,
+    483,
+    484,
+    485
+  ],
+  "test_episodes_read": false,
+  "checkpoints": [
+    {
+      "path": "outputs/mujoco_arm_campaign_runs/mse_s42/best.pt",
+      "name": "mse_s42_best"
+    },
+    {
+      "path": "outputs/mujoco_arm_campaign_runs/mse_s42/last.pt",
+      "name": "mse_s42_last"
+    }
+  ],
+  "rows": [
+    {
+      "episode": 480,
+      "kind": "push",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.3767257534433886,
+      "response_ratio": 0.9257070823433293,
+      "pred_norm": 0.09638939210472985,
+      "target_norm": 0.10412515356448428
+    },
+    {
+      "episode": 480,
+      "kind": "push",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": 0.7326093829593898,
+      "response_ratio": 0.5358103204544066,
+      "pred_norm": 0.10273381466412673,
+      "target_norm": 0.19173541595279633
+    },
+    {
+      "episode": 481,
+      "kind": "fold",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.16026877376242993,
+      "response_ratio": 0.5130607871182756,
+      "pred_norm": 0.031903691170532364,
+      "target_norm": 0.06218306284860867
+    },
+    {
+      "episode": 481,
+      "kind": "fold",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": 0.33244709986605303,
+      "response_ratio": 0.3710978596397099,
+      "pred_norm": 0.03726676638176266,
+      "target_norm": 0.1004230162306624
+    },
+    {
+      "episode": 482,
+      "kind": "hold",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.2639432118118241,
+      "response_ratio": 1.027084065904889,
+      "pred_norm": 0.0735490446454947,
+      "target_norm": 0.07160956642891347
+    },
+    {
+      "episode": 482,
+      "kind": "hold",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": 0.7141380409455649,
+      "response_ratio": 0.4761711524519673,
+      "pred_norm": 0.07782353946037673,
+      "target_norm": 0.16343606507793856
+    },
+    {
+      "episode": 483,
+      "kind": "switch",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.6432911319669633,
+      "response_ratio": 1.3114312292727248,
+      "pred_norm": 0.0857688834218261,
+      "target_norm": 0.06540097681629148
+    },
+    {
+      "episode": 483,
+      "kind": "switch",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": 0.38675560644570306,
+      "response_ratio": 0.8241873241571522,
+      "pred_norm": 0.07844037307502758,
+      "target_norm": 0.09517299135271695
+    },
+    {
+      "episode": 484,
+      "kind": "random_hold",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.3060850809258073,
+      "response_ratio": 0.813577169588193,
+      "pred_norm": 0.05560213016278016,
+      "target_norm": 0.06834278571376848
+    },
+    {
+      "episode": 484,
+      "kind": "random_hold",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": 0.5071676385736239,
+      "response_ratio": 0.5360260829303474,
+      "pred_norm": 0.05572341531551431,
+      "target_norm": 0.10395653698582268
+    },
+    {
+      "episode": 485,
+      "kind": "sequence",
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "cosine": 0.5501472100497686,
+      "response_ratio": 0.777171608979923,
+      "pred_norm": 0.08378489955253102,
+      "target_norm": 0.10780746309364406
+    },
+    {
+      "episode": 485,
+      "kind": "sequence",
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "cosine": -0.4256692717279169,
+      "response_ratio": 0.6720193167153401,
+      "pred_norm": 0.08457760162397733,
+      "target_norm": 0.12585590848395725
+    },
+    {
+      "episode": 480,
+      "kind": "push",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.874392078100626,
+      "response_ratio": 0.7696922933375473,
+      "pred_norm": 3.0849052059017703,
+      "target_norm": 4.007972059230285
+    },
+    {
+      "episode": 480,
+      "kind": "push",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": 0.8350598341040727,
+      "response_ratio": 1.0608327652247347,
+      "pred_norm": 12.021112110110307,
+      "target_norm": 11.33176925164417
+    },
+    {
+      "episode": 481,
+      "kind": "fold",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.7561775347814012,
+      "response_ratio": 1.1884500901425807,
+      "pred_norm": 3.3565881084581846,
+      "target_norm": 2.824340825331157
+    },
+    {
+      "episode": 481,
+      "kind": "fold",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": -0.4136352763072044,
+      "response_ratio": 1.8260013964258528,
+      "pred_norm": 3.3980960837792837,
+      "target_norm": 1.86094933466677
+    },
+    {
+      "episode": 482,
+      "kind": "hold",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.8223534755323088,
+      "response_ratio": 0.883039897986088,
+      "pred_norm": 2.025652756189693,
+      "target_norm": 2.2939538301831144
+    },
+    {
+      "episode": 482,
+      "kind": "hold",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": 0.8163538606452423,
+      "response_ratio": 1.328447750592338,
+      "pred_norm": 11.239989402824312,
+      "target_norm": 8.460994719447974
+    },
+    {
+      "episode": 483,
+      "kind": "switch",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.9303798304638407,
+      "response_ratio": 0.684582026149875,
+      "pred_norm": 2.2066685829743293,
+      "target_norm": 3.2233808348500594
+    },
+    {
+      "episode": 483,
+      "kind": "switch",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": 0.7191632484967282,
+      "response_ratio": 1.7321746929936266,
+      "pred_norm": 9.710623336376301,
+      "target_norm": 5.6060300243700825
+    },
+    {
+      "episode": 484,
+      "kind": "random_hold",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.7464183430613385,
+      "response_ratio": 0.7956284104566286,
+      "pred_norm": 1.2630660857246578,
+      "target_norm": 1.5875075212557537
+    },
+    {
+      "episode": 484,
+      "kind": "random_hold",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": 0.40191102357277586,
+      "response_ratio": 1.6621842542982521,
+      "pred_norm": 9.136404865644433,
+      "target_norm": 5.496625805483688
+    },
+    {
+      "episode": 485,
+      "kind": "sequence",
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "cosine": 0.9189711403831099,
+      "response_ratio": 0.9500040708187152,
+      "pred_norm": 3.2260336064525363,
+      "target_norm": 3.3958102976046565
+    },
+    {
+      "episode": 485,
+      "kind": "sequence",
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "cosine": -0.477416452603824,
+      "response_ratio": 0.7791818859168255,
+      "pred_norm": 6.605538695488734,
+      "target_norm": 8.477531132177589
+    }
+  ],
+  "summary": [
+    {
+      "model": "mse_s42_best",
+      "horizon": 1,
+      "n": 6,
+      "n_defined_cosine": 6,
+      "median_cosine": 0.34140541718459794,
+      "median_pred_norm": 0.07866697209901286,
+      "median_target_norm": 0.06997617607134098,
+      "median_response_ratio": 0.8696421259657612
+    },
+    {
+      "model": "mse_s42_best",
+      "horizon": 10,
+      "n": 6,
+      "n_defined_cosine": 6,
+      "median_cosine": 0.4469616225096635,
+      "median_pred_norm": 0.07813195626770215,
+      "median_target_norm": 0.11490622273488996,
+      "median_response_ratio": 0.5359182016923769
+    },
+    {
+      "model": "mse_s42_last",
+      "horizon": 1,
+      "n": 6,
+      "n_defined_cosine": 6,
+      "median_cosine": 0.8483727768164674,
+      "median_pred_norm": 2.64578689443805,
+      "median_target_norm": 3.0238608300906082,
+      "median_response_ratio": 0.8393341542213583
+    },
+    {
+      "model": "mse_s42_last",
+      "horizon": 10,
+      "n": 6,
+      "n_defined_cosine": 6,
+      "median_cosine": 0.560537136034752,
+      "median_pred_norm": 9.423514101010367,
+      "median_target_norm": 7.033512371909028,
+      "median_response_ratio": 1.495316002445295
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "run_name": "mse_epoch1",
+  "epochs": 1,
+  "device": "mps",
+  "amp": false,
+  "seconds": 16.109709500102326,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3913460778714054,
+      "train_invariance": 0.3913460778714054,
+      "train_variance": 1.963385501437717,
+      "train_covariance": 1.5873615404871087e-05,
+      "train_lr": 0.00010044493827160496,
+      "train_grad_norm": 1.9580992988083097,
+      "train_action_cond_grad_norm": 1.2279698948024047,
+      "train_ema_param_l2": 0.17920537424785588,
+      "ema_param_l2": 0.17598959400073824,
+      "val_loss": 0.007649302027291722,
+      "val_invariance": 0.007649302027291722,
+      "val_variance": 1.9672716734144422,
+      "val_covariance": 2.646547201139684e-06
+    }
+  ],
+  "best_val": 0.007649302027291722,
+  "checkpoint": "outputs/mujoco_arm_campaign_runs/mse_epoch1/last.pt"
+}

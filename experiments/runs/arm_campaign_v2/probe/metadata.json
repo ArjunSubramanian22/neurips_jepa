@@ -1,0 +1,55 @@
+{
+  "environment_id": "mujoco_arm",
+  "split_version": "arm_campaign_v1",
+  "package": "mujoco",
+  "version": "3.3.7",
+  "license": "Apache-2.0",
+  "n_episodes": 18,
+  "n_train": 6,
+  "n_val": 6,
+  "n_test": 6,
+  "episode_length": 8,
+  "action_dim": 2,
+  "image": [
+    64,
+    64,
+    3
+  ],
+  "kinds": [
+    "push",
+    "fold",
+    "hold",
+    "switch",
+    "random_hold",
+    "sequence",
+    "push",
+    "fold",
+    "hold",
+    "switch",
+    "random_hold",
+    "sequence",
+    "push",
+    "fold",
+    "hold",
+    "switch",
+    "random_hold",
+    "sequence"
+  ],
+  "episode_order": "train, validation, test",
+  "test_closed": true,
+  "initial_state": "reset_campaign varies object xy and joint start; reset() does not",
+  "commands": {
+    "push": [
+      -1.2,
+      1.8
+    ],
+    "fold": [
+      -1.2,
+      -1.0
+    ],
+    "hold": [
+      0.8,
+      -1.6
+    ]
+  }
+}

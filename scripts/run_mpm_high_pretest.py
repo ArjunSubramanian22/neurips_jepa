@@ -34,6 +34,26 @@ from src.train import load_model_from_checkpoint
 BRANCH_TIMES = (0, 1, 2, 3, 4, 5)
 HORIZONS = (1, 5, 10)
 SIM_HORIZON = 10
+METRIC_VERSION = "mpm_multih_v2_physindex"
+
+
+def physical_step(horizon: int) -> int:
+    """Cache frame for this horizon. Horizon 1 is index 0."""
+    if int(horizon) < 1:
+        raise ValueError(f"horizon must be positive, got {horizon}.")
+    return int(horizon) - 1
+
+
+def latent_step(horizon: int, *, teacher_forced_jepa: bool, horizons: tuple[int, ...] = HORIZONS) -> int:
+    """Index into the latent tensor.
+
+    Teacher-forced JEPA keeps one vector per entry of ``horizons``. That list
+    index is not a frame number: horizons (1, 5, 10) occupy slots 0, 1, and 2.
+    Physical and raster rows have to use :func:`physical_step` instead.
+    """
+    if teacher_forced_jepa:
+        return horizons.index(int(horizon))
+    return physical_step(horizon)
 CACHE_ROOT = ROOT / "outputs" / "counterfactual_cache"
 ROW_PATH = ROOT / "experiments" / "runs" / "mpm_high_multih" / "branch_rows.csv"
 FIELDNAMES = [
@@ -379,19 +399,20 @@ def score_checkpoint(regime: str, episodes: list[int], checkpoint: Path, model_n
                         gate = torch.stack(gate_r, dim=1)
                 for episode_index, episode in enumerate(episodes):
                     for horizon in HORIZONS:
-                        if (not is_rssm) and protocol == "teacher_forced":
-                            step = HORIZONS.index(horizon)
-                        else:
-                            step = horizon - 1
+                        teacher_forced_jepa = (not is_rssm) and protocol == "teacher_forced"
+                        step = latent_step(horizon, teacher_forced_jepa=teacher_forced_jepa)
+                        frame = physical_step(horizon)
+                        if frame >= SIM_HORIZON:
+                            raise RuntimeError(f"horizon {horizon} does not fit a cache of length {SIM_HORIZON}.")
                         physical = _state_metrics(
-                            cache["pos_rec"][episode_index][branch_index, step],
-                            cache["vel_rec"][episode_index][branch_index, step],
-                            cache["pos_rev"][episode_index][branch_index, step],
-                            cache["vel_rev"][episode_index][branch_index, step],
+                            cache["pos_rec"][episode_index][branch_index, frame],
+                            cache["vel_rec"][episode_index][branch_index, frame],
+                            cache["pos_rev"][episode_index][branch_index, frame],
+                            cache["vel_rev"][episode_index][branch_index, frame],
                         )
                         raster = _raster_metrics(
-                            cache["frames_rec"][episode_index, branch_index, step],
-                            cache["frames_rev"][episode_index, branch_index, step],
+                            cache["frames_rec"][episode_index, branch_index, frame],
+                            cache["frames_rev"][episode_index, branch_index, frame],
                         )
                         primary = pair_metrics(
                             bundles["z"][0][episode_index, step].detach().cpu().numpy(),
@@ -434,7 +455,7 @@ def score_checkpoint(regime: str, episodes: list[int], checkpoint: Path, model_n
                             "same_state_action_norm": gate_value,
                             "git_commit": git,
                             "checkpoint_sha256": digest,
-                            "metric_version": "mpm_multih_v1_rssm_z",
+                            "metric_version": METRIC_VERSION,
                         })
                 print(f"scored {regime} {model_name} s{seed} {protocol} t={branch}", flush=True)
     row_path = Path(os.environ.get("PRETEST_ROWS", str(row_path or ROW_PATH)))

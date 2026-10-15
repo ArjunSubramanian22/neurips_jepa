@@ -124,6 +124,41 @@ class MujocoArm:
         self.data.ctrl[:] = HOME
         self._mujoco.mj_forward(self.model, self.data)
 
+    def reset_campaign(self, seed: int) -> dict[str, float]:
+        """Varied object and joint start, then a short settle.
+
+        ``reset`` is unchanged. Campaign episodes call this instead so the
+        32-episode arm study stays on the fixed initial state.
+        """
+        self.reset(int(seed))
+        rng = np.random.default_rng(50_000 + int(seed))
+        low = self.model.actuator_ctrlrange[:, 0]
+        high = self.model.actuator_ctrlrange[:, 1]
+        shoulder = float(np.clip(HOME[0] + rng.uniform(-0.15, 0.15), low[0], high[0]))
+        elbow = float(np.clip(HOME[1] + rng.uniform(-0.15, 0.15), low[1], high[1]))
+        self.data.qpos[self._shoulder] = shoulder
+        self.data.qpos[self._elbow] = elbow
+        self.data.ctrl[:] = np.array([shoulder, elbow], dtype=np.float64)
+        adr = self._object
+        self.data.qpos[adr] = float(rng.uniform(0.12, 0.28))
+        self.data.qpos[adr + 1] = float(rng.uniform(-0.03, 0.03))
+        self.data.qpos[adr + 2] = 0.045
+        self.data.qpos[adr + 3 : adr + 7] = np.array([1.0, 0.0, 0.0, 0.0])
+        self.data.qvel[:] = 0.0
+        self._mujoco.mj_forward(self.model, self.data)
+        for _ in range(20):
+            self._mujoco.mj_step(self.model, self.data)
+        if not np.isfinite(self.data.qpos).all() or not np.isfinite(self.data.qvel).all():
+            raise RuntimeError(f"campaign reset {seed} produced a non-finite state.")
+        height = float(self.data.qpos[adr + 2])
+        if not 0.02 <= height <= 0.2:
+            raise RuntimeError(f"campaign reset {seed} left the object at z={height}.")
+        return {
+            "object_x": float(self.data.qpos[adr]),
+            "object_y": float(self.data.qpos[adr + 1]),
+            "object_z": height,
+        }
+
     def get_state(self) -> dict[str, Any]:
         vector = np.empty(self._state_size, dtype=np.float64)
         self._mujoco.mj_getState(self.model, self.data, vector, self._spec)

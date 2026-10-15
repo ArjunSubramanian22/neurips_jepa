@@ -10,6 +10,7 @@ import tempfile
 import unittest
 from argparse import Namespace
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 import torch
@@ -23,7 +24,7 @@ from scripts.eval_mpm_high_screen import (  # noqa: E402
     run_recorded_screen,
     validation_episode_ids,
 )
-from scripts.eval_mpm_high_test_once import main as test_once_main  # noqa: E402
+from scripts.eval_mpm_high_test_once import main as held_out_main  # noqa: E402
 from scripts.generate_counterfactual_pairs import main as pairs_main  # noqa: E402
 from scripts.run_confirmatory_queue import planned_screen_commands  # noqa: E402
 from scripts.summarize_mpm_high_h1 import _row_from_screen  # noqa: E402
@@ -76,11 +77,40 @@ class HighExcitationProtocolTest(unittest.TestCase):
             self.assertFalse(rssm_run_complete(run))
 
     def test_held_out_runner_refuses_without_a_freeze(self) -> None:
-        with self.assertRaises(SystemExit):
-            test_once_main([])
-        with self.assertRaises(SystemExit) as caught:
-            test_once_main(["--i-understand-this-opens-the-test-set"])
+        import scripts.eval_mpm_high_test_once as runner
+
+        lock = ROOT / "experiments" / "runs" / "mpm_high_test_final" / "TEST_EVALUATED.lock"
+        freeze = ROOT / "experiments" / "MPM_HIGH_PROTOCOL_FREEZE.md"
+        before_lock = lock.read_bytes()
+        before_freeze = freeze.read_bytes()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with (
+                mock.patch.object(runner, "FREEZE_MD", root / "missing.md"),
+                mock.patch.object(runner, "FREEZE_JSON", root / "missing.json"),
+                mock.patch.object(runner, "LOCK", root / "TEST_EVALUATED.lock"),
+                mock.patch.object(runner, "OUT", root / "out"),
+            ):
+                with self.assertRaises(SystemExit):
+                    held_out_main([])
+                with self.assertRaises(SystemExit) as caught:
+                    held_out_main(["--i-understand-this-opens-the-test-set"])
+                self.assertFalse((root / "TEST_EVALUATED.lock").exists())
         self.assertIn("PROTOCOL_FREEZE", str(caught.exception))
+        self.assertEqual(lock.read_bytes(), before_lock)
+        self.assertEqual(freeze.read_bytes(), before_freeze)
+
+    def test_teacher_forced_physical_index_is_not_the_latent_slot(self) -> None:
+        from scripts.run_mpm_high_pretest import HORIZONS, latent_step, physical_step
+
+        self.assertEqual([physical_step(horizon) for horizon in HORIZONS], [0, 4, 9])
+        self.assertEqual(
+            [latent_step(horizon, teacher_forced_jepa=True) for horizon in HORIZONS],
+            [0, 1, 2],
+        )
+        self.assertEqual(physical_step(10), 9)
+        self.assertEqual(latent_step(10, teacher_forced_jepa=True), 2)
+        self.assertEqual(latent_step(10, teacher_forced_jepa=False), 9)
 
     def test_pair_generator_requires_the_environment_and_refuses_legacy_high(self) -> None:
         with self.assertRaises(SystemExit):

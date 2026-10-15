@@ -1,0 +1,83 @@
+{
+  "seed": 42,
+  "episodes": [
+    1440,
+    1441,
+    1442,
+    1443
+  ],
+  "checkpoint": "outputs/mpm_high_runs/rssm_s42/last.pt",
+  "test_episodes_read": false,
+  "modes": [
+    {
+      "mode": "intact",
+      "horizon": 1,
+      "n": 8,
+      "median_cosine": 0.941345821011802,
+      "median_target_delta_norm": 0.11159306764602661
+    },
+    {
+      "mode": "intact",
+      "horizon": 10,
+      "n": 8,
+      "median_cosine": 0.8660505117864269,
+      "median_target_delta_norm": 0.4871131181716919
+    },
+    {
+      "mode": "blank_image",
+      "horizon": 1,
+      "n": 8,
+      "median_cosine": 0.854462195012655,
+      "median_target_delta_norm": 0.09915458783507347
+    },
+    {
+      "mode": "blank_image",
+      "horizon": 10,
+      "n": 8,
+      "median_cosine": 0.5414711250734561,
+      "median_target_delta_norm": 0.1437385454773903
+    },
+    {
+      "mode": "cross_fork_image",
+      "horizon": 1,
+      "n": 8,
+      "median_cosine": 0.5466387448535979,
+      "median_target_delta_norm": 0.11907833442091942
+    },
+    {
+      "mode": "cross_fork_image",
+      "horizon": 10,
+      "n": 8,
+      "median_cosine": -0.15549284023065915,
+      "median_target_delta_norm": 0.6188119351863861
+    },
+    {
+      "mode": "zero_action",
+      "horizon": 1,
+      "n": 8,
+      "median_cosine": 0.25741302028481083,
+      "median_target_delta_norm": 0.054995033890008926
+    },
+    {
+      "mode": "zero_action",
+      "horizon": 10,
+      "n": 8,
+      "median_cosine": 0.4776490890297642,
+      "median_target_delta_norm": 0.5125356912612915
+    },
+    {
+      "mode": "swapped_action",
+      "horizon": 1,
+      "n": 8,
+      "median_cosine": -0.5466387448535979,
+      "median_target_delta_norm": 0.11907833442091942
+    },
+    {
+      "mode": "swapped_action",
+      "horizon": 10,
+      "n": 8,
+      "median_cosine": 0.15549284023065915,
+      "median_target_delta_norm": 0.6188119351863861
+    }
+  ]
+}

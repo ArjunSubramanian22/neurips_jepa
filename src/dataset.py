@@ -1003,6 +1003,10 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             observations, actions, labels, values, geometry, n_train = self._take_fresh_pool_v2(
                 observations, actions, labels, values, geometry, split
             )
+        elif cfg.split_version == "arm_campaign_v1":
+            observations, actions, labels, values, geometry, n_train = self._take_arm_campaign_v1(
+                observations, actions, labels, values, geometry, split
+            )
         else:
             if cfg.split_version in ("legacy_v1", "hist_v1_last_fraction_val"):
                 spec = legacy_v1_split()
@@ -1183,6 +1187,65 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             n_train,
         )
 
+    def _take_arm_campaign_v1(
+        self,
+        observations: torch.Tensor,
+        actions: torch.Tensor,
+        labels: torch.Tensor,
+        values: torch.Tensor,
+        geometry: torch.Tensor | None,
+        split: str,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor | None, int]:
+        """Train, validation, then a sealed test suffix. ``all`` drops the test."""
+        if split not in ("train", "val", "test", "all"):
+            raise ProtocolError("arm_campaign_v1 requires split 'train', 'val', 'test', or 'all'.")
+        meta_path = Path(self.cfg.dataset_path) / "metadata.json"
+        if not meta_path.is_file():
+            raise ValueError(f"arm_campaign_v1 requires {meta_path}.")
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        if meta.get("split_version") != "arm_campaign_v1":
+            raise ValueError("metadata split_version is not arm_campaign_v1.")
+        n_train = int(meta["n_train"])
+        n_val = int(meta["n_val"])
+        n_test = int(meta["n_test"])
+        n_episodes = int(observations.shape[0])
+        if n_train < 1 or n_val < 1 or n_test < 1:
+            raise ValueError("arm_campaign_v1 keeps train, validation, and test non-empty.")
+        if n_train + n_val + n_test != n_episodes:
+            raise ValueError(
+                f"arm_campaign_v1 counts {n_train}+{n_val}+{n_test} do not match {n_episodes} episodes."
+            )
+        self._campaign_counts = (n_train, n_val)
+        train_index = torch.arange(0, n_train)
+        flat = actions.index_select(0, train_index).reshape(-1, actions.shape[-1])
+        self.action_mean = flat.mean(dim=0)
+        self.action_std = flat.std(dim=0, unbiased=False).clamp_min(1e-6)
+        self.normalization_provenance = {
+            "split_version": "arm_campaign_v1",
+            "source_role": "train",
+            "n_episodes": n_train,
+            "uses_validation": False,
+            "uses_test": False,
+        }
+        spans = {
+            "train": (0, n_train),
+            "val": (n_train, n_train + n_val),
+            "test": (n_train + n_val, n_episodes),
+            "all": (0, n_train + n_val),
+        }
+        start, stop = spans[split]
+        index = torch.arange(start, stop)
+        self.global_episode_ids = tuple(range(start, stop))
+        self._global_episode_offset = 0
+        return (
+            observations.index_select(0, index),
+            actions.index_select(0, index),
+            labels.index_select(0, index),
+            values.index_select(0, index),
+            None if geometry is None else geometry.index_select(0, index),
+            n_train,
+        )
+
     def split_sizes(self) -> tuple[int, int]:
         if self.split_version == "cvpr_v1" and self.split == "test":
             raise ProtocolError(
@@ -1195,6 +1258,12 @@ class DeformablePhysicsDataset(Dataset[Transition]):
             )
         if self.split_version == "fresh_pool_v2" and self.split == "all":
             return self._fresh_counts
+        if self.split_version == "arm_campaign_v1" and self.split == "test":
+            raise ProtocolError(
+                "arm_campaign_v1 test episodes are closed to training and validation."
+            )
+        if self.split_version == "arm_campaign_v1" and self.split == "all":
+            return self._campaign_counts
         if self.split == "train":
             return self.n_episodes, 0
         if self.split == "val":

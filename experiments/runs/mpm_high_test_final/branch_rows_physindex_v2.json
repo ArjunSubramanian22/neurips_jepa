@@ -1,0 +1,10 @@
+{
+  "n_rows": 129600,
+  "n_recomputed": 32400,
+  "n_checked_unchanged": 97200,
+  "max_abs_rms_pos_change": 0.19866806264461784,
+  "n_bottleneck_label_changes": 0,
+  "source": "experiments/runs/mpm_high_test_final/branch_rows.csv",
+  "destination": "experiments/runs/mpm_high_test_final/branch_rows_physindex_v2.csv",
+  "latent_columns": "copied"
+}

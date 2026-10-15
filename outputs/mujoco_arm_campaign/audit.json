@@ -1,0 +1,56 @@
+{
+  "split_version": "arm_campaign_v1",
+  "n_train": 480,
+  "n_val": 120,
+  "n_test": 120,
+  "episode_length": 16,
+  "replay_exact": true,
+  "splits_disjoint": true,
+  "test_closed_to_all": true,
+  "start_x_std": 0.04332675781367005,
+  "start_y_std": 0.017708297621849948,
+  "push_displacement_median": 0.1840373607287831,
+  "hold_displacement_median": 0.0,
+  "intervention_sample": [
+    {
+      "episode": 0,
+      "kind": "push",
+      "object_effect": 0.07578686126629186,
+      "image_mse": 0.03785766992663078
+    },
+    {
+      "episode": 1,
+      "kind": "fold",
+      "object_effect": 0.2646004803992638,
+      "image_mse": 0.016116278644832116
+    },
+    {
+      "episode": 2,
+      "kind": "hold",
+      "object_effect": 0.12946121341535138,
+      "image_mse": 0.05688109115684673
+    },
+    {
+      "episode": 3,
+      "kind": "switch",
+      "object_effect": 0.07142795588255835,
+      "image_mse": 0.03655468174299949
+    },
+    {
+      "episode": 4,
+      "kind": "random_hold",
+      "object_effect": 0.1476839051085293,
+      "image_mse": 0.04133095343938229
+    },
+    {
+      "episode": 5,
+      "kind": "sequence",
+      "object_effect": 0.23336782332631084,
+      "image_mse": 0.05018520896410036
+    }
+  ],
+  "n_visible_interventions": 6,
+  "status": "passed",
+  "generation_seconds": 19.215632250066847,
+  "seconds_per_episode": 0.02668837812509284
+}

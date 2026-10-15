@@ -1,0 +1,159 @@
+{
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "episodes": [
+    1440,
+    1441,
+    1442,
+    1443
+  ],
+  "test_episodes_read": false,
+  "dependence": "swapped_action negates the target delta of cross_fork_image, so its cosine is the negation. It is not a second piece of evidence.",
+  "modes": [
+    {
+      "mode": "intact",
+      "horizon": 1,
+      "n": 40,
+      "median_cosine": 0.9657473552335111,
+      "seed_median_cosine": [
+        0.941345821011802,
+        0.9737480312238851,
+        0.9716231289417119,
+        0.9833738394680418,
+        0.9411306244430606
+      ],
+      "median_target_delta_norm": 0.1175617091357708
+    },
+    {
+      "mode": "intact",
+      "horizon": 10,
+      "n": 40,
+      "median_cosine": 0.9320366968552323,
+      "seed_median_cosine": [
+        0.8660505117864269,
+        0.9330120068181278,
+        0.9611913870260451,
+        0.919117858689649,
+        0.9342509925343006
+      ],
+      "median_target_delta_norm": 0.42655816674232483
+    },
+    {
+      "mode": "blank_image",
+      "horizon": 1,
+      "n": 40,
+      "median_cosine": 0.867693301566498,
+      "seed_median_cosine": [
+        0.854462195012655,
+        0.9016996561705315,
+        0.8551939868753966,
+        0.9244075017934217,
+        0.8495141057626483
+      ],
+      "median_target_delta_norm": 0.0989685021340847
+    },
+    {
+      "mode": "blank_image",
+      "horizon": 10,
+      "n": 40,
+      "median_cosine": 0.6578756417301138,
+      "seed_median_cosine": [
+        0.5414711250734561,
+        0.6808242052484343,
+        0.6393389554239763,
+        0.6168182236516999,
+        0.7118190914643527
+      ],
+      "median_target_delta_norm": 0.1466754525899887
+    },
+    {
+      "mode": "cross_fork_image",
+      "horizon": 1,
+      "n": 40,
+      "median_cosine": 0.6330224143777383,
+      "seed_median_cosine": [
+        0.5466387448535979,
+        0.5402269709554486,
+        0.5495650742215945,
+        0.7565896656778986,
+        0.4765699716510935
+      ],
+      "median_target_delta_norm": 0.1273779273033142
+    },
+    {
+      "mode": "cross_fork_image",
+      "horizon": 10,
+      "n": 40,
+      "median_cosine": -0.2170575419079098,
+      "seed_median_cosine": [
+        -0.15549284023065915,
+        -0.19925854817095487,
+        -0.40051833892130445,
+        -0.1399272733759784,
+        -0.37099542778571154
+      ],
+      "median_target_delta_norm": 0.5371535420417786
+    },
+    {
+      "mode": "zero_action",
+      "horizon": 1,
+      "n": 40,
+      "median_cosine": 0.23505815122332846,
+      "seed_median_cosine": [
+        0.25741302028481083,
+        0.32631731615458254,
+        0.30023866357356166,
+        0.17789241510386467,
+        0.24049065525310953
+      ],
+      "median_target_delta_norm": 0.04848823696374893
+    },
+    {
+      "mode": "zero_action",
+      "horizon": 10,
+      "n": 40,
+      "median_cosine": 0.5872113716448497,
+      "seed_median_cosine": [
+        0.4776490890297642,
+        0.63505719700046,
+        0.7172583034342501,
+        0.5177289361911324,
+        0.5872113716448497
+      ],
+      "median_target_delta_norm": 0.42469194531440735
+    },
+    {
+      "mode": "swapped_action",
+      "horizon": 1,
+      "n": 40,
+      "median_cosine": -0.6330224143777383,
+      "seed_median_cosine": [
+        -0.5466387448535979,
+        -0.5402269709554486,
+        -0.5495650742215945,
+        -0.7565896656778986,
+        -0.4765699716510935
+      ],
+      "median_target_delta_norm": 0.1273779273033142
+    },
+    {
+      "mode": "swapped_action",
+      "horizon": 10,
+      "n": 40,
+      "median_cosine": 0.2170575419079098,
+      "seed_median_cosine": [
+        0.15549284023065915,
+        0.19925854817095487,
+        0.40051833892130445,
+        0.1399272733759784,
+        0.37099542778571154
+      ],
+      "median_target_delta_norm": 0.5371535420417786
+    }
+  ]
+}

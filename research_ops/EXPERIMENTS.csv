@@ -1,0 +1,12 @@
+id,status,hypothesis,scope,evidence,notes
+canonical_open_loop,complete,H1,v2 rows for legacy validation high validation and high test,experiments/runs/canonical_counterfactual/summary.md,median of seed medians of episode medians; cosine undefined stays undefined
+physical_index_v2,complete,correctness,teacher-forced non-RSSM H5 and H10 physical columns,experiments/PHYSICAL_INDEX_CORRECTION.md,v1 csv kept; open-loop checked against cache
+matched_planning,complete,H2,episodes 1440-1463 five seeds four models constant and sequence libraries,experiments/runs/mpm_high_planning_matched/report.md,final image only; RSSM constant top-1 15.0 and 20.0 percent
+rssm_target_pilot,superseded,H3,episodes 1440-1443 branches 0 and 3 five seeds,experiments/runs/rssm_target_controls_seeds/summary.json,kept as the small-sample record; H10 sign claim withdrawn
+rssm_target_val,complete,H3,episodes 1440-1619 branches 0 and 3 five seeds,experiments/runs/rssm_target_controls_val/report.md,1800 contrasts per cell; test not read
+arm_dataset,complete,H4 prep,480 train 120 val 120 test length 16,outputs/mujoco_arm_campaign/audit.json,push moves hold does not; replay exact
+arm_mse_s42,pilot,H4,one seed 20 epochs MSE,outputs/mujoco_arm_campaign_runs/mse_s42/history.json,val MSE lowest near epoch 2 then rises; 171 seconds
+arm_epoch1_contrast,pilot,H4,six validation episodes one epoch,experiments/runs/arm_campaign_v2/epoch1_counterfactual.json,no-action pred norm 0; action cosine about 0.29
+arm_mse_s42_contrast,pilot,H4,same six episodes best.pt and last.pt,experiments/runs/arm_campaign_v2/mse_s42_counterfactual.json,best cosine 0.34/0.45; last 0.85/0.56; n=6
+arm_five_seed,waiting,H4,four models five seeds both checkpoints,not started,gate 19 October; test 600-719 closed
+closed_loop,deferred,decision usefulness,existing CEM benchmark,scripts/run_planning_benchmark.py,different checkpoints and goal protocol

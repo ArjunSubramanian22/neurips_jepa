@@ -1,0 +1,1168 @@
+{
+  "aggregation": "median across seeds of the median across episodes of the median across branch times",
+  "cosine_rule": "branch rows with cosine_status other than ok are omitted",
+  "sources": {
+    "experiments/runs/mpm_high_multih/branch_rows_physindex_v2.csv": 194400,
+    "experiments/runs/mpm_high_test_final/branch_rows_physindex_v2.csv": 129600
+  },
+  "rows": [
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.7341105235622873,
+      "response_ratio": 0.7921805125444165,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.7249505212821097,
+        "43": 0.7306878417970692,
+        "44": 0.7341105235622873,
+        "45": 0.736946533491126,
+        "46": 0.7419983048853367
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.8545218140016241,
+      "response_ratio": 0.930447472789575,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.8523494785858787,
+        "43": 0.8545218140016241,
+        "44": 0.8398114616744967,
+        "45": 0.8635662871295331,
+        "46": 0.8675723815316475
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.8225259717859268,
+      "response_ratio": 0.9576924514864549,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.8070851589727668,
+        "43": 0.8202071398244465,
+        "44": 0.8225259717859268,
+        "45": 0.8247768839214741,
+        "46": 0.841906884834256
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.7341105235622873,
+      "response_ratio": 0.7921805125444165,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.7249505212821097,
+        "43": 0.7306878417970692,
+        "44": 0.7341105235622873,
+        "45": 0.736946533491126,
+        "46": 0.7419983048853367
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9686416193200216,
+      "response_ratio": 0.9683300454940595,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.9682612475062476,
+        "43": 0.9669460650508477,
+        "44": 0.9686416193200216,
+        "45": 0.9705749242784096,
+        "46": 0.9732436454550174
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9686388842332758,
+      "response_ratio": 0.9706361220441165,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.9684692290665512,
+        "43": 0.9679905137273476,
+        "44": 0.9686388842332758,
+        "45": 0.971766683691468,
+        "46": 0.9736833112797544
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.9269604035098025,
+      "response_ratio": 0.8367670359326098,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.8698499458129418,
+        "43": 0.9269604035098025,
+        "44": 0.9643283789480458,
+        "45": 0.9470704994084737,
+        "46": 0.9021965353542327
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9435995255957779,
+      "response_ratio": 0.7140133294658622,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.8884153531463901,
+        "43": 0.9435995255957779,
+        "44": 0.9755801187635562,
+        "45": 0.9472487002935274,
+        "46": 0.9275469550329958
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9270417652814438,
+      "response_ratio": 0.7369454726775351,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.8769428099908757,
+        "43": 0.9270417652814438,
+        "44": 0.9616185421164715,
+        "45": 0.9361302082484865,
+        "46": 0.9124394613427946
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.9269604035098025,
+      "response_ratio": 0.8367670359326098,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.8698499458129418,
+        "43": 0.9269604035098025,
+        "44": 0.9643283789480458,
+        "45": 0.9470704994084737,
+        "46": 0.9021965353542327
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9786082433019027,
+      "response_ratio": 0.8318161144192053,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.9655708762300881,
+        "43": 0.9786082433019027,
+        "44": 0.9920147391992544,
+        "45": 0.982674234902501,
+        "46": 0.9755331448166209
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9690166369836049,
+      "response_ratio": 0.8682785609554766,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.945675540853182,
+        "43": 0.9690166369836049,
+        "44": 0.9882381445771535,
+        "45": 0.9768968353807074,
+        "46": 0.9609939757019053
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.6261871202756948,
+      "response_ratio": 0.9128034570452586,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.5951474792136089,
+        "43": 0.6380877046351361,
+        "44": 0.651993591959759,
+        "45": 0.6261871202756948,
+        "46": 0.6191766299270944
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.5510752940425702,
+      "response_ratio": 1.0598012523823628,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.5510752940425702,
+        "43": 0.553651430962651,
+        "44": 0.5285619765695787,
+        "45": 0.5390796015143055,
+        "46": 0.5531023130333061
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.3156707492818992,
+      "response_ratio": 1.140475953912612,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.3491888202751813,
+        "43": 0.3156707492818992,
+        "44": 0.2813673904254616,
+        "45": 0.3267845364056136,
+        "46": 0.2960144849118582
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.6261871202756948,
+      "response_ratio": 0.9128034570452586,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": 0.5951474792136089,
+        "43": 0.6380877046351361,
+        "44": 0.651993591959759,
+        "45": 0.6261871202756948,
+        "46": 0.6191766299270944
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.936614201560121,
+      "response_ratio": 1.2885821689418921,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.936614201560121,
+        "43": 0.9331482226987629,
+        "44": 0.9325512156997895,
+        "45": 0.9401235819680557,
+        "46": 0.9392840610288564
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.935536348968731,
+      "response_ratio": 1.2625075730307782,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.9384552685810504,
+        "43": 0.9352480836948103,
+        "44": 0.9353499419427307,
+        "45": 0.935536348968731,
+        "46": 0.938110456660844
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.0011261469798821587,
+      "raster_mse": 0.0007026528633818724,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9357689263748449,
+      "response_ratio": 1.1697292428649857,
+      "rms_pos": 0.021530240870672228,
+      "raster_mse": 0.012160335405352909,
+      "seed_cosine": {
+        "42": 0.934234695328724,
+        "43": 0.9375448110913144,
+        "44": 0.9357689263748449,
+        "45": 0.9364279645415301,
+        "46": 0.9320505913345949
+      }
+    },
+    {
+      "regime": "mpm_high",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9384893461176698,
+      "response_ratio": 1.175212207216878,
+      "rms_pos": 0.061138301735084735,
+      "raster_mse": 0.022567941992462835,
+      "seed_cosine": {
+        "42": 0.939560038244579,
+        "43": 0.9389627326086306,
+        "44": 0.9382668132483871,
+        "45": 0.9384893461176698,
+        "46": 0.9382787894363083
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.7268869678757099,
+      "response_ratio": 0.8070358654037626,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.7195225128567881,
+        "43": 0.7196339345093872,
+        "44": 0.7268869678757099,
+        "45": 0.7440439418511394,
+        "46": 0.7467883338723096
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.8443964431828301,
+      "response_ratio": 0.9145055484923351,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.838573308629842,
+        "43": 0.8417246257829663,
+        "44": 0.8443964431828301,
+        "45": 0.8576850398410709,
+        "46": 0.8606033297360665
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.8102311397350292,
+      "response_ratio": 0.9541980862086185,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.8030276923744302,
+        "43": 0.8102311397350292,
+        "44": 0.7993039528424002,
+        "45": 0.8162724060069443,
+        "46": 0.8284686782959574
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.7268869678757099,
+      "response_ratio": 0.8070358654037626,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.7195225128567881,
+        "43": 0.7196339345093872,
+        "44": 0.7268869678757099,
+        "45": 0.7440439418511394,
+        "46": 0.7467883338723096
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9682708477336774,
+      "response_ratio": 0.9686935297542172,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.9647362280291633,
+        "43": 0.9651728936672817,
+        "44": 0.9682708477336774,
+        "45": 0.9702509950044287,
+        "46": 0.971247562261339
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.968749418388575,
+      "response_ratio": 0.9689160438265225,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.9669251072273315,
+        "43": 0.966986054648795,
+        "44": 0.968749418388575,
+        "45": 0.9705401288137815,
+        "46": 0.9729083759225838
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.9240581865635081,
+      "response_ratio": 0.8404238865223125,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.8721688530842602,
+        "43": 0.9240581865635081,
+        "44": 0.9655379590548032,
+        "45": 0.9542708560698087,
+        "46": 0.896734262596343
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9422662729719717,
+      "response_ratio": 0.7496767295141499,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.9065535421776134,
+        "43": 0.9422662729719717,
+        "44": 0.9805492105797445,
+        "45": 0.9456358409035976,
+        "46": 0.924929548198838
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9140342615404063,
+      "response_ratio": 0.7107921758116871,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.8732299324347831,
+        "43": 0.9140342615404063,
+        "44": 0.9632326226624582,
+        "45": 0.9382041396534777,
+        "46": 0.8877328541105208
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.9240581865635081,
+      "response_ratio": 0.8404238865223125,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.8721688530842602,
+        "43": 0.9240581865635081,
+        "44": 0.9655379590548032,
+        "45": 0.9542708560698087,
+        "46": 0.896734262596343
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9803504854621006,
+      "response_ratio": 0.8490770461859335,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.9679665082966362,
+        "43": 0.9803504854621006,
+        "44": 0.9923665778479372,
+        "45": 0.9823669310714026,
+        "46": 0.9720994460464011
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "rssm",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9608935088044458,
+      "response_ratio": 0.8550587935031729,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.9427325621830912,
+        "43": 0.9608935088044458,
+        "44": 0.9843703925400484,
+        "45": 0.9733157730293776,
+        "46": 0.9509572455830078
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.6184221249658081,
+      "response_ratio": 0.9139406761750795,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.6004520772074451,
+        "43": 0.6360398101355491,
+        "44": 0.6317802372260691,
+        "45": 0.6184221249658081,
+        "46": 0.5851603566257235
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.5319963789514375,
+      "response_ratio": 1.0586433775546786,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.5559537798909453,
+        "43": 0.5314576246939745,
+        "44": 0.5276731581965787,
+        "45": 0.5319963789514375,
+        "46": 0.5522938815718255
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.30793956863713556,
+      "response_ratio": 1.1379947895530707,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.3264056975878017,
+        "43": 0.30793956863713556,
+        "44": 0.2823312622981773,
+        "45": 0.32854813815961487,
+        "46": 0.28661831341410504
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": 0.6184221249658081,
+      "response_ratio": 0.9139406761750795,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": 0.6004520772074451,
+        "43": 0.6360398101355491,
+        "44": 0.6317802372260691,
+        "45": 0.6184221249658081,
+        "46": 0.5851603566257235
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9361426044028507,
+      "response_ratio": 1.2826966079202076,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.9382617621725045,
+        "43": 0.9295833795251542,
+        "44": 0.9317507684791537,
+        "45": 0.9387490565152985,
+        "46": 0.9361426044028507
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9361954322653268,
+      "response_ratio": 1.2649482774204373,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.9385287960123596,
+        "43": 0.9364097543219334,
+        "44": 0.9340972498626975,
+        "45": 0.935547778155167,
+        "46": 0.9361954322653268
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 5,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.001231978195592092,
+      "raster_mse": 0.0008594094168508907,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null,
+        "46": null
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 5,
+      "cosine": 0.9354009617915119,
+      "response_ratio": 1.1717420023024183,
+      "rms_pos": 0.023297578688972836,
+      "raster_mse": 0.014508410664868479,
+      "seed_cosine": {
+        "42": 0.9354009617915119,
+        "43": 0.9349766498900222,
+        "44": 0.9377251786423921,
+        "45": 0.937910291979682,
+        "46": 0.932709196676239
+      }
+    },
+    {
+      "regime": "mpm_high_test",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 5,
+      "cosine": 0.9376563782243457,
+      "response_ratio": 1.1769149393029044,
+      "rms_pos": 0.062000316252009025,
+      "raster_mse": 0.024060271978225523,
+      "seed_cosine": {
+        "42": 0.9401099300864315,
+        "43": 0.9396673052337701,
+        "44": 0.9376563782243457,
+        "45": 0.9363884919452548,
+        "46": 0.9344115795992549
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 2,
+      "cosine": 0.15321755959844283,
+      "response_ratio": 0.19547670829726294,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": 0.13733064303387577,
+        "43": 0.1691044761630099
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 2,
+      "cosine": 0.09656649670597395,
+      "response_ratio": 0.1242750766138393,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": 0.11082255356375392,
+        "43": 0.08231043984819397
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 2,
+      "cosine": 0.06311718568269167,
+      "response_ratio": 0.10887449912658492,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": 0.07373469357064774,
+        "43": 0.05249967779473561
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 2,
+      "cosine": 0.15321755959844283,
+      "response_ratio": 0.19547670829726294,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": 0.13733064303387577,
+        "43": 0.1691044761630099
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 2,
+      "cosine": 0.9458157481052782,
+      "response_ratio": 0.9497416131797976,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": 0.9516544313209014,
+        "43": 0.939977064889655
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "mse_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 2,
+      "cosine": 0.9817244662362575,
+      "response_ratio": 0.9607924224785407,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": 0.9818639890596514,
+        "43": 0.9815849434128636
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 4,
+      "cosine": 0.07301354778200966,
+      "response_ratio": 0.12050828901456037,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": 0.05564164994138099,
+        "43": 0.09038544562263832,
+        "44": 0.11539032568441428,
+        "45": 0.023805208690234333
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 4,
+      "cosine": 0.0340458812945383,
+      "response_ratio": 0.06569094787461993,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": 0.03829294149452504,
+        "43": 0.04514278189809512,
+        "44": 0.02979882109455155,
+        "45": 0.018564216967961795
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 4,
+      "cosine": 0.01562272452445655,
+      "response_ratio": 0.05269013986882259,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": 0.03084550857856073,
+        "43": 0.016503586852846572,
+        "44": 0.014741862196066529,
+        "45": -0.002019687295409465
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 4,
+      "cosine": 0.07301354778200966,
+      "response_ratio": 0.12050828901456037,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": 0.05564164994138099,
+        "43": 0.09038544562263832,
+        "44": 0.11539032568441428,
+        "45": 0.023805208690234333
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 4,
+      "cosine": 0.9245168104687047,
+      "response_ratio": 1.3972503512019065,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": 0.9253732174240625,
+        "43": 0.9156254524632621,
+        "44": 0.9393204339364782,
+        "45": 0.9236604035133469
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_action",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 4,
+      "cosine": 0.9585641689608111,
+      "response_ratio": 1.452851346384951,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": 0.9561696517150426,
+        "43": 0.9452213965460827,
+        "44": 0.9627498910477748,
+        "45": 0.9609586862065795
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 1,
+      "n_seeds": 4,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 5,
+      "n_seeds": 4,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "open_loop",
+      "horizon": 10,
+      "n_seeds": 4,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "n_seeds": 4,
+      "cosine": null,
+      "response_ratio": 0.0,
+      "rms_pos": 1.6522741767277215e-05,
+      "raster_mse": 3.5042611815968216e-08,
+      "seed_cosine": {
+        "42": null,
+        "43": null,
+        "44": null,
+        "45": null
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "n_seeds": 4,
+      "cosine": 0.9611043414091585,
+      "response_ratio": 1.3462292354381402,
+      "rms_pos": 0.00013367625637281534,
+      "raster_mse": 4.433516155645265e-06,
+      "seed_cosine": {
+        "42": 0.961206748743766,
+        "43": 0.9637563123287399,
+        "44": 0.9610019340745509,
+        "45": 0.9596496611278041
+      }
+    },
+    {
+      "regime": "mpm_legacy",
+      "model": "vicreg_noaction",
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "n_seeds": 4,
+      "cosine": 0.9653019908846353,
+      "response_ratio": 1.3927855606537458,
+      "rms_pos": 0.00023149325764447643,
+      "raster_mse": 8.904577966807638e-06,
+      "seed_cosine": {
+        "42": 0.9650818914475288,
+        "43": 0.9683741185126553,
+        "44": 0.9655220903217419,
+        "45": 0.9592093773590731
+      }
+    }
+  ]
+}

@@ -5,6 +5,9 @@ outputs/physics_mpm_high/*.npy
 outputs/mpm_high_runs/**/*.pt
 outputs/confirmatory/**/*.pt
 outputs/mujoco_arm_runs/**/*.pt
+# Arm-campaign frames exceed GitHub's 100 MB blob limit. Regenerate with
+# scripts/generate_arm_campaign.py --mode full.
+outputs/mujoco_arm_campaign/observations.npy
 
 # Horizon-audit fork frames exceed GitHub's 100 MB blob limit; regenerate with
 # scripts/run_horizon_audit.py (see docs/HORIZON_AUDIT.md).

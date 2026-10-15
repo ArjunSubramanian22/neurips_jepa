@@ -1,0 +1,37 @@
+{
+  "goal_information": "final_image",
+  "rssm_receives_goal_actions": false,
+  "rssm_receives_goal_trajectory": false,
+  "training_episodes": [
+    0,
+    80,
+    160,
+    240,
+    320,
+    400,
+    480,
+    560
+  ],
+  "validation_episodes": [
+    1440,
+    1441
+  ],
+  "seeds": [
+    42
+  ],
+  "models": [
+    "vicreg_action",
+    "rssm"
+  ],
+  "libraries": [
+    "constant",
+    "sequence"
+  ],
+  "horizons": [
+    5,
+    10
+  ],
+  "test_episodes_read": false,
+  "timestamp": "2026-10-15T08:22:27+00:00",
+  "note": "latent_top1 is candidate identity. mean_chosen_rms is the physical endpoint error of that choice. They are not interchangeable."
+}

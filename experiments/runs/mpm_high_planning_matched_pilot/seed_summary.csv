@@ -1,0 +1,9 @@
+model,seed,horizon,library,n_episodes,n_candidates,goal_information,latent_top1,mean_chosen_rms,mean_regret,mean_rank,physical_oracle_top1
+vicreg_action,42,5,constant,2,8,final_image,1.0,0.0,0.0,1.0,1.0
+vicreg_action,42,5,sequence,2,16,final_image,0.5,0.004622951149940491,0.004622951149940491,1.5,1.0
+vicreg_action,42,10,constant,2,8,final_image,1.0,0.0,0.0,1.0,1.0
+vicreg_action,42,10,sequence,2,16,final_image,1.0,0.0,0.0,1.0,1.0
+rssm,42,5,constant,2,8,final_image,0.5,0.008202450349926949,0.008202450349926949,4.0,1.0
+rssm,42,5,sequence,2,16,final_image,0.0,0.014862879179418087,0.014862879179418087,5.5,1.0
+rssm,42,10,constant,2,8,final_image,0.5,0.027763787657022476,0.027763787657022476,3.0,1.0
+rssm,42,10,sequence,2,16,final_image,0.0,0.031430020928382874,0.031430020928382874,8.5,1.0

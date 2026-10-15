@@ -1,0 +1,17 @@
+episode,model,seed,horizon,library,n_candidates,goal_information,goal_index,chosen_index,latent_top1,physical_top1,chosen_rms,oracle_rms,regret,rank_of_goal
+1440,vicreg_action,42,5,constant,8,final_image,0,0,1,1,0.0,0.0,0.0,1
+1440,vicreg_action,42,5,sequence,16,final_image,0,5,0,1,0.009245902299880981,0.0,0.009245902299880981,2
+1440,vicreg_action,42,10,constant,8,final_image,0,0,1,1,0.0,0.0,0.0,1
+1440,vicreg_action,42,10,sequence,16,final_image,0,0,1,1,0.0,0.0,0.0,1
+1441,vicreg_action,42,5,constant,8,final_image,1,1,1,1,0.0,0.0,0.0,1
+1441,vicreg_action,42,5,sequence,16,final_image,1,1,1,1,0.0,0.0,0.0,1
+1441,vicreg_action,42,10,constant,8,final_image,1,1,1,1,0.0,0.0,0.0,1
+1441,vicreg_action,42,10,sequence,16,final_image,1,1,1,1,0.0,0.0,0.0,1
+1440,rssm,42,5,constant,8,final_image,0,0,1,1,0.0,0.0,0.0,1
+1440,rssm,42,5,sequence,16,final_image,0,9,0,1,0.014649416320025921,0.0,0.014649416320025921,2
+1440,rssm,42,10,constant,8,final_image,0,0,1,1,0.0,0.0,0.0,1
+1440,rssm,42,10,sequence,16,final_image,0,9,0,1,0.026619497686624527,0.0,0.026619497686624527,10
+1441,rssm,42,5,constant,8,final_image,1,5,0,1,0.016404900699853897,0.0,0.016404900699853897,7
+1441,rssm,42,5,sequence,16,final_image,1,9,0,1,0.015076342038810253,0.0,0.015076342038810253,9
+1441,rssm,42,10,constant,8,final_image,1,5,0,1,0.05552757531404495,0.0,0.05552757531404495,5
+1441,rssm,42,10,sequence,16,final_image,1,9,0,1,0.03624054417014122,0.0,0.03624054417014122,7
