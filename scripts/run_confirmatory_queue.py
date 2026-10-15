@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Run the remaining confirmatory training cells one at a time.
+"""High-excitation queue.
 
-Skips a cell when its last.pt already exists. A failed cell is logged and the
-queue continues. Direction, magnitude, and combined alignment stay out of this
-queue: their pair cache is not on disk.
+The active phase waits until rssm_s46/last.pt exists, screens the checkpoints
+that already exist, writes the horizon-1 summary, and stops. It does not
+start latent-transformer, fusion, inverse, alignment, or legacy training.
+It never calls scripts/eval_mpm_high_test_once.py.
+
+``jobs()`` is the deferred training list. ``main`` does not call it.
 """
 
 from __future__ import annotations
@@ -303,23 +306,206 @@ def _run(job: dict) -> None:
         )
 
 
+SCREEN_H1 = [
+    ("jepa", 44, "vicreg_action"),
+    ("jepa", 45, "vicreg_action"),
+    ("jepa", 46, "vicreg_action"),
+    ("noaction", 43, "vicreg_noaction"),
+    ("noaction", 44, "vicreg_noaction"),
+    ("noaction", 45, "vicreg_noaction"),
+    ("noaction", 46, "vicreg_noaction"),
+    ("mse", 42, "mse_action"),
+    ("mse", 43, "mse_action"),
+    ("mse", 44, "mse_action"),
+    ("mse", 45, "mse_action"),
+    ("mse", 46, "mse_action"),
+    ("rssm", 42, "rssm"),
+    ("rssm", 43, "rssm"),
+    ("rssm", 44, "rssm"),
+    ("rssm", 45, "rssm"),
+    ("rssm", 46, "rssm"),
+]
+PHASE_FILE = ROOT / "experiments" / "confirmatory_queue" / "ACTIVE_PHASE.txt"
+ENABLED_PHASE = "SCREEN_H1"
+
+
+def planned_screen_commands() -> list[list[str]]:
+    """Commands the active phase will run. The held-out test script is absent."""
+    commands = []
+    for family, seed, model_name in SCREEN_H1:
+        commands.append(
+            [
+                PYTHON,
+                "scripts/eval_mpm_high_screen.py",
+                "--checkpoint",
+                f"outputs/mpm_high_runs/{family}_s{seed}/last.pt",
+                "--experiment-id",
+                f"mpm_high_{family}_s{seed}_val_screen_v2",
+                "--model-name",
+                model_name,
+                "--seed",
+                str(seed),
+                "--n-episodes",
+                "24",
+            ]
+        )
+    commands.append([PYTHON, "scripts/summarize_mpm_high_h1.py"])
+    return commands
+
+
+def rssm_run_complete(run_dir: Path, epochs: int = 200) -> bool:
+    """A run is finished only when history.json records every epoch.
+
+    ``last.pt`` is also written at ``ckpt_interval``, so its presence does
+    not mean training finished.
+    """
+    history_path = run_dir / "history.json"
+    checkpoint = run_dir / "last.pt"
+    if not history_path.is_file() or not checkpoint.is_file() or checkpoint.stat().st_size == 0:
+        return False
+    payload = json.loads(history_path.read_text(encoding="utf-8"))
+    history = payload.get("history") or []
+    return int(payload.get("epochs", 0)) == int(epochs) and len(history) >= int(epochs)
+
+
+def _pid_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def _rssm46_running() -> bool:
+    pid_path = ROOT / "experiments" / "confirmatory_queue" / "rssm_s46.pid"
+    if pid_path.is_file():
+        try:
+            pid = int(pid_path.read_text(encoding="utf-8").strip())
+        except ValueError:
+            pid = -1
+        if _pid_alive(pid):
+            return True
+    completed = subprocess.run(["ps", "-ax", "-o", "command="], capture_output=True, text=True, check=False)
+    return any("src/train.py" in line and "rssm_s46" in line for line in completed.stdout.splitlines())
+
+
+def _start_rssm46() -> None:
+    if _rssm46_running() or rssm_run_complete(ROOT / "outputs" / "mpm_high_runs" / "rssm_s46"):
+        return
+    log_path = ROOT / "experiments" / "confirmatory_queue" / "rssm_s46_train.log"
+    pid_path = ROOT / "experiments" / "confirmatory_queue" / "rssm_s46.pid"
+    env = os.environ.copy()
+    env["MPLCONFIGDIR"] = str(ROOT / "outputs" / ".mplconfig")
+    handle = log_path.open("a", encoding="utf-8")
+    process = subprocess.Popen(
+        [
+            PYTHON,
+            "src/train.py",
+            "--mode",
+            "train",
+            "--config",
+            "experiments/confirmatory_queue/configs/mpm_high_rssm.yaml",
+            "--seed",
+            "46",
+            "--run-name",
+            "rssm_s46",
+            "--output-dir",
+            "outputs/mpm_high_runs",
+            "--device",
+            "mps",
+            "--num-workers",
+            "0",
+        ],
+        cwd=ROOT,
+        env=env,
+        stdout=handle,
+        stderr=subprocess.STDOUT,
+        start_new_session=True,
+    )
+    pid_path.write_text(f"{process.pid}\n", encoding="utf-8")
+    _log({"status": "STARTED", "phase": "TRAIN_BASELINES", "name": "rssm_s46", "pid": process.pid})
+
+
+def _wait_for_rssm46() -> None:
+    run_dir = ROOT / "outputs" / "mpm_high_runs" / "rssm_s46"
+    while not rssm_run_complete(run_dir):
+        if not _rssm46_running():
+            _start_rssm46()
+        else:
+            _log({
+                "status": "WAITING",
+                "phase": "TRAIN_BASELINES",
+                "checkpoint": str(run_dir / "last.pt"),
+                "history": str(run_dir / "history.json"),
+                "complete": False,
+            })
+        time.sleep(60)
+    _log({"status": "COMPLETE", "phase": "TRAIN_BASELINES", "checkpoint": str(run_dir / "last.pt")})
+
+
+def _screen(family: str, seed: int, model_name: str) -> int:
+    experiment_id = f"mpm_high_{family}_s{seed}_val_screen_v2"
+    screen_path = ROOT / "experiments" / "runs" / experiment_id / "screen.json"
+    if screen_path.is_file():
+        _log({"status": "SKIPPED_EXISTING", "phase": "SCREEN_H1", "name": experiment_id})
+        return 0
+    checkpoint = f"outputs/mpm_high_runs/{family}_s{seed}/last.pt"
+    if not _ready(checkpoint):
+        _log({"status": "BLOCKED", "phase": "SCREEN_H1", "name": experiment_id, "reason": "checkpoint missing"})
+        return 1
+    command = [
+        PYTHON,
+        "scripts/eval_mpm_high_screen.py",
+        "--checkpoint",
+        checkpoint,
+        "--experiment-id",
+        experiment_id,
+        "--model-name",
+        model_name,
+        "--seed",
+        str(seed),
+        "--n-episodes",
+        "24",
+    ]
+    _log({"status": "STARTED", "phase": "SCREEN_H1", "name": experiment_id, "command": command})
+    env = os.environ.copy()
+    env["MPLCONFIGDIR"] = str(ROOT / "outputs" / ".mplconfig")
+    completed = subprocess.run(command, cwd=ROOT, env=env)
+    if completed.returncode == 0 and screen_path.is_file():
+        _log({"status": "COMPLETE", "phase": "SCREEN_H1", "name": experiment_id})
+        return 0
+    _log({"status": "FAILED", "phase": "SCREEN_H1", "name": experiment_id, "exit_code": completed.returncode})
+    return int(completed.returncode or 1)
+
+
 def main() -> None:
-    planned = jobs()
+    PHASE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    PHASE_FILE.write_text(ENABLED_PHASE + "\n", encoding="utf-8")
+    commands = planned_screen_commands()
+    if any("eval_mpm_high_test_once.py" in part for command in commands for part in command):
+        raise RuntimeError("the active queue must not call the held-out test script.")
     _log(
         {
             "status": "QUEUE_START",
-            "n_jobs": len(planned),
-            "skipped_blocked": [
-                "mpm_high direction seed 42",
-                "mpm_high magnitude seed 42",
-                "mpm_high combined seed 42",
-            ],
-            "blocked_reason": "outputs/counterfactual_pairs/force_reversal_train.npz is absent",
+            "phase": ENABLED_PHASE,
+            "n_commands": len(commands),
+            "deferred": "experiments/confirmatory_queue/deferred.json",
+            "stops_after": "scripts/summarize_mpm_high_h1.py",
+            "does_not_call": "scripts/eval_mpm_high_test_once.py",
         }
     )
-    for job in planned:
-        _run(job)
-    _log({"status": "QUEUE_DONE"})
+    _wait_for_rssm46()
+    for family, seed, model_name in SCREEN_H1:
+        code = _screen(family, seed, model_name)
+        if code != 0:
+            _log({"status": "QUEUE_STOPPED", "phase": "SCREEN_H1"})
+            raise SystemExit(code)
+    summary = subprocess.run([PYTHON, "scripts/summarize_mpm_high_h1.py"], cwd=ROOT)
+    _log({"status": "STOP_FOR_REVIEW", "phase": "SCREEN_H1", "summary_exit": summary.returncode})
+    print("STOP. Horizon-1 screens are done. Multi-horizon audit does not start.")
+    raise SystemExit(summary.returncode)
 
 
 if __name__ == "__main__":

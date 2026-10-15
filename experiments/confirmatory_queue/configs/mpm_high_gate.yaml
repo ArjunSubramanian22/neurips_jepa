@@ -1,0 +1,56 @@
+split_version: fresh_pool_v2
+is_test_set: false
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 128
+  encoder_depth: 4
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 4
+  action_embed_dim: 64
+  predictor_embed_dim: 128
+  predictor_depth: 4
+  predictor_num_heads: 4
+  latent_dim: 0
+  ema_momentum: 0.996
+  dropout: 0.0
+  drop_path: 0.05
+  backbone: vit
+  fuse_mode: gate
+  condition_on_action: true
+training:
+  batch_size: 128
+  epochs: 200
+  lr: 0.0002
+  min_lr: 1.0e-06
+  weight_decay: 0.05
+  warmup_epochs: 20
+  grad_clip: 1.0
+  loss_type: vicreg
+  amp: true
+  seed: 42
+  num_workers: 0
+  log_interval: 20
+  ckpt_interval: 25
+  output_dir: outputs/mpm_high_runs
+  device: mps
+  ema_sync_every: 1
+data:
+  split_version: fresh_pool_v2
+  dataset_path: outputs/physics_mpm_high
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 4
+  n_episodes: 1800
+  episode_length: 16
+  n_stiffness_classes: 3
+  chunk_length: 16
+  chunk_stride: 1
+  val_fraction: 0.1
+  augment: true
+  crop_scale_min: 1.0
+  normalize_actions: true
+  pin_memory: true

@@ -336,6 +336,7 @@ def fork_episode(
     dump_seed: int = 0,
     episode_length: int = 16,
     mpm: Any = None,
+    hold: int = 3,
     donor_actions: dict[int, np.ndarray] | None = None,
 ) -> CounterfactualCache:
     """Replay one dump episode and fork the requested times under one family."""
@@ -348,6 +349,7 @@ def fork_episode(
         dump_seed=int(dump_seed),
         episode_length=int(episode_length),
         mpm=cfg,
+        hold=int(hold),
     )
     episodes: list[int] = []
     steps: list[int] = []

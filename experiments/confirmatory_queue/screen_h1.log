@@ -1,0 +1,3 @@
+{"status": "QUEUE_START", "phase": "SCREEN_H1", "n_commands": 18, "deferred": "experiments/confirmatory_queue/deferred.json", "stops_after": "scripts/summarize_mpm_high_h1.py", "does_not_call": "scripts/eval_mpm_high_test_once.py"}
+{"status": "COMPLETE", "phase": "TRAIN_BASELINES", "checkpoint": "/Users/Arjun/cursor/neurips_jepa/outputs/mpm_high_runs/rssm_s46/last.pt"}
+{"status": "STARTED", "phase": "SCREEN_H1", "name": "mpm_high_jepa_s44_val_screen_v2", "command": ["/Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13", "scripts/eval_mpm_high_screen.py", "--checkpoint", "outputs/mpm_high_runs/jepa_s44/last.pt", "--experiment-id", "mpm_high_jepa_s44_val_screen_v2", "--model-name", "vicreg_action", "--seed", "44", "--n-episodes", "24"]}

@@ -1,0 +1,9 @@
+{
+  "checkpoint": "outputs/mpm_high_runs/rssm_s42/last.pt",
+  "environment_config": "configs/environments/mpm_high_excitation.yaml",
+  "experiment_id": "mpm_high_smoke_rssm_s42_h1",
+  "is_test_set": false,
+  "metric_version": "mpm_high_h1_v2",
+  "n_episodes": 1,
+  "split_version": "fresh_pool_v2"
+}

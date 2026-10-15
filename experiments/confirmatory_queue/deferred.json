@@ -1,0 +1,40 @@
+{
+  "phases": [
+    "TRAIN_BASELINES",
+    "SCREEN_H1",
+    "AUDIT_MULTI_HORIZON",
+    "PLANNING",
+    "PROTOCOL_FREEZE",
+    "TEST_LOCKED",
+    "OPTIONAL_ARCHITECTURES",
+    "OPTIONAL_ALIGNMENT",
+    "LEGACY_COMPLETION"
+  ],
+  "active_phase": "SCREEN_H1",
+  "status": "DEFERRED",
+  "reason": "Horizon-1 screens of the checkpoints that already exist come before more training.",
+  "experiments": [
+    "mpm_high latent_tf seeds 42-46",
+    "mpm_high film seed 42",
+    "mpm_high gate seed 42",
+    "mpm_high cross_attn seed 42",
+    "mpm_high inverse seed 42 weight 1.0",
+    "mpm_high alignment direction, magnitude, combined",
+    "mpm_legacy rssm seed 42",
+    "mpm_legacy latent_tf seed 42",
+    "mpm_legacy obs_pred seed 42",
+    "mpm_legacy vicreg action seed 46",
+    "mpm_legacy vicreg noaction seed 46",
+    "mpm_legacy mse seeds 44-46"
+  ],
+  "configs_kept": [
+    "experiments/confirmatory_queue/configs/mpm_high_latent_tf.yaml",
+    "experiments/confirmatory_queue/configs/mpm_high_film.yaml",
+    "experiments/confirmatory_queue/configs/mpm_high_gate.yaml",
+    "experiments/confirmatory_queue/configs/mpm_high_cross_attn.yaml",
+    "experiments/confirmatory_queue/configs/mpm_high_inverse.yaml",
+    "configs/experiments/rssm_v1.yaml",
+    "configs/experiments/latent_transformer_v1.yaml",
+    "configs/experiments/obs_pred_v1.yaml"
+  ]
+}
