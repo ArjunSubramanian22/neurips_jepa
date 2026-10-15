@@ -1,0 +1,16 @@
+arm jepa s42
+arm rssm s42
+arm latent_tf s42
+arm jepa s43
+arm rssm s43
+arm latent_tf s43
+arm jepa s44
+arm rssm s44
+arm latent_tf s44
+arm jepa s45
+arm rssm s45
+arm latent_tf s45
+arm jepa s46
+arm rssm s46
+arm latent_tf s46
+ARM_DONE

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -63,32 +64,25 @@ def main(argv: list[str] | None = None) -> None:
         raise SystemExit("refusing: the freeze requests hyperparameter selection.")
     if str(freeze.get("metric_version", "")) == "":
         raise SystemExit("refusing: the freeze does not name a metric version.")
-    from scripts.eval_mpm_high_screen import run_recorded_screen
-
     OUT.mkdir(parents=True, exist_ok=True)
-    written = []
-    for item in freeze["checkpoints"]:
-        namespace = argparse.Namespace(
-            checkpoint=str(item["checkpoint"]),
-            experiment_id="mpm_high_test_final",
-            model_name=str(item["model_name"]),
-            seed=int(item["seed"]),
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+    if args.override_existing_lock:
+        flags = os.O_CREAT | os.O_WRONLY | os.O_TRUNC
+    try:
+        descriptor = os.open(LOCK, flags, 0o644)
+    except FileExistsError:
+        raise SystemExit(f"refusing: {LOCK} already exists. The test set was already opened.") from None
+    with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+        handle.write(
+            "TEST SET 1620-1799 HAS BEEN OPENED\n"
+            f"git_commit: {freeze.get('git_commit')}\n"
+            f"protocol_sha256: {freeze.get('protocol_sha256')}\n"
         )
-        payload = run_recorded_screen(namespace, TEST_EPISODES, allow_test=True, record=False)
-        dest = OUT / f"{item['family']}_s{int(item['seed'])}"
-        dest.mkdir(parents=True, exist_ok=True)
-        (dest / "screen.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-        written.append(str(dest.relative_to(ROOT)))
-    manifest = {
-        "episodes": TEST_EPISODES,
-        "metric_version": freeze["metric_version"],
-        "hyperparameter_selection": False,
-        "outputs": written,
-        "warning": "THIS OPENED THE HELD-OUT TEST SET.",
-    }
-    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    LOCK.write_text("TEST SET 1620-1799 HAS BEEN SCORED\n", encoding="utf-8")
-    print("Held-out test scoring finished. Lock written.")
+        handle.flush()
+        os.fsync(handle.fileno())
+    from scripts.run_mpm_high_pretest import run_frozen_test
+    run_frozen_test()
+    print("Held-out test scoring finished. The lock remains.")
 
 
 if __name__ == "__main__":

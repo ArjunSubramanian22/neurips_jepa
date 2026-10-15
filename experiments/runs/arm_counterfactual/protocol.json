@@ -1,0 +1,28 @@
+{
+  "episodes": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "horizons": [
+    1,
+    7
+  ],
+  "intervention": "reflect joint targets through control-range center",
+  "control_low": [
+    -1.6,
+    -2.4
+  ],
+  "control_high": [
+    1.6,
+    2.2
+  ],
+  "timestamp": "2026-10-15T07:29:08+00:00",
+  "sealed_dump": false,
+  "reason": "A new sealed arm dump would be extra infrastructure. Existing validation tail is reported instead."
+}

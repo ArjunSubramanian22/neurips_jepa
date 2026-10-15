@@ -1,0 +1,2240 @@
+{
+  "threshold": {
+    "top_third_mse": 0.0010203398999850484,
+    "n_nonzero": 1079
+  },
+  "strata": {
+    "vicreg_action:open_loop:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.5951474792136089,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6380877046351361,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.651993591959759,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6261871202756948,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6191766299270944,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.5951474792136089,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6380877046351361,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.651993591959759,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6261871202756948,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6191766299270944,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.6254058221949105,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6491417602578541,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.6653289310998294,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6398967055790183,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6128245438013159,
+        "n_episodes": 81
+      }
+    ],
+    "vicreg_action:open_loop:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.5510752940425702,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.553651430962651,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.5285619765695787,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.5390796015143055,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.5531023130333061,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.5510752940425702,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.553651430962651,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.5285619765695787,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.5390796015143055,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.5531023130333061,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.5510752940425702,
+        "n_episodes": 178
+      },
+      {
+        "seed": 43,
+        "cosine": 0.5542345938217552,
+        "n_episodes": 178
+      },
+      {
+        "seed": 44,
+        "cosine": 0.5285619765695787,
+        "n_episodes": 178
+      },
+      {
+        "seed": 45,
+        "cosine": 0.5385538369949605,
+        "n_episodes": 178
+      },
+      {
+        "seed": 46,
+        "cosine": 0.5531023130333061,
+        "n_episodes": 178
+      }
+    ],
+    "vicreg_action:open_loop:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.3491888202751813,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.3156707492818992,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.2813673904254616,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.3267845364056136,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.2960144849118582,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.3491888202751813,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.3156707492818992,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.2813673904254616,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.3267845364056136,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.2960144849118582,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:open_loop:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.3491888202751813,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.3156707492818992,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.2813673904254616,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.3267845364056136,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.29674659722621377,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.5951474792136089,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6380877046351361,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.651993591959759,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6261871202756948,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6191766299270944,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.5951474792136089,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6380877046351361,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.651993591959759,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6261871202756948,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6191766299270944,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.6254058221949105,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.6491417602578541,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.6653289310998294,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.6398967055790183,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.6128245438013159,
+        "n_episodes": 81
+      }
+    ],
+    "vicreg_action:teacher_forced:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.936614201560121,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9331482226987629,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9325512156997895,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9401235819680557,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9392840610288564,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.936614201560121,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9331482226987629,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9325512156997895,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9401235819680557,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9392840610288564,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.9343068697081334,
+        "n_episodes": 145
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9311928863250555,
+        "n_episodes": 145
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9306796104030175,
+        "n_episodes": 145
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9368030795061262,
+        "n_episodes": 145
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9378419741193587,
+        "n_episodes": 145
+      }
+    ],
+    "vicreg_action:teacher_forced:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.9384552685810504,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9352480836948103,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9353499419427307,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.935536348968731,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.938110456660844,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.9384552685810504,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9352480836948103,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9353499419427307,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.935536348968731,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.938110456660844,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_action:teacher_forced:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.9384552685810504,
+        "n_episodes": 168
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9348904336744874,
+        "n_episodes": 168
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9352320205102839,
+        "n_episodes": 168
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9348671370266887,
+        "n_episodes": 168
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9370471691521658,
+        "n_episodes": 168
+      }
+    ],
+    "vicreg_noaction:open_loop:H1:all": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 81
+      }
+    ],
+    "vicreg_noaction:open_loop:H5:all": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 178
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 178
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 178
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 178
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 178
+      }
+    ],
+    "vicreg_noaction:open_loop:H10:all": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:open_loop:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H1:all": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": null,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": null,
+        "n_episodes": 81
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.934234695328724,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9375448110913144,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9357689263748449,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9364279645415301,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9320505913345949,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.934234695328724,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9375448110913144,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9357689263748449,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9364279645415301,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9320505913345949,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.933456737076037,
+        "n_episodes": 145
+      },
+      {
+        "seed": 43,
+        "cosine": 0.936816851695889,
+        "n_episodes": 145
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9331703729397149,
+        "n_episodes": 145
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9329075646288001,
+        "n_episodes": 145
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9301774692953414,
+        "n_episodes": 145
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.939560038244579,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9389627326086306,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9382668132483871,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9384893461176698,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9382787894363083,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.939560038244579,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9389627326086306,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9382668132483871,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9384893461176698,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9382787894363083,
+        "n_episodes": 180
+      }
+    ],
+    "vicreg_noaction:teacher_forced:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.9388793528047423,
+        "n_episodes": 168
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9379613742669015,
+        "n_episodes": 168
+      },
+      {
+        "seed": 44,
+        "cosine": 0.937193114006152,
+        "n_episodes": 168
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9378148095711359,
+        "n_episodes": 168
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9364473795714601,
+        "n_episodes": 168
+      }
+    ],
+    "mse_action:open_loop:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.7249505212821097,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7306878417970692,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7341105235622873,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.736946533491126,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7419983048853367,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.7249505212821097,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7306878417970692,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7341105235622873,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.736946533491126,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7419983048853367,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.7405076389857199,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7379046435298304,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7528330184439929,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.738700896355327,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7520536548360485,
+        "n_episodes": 81
+      }
+    ],
+    "mse_action:open_loop:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8523494785858787,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8545218140016241,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8398114616744967,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8635662871295331,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.8675723815316475,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8523494785858787,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8545218140016241,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8398114616744967,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8635662871295331,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.8675723815316475,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.852704258874557,
+        "n_episodes": 178
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8551332655688222,
+        "n_episodes": 178
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8398114616744967,
+        "n_episodes": 178
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8645347167118084,
+        "n_episodes": 178
+      },
+      {
+        "seed": 46,
+        "cosine": 0.8680822463981218,
+        "n_episodes": 178
+      }
+    ],
+    "mse_action:open_loop:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8070851589727668,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8202071398244465,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8225259717859268,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8247768839214741,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.841906884834256,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8070851589727668,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8202071398244465,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8225259717859268,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8247768839214741,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.841906884834256,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:open_loop:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.8070851589727668,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.8202071398244465,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.8225259717859268,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.8247768839214741,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.841906884834256,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.7249505212821097,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7306878417970692,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7341105235622873,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.736946533491126,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7419983048853367,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.7249505212821097,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7306878417970692,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7341105235622873,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.736946533491126,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7419983048853367,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.7405076389857199,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.7379046435298304,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.7528330184439929,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.738700896355327,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.7520536548360485,
+        "n_episodes": 81
+      }
+    ],
+    "mse_action:teacher_forced:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.9682612475062476,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9669460650508477,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9686416193200216,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9705749242784096,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9732436454550174,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.9682612475062476,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9669460650508477,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9686416193200216,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9705749242784096,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9732436454550174,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.9666691730697436,
+        "n_episodes": 145
+      },
+      {
+        "seed": 43,
+        "cosine": 0.966976217800444,
+        "n_episodes": 145
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9678584132247008,
+        "n_episodes": 145
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9692717293922967,
+        "n_episodes": 145
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9727338800977914,
+        "n_episodes": 145
+      }
+    ],
+    "mse_action:teacher_forced:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.9684692290665512,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9679905137273476,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9686388842332758,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.971766683691468,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9736833112797544,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.9684692290665512,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9679905137273476,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9686388842332758,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.971766683691468,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9736833112797544,
+        "n_episodes": 180
+      }
+    ],
+    "mse_action:teacher_forced:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.967146423851544,
+        "n_episodes": 168
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9673856381904904,
+        "n_episodes": 168
+      },
+      {
+        "seed": 44,
+        "cosine": 0.968145080567745,
+        "n_episodes": 168
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9707580391353378,
+        "n_episodes": 168
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9729668603477215,
+        "n_episodes": 168
+      }
+    ],
+    "rssm:open_loop:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8698499458129418,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9269604035098025,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9643283789480458,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9470704994084737,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9021965353542327,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8698499458129418,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9269604035098025,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9654564029241779,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9470704994084737,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9021965353542327,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.8793279556506615,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9352431088655704,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9549777888773641,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9540372856322623,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9024145499832025,
+        "n_episodes": 81
+      }
+    ],
+    "rssm:open_loop:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8884153531463901,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9435995255957779,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9755801187635562,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9472487002935274,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9275469550329958,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8884153531463901,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9435995255957779,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9755801187635562,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9472487002935274,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9275469550329958,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.8894302548738302,
+        "n_episodes": 178
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9439069099923739,
+        "n_episodes": 178
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9763905596622571,
+        "n_episodes": 178
+      },
+      {
+        "seed": 45,
+        "cosine": 0.947764959873038,
+        "n_episodes": 178
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9279032715301421,
+        "n_episodes": 178
+      }
+    ],
+    "rssm:open_loop:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8769428099908757,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9270417652814438,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9616185421164715,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9361302082484865,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9124394613427946,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8769428099908757,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9270417652814438,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9616185421164715,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9361302082484865,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9124394613427946,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:open_loop:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.8769428099908757,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9270417652814438,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9616185421164715,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9361302082484865,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9124394613427946,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H1:all": [
+      {
+        "seed": 42,
+        "cosine": 0.8698499458129418,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9269604035098025,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9643283789480458,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9470704994084737,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9021965353542327,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H1:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.8698499458129418,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9269604035098025,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9654564029241779,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9470704994084737,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9021965353542327,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H1:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.8793279556506615,
+        "n_episodes": 81
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9352431088655704,
+        "n_episodes": 81
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9549777888773641,
+        "n_episodes": 81
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9540372856322623,
+        "n_episodes": 81
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9024145499832025,
+        "n_episodes": 81
+      }
+    ],
+    "rssm:teacher_forced:H5:all": [
+      {
+        "seed": 42,
+        "cosine": 0.9655708762300881,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9786082433019027,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9920147391992544,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.982674234902501,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9755331448166209,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H5:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.9655708762300881,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9786082433019027,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9920147391992544,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.982674234902501,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9755331448166209,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H5:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.9661849116601605,
+        "n_episodes": 178
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9788365541679763,
+        "n_episodes": 178
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9922794162824047,
+        "n_episodes": 178
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9829467974511122,
+        "n_episodes": 178
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9758388534083445,
+        "n_episodes": 178
+      }
+    ],
+    "rssm:teacher_forced:H10:all": [
+      {
+        "seed": 42,
+        "cosine": 0.945675540853182,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9690166369836049,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9882381445771535,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9768968353807074,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9609939757019053,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H10:nonidentical": [
+      {
+        "seed": 42,
+        "cosine": 0.945675540853182,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9690166369836049,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9882381445771535,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9768968353807074,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9609939757019053,
+        "n_episodes": 180
+      }
+    ],
+    "rssm:teacher_forced:H10:top_third_raster": [
+      {
+        "seed": 42,
+        "cosine": 0.945675540853182,
+        "n_episodes": 180
+      },
+      {
+        "seed": 43,
+        "cosine": 0.9690166369836049,
+        "n_episodes": 180
+      },
+      {
+        "seed": 44,
+        "cosine": 0.9882381445771535,
+        "n_episodes": 180
+      },
+      {
+        "seed": 45,
+        "cosine": 0.9768968353807074,
+        "n_episodes": 180
+      },
+      {
+        "seed": 46,
+        "cosine": 0.9609939757019053,
+        "n_episodes": 180
+      }
+    ]
+  },
+  "relations": [
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "raster_vs_cosine": {
+        "rho": -0.2265625482267971,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.7455024332026708,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7631922795971069,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "raster_vs_cosine": {
+        "rho": -0.24823399899173842,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.7511672170951779,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7952632282889389,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "raster_vs_cosine": {
+        "rho": -0.08645945862526622,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.6187845303867403,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7638116402769632,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "raster_vs_cosine": {
+        "rho": -0.297507124705495,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.6648250460405156,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.8334290152988261,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "raster_vs_cosine": {
+        "rho": -0.3008138111258578,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.6302931160426762,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.6856507916911015,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "raster_vs_cosine": {
+        "rho": -0.05777750342088748,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.8500694465878577,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.8139078366616254,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "raster_vs_cosine": {
+        "rho": -0.2612796691255903,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.704490879348128,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7608609319217672,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "raster_vs_cosine": {
+        "rho": -0.21223494552300998,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.7832422811403644,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.8130065742769839,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "raster_vs_cosine": {
+        "rho": -0.41722481146537443,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.7513009660791999,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7683899708838751,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "raster_vs_cosine": {
+        "rho": -0.1967961974135004,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.7821434817947056,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.7752502649258722,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "raster_vs_cosine": {
+        "rho": 0.2253793841373705,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.9269277858370114,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.8180129016327664,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "raster_vs_cosine": {
+        "rho": 0.24637797462884656,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.9092523431793162,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.8228751916211405,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "raster_vs_cosine": {
+        "rho": -0.21381729888782575,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.9521302097801373,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.871421957467823,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "raster_vs_cosine": {
+        "rho": 0.11810652592158194,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.9497556508945749,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.9241993065629598,
+        "n": 180,
+        "status": "measured"
+      }
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "raster_vs_cosine": {
+        "rho": 0.09893309464283877,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_pred": {
+        "rho": 0.9001471238824243,
+        "n": 180,
+        "status": "measured"
+      },
+      "raster_vs_target": {
+        "rho": 0.798049322509954,
+        "n": 180,
+        "status": "measured"
+      }
+    }
+  ],
+  "rng_note": "episode ranks, not branch-time ranks"
+}

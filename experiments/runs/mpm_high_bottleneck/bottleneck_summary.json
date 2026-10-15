@@ -1,0 +1,1963 @@
+{
+  "thresholds": {
+    "phys_tau": 1e-05,
+    "success_cosine": 0.5,
+    "success_ratio": 0.2
+  },
+  "summary": [
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 41
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1038
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 16
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1064
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 22
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1058
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 41
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1038
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 2
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1078
+    },
+    {
+      "model": "mse_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 48
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1031
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 27
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1053
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 25
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1055
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 48
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1031
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "mse_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 68
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1011
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 32
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1048
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 25
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1055
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 68
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1011
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "mse_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 34
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1045
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 12
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1068
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 20
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1060
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 34
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1045
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "mse_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 36
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1043
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 11
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1069
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 9
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1071
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 36
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1043
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "mse_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 14
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1065
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 8
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1072
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 20
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1060
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 14
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1065
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 10
+    },
+    {
+      "model": "rssm",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1070
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 6
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1073
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 10
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1070
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 28
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1052
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 6
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1073
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 4
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1076
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 16
+    },
+    {
+      "model": "rssm",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1064
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 4
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1075
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 2
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1078
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 14
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1066
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 4
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1075
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 12
+    },
+    {
+      "model": "rssm",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1068
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 6
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1073
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 9
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1071
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 22
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1058
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 6
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1073
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 3
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1077
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 9
+    },
+    {
+      "model": "rssm",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1071
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 25
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1054
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 12
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1068
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 16
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1064
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 25
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1054
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 9
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1071
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 13
+    },
+    {
+      "model": "rssm",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1067
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 223
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 856
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 349
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 731
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1005
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 75
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 223
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 856
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 8
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1072
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 133
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 946
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 342
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 738
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1042
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 38
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 133
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 946
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 9
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1071
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 111
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 968
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 438
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 642
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1060
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 20
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 111
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 968
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 7
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1073
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 181
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 898
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 404
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 676
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1032
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 48
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 181
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 898
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 4
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1076
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 217
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 862
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 344
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 736
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1063
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 17
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 217
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 862
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 6
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1074
+    },
+    {
+      "model": "vicreg_action",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 28
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1052
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 42,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 29
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1051
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 43,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 32
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1048
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 44,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 31
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1049
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 45,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "open_loop",
+      "horizon": 10,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1080
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "OBSERVATION_BOTTLENECK",
+      "n": 1
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 1,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 1079
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "PREDICTOR_BOTTLENECK",
+      "n": 28
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 5,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1052
+    },
+    {
+      "model": "vicreg_noaction",
+      "seed": 46,
+      "protocol": "teacher_forced",
+      "horizon": 10,
+      "bottleneck": "SUCCESSFUL_COUNTERFACTUAL_TRACKING",
+      "n": 1080
+    }
+  ],
+  "timestamp": "2026-10-15T07:25:21+00:00",
+  "test_episodes_read": false
+}

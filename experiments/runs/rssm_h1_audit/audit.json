@@ -1,0 +1,521 @@
+{
+  "metric_version": "rssm_h1_audit_v1",
+  "timestamp": "2026-10-15T06:55:16+00:00",
+  "git_commit": "217899d2bf2329efbfeb9979a1d95cf78ba087ba",
+  "environment_config": "configs/environments/mpm_high_excitation.yaml",
+  "action_gain": 3200.0,
+  "damping": 0.01,
+  "command_hold": 8,
+  "split": "validation",
+  "episode_ids": [
+    1440,
+    1441,
+    1442,
+    1443,
+    1444,
+    1445,
+    1446,
+    1447,
+    1448,
+    1449,
+    1450,
+    1451,
+    1452,
+    1453,
+    1454,
+    1455,
+    1456,
+    1457,
+    1458,
+    1459,
+    1460,
+    1461,
+    1462,
+    1463
+  ],
+  "branch_time": 0,
+  "horizon": 1,
+  "intervention": "force_reversal",
+  "checkpoint_sha256": {
+    "42": "129989cc8a5d72d9e8cc40264fc26694a4149d1ad8391367a0dc03703ea85cc3",
+    "43": "3e3166ea5151284e35532d9a634076fbc930a8da5555d5979e9a440488e11775",
+    "44": "aabafca64aff08fc432b3e14a5bede173228072389fb324d9fe9b4835270fbbd",
+    "45": "a78db2335db5c6bc9e2b297569f1c3cf086e4ad54c29bc9082cd031a2bf16543",
+    "46": "8470a20ecefc2257dede42f5df6a2208719c1ee395c1f485bd6fb031ddd3e270"
+  },
+  "test_episodes_read": false,
+  "seeds": {
+    "42": {
+      "components": {
+        "deterministic_h": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 1.0,
+          "median_pred_norm": 1.045512800082157,
+          "median_target_norm": 1.045512800082157,
+          "median_response_ratio": 0.9999999999990434,
+          "norm_tau": 1e-08
+        },
+        "stochastic_mean_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9143820898398167,
+          "median_pred_norm": 0.16334549858416808,
+          "median_target_norm": 0.1866155010846588,
+          "median_response_ratio": 0.8568987385347472,
+          "norm_tau": 1e-08
+        },
+        "concat_h_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.997282142666164,
+          "median_pred_norm": 1.0616263068851235,
+          "median_target_norm": 1.0691856418501264,
+          "median_response_ratio": 0.9961265942250574,
+          "norm_tau": 1e-08
+        }
+      },
+      "same_action_concat": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "same_action_z": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_concat": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.5005337585222679,
+        "median_pred_norm": 1.1275241788176418,
+        "median_target_norm": 1.0691856418501264,
+        "median_response_ratio": 1.0638557097854897,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.3657340215077771,
+        "median_pred_norm": 0.18263450695724381,
+        "median_target_norm": 0.1866155010846588,
+        "median_response_ratio": 1.0825070894969002,
+        "norm_tau": 1e-08
+      },
+      "random_action_matched_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.4097778520765789,
+        "median_pred_norm": 0.6870755935150242,
+        "median_target_norm": 0.5861206153653453,
+        "median_response_ratio": 1.2226231502963265,
+        "norm_tau": 1e-08
+      },
+      "fraction_h_bitwise_shared": 1.0,
+      "fraction_branch_copies_equal": 1.0,
+      "median_recorded_prior_posterior_z_mse": 0.024556475691497326,
+      "physical": {
+        "median_action_l2": 1.0073824226856232,
+        "min_action_l2": 0.3502176105976105,
+        "median_rms_pos": 0.001346473912776044,
+        "min_rms_pos": 0.0003702246478677867,
+        "median_raster_mse": 0.0011233547493752403,
+        "median_fraction_identical": 0.8551025390625
+      }
+    },
+    "43": {
+      "components": {
+        "deterministic_h": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 1.0,
+          "median_pred_norm": 1.115796514922002,
+          "median_target_norm": 1.115796514922002,
+          "median_response_ratio": 0.9999999999991033,
+          "norm_tau": 1e-08
+        },
+        "stochastic_mean_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9653611693987317,
+          "median_pred_norm": 0.2337384381945165,
+          "median_target_norm": 0.2671508475839953,
+          "median_response_ratio": 0.9089286567984431,
+          "norm_tau": 1e-08
+        },
+        "concat_h_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9983410958341569,
+          "median_pred_norm": 1.1400159487664165,
+          "median_target_norm": 1.1478828340250828,
+          "median_response_ratio": 0.9960326912131898,
+          "norm_tau": 1e-08
+        }
+      },
+      "same_action_concat": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "same_action_z": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_concat": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.4929282040994851,
+        "median_pred_norm": 1.2439748998602593,
+        "median_target_norm": 1.1478828340250828,
+        "median_response_ratio": 1.1848821174990145,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.3436207028709247,
+        "median_pred_norm": 0.2790427447967137,
+        "median_target_norm": 0.2671508475839953,
+        "median_response_ratio": 1.3238611793520296,
+        "norm_tau": 1e-08
+      },
+      "random_action_matched_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.7247325190340561,
+        "median_pred_norm": 0.9853876906133707,
+        "median_target_norm": 0.9131242929182397,
+        "median_response_ratio": 1.1100463447922053,
+        "norm_tau": 1e-08
+      },
+      "fraction_h_bitwise_shared": 1.0,
+      "fraction_branch_copies_equal": 1.0,
+      "median_recorded_prior_posterior_z_mse": 0.014881193172186613,
+      "physical": {
+        "median_action_l2": 1.0073824226856232,
+        "min_action_l2": 0.3502176105976105,
+        "median_rms_pos": 0.001346473912776044,
+        "min_rms_pos": 0.0003702246478677867,
+        "median_raster_mse": 0.0011233547493752403,
+        "median_fraction_identical": 0.8551025390625
+      }
+    },
+    "44": {
+      "components": {
+        "deterministic_h": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 1.0,
+          "median_pred_norm": 1.1234931565649804,
+          "median_target_norm": 1.1234931565649804,
+          "median_response_ratio": 0.9999999999991094,
+          "norm_tau": 1e-08
+        },
+        "stochastic_mean_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9817829424739709,
+          "median_pred_norm": 0.2028374775118222,
+          "median_target_norm": 0.24366240937288863,
+          "median_response_ratio": 0.9690889093638573,
+          "norm_tau": 1e-08
+        },
+        "concat_h_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9993197412237649,
+          "median_pred_norm": 1.1427932548688704,
+          "median_target_norm": 1.1511006183170234,
+          "median_response_ratio": 0.9989823912392354,
+          "norm_tau": 1e-08
+        }
+      },
+      "same_action_concat": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "same_action_z": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_concat": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.44989095266619705,
+        "median_pred_norm": 1.1826864391950616,
+        "median_target_norm": 1.1511006183170234,
+        "median_response_ratio": 1.1349894243729204,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.44608863724423065,
+        "median_pred_norm": 0.22929563277613801,
+        "median_target_norm": 0.24366240937288863,
+        "median_response_ratio": 1.0323661969743223,
+        "norm_tau": 1e-08
+      },
+      "random_action_matched_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.9370770953033043,
+        "median_pred_norm": 1.2711455133445662,
+        "median_target_norm": 1.2277425672544802,
+        "median_response_ratio": 1.0701044999386624,
+        "norm_tau": 1e-08
+      },
+      "fraction_h_bitwise_shared": 1.0,
+      "fraction_branch_copies_equal": 1.0,
+      "median_recorded_prior_posterior_z_mse": 0.002352407551370561,
+      "physical": {
+        "median_action_l2": 1.0073824226856232,
+        "min_action_l2": 0.3502176105976105,
+        "median_rms_pos": 0.001346473912776044,
+        "min_rms_pos": 0.0003702246478677867,
+        "median_raster_mse": 0.0011233547493752403,
+        "median_fraction_identical": 0.8551025390625
+      }
+    },
+    "45": {
+      "components": {
+        "deterministic_h": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 1.0,
+          "median_pred_norm": 1.1641361834863653,
+          "median_target_norm": 1.1641361834863653,
+          "median_response_ratio": 0.99999999999914,
+          "norm_tau": 1e-08
+        },
+        "stochastic_mean_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9925980127589035,
+          "median_pred_norm": 0.20254782743369903,
+          "median_target_norm": 0.2087469388204487,
+          "median_response_ratio": 0.984201045545968,
+          "norm_tau": 1e-08
+        },
+        "concat_h_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9996931242483081,
+          "median_pred_norm": 1.177973072276753,
+          "median_target_norm": 1.1780298652778312,
+          "median_response_ratio": 0.9994651433989118,
+          "norm_tau": 1e-08
+        }
+      },
+      "same_action_concat": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "same_action_z": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_concat": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.4830243122951452,
+        "median_pred_norm": 1.1962667854550344,
+        "median_target_norm": 1.1780298652778312,
+        "median_response_ratio": 1.1530127006439308,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.458499528570281,
+        "median_pred_norm": 0.2551836394984526,
+        "median_target_norm": 0.2087469388204487,
+        "median_response_ratio": 1.1805477332910812,
+        "norm_tau": 1e-08
+      },
+      "random_action_matched_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.8043241298696351,
+        "median_pred_norm": 1.1658053854389148,
+        "median_target_norm": 0.9896353669065345,
+        "median_response_ratio": 1.0562806096549024,
+        "norm_tau": 1e-08
+      },
+      "fraction_h_bitwise_shared": 1.0,
+      "fraction_branch_copies_equal": 1.0,
+      "median_recorded_prior_posterior_z_mse": 0.004519522190093994,
+      "physical": {
+        "median_action_l2": 1.0073824226856232,
+        "min_action_l2": 0.3502176105976105,
+        "median_rms_pos": 0.001346473912776044,
+        "min_rms_pos": 0.0003702246478677867,
+        "median_raster_mse": 0.0011233547493752403,
+        "median_fraction_identical": 0.8551025390625
+      }
+    },
+    "46": {
+      "components": {
+        "deterministic_h": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 1.0,
+          "median_pred_norm": 0.9630101665085443,
+          "median_target_norm": 0.9630101665085443,
+          "median_response_ratio": 0.9999999999989594,
+          "norm_tau": 1e-08
+        },
+        "stochastic_mean_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9409360534618483,
+          "median_pred_norm": 0.18287796075074758,
+          "median_target_norm": 0.209889871196073,
+          "median_response_ratio": 0.9041948694924938,
+          "norm_tau": 1e-08
+        },
+        "concat_h_z": {
+          "n": 24,
+          "n_defined_cosine": 24,
+          "median_cosine": 0.9976688208973385,
+          "median_pred_norm": 0.9830621546454026,
+          "median_target_norm": 0.994242016692002,
+          "median_response_ratio": 0.996798480646591,
+          "norm_tau": 1e-08
+        }
+      },
+      "same_action_concat": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "same_action_z": {
+        "n": 24,
+        "n_defined_cosine": 0,
+        "median_cosine": null,
+        "median_pred_norm": 0.0,
+        "median_target_norm": 0.0,
+        "median_response_ratio": 0.0,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_concat": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.5109048691511702,
+        "median_pred_norm": 1.0866726227290608,
+        "median_target_norm": 0.994242016692002,
+        "median_response_ratio": 1.128735614672142,
+        "norm_tau": 1e-08
+      },
+      "shuffle_vs_original_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.45256013945813084,
+        "median_pred_norm": 0.22403994606247907,
+        "median_target_norm": 0.209889871196073,
+        "median_response_ratio": 1.3015876647215925,
+        "norm_tau": 1e-08
+      },
+      "random_action_matched_target_z": {
+        "n": 24,
+        "n_defined_cosine": 24,
+        "median_cosine": 0.7538952721095351,
+        "median_pred_norm": 0.8014517880390125,
+        "median_target_norm": 0.6770295462385105,
+        "median_response_ratio": 1.130227161597041,
+        "norm_tau": 1e-08
+      },
+      "fraction_h_bitwise_shared": 1.0,
+      "fraction_branch_copies_equal": 1.0,
+      "median_recorded_prior_posterior_z_mse": 0.023022068664431572,
+      "physical": {
+        "median_action_l2": 1.0073824226856232,
+        "min_action_l2": 0.3502176105976105,
+        "median_rms_pos": 0.001346473912776044,
+        "min_rms_pos": 0.0003702246478677867,
+        "median_raster_mse": 0.0011233547493752403,
+        "median_fraction_identical": 0.8551025390625
+      }
+    }
+  },
+  "verdict": {
+    "concat_h_is_algebraically_shared_at_h1": true,
+    "branch_copies_match": true,
+    "same_action_z_pred_norm_max": 0.0,
+    "concat_cosine_medians": [
+      0.997282142666164,
+      0.9983410958341569,
+      0.9993197412237649,
+      0.9996931242483081,
+      0.9976688208973385
+    ],
+    "z_cosine_medians": [
+      0.9143820898398167,
+      0.9653611693987317,
+      0.9817829424739709,
+      0.9925980127589035,
+      0.9409360534618483
+    ],
+    "shuffle_z_cosine_medians": [
+      0.3657340215077771,
+      0.3436207028709247,
+      0.44608863724423065,
+      0.458499528570281,
+      0.45256013945813084
+    ],
+    "primary_rssm_vector_after_audit": "stochastic_mean_z",
+    "reason": "One-step observe and imagine apply the same GRU update before the posterior sees the frame. concat(h, z) therefore shares delta_h exactly. The corrected predictor contrast is the stochastic mean only.",
+    "continue_after_correction": true,
+    "reference_seed_physical": {
+      "median_action_l2": 1.0073824226856232,
+      "min_action_l2": 0.3502176105976105,
+      "median_rms_pos": 0.001346473912776044,
+      "min_rms_pos": 0.0003702246478677867,
+      "median_raster_mse": 0.0011233547493752403,
+      "median_fraction_identical": 0.8551025390625
+    }
+  }
+}
