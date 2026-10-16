@@ -1,0 +1,23 @@
+{
+  "frozen_before_replication": "2026-10-16",
+  "development_source": "experiments/runs/intervention_decomposition_dev",
+  "development_slice": "dump seed 0, episodes 1440-1455, branch times 0 and 4, training seed 42",
+  "families": ["identity", "force_scaling", "force_zero", "force_reversal", "force_rotation"],
+  "horizons": [1, 10],
+  "rollout_modes": ["open_loop", "teacher_forced"],
+  "material_trap": "At horizon 10, the median response ratio is closer to one in open loop than under teacher forcing by at least 0.05 in absolute log distance, while the median normalized vector error is smaller under teacher forcing.",
+  "margin_note": "The 0.05 log-distance margin was set from the development slice, where an MSE reversal gap of 0.006 was a near-tie and VICReg zero and rotation gaps were 0.13 and 0.15. It was not fit to the replication or holdout.",
+  "replication": {
+    "dump_seed": 0,
+    "episodes": [1456, 1471],
+    "training_seeds": [42, 43],
+    "role": "Same simulator dump, the next validation block, second training seed included."
+  },
+  "holdout": {
+    "dump_seed": 1,
+    "episodes": [0, 23],
+    "training_seeds": [42, 43],
+    "role": "Newly simulated trajectories. Not the training dump and not episodes 1440-1799."
+  },
+  "not_used": "High-excitation test episodes 1620-1799 and arm test episodes 600-719 are not scored."
+}

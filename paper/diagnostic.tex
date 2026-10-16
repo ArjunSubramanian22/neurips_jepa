@@ -81,7 +81,7 @@ The 99\% MSE accuracy is not a tie among endpoints. On the eight-action task the
 
 The second environment is a planar MuJoCo arm, a free box, and a fixed camera. The campaign set has 480 training episodes, 120 validation episodes, and 120 sealed test episodes. Action normalization uses the training block only. The intervention reflects each joint target through the center of its control range. We trained action-conditioned VICReg, action-conditioned MSE, no-action VICReg, and an RSSM, for five seeds and 20 epochs. The validation-MSE checkpoint and the final checkpoint are both reported. The test was scored once, after those choices were written down, and was not used to drop a run.
 
-On the test, the no-action predicted norm is 0 at horizons 1, 5, and 10 for every seed and both checkpoints. The image changes in 84\% of episodes at one step, while the object moves in 40\%. By ten steps the object moves in 72\% of episodes. The intervention is therefore sometimes invisible as object motion and still visible as arm motion. That is the diagnostic working.
+On the test, the no-action predicted norm is 0 at horizons 1, 5, and 10 for every seed and both checkpoints. The image has raster MSE above 0.01 in 84\% of episodes at one step, while the object moves in 40\%. By ten steps the object moves in 72\% of episodes and the image exceeds that same raster threshold in 82\%. Raster MSE is positive on every test episode, so the remaining episodes are small image changes rather than identical frames. The intervention is therefore sometimes invisible as object motion and still visible as arm motion. That is the diagnostic working.
 
 The latent pattern is not the particle result. For the validation-MSE checkpoints, test medians of the per-seed medians are:
 
