@@ -1,0 +1,17 @@
+{
+  "name": "arm_campaign_v1_validation_freeze",
+  "date": "2026-10-15",
+  "decision": "The diagnostic can be run on the arm. The MPM pattern does not appear. The sealed test is opened once to check that boundary, not to choose models.",
+  "episodes": [600, 719],
+  "n_test": 120,
+  "checkpoints": ["best", "last"],
+  "models": ["vicreg", "mse", "noaction", "rssm"],
+  "seeds": [42, 43, 44, 45, 46],
+  "horizons": [1, 5, 10],
+  "intervention": "reflect joint-position targets through the control-range center",
+  "metrics": ["cosine", "response_ratio", "pred_norm", "target_norm", "object_l2", "raster_mse"],
+  "cosine_rule": "undefined when either contrast norm is at or below 1e-8",
+  "normalization": "training episodes 0-479 only",
+  "hyperparameter_selection": false,
+  "model_selection_on_test": false
+}

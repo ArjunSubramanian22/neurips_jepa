@@ -9,6 +9,6 @@
 5. The H10 cross-fork sign is not a result. The full validation slice disagrees across seeds.
 6. Arm episodes 600-719 are a sealed test. Training split `all` drops them. No model selection uses them until a validation freeze exists. That freeze is not written yet.
 7. Arm production reports both the validation-MSE checkpoint and the final epoch. The one-seed disagreement was observed before the five-seed grid and is not used to drop the worse-looking cosine.
-8. The five-seed arm grid waits until 19 October. One-epoch and one 20-epoch MSE seed were pilots, not that grid.
+8. The five-seed arm grid was started on 15 October rather than held until 19 October. Both the validation-MSE checkpoint and the final checkpoint are kept. The test was opened once after `experiments/ARM_DECISION.md` and was not used to drop a model.
 9. VICReg statements refer to this repository's predictor-versus-detached-EMA objective.
 10. Closed-loop is a separate experiment from finite-candidate ranking and has not been run on these checkpoints.

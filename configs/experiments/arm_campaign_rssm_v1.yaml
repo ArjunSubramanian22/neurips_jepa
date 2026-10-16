@@ -1,0 +1,62 @@
+# RSSM on the arm campaign split. Train 0-479, validation 480-599.
+# Episodes 600-719 are the sealed test and are dropped by split all.
+# Augmentation stays off. Epoch budget matches the JEPA campaign config.
+split_version: arm_campaign_v1
+model:
+  in_channels: 3
+  img_size: 64
+  patch_size: 8
+  embed_dim: 64
+  encoder_depth: 2
+  encoder_num_heads: 4
+  mlp_ratio: 2.0
+  action_dim: 2
+  action_embed_dim: 32
+  predictor_embed_dim: 64
+  predictor_depth: 2
+  predictor_num_heads: 4
+  dropout: 0.0
+  drop_path: 0.0
+  backbone: vit
+  fuse_mode: concat
+  condition_on_action: true
+  rssm_deter: 64
+  rssm_stoch: 16
+  rssm_embed: 64
+  rssm_channels: 16
+training:
+  batch_size: 32
+  epochs: 20
+  lr: 0.0002
+  min_lr: 0.000001
+  weight_decay: 0.05
+  warmup_epochs: 2
+  grad_clip: 1.0
+  loss_type: rssm
+  rssm_window: 4
+  amp: false
+  seed: 42
+  num_workers: 0
+  log_interval: 20
+  ckpt_interval: 20
+  output_dir: outputs/mujoco_arm_campaign_runs
+  device: mps
+data:
+  dataset_path: outputs/mujoco_arm_campaign
+  spatial_dims: 2
+  img_size: 64
+  in_channels: 3
+  action_dim: 2
+  n_episodes: 720
+  episode_length: 16
+  val_fraction: 0.2
+  chunk_length: 16
+  chunk_stride: 1
+  augment: false
+  crop_scale_min: 1.0
+  color_jitter: 0.0
+  blur_prob: 0.0
+  normalize_actions: true
+  split_version: arm_campaign_v1
+  n_stiffness_classes: 1
+  pin_memory: false

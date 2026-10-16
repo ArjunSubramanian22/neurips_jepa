@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+
+\title{Where an action intervention is visible,\\
+and when a latent response is only large}
+\author{}
+\date{15 October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+An action-conditioned predictor can be wrong in several different ways. The action may not move the scene, the motion may not appear in the image, the latent target may ignore that image, or the predictor may answer with the right magnitude and the wrong direction. We separate those failures by replaying one intervention through the simulator state, the rendered frame, the target embedding, and the model's prediction. On a high-excitation particle simulator, VICReg's open-loop directional cosine falls from 0.618 at one frame to 0.308 at ten frames while its response magnitude stays near one. An MSE predictor and an RSSM stochastic state do not show that split. A no-action control stays null. The same comparison on a MuJoCo arm does not reproduce the split: the no-action control is still null, but VICReg's response ratio is about 50 while its cosine stays near zero. The arm is a boundary of the finding, not a second copy of it.
+\end{abstract}
+
+\section{What the diagnostic is asking}
+
+Prediction loss does not say whether a model used its action. A one-step loss can be small because the next frame is already determined by the current image. A teacher-forced latent similarity can be large because the model is shown the true future frame. A planning score can look strong because the goal encoder was given the actions that produced the goal.
+
+The comparison here is narrower. From a shared simulator state we roll out the recorded action and one reflected alternative. We then ask four questions of the same fork. Did the particles or the object move? Did the rendered image change? Did the target embedding move in a direction the predictor matched? Was that predicted displacement the right size? Cosine is left undefined when either displacement has norm at or below \(10^{-8}\). A ratio of zero with an undefined cosine is a null response, not a cosine of zero.
+
+The VICReg objective in this code is invariance, variance, and covariance between the predictor output and a detached exponential-moving-average target. The results are about that implementation.
+
+\section{Excitation decides whether the intervention is there to predict}
+
+On the legacy particle setting, a force reversal barely moves the scene. Median position RMS at ten frames is about \(2.3\times 10^{-4}\). Open-loop VICReg cosine is 0.073 at one frame and 0.016 at ten, and the response ratio falls with it. That slice has four VICReg seeds and two MSE seeds, and cosine at one frame is defined for 141 of 180 episodes. It is a weak-excitation regime, not a failed copy of the high-excitation test.
+
+High excitation, with a larger force scale and a longer action hold, makes the same reversal visible. On the held-out episodes 1620--1799, five seeds, 180 episodes, and six branch times, the open-loop medians are:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Model & H1 cosine & H1 ratio & H10 cosine & H10 ratio \\
+\midrule
+VICReg + action & 0.618 & 0.914 & 0.308 & 1.138 \\
+MSE + action & 0.727 & 0.807 & 0.810 & 0.954 \\
+RSSM stochastic mean & 0.924 & 0.840 & 0.914 & 0.711 \\
+No action & undefined & 0 & undefined & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Every VICReg seed falls. Every MSE seed rises. Position RMS at ten frames is 0.062, and it is the same number for every model because it is a property of the fork. Validation episodes 1440--1619 agree: VICReg goes from 0.626 to 0.316 with ratios 0.913 and 1.140.
+
+Teacher forcing is a different measurement. For a one-step predictor, the one-frame numbers match open loop. At ten frames the teacher-forced VICReg cosine on the test is about 0.94, because the predictor is conditioned on the true preceding frame. That similarity is not evidence that an open-loop rollout stayed on the intervention. A second, separate bug had labeled the teacher-forced physical columns for horizons 5 and 10 with frames 2 and 3. The latent columns were unaffected. The corrected physical values, recomputed from the saved forks, match the open-loop physical values. The original files are unchanged.
+
+\section{Magnitude and direction come apart}
+
+The VICReg row is the split. The predicted displacement at ten frames is at least as large as the target displacement, and it points less and less in the target direction. MSE keeps both. The no-action model predicts no displacement at all, so the action input is necessary for the VICReg and MSE responses.
+
+The RSSM cosine in that table is not an image-only target. The posterior target is updated with the true action as well as the true frame. On all 180 validation episodes, blanking the target images leaves the one-step cosine high for every seed, and zeroing the target action drops it to roughly 0.15--0.35. At ten frames, replacing each fork's image with the other fork's image removes the alignment on average, but the sign is not the same for every seed. One of those two image swaps is the negation of the other, so it is not a second result.
+
+\section{Ranking actions is not the same as matching a latent delta}
+
+Finite-candidate planning asks a different question: given the current frame and one goal image, which of a fixed set of action sequences ends nearest that image? It is not closed-loop control. The physical number reported beside it is the particle error of the single chosen sequence.
+
+Both models see the same final image. The RSSM target used here is an encoding of that image from the model's initial state, not the posterior the RSSM was trained to match along an action sequence. Under that score, on 24 validation episodes and five seeds, top-1 accuracy is:
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+ & \multicolumn{2}{c}{8 constant actions} & \multicolumn{2}{c}{16 sequences} \\
+Model & H5 & H10 & H5 & H10 \\
+\midrule
+MSE + action & 99.2\% & 99.2\% & 82.5\% & 87.5\% \\
+VICReg + action & 91.7\% & 75.8\% & 65.0\% & 36.7\% \\
+RSSM, this target & 15.0\% & 20.0\% & 5.8\% & 7.5\% \\
+No action & 12.5\% & 12.5\% & 8.3\% & 8.3\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Chance is 12.5\% and 6.25\%. An older RSSM score that also received the goal trajectory and the actions that generated it scored 35.8\% and 42.5\% on the eight constant actions. The JEPA numbers did not change, because those models were already scored from the final image only. The RSSM drop belongs to this change of target. It is not a claim that no RSSM target can rank the actions.
+
+The 99\% MSE accuracy is not a tie among endpoints. On the eight-action task the oracle margin from the goal state to the next-nearest candidate has median 0.0079 at five frames and 0.027 at ten. The minimum margins are 0.0047 and 0.016. No episode has a margin below a quarter of its own median pairwise distance. The sixteen-sequence task is more crowded: 62.5\% of episodes are that close at five frames, and 20.8\% at ten. MSE remains far above chance on the closest third of those episodes. The generating action is in the candidate set, so an oracle that picks the minimum particle distance selects it on every episode. That identity is not a model result.
+
+\section{The arm is where the pattern stops}
+
+The second environment is a planar MuJoCo arm, a free box, and a fixed camera. The campaign set has 480 training episodes, 120 validation episodes, and 120 sealed test episodes. Action normalization uses the training block only. The intervention reflects each joint target through the center of its control range. We trained action-conditioned VICReg, action-conditioned MSE, no-action VICReg, and an RSSM, for five seeds and 20 epochs. The validation-MSE checkpoint and the final checkpoint are both reported. The test was scored once, after those choices were written down, and was not used to drop a run.
+
+On the test, the no-action predicted norm is 0 at horizons 1, 5, and 10 for every seed and both checkpoints. The image changes in 84\% of episodes at one step, while the object moves in 40\%. By ten steps the object moves in 72\% of episodes. The intervention is therefore sometimes invisible as object motion and still visible as arm motion. That is the diagnostic working.
+
+The latent pattern is not the particle result. For the validation-MSE checkpoints, test medians of the per-seed medians are:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Model & H1 cosine / ratio & H5 & H10 \\
+\midrule
+VICReg + action & 0.016 / 64 & $-0.008$ / 48 & 0.039 / 47 \\
+MSE + action & 0.178 / 0.69 & 0.306 / 0.42 & 0.405 / 0.45 \\
+RSSM stochastic mean & 0.600 / 0.57 & 0.630 / 0.39 & 0.686 / 0.48 \\
+No action & undefined / 0 & undefined / 0 & undefined / 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+VICReg's arm response is large and poorly aimed. It does not pass through a regime of ratio near one and falling cosine. MSE's validation-MSE checkpoint aims better at longer horizons and answers with a smaller fraction of the target displacement. Its final checkpoint has higher cosine and predicted norms that grow from 0.89 to about 9. The two checkpoints disagree, which is why both were retained. RSSM stays moderately aligned, except seed 46 at one step (cosine 0.16). The same table on validation episodes 480--599 is numerically close to the test table. The arm RSSM target, like the particle one, is a posterior updated with the true actions, so its cosine is not an image-only quantity.
+
+We do not add another simulator to look for the particle curve again.
+
+\section{What is not claimed}
+
+These checkpoints do not rank objectives in general. The high-excitation particle result and the arm result are two regimes. Matched planning here is a 24-episode, finite-library comparison, and the RSSM column uses one particular goal encoding. Closed-loop control was not run. Legacy excitation is reported only as the regime in which the intervention is hard to see.
+
+\end{document}
